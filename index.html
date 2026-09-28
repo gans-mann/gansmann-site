@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инвентарь рыбака</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 { margin-bottom: 10px; font-size: 2em; }
+        .player-name { color: #ffd700; margin-bottom: 20px; font-size: 1.2em; }
+        .total { font-size: 1.5em; margin-bottom: 30px; }
+        .fish-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        .fish-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 1.1em;
+        }
+        .error { color: #ff6b6b; }
+        .loading { color: #aaa; }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <p class="loading">Загрузка инвентаря...</p>
+    </div>
+
+    <script>
+        // Получаем имя игрока из адресной строки (?player=ник)
+        const urlParams = new URLSearchParams(window.location.search);
+        const playerName = urlParams.get('player');
+
+        const app = document.getElementById('app');
+
+        if (!playerName) {
+            app.innerHTML = '<p class="error">Укажите ник игрока в адресе: ?player=ваш_ник</p>';
+        } else {
+            // Загружаем данные из JSON-файла
+            fetch('data.json?t=' + Date.now())
+                .then(response => response.json())
+                .then(data => {
+                    // Ищем игрока без учета регистра
+                    const playerKey = Object.keys(data).find(key => key.toLowerCase() === playerName.toLowerCase());
+
+                    if (!playerKey) {
+                        app.innerHTML = `<p class="error">Игрок @${playerName} не найден.</p>`;
+                        return;
+                    }
+
+                    const inventory = data[playerKey];
+                    let totalCount = 0;
+                    let htmlContent = `<h1>🎒 Инвентарь</h1><p class="player-name">@${playerKey}</p>`;
+                    let fishHtml = '';
+
+                    // Сортируем рыб по алфавиту
+                    const sortedFish = Object.keys(inventory).sort((a, b) => a.localeCompare(b, 'ru'));
+
+                    for (const fish of sortedFish) {
+                        const count = inventory[fish];
+                        if (count <= 0) continue;
+                        
+                        totalCount += count;
+                        const icon = fish.toLowerCase().startsWith('нежить ') ? '🧟' : '🐟';
+                        // Сокращаем название (убираем "Белый ")
+                        const shortName = fish.replace('Белый ', '');
+                        fishHtml += `<div class="fish-item">${icon} ${shortName} ×${count}</div>`;
+                    }
+
+                    htmlContent += `<p class="total">Всего: ${totalCount} рыб</p>`;
+                    htmlContent += `<div class="fish-grid">${fishHtml}</div>`;
+                    app.innerHTML = htmlContent;
+                })
+                .catch(err => {
+                    console.error(err);
+                    app.innerHTML = '<p class="error">Не удалось загрузить данные. Попробуйте позже.</p>';
+                });
+        }
+    </script>
+</body>
+</html>
