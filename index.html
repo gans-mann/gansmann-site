@@ -424,7 +424,7 @@
             `;
         } else {
             // Загружаем данные из JSON (с GitHub Pages, с кеш-обходом)
-            fetch(DATA_URL + '?t=' + Date.now())
+            fetch('https://gans-mann.github.io/gansmann-site/data.json?t=' + Date.now())
                 .then(response => {
                     if (!response.ok) throw new Error(`HTTP ${response.status}: файл данных не найден`);
                     return response.json();
