@@ -74,7 +74,7 @@
             font-weight: 400;
         }
 
-        /* === КАРТОЧКА ИГРОКА ===  */
+        /* === КАРТОЧКА ИГРОКА === */
         .player-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
@@ -401,10 +401,10 @@
 
     <script>
         // === ИСТОЧНИК ДАННЫХ ===
-        // Данные берём с GitHub Pages — это работает и с gansmann.ru, и с github.io
-        // Если GitHub Pages не отдаёт файл — используй raw-URL ниже (закомментирован)
-        // const DATA_URL = 'https://gans-mann.github.io/gansmann-site/data.json';
-const DATA_URL = '/data.json';
+        // '/data.json' — относительный путь, работает и на gansmann.ru, и на gans-mann.github.io
+        // Так как index.html и data.json лежат в одном репозитории и отдаются одним доменом,
+        // это самый надёжный вариант: никаких CORS, никаких блокировок raw.githubusercontent.com
+        const DATA_URL = '/data.json';
 
         // Получаем имя игрока из адресной строки (?player=ник)
         const urlParams = new URLSearchParams(window.location.search);
@@ -423,8 +423,8 @@ const DATA_URL = '/data.json';
                 </div>
             `;
         } else {
-            // Загружаем данные из JSON (с GitHub Pages, с кеш-обходом)
-            fetch('https://gans-mann.github.io/gansmann-site/data.json?t=' + Date.now())
+            // Загружаем данные из JSON (с кеш-обходом)
+            fetch(DATA_URL + '?t=' + Date.now())
                 .then(response => {
                     if (!response.ok) throw new Error(`HTTP ${response.status}: файл данных не найден`);
                     return response.json();
