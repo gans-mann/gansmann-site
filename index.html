@@ -264,10 +264,25 @@
             color: #a78bfa;
         }
 
+        /* === ВРЕМЯ ОБНОВЛЕНИЯ === */
+        .last-update {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+            animation: fadeIn 1s ease;
+        }
+
+        .last-update .update-time {
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
         /* === ПОДВАЛ === */
         .footer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 20px;
             padding: 20px;
             font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.4);
@@ -393,6 +408,11 @@
             <div class="loading">Загрузка инвентаря...</div>
         </div>
 
+        <!-- Время последнего обновления -->
+        <div class="last-update" id="lastUpdate" style="display: none;">
+            🕒 Обновлено: <span class="update-time" id="updateTime"></span>
+        </div>
+
         <!-- Подвал -->
         <div class="footer">
             <p>Сайт создан для стрима <a href="https://twitch.tv/gans_mann" target="_blank">gans_mann</a></p>
@@ -402,9 +422,7 @@
     <script>
         // === ИСТОЧНИК ДАННЫХ ===
         // '/data.json' — относительный путь, работает и на gansmann.ru, и на gans-mann.github.io
-        // Так как index.html и data.json лежат в одном репозитории и отдаются одним доменом,
-        // это самый надёжный вариант: никаких CORS, никаких блокировок raw.githubusercontent.com
-const DATA_URL = '/data.json';
+        const DATA_URL = '/data.json';
 
         // Получаем имя игрока из адресной строки (?player=ник)
         const urlParams = new URLSearchParams(window.location.search);
@@ -430,9 +448,17 @@ const DATA_URL = '/data.json';
                     return response.json();
                 })
                 .then(data => {
-                    // Ищем игрока без учёта регистра
+                    // === ПОКАЗЫВАЕМ ВРЕМЯ ОБНОВЛЕНИЯ ===
+                    if (data._lastUpdate) {
+                        const lastUpdateEl = document.getElementById('lastUpdate');
+                        const updateTimeEl = document.getElementById('updateTime');
+                        updateTimeEl.textContent = data._lastUpdate;
+                        lastUpdateEl.style.display = 'block';
+                    }
+
+                    // Ищем игрока без учёта регистра (пропускаем _-поля)
                     const playerKey = Object.keys(data).find(
-                        key => key.toLowerCase() === playerName.toLowerCase()
+                        key => !key.startsWith('_') && key.toLowerCase() === playerName.toLowerCase()
                     );
 
                     if (!playerKey) {
