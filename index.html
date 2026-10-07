@@ -206,22 +206,131 @@ body::before {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 8px;
 }
+/* === РЕКОРДЫ РАЗМЕРОВ === */
+.records-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 8px;
+}
+
 .record-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-    border: 1.5px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    padding: 10px 12px;
+    border-radius: 14px;
+    padding: 10px 14px;
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: all 0.25s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
 }
-.record-card:hover {
-    border-color: rgba(0,212,255,0.5);
-    background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.03) 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,212,255,0.15);
+
+/* === ОБЫЧНАЯ — серая === */
+.record-card.rarity-common {
+    color: rgba(140, 180, 220, 0.7);
+    border-color: rgba(120, 160, 200, 0.45);
+    background: linear-gradient(135deg, rgba(70, 110, 150, 0.28) 0%, rgba(40, 70, 100, 0.15) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
 }
+.record-card.rarity-common:hover {
+    border-color: rgba(170, 210, 250, 0.85);
+    background: linear-gradient(135deg, rgba(100, 150, 200, 0.4) 0%, rgba(60, 100, 140, 0.22) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3);
+}
+
+/* === РЕДКАЯ — голубая === */
+.record-card.rarity-rare {
+    color: rgba(0, 212, 255, 0.8);
+    border-color: rgba(0, 212, 255, 0.55);
+    background: linear-gradient(135deg, rgba(0, 180, 255, 0.28) 0%, rgba(0, 120, 180, 0.15) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 14px rgba(0,212,255,0.2);
+}
+.record-card.rarity-rare:hover {
+    border-color: rgba(100, 235, 255, 1);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.45) 0%, rgba(0, 150, 220, 0.25) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45);
+}
+
+/* === ЭПИЧЕСКАЯ — фиолетовая === */
+.record-card.rarity-epic {
+    color: rgba(200, 180, 255, 0.85);
+    border-color: rgba(167, 139, 250, 0.6);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(120, 90, 200, 0.15) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 18px rgba(167,139,250,0.25);
+}
+.record-card.rarity-epic:hover {
+    border-color: rgba(220, 205, 255, 1);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.48) 0%, rgba(140, 110, 220, 0.28) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5);
+}
+
+/* === ЛЕГЕНДАРНАЯ — золотая === */
+.record-card.rarity-legendary {
+    color: rgba(255, 230, 130, 0.9);
+    border-color: rgba(255, 215, 0, 0.75);
+    background: linear-gradient(135deg, rgba(255, 200, 50, 0.35) 0%, rgba(200, 140, 0, 0.18) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3);
+    animation: legendaryPulse 3s ease-in-out infinite;
+}
+@keyframes legendaryPulse {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 40px rgba(255,215,0,0.55); }
+}
+.record-card.rarity-legendary:hover {
+    border-color: rgba(255, 245, 150, 1);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.5) 0%, rgba(220, 160, 20, 0.3) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 40px rgba(255, 215, 0, 0.6);
+}
+
+/* === НЕЖИТЬ — мрачная зелёная === */
+.record-card.undead.rarity-common {
+    color: rgba(150, 170, 120, 0.8);
+    border-color: rgba(120, 130, 90, 0.55);
+    background: linear-gradient(135deg, rgba(70, 80, 60, 0.4) 0%, rgba(40, 50, 35, 0.2) 100%);
+}
+.record-card.undead.rarity-common:hover {
+    border-color: rgba(180, 200, 140, 0.9);
+    background: linear-gradient(135deg, rgba(100, 120, 80, 0.55) 0%, rgba(60, 75, 50, 0.3) 100%);
+}
+.record-card.undead.rarity-rare {
+    color: rgba(130, 180, 200, 0.85);
+    border-color: rgba(100, 140, 160, 0.65);
+    background: linear-gradient(135deg, rgba(60, 90, 110, 0.4) 0%, rgba(40, 60, 80, 0.2) 100%);
+}
+.record-card.undead.rarity-rare:hover {
+    border-color: rgba(160, 210, 240, 0.95);
+    background: linear-gradient(135deg, rgba(90, 130, 160, 0.55) 0%, rgba(60, 90, 110, 0.3) 100%);
+}
+.record-card.undead.rarity-epic {
+    color: rgba(160, 140, 190, 0.85);
+    border-color: rgba(120, 100, 140, 0.7);
+    background: linear-gradient(135deg, rgba(80, 60, 100, 0.4) 0%, rgba(50, 40, 70, 0.2) 100%);
+}
+.record-card.undead.rarity-epic:hover {
+    border-color: rgba(200, 180, 230, 0.95);
+    background: linear-gradient(135deg, rgba(120, 95, 150, 0.55) 0%, rgba(80, 65, 110, 0.3) 100%);
+}
+.record-card.undead.rarity-legendary {
+    color: rgba(200, 180, 120, 0.9);
+    border-color: rgba(160, 140, 70, 0.8);
+    background: linear-gradient(135deg, rgba(110, 90, 50, 0.42) 0%, rgba(70, 55, 30, 0.22) 100%);
+    animation: undeadLegendaryPulse 3s ease-in-out infinite;
+}
+@keyframes undeadLegendaryPulse {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(160,140,70,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 42px rgba(160,140,70,0.55); }
+}
+.record-card.undead.rarity-legendary:hover {
+    border-color: rgba(230, 210, 120, 1);
+    background: linear-gradient(135deg, rgba(140, 120, 70, 0.58) 0%, rgba(95, 80, 45, 0.32) 100%);
+}
+
+/* === ИКОНКА РЫБЫ === */
 .record-icon {
     width: 36px;
     height: 36px;
@@ -229,7 +338,13 @@ body::before {
     image-rendering: crisp-edges;
     flex-shrink: 0;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+    transition: transform 0.3s;
 }
+.record-card:hover .record-icon {
+    transform: scale(1.15);
+}
+
+/* === ТЕКСТ === */
 .record-fish {
     font-size: 0.85rem;
     font-weight: 700;
@@ -238,7 +353,6 @@ body::before {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: rgba(255,255,255,0.9);
 }
 .record-size-block {
     display: flex;
@@ -258,23 +372,10 @@ body::before {
     color: rgba(255,255,255,0.55);
     font-weight: 600;
     margin-top: 2px;
-    max-width: 160px;   /* ← было 100px, увеличили */
+    max-width: 160px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-.record-card.undead {
-    border-color: rgba(140,160,100,0.3);
-    background: linear-gradient(135deg, rgba(140,160,100,0.08) 0%, rgba(100,120,70,0.03) 100%);
-}
-.record-card.undead:hover {
-    border-color: rgba(160,180,120,0.6);
-    background: linear-gradient(135deg, rgba(140,160,100,0.15) 0%, rgba(100,120,70,0.06) 100%);
-    box-shadow: 0 6px 18px rgba(140,160,100,0.2);
-}
-.record-card.undead .record-size {
-    color: #c8d888;
-    text-shadow: 0 0 10px rgba(200,216,136,0.5);
 }
     
 /* === ЗАГЛУШКА === */
@@ -356,8 +457,11 @@ body::before {
         <h2 style="margin-top: 25px;">🏆 Топ-3 рыбаков за месяц</h2>
         <div class="top-players" id="topPlayers"></div>
 
-        <h2 style="margin-top: 25px;">🏅 Рекорды размеров</h2>
-        <div class="records-grid" id="recordsGrid"></div>
+        <h2 style="margin-top: 25px;">🏅 Рекорды размеров · Обычные рыбы</h2>
+<div class="records-grid" id="recordsRegular"></div>
+
+<h2 style="margin-top: 25px;">🧟 Рекорды размеров · Нежить</h2>
+<div class="records-grid" id="recordsUndead"></div>
     </div>
 
     <!-- Заглушка -->
@@ -480,19 +584,58 @@ function renderTopPlayers(stats) {
         `;
     }).join('');
 }
-
-// === РЕКОРДЫ РАЗМЕРОВ ===
+// === ДАННЫЕ РЫБ (редкость, размеры) ===
+const FISH_DATA = {
+    'Щука':       { min: 10, max: 120, rarity: 'rare' },
+    'Форель':     { min: 10, max: 70,  rarity: 'rare' },
+    'Карп':       { min: 20, max: 100, rarity: 'rare' },
+    'Окунь':      { min: 10, max: 40,  rarity: 'common' },
+    'Сом':        { min: 10, max: 250, rarity: 'legendary' },
+    'Осётр':      { min: 20, max: 200, rarity: 'legendary' },
+    'Пиранья':    { min: 5,  max: 30,  rarity: 'legendary' },
+    'Лосось':     { min: 20, max: 120, rarity: 'epic' },
+    'Уклейка':    { min: 5,  max: 15,  rarity: 'common' },
+    'Плотва':     { min: 7,  max: 30,  rarity: 'common' },
+    'Ёрш':        { min: 5,  max: 20,  rarity: 'common' },
+    'Лещ':        { min: 15, max: 60,  rarity: 'common' },
+    'Голавль':    { min: 10, max: 60,  rarity: 'common' },
+    'Язь':        { min: 10, max: 60,  rarity: 'common' },
+    'Линь':       { min: 20, max: 50,  rarity: 'common' },
+    'Судак':      { min: 10, max: 90,  rarity: 'rare' },
+    'Голец':      { min: 20, max: 60,  rarity: 'common' },
+    'Сиг':        { min: 20, max: 60,  rarity: 'rare' },
+    'Хариус':     { min: 20, max: 50,  rarity: 'rare' },
+    'Змееголов':  { min: 20, max: 100, rarity: 'rare' },
+    'Налим':      { min: 20, max: 80,  rarity: 'rare' },
+    'Минога':     { min: 15, max: 40,  rarity: 'epic' },
+    'Толстолобик':{ min: 10, max: 100, rarity: 'epic' },
+    'Белый амур': { min: 30, max: 120, rarity: 'epic' },
+    'Угорь':      { min: 20, max: 150, rarity: 'epic' },
+    'Чоп':        { min: 5,  max: 30,  rarity: 'common' },
+    'Сазан':      { min: 20, max: 100, rarity: 'epic' },
+    'Карась':     { min: 10, max: 40,  rarity: 'common' },
+    'Краснопёрка':{ min: 5,  max: 35,  rarity: 'common' },
+    'Пескарь':    { min: 5,  max: 15,  rarity: 'common' }
+};
+    
+// === РЕКОРДЫ РАЗМЕРОВ (отдельно обычные и нежить) ===
 function renderRecords(records) {
-    const el = document.getElementById('recordsGrid');
-    const rows = [];
+    const regularEl = document.getElementById('recordsRegular');
+    const undeadEl = document.getElementById('recordsUndead');
 
-    // Обычные рыбы
+    const regularRows = [];
+    const undeadRows = [];
+
+    // === ОБЫЧНЫЕ РЫБЫ ===
     for (const fish of ALL_FISH) {
         if (records[fish]) {
             const r = records[fish];
+            const info = FISH_DATA[fish] || { rarity: 'common' };
+            const rarity = info.rarity || 'common';
             const icon = getFishIcon(fish);
-            rows.push(`
-                <div class="record-card">
+
+            regularRows.push(`
+                <div class="record-card rarity-${rarity}">
                     <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
                     <div class="record-fish">${escapeHtml(fish)}</div>
                     <div class="record-size-block">
@@ -504,14 +647,17 @@ function renderRecords(records) {
         }
     }
 
-    // Нежить
+    // === НЕЖИТЬ ===
     for (const fish of ALL_FISH) {
         const undeadFish = 'Нежить ' + fish.toLowerCase();
         if (records[undeadFish]) {
             const r = records[undeadFish];
+            const info = FISH_DATA[fish] || { rarity: 'common' };
+            const rarity = info.rarity || 'common';
             const icon = getFishIcon(undeadFish);
-            rows.push(`
-                <div class="record-card undead">
+
+            undeadRows.push(`
+                <div class="record-card undead rarity-${rarity}">
                     <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
                     <div class="record-fish">${escapeHtml(fish)}</div>
                     <div class="record-size-block">
@@ -523,12 +669,19 @@ function renderRecords(records) {
         }
     }
 
-    if (rows.length === 0) {
-        el.innerHTML = '<div style="color:rgba(255,255,255,0.5);text-align:center;grid-column:1/-1;">Пока нет рекордов</div>';
-        return;
+    // Рендер обычных
+    if (regularRows.length === 0) {
+        regularEl.innerHTML = '<div style="color:rgba(255,255,255,0.5);text-align:center;grid-column:1/-1;">Пока нет рекордов</div>';
+    } else {
+        regularEl.innerHTML = regularRows.join('');
     }
 
-    el.innerHTML = rows.join('');
+    // Рендер нежити
+    if (undeadRows.length === 0) {
+        undeadEl.innerHTML = '<div style="color:rgba(255,255,255,0.5);text-align:center;grid-column:1/-1;">Пока нет рекордов</div>';
+    } else {
+        undeadEl.innerHTML = undeadRows.join('');
+    }
 }
 
 // === БЕЗОПАСНОСТЬ ===
