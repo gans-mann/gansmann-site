@@ -1180,185 +1180,165 @@ function makeFishSVGWithPalette(palette, form, scale) {
     const headX = 6;
     const cy = bodyY + bodyH / 2;
     const x1 = headX, x2 = headX + bodyLen;
+    const cx = x1 + bodyLen / 2;
     let s = '';
 
-    // === ЖИРНЫЙ КОНТУР (Stardew-стиль) ===
-    s += `<rect x="${x1-2}" y="${bodyY-2}" width="${bodyLen+4}" height="${bodyH+4}" fill="${p.dark}"/>`;
-    s += `<rect x="${x1-2}" y="${bodyY}" width="${bodyLen+4}" height="${bodyH}" fill="${p.dark}"/>`;
+    // Контур тела
+    s += `<ellipse cx="${cx}" cy="${cy}" rx="${bodyLen/2 + 2}" ry="${bodyH/2 + 2}" fill="${p.dark}"/>`;
+    s += `<ellipse cx="${cx}" cy="${cy}" rx="${bodyLen/2}" ry="${bodyH/2}" fill="${p.main}"/>`;
 
-    // === ТЕЛО ===
-    s += `<rect x="${x1}" y="${bodyY+4}" width="${bodyLen}" height="${bodyH-8}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+2}" y="${bodyY+2}" width="${bodyLen-4}" height="${bodyH-4}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="${bodyH}" fill="${p.main}"/>`;
+    // Блик
+    s += `<ellipse cx="${cx}" cy="${bodyY + bodyH*0.28}" rx="${bodyLen/2 - 5}" ry="${bodyH*0.18}" fill="${p.light}" opacity="0.6"/>`;
 
-    // === СВЕТЛАЯ ПОЛОСА СВЕРХУ ===
-    s += `<rect x="${x1+4}" y="${bodyY+2}" width="${bodyLen-8}" height="2" fill="${p.light}"/>`;
+    // Тень снизу
+    s += `<ellipse cx="${cx}" cy="${bodyY + bodyH*0.75}" rx="${bodyLen/2 - 4}" ry="${bodyH*0.15}" fill="${p.dark}" opacity="0.4"/>`;
 
-    // === ТЁМНАЯ ПОЛОСА СНИЗУ ===
-    s += `<rect x="${x1+4}" y="${bodyY+bodyH-3}" width="${bodyLen-8}" height="2" fill="${p.dark}" opacity="0.5"/>`;
+    // Брюхо
+    s += `<ellipse cx="${cx}" cy="${cy + bodyH*0.15}" rx="${bodyLen/2 - 7}" ry="${bodyH*0.2}" fill="${p.belly}" opacity="0.75"/>`;
 
-    // === БРЮХО ===
-    const bellyH = Math.max(4, Math.floor(bodyH * 0.25));
-    s += `<rect x="${x1+6}" y="${bodyY+bodyH-bellyH}" width="${bodyLen-12}" height="${bellyH}" fill="${p.belly}"/>`;
-
-    // === ПОЛОСЫ ===
+    // Полосы
     if (f.stripes) {
         for (const [sx] of f.stripes) {
-            const sxAbs = x1 + sx * 2 + 4;
-            if (sxAbs < x2 - 6) {
-                s += `<rect x="${sxAbs}" y="${bodyY+4}" width="3" height="${bodyH-8}" fill="${p.stripe}" opacity="0.85"/>`;
+            const sxAbs = x1 + sx * 2 + 6;
+            if (sxAbs < x2 - 8) {
+                s += `<rect x="${sxAbs}" y="${bodyY+4}" width="4" height="${bodyH-8}" fill="${p.stripe}" opacity="0.55"/>`;
             }
         }
     }
 
-    // === ПЯТНА ===
+    // Пятна
     if (f.spots) {
         for (const [sx, sy] of f.spots) {
             const sxAbs = x1 + sx * 2 + 4;
             const syAbs = bodyY + sy * 2 + 2;
-            if (sxAbs < x2 - 6 && syAbs < bodyY + bodyH - 4) {
-                s += `<rect x="${sxAbs}" y="${syAbs}" width="5" height="5" fill="${p.spot}"/>`;
-                s += `<rect x="${sxAbs+1}" y="${syAbs+1}" width="3" height="3" fill="${p.dark}" opacity="0.4"/>`;
+            if (sxAbs < x2 - 8 && syAbs < bodyY + bodyH - 6) {
+                s += `<ellipse cx="${sxAbs+4}" cy="${syAbs+4}" rx="5" ry="4" fill="${p.spot}" opacity="0.7"/>`;
             }
         }
     }
 
-    // === ГОЛОВА ===
+    // Голова
     const headLen = (f.headLen || 5) * 2;
-    if (f.headShape === 'pointed') {
-        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'round') {
-        s += `<rect x="${x1}" y="${bodyY+4}" width="4" height="${bodyH-8}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'snake') {
-        s += `<rect x="${x1-2}" y="${bodyY+6}" width="6" height="${bodyH-12}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'flat') {
-        s += `<rect x="${x1-2}" y="${bodyY+8}" width="6" height="${bodyH-16}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'big-head') {
-        s += `<rect x="${x1-2}" y="${bodyY+4}" width="6" height="${bodyH-8}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'small') {
-        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'long-snout') {
-        s += `<rect x="${x1-6}" y="${cy-2}" width="8" height="4" fill="${p.main}"/>`;
-    } else if (f.headShape === 'trumpet') {
-        s += `<rect x="${x1-6}" y="${cy-4}" width="6" height="8" fill="${p.dark}"/>`;
-    }
+    const headCx = x1 + headLen / 2 - 2;
+    s += `<ellipse cx="${headCx}" cy="${cy}" rx="${headLen/2 + 2}" ry="${bodyH/2 + 1}" fill="${p.main}"/>`;
 
-    // === ЖАБРЫ ===
+    // Жабры
     const gillX = x1 + headLen;
-    s += `<rect x="${gillX}" y="${bodyY+4}" width="2" height="${bodyH-8}" fill="${p.gill}"/>`;
-    s += `<rect x="${gillX+3}" y="${bodyY+6}" width="2" height="${bodyH-12}" fill="${p.gill}" opacity="0.6"/>`;
+    s += `<path d="M ${gillX} ${bodyY+6} Q ${gillX+4} ${cy} ${gillX} ${bodyY+bodyH-6}" stroke="${p.gill}" stroke-width="2" fill="none" opacity="0.85"/>`;
 
-    // === БОЛЬШОЙ STARDew-ГЛАЗ ===
-    const eyeX = x1 + 4;
-    const eyeY = bodyY + Math.floor(bodyH / 3);
-    s += `<rect x="${eyeX-2}" y="${eyeY-2}" width="10" height="10" fill="${p.dark}"/>`;
-    s += `<rect x="${eyeX}" y="${eyeY}" width="8" height="8" fill="${p.eye}"/>`;
-    s += `<rect x="${eyeX+2}" y="${eyeY+2}" width="4" height="4" fill="${p.pupil}"/>`;
-    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="3" height="3" fill="#ffffff"/>`;
-    s += `<rect x="${eyeX+6}" y="${eyeY+6}" width="1" height="1" fill="#ffffff" opacity="0.8"/>`;
+    // Глаз
+    const eyeX = x1 + 8;
+    const eyeY = bodyY + Math.floor(bodyH * 0.3);
+    s += `<ellipse cx="${eyeX+4}" cy="${eyeY+4}" rx="5" ry="5" fill="#1a1a1a"/>`;
+    s += `<ellipse cx="${eyeX+4}" cy="${eyeY+4}" rx="4" ry="4" fill="${p.eye}"/>`;
+    s += `<ellipse cx="${eyeX+5}" cy="${eyeY+4}" rx="3" ry="3.5" fill="${p.pupil}"/>`;
+    s += `<ellipse cx="${eyeX+2.5}" cy="${eyeY+2.5}" rx="1.8" ry="1.8" fill="#ffffff"/>`;
 
-    // === РОТ ===
-    s += `<rect x="${x1-3}" y="${cy}" width="4" height="2" fill="${p.dark}"/>`;
+    // Рот
+    s += `<path d="M ${x1-2} ${cy+2} Q ${x1+2} ${cy+4} ${x1+6} ${cy+2}" stroke="${p.dark}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
 
-    // === УСЫ ===
+    // Усы
     if (f.whiskers) {
-        s += `<rect x="${x1-6}" y="${cy-4}" width="4" height="2" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-8}" y="${cy-6}" width="2" height="2" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-6}" y="${cy+2}" width="4" height="2" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-8}" y="${cy+4}" width="2" height="2" fill="${p.dark}"/>`;
+        s += `<path d="M ${x1-2} ${cy-2} Q ${x1-8} ${cy-6} ${x1-12} ${cy-4}" stroke="${p.dark}" stroke-width="1.5" fill="none" stroke-linecap="round"/>`;
+        s += `<path d="M ${x1-2} ${cy+2} Q ${x1-8} ${cy+6} ${x1-12} ${cy+4}" stroke="${p.dark}" stroke-width="1.5" fill="none" stroke-linecap="round"/>`;
     }
 
-    // === ВЕРХНИЙ ПЛАВНИК ===
-    const topFinSize = (f.topFinSize || 4) * 2;
-    const finStart = x1 + headLen + 4;
-    const topFinType = f.topFin || 'medium';
-
-    // Контур плавника
-    if (topFinType === 'high-spiky' || topFinType === 'very-spiky') {
-        for (let i = 0; i < topFinSize; i += 2) {
-            const fx = finStart + i * 2;
-            const fh = 8 + (i % 4 === 0 ? 6 : 0);
-            s += `<rect x="${fx-1}" y="${bodyY-fh}" width="6" height="${fh+2}" fill="${p.dark}"/>`;
-            s += `<rect x="${fx}" y="${bodyY-fh+1}" width="4" height="${fh}" fill="${p.fin}"/>`;
-            s += `<rect x="${fx}" y="${bodyY-fh+1}" width="4" height="2" fill="${p.light}" opacity="0.7"/>`;
+    // Верхний плавник
+    const topFinStart = x1 + headLen + 6;
+    if (f.topFin === 'high-spiky' || f.topFin === 'very-spiky') {
+        let finPath = `M ${topFinStart} ${bodyY}`;
+        for (let i = 0; i < 5; i++) {
+            const fx = topFinStart + i * 6;
+            const fh = 14 + (i % 2 === 0 ? 6 : 0);
+            finPath += ` L ${fx+2} ${bodyY-fh} L ${fx+4} ${bodyY}`;
         }
-    } else if (topFinType === 'long-back') {
-        s += `<rect x="${finStart-1}" y="${bodyY-6}" width="${topFinSize*2+2}" height="8" fill="${p.dark}"/>`;
-        s += `<rect x="${finStart}" y="${bodyY-5}" width="${topFinSize*2}" height="5" fill="${p.fin}"/>`;
-    } else if (topFinType === 'small-back' || topFinType === 'small') {
-        s += `<rect x="${finStart+6}" y="${bodyY-6}" width="10" height="8" fill="${p.dark}"/>`;
-        s += `<rect x="${finStart+7}" y="${bodyY-5}" width="8" height="5" fill="${p.fin}"/>`;
-    } else if (topFinType === 'sail') {
-        for (let i = 0; i < topFinSize; i++) {
-            const fx = finStart + i * 2;
-            const fh = Math.max(2, topFinSize - i * 1.5);
-            s += `<rect x="${fx-1}" y="${bodyY-fh}" width="4" height="${fh+2}" fill="${p.dark}"/>`;
-            s += `<rect x="${fx}" y="${bodyY-fh+1}" width="2" height="${fh}" fill="${p.fin}"/>`;
-        }
+        finPath += ` Z`;
+        s += `<path d="${finPath}" fill="${p.dark}"/>`;
+        s += `<path d="${finPath}" fill="${p.fin}" transform="translate(0,-1) scale(0.95)"/>`;
+    } else if (f.topFin === 'sail') {
+        s += `<path d="M ${topFinStart-2} ${bodyY} Q ${topFinStart + 16} ${bodyY-24} ${topFinStart + 24} ${bodyY}" fill="${p.dark}"/>`;
+        s += `<path d="M ${topFinStart} ${bodyY-1} Q ${topFinStart + 16} ${bodyY-22} ${topFinStart + 22} ${bodyY-1}" fill="${p.fin}"/>`;
+    } else if (f.topFin === 'long-back' || f.topFin === 'long-back-merged') {
+        s += `<path d="M ${topFinStart-2} ${bodyY+1} L ${topFinStart-2} ${bodyY-6} L ${topFinStart + (f.topFinSize||4)*2} ${bodyY-8} L ${topFinStart + (f.topFinSize||4)*2} ${bodyY+1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${topFinStart} ${bodyY} L ${topFinStart} ${bodyY-6} L ${topFinStart + (f.topFinSize||4)*2-2} ${bodyY-7} L ${topFinStart + (f.topFinSize||4)*2-2} ${bodyY} Z" fill="${p.fin}"/>`;
+    } else if (f.topFin === 'small' || f.topFin === 'small-back') {
+        s += `<path d="M ${topFinStart+4} ${bodyY+1} L ${topFinStart+10} ${bodyY-8} L ${topFinStart+16} ${bodyY+1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${topFinStart+5} ${bodyY} L ${topFinStart+10} ${bodyY-7} L ${topFinStart+15} ${bodyY} Z" fill="${p.fin}"/>`;
+    } else if (f.topFin === 'tiny') {
+        s += `<path d="M ${topFinStart} ${bodyY+1} L ${topFinStart+4} ${bodyY-5} L ${topFinStart+8} ${bodyY+1} Z" fill="${p.fin}"/>`;
     } else {
-        // medium
-        s += `<rect x="${finStart-1}" y="${bodyY-8}" width="14" height="10" fill="${p.dark}"/>`;
-        s += `<rect x="${finStart}" y="${bodyY-7}" width="12" height="7" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+1}" y="${bodyY-7}" width="10" height="2" fill="${p.light}" opacity="0.7"/>`;
+        s += `<path d="M ${topFinStart-2} ${bodyY+1} L ${topFinStart+8} ${bodyY-10} L ${topFinStart+18} ${bodyY+1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${topFinStart} ${bodyY} L ${topFinStart+8} ${bodyY-9} L ${topFinStart+16} ${bodyY} Z" fill="${p.fin}"/>`;
     }
 
-    // === БРЮШНОЙ ПЛАВНИК ===
-    const bottomStart = x1 + headLen + 4;
+    // Брюшной плавник
+    const bottomStart = x1 + headLen + 8;
     if (f.bottomFin === 'long-anal') {
-        s += `<rect x="${bottomStart-1}" y="${bodyY+bodyH}" width="24" height="6" fill="${p.dark}"/>`;
-        s += `<rect x="${bottomStart}" y="${bodyY+bodyH}" width="22" height="4" fill="${p.fin}"/>`;
-    } else if (f.bottomFin === 'red-fins') {
-        s += `<rect x="${bottomStart-1}" y="${bodyY+bodyH}" width="12" height="8" fill="${p.dark}"/>`;
-        s += `<rect x="${bottomStart}" y="${bodyY+bodyH}" width="10" height="6" fill="#e03028"/>`;
+        s += `<path d="M ${bottomStart-2} ${bodyY+bodyH-1} L ${bottomStart-2} ${bodyY+bodyH+6} L ${bottomStart+20} ${bodyY+bodyH+8} L ${bottomStart+22} ${bodyY+bodyH-1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${bottomStart} ${bodyY+bodyH} L ${bottomStart} ${bodyY+bodyH+5} L ${bottomStart+18} ${bodyY+bodyH+6} L ${bottomStart+20} ${bodyY+bodyH} Z" fill="${p.fin}"/>`;
     } else if (f.bottomFin === 'medium') {
-        s += `<rect x="${bottomStart-1}" y="${bodyY+bodyH}" width="10" height="7" fill="${p.dark}"/>`;
-        s += `<rect x="${bottomStart}" y="${bodyY+bodyH}" width="8" height="5" fill="${p.fin}"/>`;
-    } else if (f.bottomFin === 'small-adipose') {
-        s += `<rect x="${bottomStart+14}" y="${bodyY+bodyH}" width="8" height="6" fill="${p.dark}"/>`;
-        s += `<rect x="${bottomStart+15}" y="${bodyY+bodyH}" width="6" height="4" fill="${p.fin}"/>`;
+        s += `<path d="M ${bottomStart-2} ${bodyY+bodyH-1} L ${bottomStart-2} ${bodyY+bodyH+7} L ${bottomStart+10} ${bodyY+bodyH+5} L ${bottomStart+12} ${bodyY+bodyH-1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${bottomStart} ${bodyY+bodyH} L ${bottomStart} ${bodyY+bodyH+5} L ${bottomStart+9} ${bodyY+bodyH+4} L ${bottomStart+10} ${bodyY+bodyH} Z" fill="${p.fin}"/>`;
     } else if (f.bottomFin === 'small') {
-        s += `<rect x="${bottomStart+2}" y="${bodyY+bodyH}" width="8" height="5" fill="${p.dark}"/>`;
-        s += `<rect x="${bottomStart+3}" y="${bodyY+bodyH}" width="6" height="3" fill="${p.fin}"/>`;
+        s += `<path d="M ${bottomStart+2} ${bodyY+bodyH-1} L ${bottomStart+2} ${bodyY+bodyH+4} L ${bottomStart+9} ${bodyY+bodyH+3} L ${bottomStart+10} ${bodyY+bodyH-1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${bottomStart+3} ${bodyY+bodyH} L ${bottomStart+3} ${bodyY+bodyH+2} L ${bottomStart+8} ${bodyY+bodyH+2} L ${bottomStart+9} ${bodyY+bodyH} Z" fill="${p.fin}"/>`;
     }
 
-    // === ГРУДНОЙ ПЛАВНИК ===
-    s += `<rect x="${x1+headLen+2}" y="${cy+4}" width="10" height="8" fill="${p.dark}"/>`;
-    s += `<rect x="${x1+headLen+3}" y="${cy+5}" width="8" height="6" fill="${p.fin}"/>`;
+    // Грудной плавник
+    const pecFinX = x1 + headLen + 4;
+    s += `<path d="M ${pecFinX} ${cy+6} Q ${pecFinX+6} ${cy+14} ${pecFinX+12} ${cy+8} Q ${pecFinX+6} ${cy+4} ${pecFinX} ${cy+6}" fill="${p.dark}"/>`;
+    s += `<path d="M ${pecFinX+1} ${cy+7} Q ${pecFinX+6} ${cy+12} ${pecFinX+10} ${cy+8} Q ${pecFinX+6} ${cy+5} ${pecFinX+1} ${cy+7}" fill="${p.fin}" opacity="0.9"/>`;
 
-    // === ХВОСТ (Stardew-стиль, округлый) ===
-    const tailX = x2;
+    // Хвост
+    const tailX = x2 - 2;
     const tailSize = (f.tailSize || 6) * 2;
     const midY = cy;
 
-    // Контур хвоста
-    s += `<rect x="${tailX}" y="${midY-tailSize-2}" width="2" height="${tailSize*2+4}" fill="${p.dark}"/>`;
-    s += `<rect x="${tailX}" y="${midY-2}" width="${tailSize+2}" height="4" fill="${p.dark}"/>`;
-
     if (f.tailType === 'fork') {
-        // Два «крыла» веером
-        s += `<rect x="${tailX+2}" y="${midY-tailSize}" width="${tailSize}" height="${tailSize-2}" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+2}" y="${midY+2}" width="${tailSize}" height="${tailSize-2}" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+2}" y="${midY-tailSize}" width="${tailSize}" height="2" fill="${p.light}" opacity="0.6"/>`;
+        s += `<path d="M ${tailX} ${midY-2} Q ${tailX+tailSize} ${midY-tailSize-4} ${tailX+tailSize+2} ${midY-tailSize/2} Q ${tailX+tailSize-2} ${midY-2} ${tailX+4} ${midY-2} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX+2} ${midY-2} Q ${tailX+tailSize-2} ${midY-tailSize-2} ${tailX+tailSize} ${midY-tailSize/2} Q ${tailX+tailSize-4} ${midY-2} ${tailX+4} ${midY-2} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${tailX} ${midY+2} Q ${tailX+tailSize} ${midY+tailSize+4} ${tailX+tailSize+2} ${midY+tailSize/2} Q ${tailX+tailSize-2} ${midY+2} ${tailX+4} ${midY+2} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX+2} ${midY+2} Q ${tailX+tailSize-2} ${midY+tailSize+2} ${tailX+tailSize} ${midY+tailSize/2} Q ${tailX+tailSize-4} ${midY+2} ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX-2}" y="${midY-3}" width="6" height="6" fill="${p.main}"/>`;
     } else if (f.tailType === 'fan') {
-        s += `<rect x="${tailX+2}" y="${midY-tailSize}" width="${tailSize}" height="${tailSize*2}" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+2}" y="${midY-tailSize}" width="${tailSize}" height="2" fill="${p.light}" opacity="0.6"/>`;
+        s += `<path d="M ${tailX-2} ${midY-3} Q ${tailX+tailSize+2} ${midY-tailSize-4} ${tailX+tailSize+4} ${midY} Q ${tailX+tailSize+2} ${midY+tailSize+4} ${tailX-2} ${midY+3} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX} ${midY-2} Q ${tailX+tailSize} ${midY-tailSize-2} ${tailX+tailSize+2} ${midY} Q ${tailX+tailSize} ${midY+tailSize+2} ${tailX} ${midY+2} Z" fill="${p.fin}"/>`;
     } else if (f.tailType === 'round') {
-        s += `<ellipse cx="${tailX+4}" cy="${midY}" rx="${tailSize/2}" ry="${tailSize*0.7}" fill="${p.fin}"/>`;
-    } else {
-        // long
-        s += `<rect x="${tailX+2}" y="${midY-4}" width="${tailSize}" height="8" fill="${p.fin}"/>`;
+        s += `<ellipse cx="${tailX+tailSize/2}" cy="${midY}" rx="${tailSize/2+2}" ry="${tailSize/2+2}" fill="${p.dark}"/>`;
+        s += `<ellipse cx="${tailX+tailSize/2}" cy="${midY}" rx="${tailSize/2}" ry="${tailSize/2}" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX-2}" y="${midY-3}" width="6" height="6" fill="${p.main}"/>`;
+    } else if (f.tailType === 'long') {
+        s += `<path d="M ${tailX} ${midY-3} L ${tailX+tailSize+2} ${midY-6} Q ${tailX+tailSize+6} ${midY} ${tailX+tailSize+2} ${midY+6} L ${tailX} ${midY+3} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX+1} ${midY-2} L ${tailX+tailSize} ${midY-4} Q ${tailX+tailSize+3} ${midY} ${tailX+tailSize} ${midY+4} L ${tailX+1} ${midY+2} Z" fill="${p.fin}"/>`;
+    } else if (f.tailType === 'leaf') {
+        s += `<path d="M ${tailX} ${midY} Q ${tailX+tailSize} ${midY-tailSize-2} ${tailX+tailSize+4} ${midY} Q ${tailX+tailSize} ${midY+tailSize+2} ${tailX} ${midY} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX+2} ${midY} Q ${tailX+tailSize-2} ${midY-tailSize+2} ${tailX+tailSize+2} ${midY} Q ${tailX+tailSize-2} ${midY+tailSize-2} ${tailX+2} ${midY} Z" fill="${p.fin}"/>`;
     }
 
-    // === ШИПЫ ===
-    if (f.spikes) {
-        for (let i = 0; i < 5; i++) {
-            const sx = x1 + headLen + 4 + i * 6;
-            s += `<rect x="${sx}" y="${bodyY-3}" width="3" height="3" fill="${p.dark}"/>`;
+    // Костные пластины
+    if (f.scutes) {
+        for (let i = 0; i < 6; i++) {
+            const sx = x1 + headLen + 8 + i * 8;
+            if (sx < x2 - 6) {
+                s += `<path d="M ${sx} ${bodyY-1} L ${sx+3} ${bodyY-6} L ${sx+6} ${bodyY-1} Z" fill="${p.dark}"/>`;
+            }
         }
     }
 
+    // Горб
+    if (f.hump) {
+        s += `<path d="M ${cx-6} ${bodyY+1} Q ${cx} ${bodyY-8} ${cx+6} ${bodyY+1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${cx-4} ${bodyY} Q ${cx} ${bodyY-6} ${cx+4} ${bodyY} Z" fill="${p.main}"/>`;
+    }
+
+    // Слизь
+    if (f.slime) {
+        s += `<ellipse cx="${cx-8}" cy="${cy-4}" rx="3" ry="2" fill="#ffffff" opacity="0.5"/>`;
+        s += `<ellipse cx="${cx+4}" cy="${cy-6}" rx="2" ry="1.5" fill="#ffffff" opacity="0.4"/>`;
+    }
+
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges" ${scale !== 1 ? `width="${64*scale/2}" height="${64*scale/2}"` : ''}>${s}</svg>`
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" ${scale !== 1 ? `width="${64*scale/2}" height="${64*scale/2}"` : ''}>${s}</svg>`
     );
 }
     
@@ -1368,313 +1348,227 @@ function makeFishSVG(paletteKey, form, scale) {
     if (!p) return '';
     const f = form;
 
-    // 64×64 разрешение (×2 от старого)
+    // Размеры (в 2× от базовых)
     const bodyLen = f.bodyLen * 2;
     const bodyH = f.bodyH * 2;
     const bodyY = (f.bodyY || Math.floor((32 - f.bodyH) / 2)) * 2;
     const headX = 6;
     const cy = bodyY + bodyH / 2;
     const x1 = headX, x2 = headX + bodyLen;
+    const cx = x1 + bodyLen / 2;
     let s = '';
 
-    // === ТЕЛО ===
-    s += `<rect x="${x1}" y="${bodyY+4}" width="${bodyLen}" height="${bodyH-8}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+2}" y="${bodyY+2}" width="${bodyLen-4}" height="${bodyH-4}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="${bodyH}" fill="${p.main}"/>`;
-    // Мягкие боковые градиенты
-    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="2" fill="${p.light}" opacity="0.3"/>`;
-    s += `<rect x="${x1+4}" y="${bodyY+bodyH-2}" width="${bodyLen-8}" height="2" fill="${p.dark}" opacity="0.3"/>`;
+    // === ЖИРНЫЙ ЧЁРНЫЙ КОНТУР ТЕЛА ===
+    // Используем эллипс для скругления
+    s += `<ellipse cx="${cx}" cy="${cy}" rx="${bodyLen/2 + 2}" ry="${bodyH/2 + 2}" fill="${p.dark}"/>`;
+
+    // === ОСНОВНОЕ ТЕЛО (эллипс) ===
+    s += `<ellipse cx="${cx}" cy="${cy}" rx="${bodyLen/2}" ry="${bodyH/2}" fill="${p.main}"/>`;
+
+    // === СВЕТЛЫЙ ВЕРХ (блик) ===
+    s += `<ellipse cx="${cx}" cy="${bodyY + bodyH*0.3}" rx="${bodyLen/2 - 4}" ry="${bodyH*0.2}" fill="${p.light}" opacity="0.7"/>`;
+
+    // === ТЁМНЫЙ НИЗ (тень) ===
+    s += `<ellipse cx="${cx}" cy="${bodyY + bodyH*0.75}" rx="${bodyLen/2 - 3}" ry="${bodyH*0.15}" fill="${p.dark}" opacity="0.4"/>`;
 
     // === БРЮХО ===
-    const bellyH = Math.max(4, Math.floor(bodyH * 0.3));
-    s += `<rect x="${x1+4}" y="${bodyY+bodyH-bellyH}" width="${bodyLen-8}" height="${bellyH}" fill="${p.belly}" opacity="0.95"/>`;
-    // Блик на брюхе
-    s += `<rect x="${x1+6}" y="${bodyY+bodyH-bellyH+1}" width="${bodyLen-14}" height="1" fill="#ffffff" opacity="0.3"/>`;
+    s += `<ellipse cx="${cx}" cy="${cy + bodyH*0.15}" rx="${bodyLen/2 - 6}" ry="${bodyH*0.22}" fill="${p.belly}" opacity="0.8"/>`;
 
-    // === ВЕРХНЯЯ ТЁМНАЯ ПОЛОСА (спинка) ===
-    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="2" fill="${p.dark}"/>`;
-    s += `<rect x="${x1+6}" y="${bodyY+2}" width="${bodyLen-12}" height="1" fill="${p.dark}" opacity="0.7"/>`;
-
-    // === ЧЕШУЯ (более детальная) ===
-    if (f.bigScales) {
-        for (let i = 0; i < 8; i++) {
-            for (let j = 0; j < 5; j++) {
-                const sx = x1 + 8 + i * 4;
-                const sy = bodyY + 6 + j * 4;
-                if (sx < x2 - 4 && sy < bodyY + bodyH - 4) {
-                    // Крупная чешуя — светлый прямоугольник с тенью
-                    s += `<rect x="${sx}" y="${sy}" width="3" height="3" fill="${p.light}" opacity="0.5"/>`;
-                    s += `<rect x="${sx+3}" y="${sy+3}" width="1" height="1" fill="${p.dark}" opacity="0.3"/>`;
-                }
-            }
-        }
-    } else {
-        for (let i = 0; i < 12; i++) {
-            for (let j = 0; j < 4; j++) {
-                const sx = x1 + 8 + i * 3;
-                const sy = bodyY + 6 + j * 5;
-                if (sx < x2 - 4 && sy < bodyY + bodyH - 3) {
-                    s += `<rect x="${sx}" y="${sy}" width="2" height="2" fill="${p.light}" opacity="0.45"/>`;
-                    s += `<rect x="${sx+2}" y="${sy+2}" width="1" height="1" fill="${p.dark}" opacity="0.25"/>`;
-                }
-            }
-        }
-    }
-
-    // === ГОРИЗОНТАЛЬНАЯ БОКОВАЯ ЛИНИЯ ===
-    s += `<rect x="${x1+headX}" y="${cy}" width="${bodyLen-headX-4}" height="1" fill="${p.dark}" opacity="0.4"/>`;
-
-    // === ПОЛОСЫ (для окуня, змееголова и т.п.) ===
+    // === ПОЛОСЫ (вертикальные, как у окуня) ===
     if (f.stripes) {
-        for (const [sx, syOff] of f.stripes) {
-            const sxAbs = x1 + sx * 2;
-            if (sxAbs < x2 - 4) {
-                s += `<rect x="${sxAbs}" y="${bodyY+2}" width="2" height="${bodyH-4}" fill="${p.stripe}" opacity="0.55"/>`;
+        for (const [sx] of f.stripes) {
+            const sxAbs = x1 + sx * 2 + 6;
+            if (sxAbs < x2 - 8) {
+                // Толстая тёмная полоса
+                s += `<rect x="${sxAbs}" y="${bodyY+4}" width="4" height="${bodyH-8}" fill="${p.stripe}" opacity="0.6"/>`;
             }
         }
     }
 
-    // === ПЯТНА ===
+    // === КРУПНЫЕ ПЯТНА ===
     if (f.spots) {
         for (const [sx, sy] of f.spots) {
-            const sxAbs = x1 + sx * 2;
-            const syAbs = bodyY + sy * 2;
-            if (sxAbs < x2 - 4 && syAbs < bodyY + bodyH - 2) {
-                // Основное пятно
-                s += `<rect x="${sxAbs}" y="${syAbs}" width="4" height="4" fill="${p.spot}" opacity="0.85"/>`;
-                // Внутренняя тень
-                s += `<rect x="${sxAbs}" y="${syAbs}" width="2" height="2" fill="${p.dark}" opacity="0.5"/>`;
-                // Блик
-                s += `<rect x="${sxAbs+3}" y="${syAbs+3}" width="1" height="1" fill="${p.light}" opacity="0.6"/>`;
+            const sxAbs = x1 + sx * 2 + 4;
+            const syAbs = bodyY + sy * 2 + 2;
+            if (sxAbs < x2 - 8 && syAbs < bodyY + bodyH - 6) {
+                // Крупное пятно
+                s += `<ellipse cx="${sxAbs+4}" cy="${syAbs+4}" rx="5" ry="4" fill="${p.spot}" opacity="0.75"/>`;
             }
         }
     }
 
-    // === ГОЛОВА (разные формы) ===
+    // === ГОЛОВА (отдельный эллипс) ===
     const headLen = (f.headLen || 5) * 2;
+    const headCx = x1 + headLen / 2 - 2;
+    s += `<ellipse cx="${headCx}" cy="${cy}" rx="${headLen/2 + 2}" ry="${bodyH/2 + 1}" fill="${p.main}"/>`;
+    // Тень головы
+    s += `<ellipse cx="${headCx}" cy="${cy + bodyH*0.2}" rx="${headLen/2 - 2}" ry="${bodyH*0.15}" fill="${p.dark}" opacity="0.3"/>`;
 
-    if (f.headShape === 'pointed') {
-        // Заострённая (щука)
-        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
-        s += `<rect x="${x1+2}" y="${bodyY+4}" width="2" height="${bodyH-8}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'snake') {
-        s += `<rect x="${x1-2}" y="${bodyY+6}" width="6" height="${bodyH-12}" fill="${p.main}"/>`;
-        s += `<rect x="${x1}" y="${bodyY+4}" width="4" height="${bodyH-8}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'flat') {
-        s += `<rect x="${x1-2}" y="${bodyY+8}" width="6" height="${bodyH-16}" fill="${p.main}"/>`;
-        s += `<rect x="${x1}" y="${bodyY+4}" width="4" height="${bodyH-8}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'long-snout') {
-        s += `<rect x="${x1-6}" y="${cy-2}" width="8" height="4" fill="${p.main}"/>`;
-        s += `<rect x="${x1-6}" y="${cy-4}" width="6" height="2" fill="${p.dark}"/>`;
-    } else if (f.headShape === 'trumpet') {
-        s += `<rect x="${x1-6}" y="${cy-4}" width="6" height="8" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-6}" y="${cy-2}" width="4" height="4" fill="${p.spot}"/>`;
-    } else if (f.headShape === 'big-head') {
-        s += `<rect x="${x1-2}" y="${bodyY+4}" width="6" height="${bodyH-8}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'blunt') {
-        s += `<rect x="${x1}" y="${bodyY+4}" width="6" height="${bodyH-8}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'small') {
-        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
-    }
-
-    // Затемнение у рта
-    s += `<rect x="${x1}" y="${bodyY+6}" width="2" height="${bodyH-12}" fill="${p.dark}" opacity="0.4"/>`;
-
-    // === ЖАБРЫ (двойная дуга) ===
+    // === ЖАБРЫ (изогнутая линия) ===
     const gillX = x1 + headLen;
-    s += `<rect x="${gillX}" y="${bodyY+4}" width="2" height="4" fill="${p.gill}" opacity="0.85"/>`;
-    s += `<rect x="${gillX+2}" y="${bodyY+6}" width="2" height="${bodyH-12}" fill="${p.gill}" opacity="0.85"/>`;
-    s += `<rect x="${gillX}" y="${bodyY+bodyH-8}" width="2" height="4" fill="${p.gill}" opacity="0.85"/>`;
-    // Дополнительная линия жабр (более детальная)
-    s += `<rect x="${gillX+4}" y="${bodyY+8}" width="1" height="${bodyH-16}" fill="${p.gill}" opacity="0.5"/>`;
+    s += `<path d="M ${gillX} ${bodyY+6} Q ${gillX+4} ${cy} ${gillX} ${bodyY+bodyH-6}" stroke="${p.gill}" stroke-width="2" fill="none" opacity="0.8"/>`;
+    s += `<path d="M ${gillX+6} ${bodyY+8} Q ${gillX+9} ${cy} ${gillX+6} ${bodyY+bodyH-8}" stroke="${p.gill}" stroke-width="1.5" fill="none" opacity="0.5"/>`;
 
-    // === ГЛАЗ (детализированный) ===
-    const eyeX = x1 + 4;
-    const eyeY = bodyY + Math.floor(bodyH / 3);
-    // Тёмная впадина
-    s += `<rect x="${eyeX-1}" y="${eyeY-1}" width="6" height="6" fill="${p.dark}" opacity="0.5"/>`;
-    // Белок/жёлтый глаз
-    s += `<rect x="${eyeX}" y="${eyeY}" width="4" height="4" fill="${p.eye}"/>`;
-    // Зрачок
-    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="3" height="3" fill="${p.pupil}"/>`;
-    // Блик
-    s += `<rect x="${eyeX}" y="${eyeY}" width="2" height="2" fill="#ffffff" opacity="0.9"/>`;
-    // Второй блик (маленький)
-    s += `<rect x="${eyeX+3}" y="${eyeY+3}" width="1" height="1" fill="#ffffff" opacity="0.6"/>`;
+    // === КРУПНЫЙ ГЛАЗ (Stardew-стиль) ===
+    const eyeX = x1 + 8;
+    const eyeY = bodyY + Math.floor(bodyH * 0.3);
+    // Белок
+    s += `<ellipse cx="${eyeX+4}" cy="${eyeY+4}" rx="5" ry="5" fill="#ffffff"/>`;
+    // Обводка белка
+    s += `<ellipse cx="${eyeX+4}" cy="${eyeY+4}" rx="5" ry="5" fill="none" stroke="${p.dark}" stroke-width="1.5"/>`;
+    // Зрачок (тёмный, но с цветным отливом)
+    s += `<ellipse cx="${eyeX+5}" cy="${eyeY+4}" rx="3" ry="3.5" fill="${p.pupil}"/>`;
+    // Цветной отблеск
+    s += `<ellipse cx="${eyeX+4.5}" cy="${eyeY+3.5}" rx="1.5" ry="2" fill="${p.eye}" opacity="0.7"/>`;
+    // Главный блик
+    s += `<ellipse cx="${eyeX+3}" cy="${eyeY+2}" rx="1.5" ry="1.5" fill="#ffffff"/>`;
+    // Малый блик
+    s += `<ellipse cx="${eyeX+6}" cy="${eyeY+6}" rx="0.8" ry="0.8" fill="#ffffff" opacity="0.7"/>`;
 
-    // === РОТ ===
-    s += `<rect x="${x1-2}" y="${cy}" width="4" height="2" fill="${p.dark}"/>`;
+    // === РОТ (Stardew-стиль — мягкая линия) ===
+    s += `<path d="M ${x1-2} ${cy+2} Q ${x1+2} ${cy+4} ${x1+6} ${cy+2}" stroke="${p.dark}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
 
-    // Зубы (пиранья)
+    // === ЗУБЫ (пиранья) ===
     if (f.teeth) {
-        s += `<rect x="${x1-1}" y="${cy+2}" width="2" height="2" fill="#ffffff"/>`;
-        s += `<rect x="${x1+2}" y="${cy+2}" width="2" height="2" fill="#ffffff"/>`;
-        s += `<rect x="${x1-1}" y="${cy-3}" width="2" height="2" fill="#ffffff" opacity="0.85"/>`;
+        s += `<path d="M ${x1+1} ${cy+3} L ${x1+3} ${cy+6} L ${x1+5} ${cy+3} L ${x1+7} ${cy+6} L ${x1+9} ${cy+3}" stroke="#ffffff" stroke-width="1.5" fill="#ffffff"/>`;
     }
 
-    // === УСЫ ===
+    // === УСЫ (мягкие, изогнутые) ===
     if (f.whiskers) {
-        s += `<rect x="${x1-4}" y="${cy-4}" width="4" height="2" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-6}" y="${cy-6}" width="2" height="2" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-4}" y="${cy+4}" width="4" height="2" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-6}" y="${cy+6}" width="2" height="2" fill="${p.dark}"/>`;
-        // Дополнительные маленькие усы
-        s += `<rect x="${x1-3}" y="${cy-1}" width="2" height="1" fill="${p.dark}" opacity="0.6"/>`;
-        s += `<rect x="${x1-3}" y="${cy+1}" width="2" height="1" fill="${p.dark}" opacity="0.6"/>`;
+        s += `<path d="M ${x1-2} ${cy-2} Q ${x1-8} ${cy-6} ${x1-12} ${cy-4}" stroke="${p.dark}" stroke-width="1.5" fill="none" stroke-linecap="round"/>`;
+        s += `<path d="M ${x1-2} ${cy+2} Q ${x1-8} ${cy+6} ${x1-12} ${cy+4}" stroke="${p.dark}" stroke-width="1.5" fill="none" stroke-linecap="round"/>`;
     }
 
-    // === ВЕРХНИЙ ПЛАВНИК ===
+    // === ВЕРХНИЙ ПЛАВНИК (плавный треугольник) ===
+    const topFinStart = x1 + headLen + 6;
     const topFinSize = (f.topFinSize || 4) * 2;
-    const topFinType = f.topFin || 'medium';
-    const finStart = x1 + headLen + 4;
 
-    if (topFinType === 'high-spiky') {
-        for (let i = 0; i < topFinSize; i++) {
-            const fx = finStart + i * 2;
-            const fh = 6 + (i % 2 === 0 ? 4 : 0);
-            s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="${fh}" fill="${p.fin}"/>`;
-            // Тонкая линия по краю
-            s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="1" fill="${p.light}" opacity="0.5"/>`;
-        }
-    } else if (topFinType === 'very-spiky') {
-        for (let i = 0; i < topFinSize; i++) {
-            const fx = finStart + i * 2;
-            const fh = 4 + (i % 2 === 0 ? 6 : 2);
-            s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="${fh}" fill="${p.fin}"/>`;
-        }
-    } else if (topFinType === 'sail') {
-        for (let i = 0; i < topFinSize; i++) {
-            const fx = finStart + i * 2;
-            const fh = Math.min((topFinSize - i) * 2, 16);
-            if (fh > 0) s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="${fh}" fill="${p.fin}"/>`;
-        }
-    } else if (topFinType === 'spiky') {
+    if (f.topFin === 'high-spiky' || f.topFin === 'very-spiky') {
+        // Окуневый плавник — «пила» через path
+        let finPath = `M ${topFinStart} ${bodyY}`;
         for (let i = 0; i < 5; i++) {
-            const fx = finStart + i * 2;
-            s += `<rect x="${fx}" y="${bodyY-(3+i%2)*2}" width="2" height="${(3+i%2)*2}" fill="${p.fin}"/>`;
+            const fx = topFinStart + i * 6;
+            const fh = 14 + (i % 2 === 0 ? 6 : 0);
+            finPath += ` L ${fx+2} ${bodyY-fh} L ${fx+4} ${bodyY}`;
         }
-    } else if (topFinType === 'long-back' || topFinType === 'long-back-merged') {
-        for (let i = 0; i < topFinSize; i++) {
-            const fx = finStart + i * 2;
-            s += `<rect x="${fx}" y="${bodyY-4}" width="2" height="4" fill="${p.fin}"/>`;
-        }
-    } else if (topFinType === 'small-back') {
-        s += `<rect x="${finStart+4}" y="${bodyY-4}" width="6" height="4" fill="${p.fin}"/>`;
-    } else if (topFinType === 'dorsal-long') {
-        s += `<rect x="${finStart}" y="${bodyY-4}" width="${topFinSize*2}" height="4" fill="${p.fin}"/>`;
-    } else if (topFinType === 'tiny') {
-        s += `<rect x="${finStart}" y="${bodyY-4}" width="2" height="4" fill="${p.fin}"/>`;
-    } else if (topFinType === 'small') {
-        s += `<rect x="${finStart+2}" y="${bodyY-4}" width="4" height="4" fill="${p.fin}"/>`;
+        finPath += ` Z`;
+        // Контур
+        s += `<path d="${finPath}" fill="${p.dark}" transform="translate(-1,0)"/>`;
+        s += `<path d="${finPath}" fill="${p.dark}"/>`;
+        // Внутренняя часть
+        s += `<path d="${finPath}" fill="${p.fin}" transform="translate(0,-1) scale(0.95)"/>`;
+        // Блик
+        s += `<rect x="${topFinStart+2}" y="${bodyY-12}" width="8" height="2" fill="${p.light}" opacity="0.7"/>`;
+    } else if (f.topFin === 'sail') {
+        // Парус хариуса — большой плавный
+        s += `<path d="M ${topFinStart-2} ${bodyY} Q ${topFinStart + topFinSize} ${bodyY-24} ${topFinStart + topFinSize*1.5} ${bodyY}" fill="${p.dark}"/>`;
+        s += `<path d="M ${topFinStart} ${bodyY-1} Q ${topFinStart + topFinSize} ${bodyY-22} ${topFinStart + topFinSize*1.4} ${bodyY-1}" fill="${p.fin}"/>`;
+        s += `<path d="M ${topFinStart+2} ${bodyY-4} Q ${topFinStart + topFinSize*0.7} ${bodyY-18} ${topFinStart + topFinSize} ${bodyY-4}" stroke="${p.light}" stroke-width="1.5" fill="none" opacity="0.6"/>`;
+    } else if (f.topFin === 'long-back' || f.topFin === 'long-back-merged') {
+        // Длинный спинной
+        s += `<path d="M ${topFinStart-2} ${bodyY+1} L ${topFinStart-2} ${bodyY-6} L ${topFinStart + topFinSize} ${bodyY-8} L ${topFinStart + topFinSize} ${bodyY+1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${topFinStart} ${bodyY} L ${topFinStart} ${bodyY-6} L ${topFinStart + topFinSize-2} ${bodyY-7} L ${topFinStart + topFinSize-2} ${bodyY} Z" fill="${p.fin}"/>`;
+    } else if (f.topFin === 'small' || f.topFin === 'small-back') {
+        // Маленький
+        s += `<path d="M ${topFinStart+4} ${bodyY+1} L ${topFinStart+10} ${bodyY-8} L ${topFinStart+16} ${bodyY+1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${topFinStart+5} ${bodyY} L ${topFinStart+10} ${bodyY-7} L ${topFinStart+15} ${bodyY} Z" fill="${p.fin}"/>`;
+    } else if (f.topFin === 'tiny') {
+        s += `<path d="M ${topFinStart} ${bodyY+1} L ${topFinStart+4} ${bodyY-5} L ${topFinStart+8} ${bodyY+1} Z" fill="${p.fin}"/>`;
     } else {
         // medium
-        s += `<rect x="${finStart}" y="${bodyY-6}" width="2" height="6" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+2}" y="${bodyY-8}" width="8" height="8" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+10}" y="${bodyY-6}" width="4" height="6" fill="${p.fin}"/>`;
-        // Блик
-        s += `<rect x="${finStart+2}" y="${bodyY-8}" width="6" height="2" fill="${p.light}" opacity="0.6"/>`;
+        s += `<path d="M ${topFinStart-2} ${bodyY+1} L ${topFinStart+8} ${bodyY-10} L ${topFinStart+18} ${bodyY+1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${topFinStart} ${bodyY} L ${topFinStart+8} ${bodyY-9} L ${topFinStart+16} ${bodyY} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${topFinStart+3} ${bodyY-3} L ${topFinStart+8} ${bodyY-7} L ${topFinStart+11} ${bodyY-3}" stroke="${p.light}" stroke-width="1" fill="none" opacity="0.7"/>`;
     }
 
     // === БРЮШНОЙ ПЛАВНИК ===
-    const bottomFinStart = x1 + headLen + 4;
+    const bottomStart = x1 + headLen + 8;
     if (f.bottomFin === 'long-anal' || f.bottomFin === 'long-anal-merged') {
-        for (let i = 0; i < 16; i++) {
-            const fx = bottomFinStart + i * 2;
-            s += `<rect x="${fx}" y="${bodyY+bodyH}" width="2" height="4" fill="${p.fin}"/>`;
-        }
-    } else if (f.bottomFin === 'medium') {
-        s += `<rect x="${bottomFinStart}" y="${bodyY+bodyH}" width="8" height="6" fill="${p.fin}"/>`;
-        s += `<rect x="${bottomFinStart+8}" y="${bodyY+bodyH}" width="4" height="4" fill="${p.fin}"/>`;
-    } else if (f.bottomFin === 'small-adipose') {
-        s += `<rect x="${bottomFinStart+12}" y="${bodyY+bodyH}" width="4" height="4" fill="${p.fin}"/>`;
+        s += `<path d="M ${bottomStart-2} ${bodyY+bodyH-1} L ${bottomStart-2} ${bodyY+bodyH+6} L ${bottomStart+20} ${bodyY+bodyH+8} L ${bottomStart+22} ${bodyY+bodyH-1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${bottomStart} ${bodyY+bodyH} L ${bottomStart} ${bodyY+bodyH+5} L ${bottomStart+18} ${bodyY+bodyH+6} L ${bottomStart+20} ${bodyY+bodyH} Z" fill="${p.fin}"/>`;
     } else if (f.bottomFin === 'red-fins') {
-        s += `<rect x="${bottomFinStart}" y="${bodyY+bodyH}" width="8" height="6" fill="#c03028"/>`;
-        s += `<rect x="${bottomFinStart+8}" y="${bodyY+bodyH}" width="4" height="4" fill="#c03028"/>`;
+        s += `<path d="M ${bottomStart-2} ${bodyY+bodyH-1} L ${bottomStart-2} ${bodyY+bodyH+8} L ${bottomStart+10} ${bodyY+bodyH+6} L ${bottomStart+12} ${bodyY+bodyH-1} Z" fill="#8a1010"/>`;
+        s += `<path d="M ${bottomStart} ${bodyY+bodyH} L ${bottomStart} ${bodyY+bodyH+6} L ${bottomStart+9} ${bodyY+bodyH+5} L ${bottomStart+10} ${bodyY+bodyH} Z" fill="#e03028"/>`;
+    } else if (f.bottomFin === 'medium') {
+        s += `<path d="M ${bottomStart-2} ${bodyY+bodyH-1} L ${bottomStart-2} ${bodyY+bodyH+7} L ${bottomStart+10} ${bodyY+bodyH+5} L ${bottomStart+12} ${bodyY+bodyH-1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${bottomStart} ${bodyY+bodyH} L ${bottomStart} ${bodyY+bodyH+5} L ${bottomStart+9} ${bodyY+bodyH+4} L ${bottomStart+10} ${bodyY+bodyH} Z" fill="${p.fin}"/>`;
+    } else if (f.bottomFin === 'small-adipose') {
+        s += `<path d="M ${bottomStart+16} ${bodyY+bodyH-1} L ${bottomStart+16} ${bodyY+bodyH+5} L ${bottomStart+22} ${bodyY+bodyH+4} L ${bottomStart+24} ${bodyY+bodyH-1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${bottomStart+17} ${bodyY+bodyH} L ${bottomStart+17} ${bodyY+bodyH+3} L ${bottomStart+22} ${bodyY+bodyH+3} L ${bottomStart+23} ${bodyY+bodyH} Z" fill="${p.fin}"/>`;
     } else if (f.bottomFin === 'small') {
-        s += `<rect x="${bottomFinStart+2}" y="${bodyY+bodyH}" width="6" height="4" fill="${p.fin}"/>`;
+        s += `<path d="M ${bottomStart+2} ${bodyY+bodyH-1} L ${bottomStart+2} ${bodyY+bodyH+4} L ${bottomStart+9} ${bodyY+bodyH+3} L ${bottomStart+10} ${bodyY+bodyH-1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${bottomStart+3} ${bodyY+bodyH} L ${bottomStart+3} ${bodyY+bodyH+2} L ${bottomStart+8} ${bodyY+bodyH+2} L ${bottomStart+9} ${bodyY+bodyH} Z" fill="${p.fin}"/>`;
     }
 
-    // === ГРУДНОЙ ПЛАВНИК (с детализацией) ===
-    s += `<rect x="${x1+headLen+2}" y="${cy+2}" width="6" height="6" fill="${p.fin}" opacity="0.9"/>`;
-    s += `<rect x="${x1+headLen+8}" y="${cy+4}" width="4" height="4" fill="${p.fin}" opacity="0.75"/>`;
-    // Блик
-    s += `<rect x="${x1+headLen+2}" y="${cy+2}" width="4" height="1" fill="${p.light}" opacity="0.5"/>`;
+    // === ГРУДНОЙ ПЛАВНИК (плавный) ===
+    const pecFinX = x1 + headLen + 4;
+    s += `<path d="M ${pecFinX} ${cy+6} Q ${pecFinX+6} ${cy+14} ${pecFinX+12} ${cy+8} Q ${pecFinX+6} ${cy+4} ${pecFinX} ${cy+6}" fill="${p.dark}"/>`;
+    s += `<path d="M ${pecFinX+1} ${cy+7} Q ${pecFinX+6} ${cy+12} ${pecFinX+10} ${cy+8} Q ${pecFinX+6} ${cy+5} ${pecFinX+1} ${cy+7}" fill="${p.fin}" opacity="0.9"/>`;
 
-    // === ХВОСТ (плавные формы) ===
-    const tailX = x2;
+    // === ХВОСТ (Stardew — округлый, плавный) ===
+    const tailX = x2 - 2;
     const tailSize = (f.tailSize || 6) * 2;
     const midY = cy;
 
     if (f.tailType === 'fork') {
-        // Верхняя лопасть
-        s += `<path d="M ${tailX} ${midY-2} L ${tailX+4} ${midY-2} L ${tailX+tailSize} ${midY-tailSize-2} Q ${tailX+tailSize+2} ${midY-tailSize-4} ${tailX+tailSize-2} ${midY-tailSize-6} L ${tailX+4} ${midY-2} Z" fill="${p.fin}"/>`;
-        // Нижняя лопасть
-        s += `<path d="M ${tailX} ${midY+2} L ${tailX+4} ${midY+2} L ${tailX+tailSize} ${midY+tailSize+2} Q ${tailX+tailSize+2} ${midY+tailSize+4} ${tailX+tailSize-2} ${midY+tailSize+6} L ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
+        // Два округлых «крыла»
+        s += `<path d="M ${tailX} ${midY-2} Q ${tailX+tailSize} ${midY-tailSize-4} ${tailX+tailSize+2} ${midY-tailSize/2} Q ${tailX+tailSize-2} ${midY-2} ${tailX+4} ${midY-2} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX+2} ${midY-2} Q ${tailX+tailSize-2} ${midY-tailSize-2} ${tailX+tailSize} ${midY-tailSize/2} Q ${tailX+tailSize-4} ${midY-2} ${tailX+4} ${midY-2} Z" fill="${p.fin}"/>`;
+        // Нижнее крыло
+        s += `<path d="M ${tailX} ${midY+2} Q ${tailX+tailSize} ${midY+tailSize+4} ${tailX+tailSize+2} ${midY+tailSize/2} Q ${tailX+tailSize-2} ${midY+2} ${tailX+4} ${midY+2} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX+2} ${midY+2} Q ${tailX+tailSize-2} ${midY+tailSize+2} ${tailX+tailSize} ${midY+tailSize/2} Q ${tailX+tailSize-4} ${midY+2} ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
         // Основание хвоста
-        s += `<rect x="${tailX}" y="${midY-2}" width="6" height="4" fill="${p.main}"/>`;
-        // Прожилки
-        s += `<rect x="${tailX+6}" y="${midY-4}" width="2" height="2" fill="${p.light}" opacity="0.6"/>`;
-        s += `<rect x="${tailX+6}" y="${midY+2}" width="2" height="2" fill="${p.light}" opacity="0.6"/>`;
+        s += `<rect x="${tailX-2}" y="${midY-3}" width="6" height="6" fill="${p.main}"/>`;
     } else if (f.tailType === 'fan') {
-        s += `<rect x="${tailX}" y="${midY-4}" width="4" height="8" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+4} ${midY-10} Q ${tailX+tailSize-2} ${midY-tailSize-6} ${tailX+tailSize+2} ${midY} Q ${tailX+tailSize-2} ${midY+tailSize+6} ${tailX+4} ${midY+10} Z" fill="${p.fin}"/>`;
-        // Рёбра веера
-        for (let i = -3; i <= 3; i++) {
-            s += `<rect x="${tailX+8+i*2}" y="${midY + i*3 - 2}" width="2" height="4" fill="${p.dark}" opacity="0.5"/>`;
-        }
-    } else if (f.tailType === 'long') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="10" height="6" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+8} ${midY-4} Q ${tailX+18} ${midY-8} ${tailX+22} ${midY-2} Q ${tailX+22} ${midY+2} ${tailX+8} ${midY+4} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+18}" y="${midY-6}" width="4" height="12" fill="${p.dark}" opacity="0.5"/>`;
+        s += `<path d="M ${tailX-2} ${midY-3} Q ${tailX+tailSize+2} ${midY-tailSize-4} ${tailX+tailSize+4} ${midY} Q ${tailX+tailSize+2} ${midY+tailSize+4} ${tailX-2} ${midY+3} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX} ${midY-2} Q ${tailX+tailSize} ${midY-tailSize-2} ${tailX+tailSize+2} ${midY} Q ${tailX+tailSize} ${midY+tailSize+2} ${tailX} ${midY+2} Z" fill="${p.fin}"/>`;
+        // Прожилки
+        s += `<path d="M ${tailX+2} ${midY} L ${tailX+tailSize} ${midY-tailSize+2}" stroke="${p.dark}" stroke-width="1" opacity="0.5"/>`;
+        s += `<path d="M ${tailX+2} ${midY} L ${tailX+tailSize} ${midY+tailSize-2}" stroke="${p.dark}" stroke-width="1" opacity="0.5"/>`;
     } else if (f.tailType === 'round') {
-        s += `<rect x="${tailX}" y="${midY-4}" width="4" height="8" fill="${p.main}"/>`;
-        s += `<ellipse cx="${tailX+8}" cy="${midY}" rx="6" ry="8" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+6}" y="${midY-8}" width="2" height="16" fill="${p.dark}" opacity="0.4"/>`;
+        s += `<ellipse cx="${tailX+tailSize/2}" cy="${midY}" rx="${tailSize/2+2}" ry="${tailSize/2+2}" fill="${p.dark}"/>`;
+        s += `<ellipse cx="${tailX+tailSize/2}" cy="${midY}" rx="${tailSize/2}" ry="${tailSize/2}" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX-2}" y="${midY-3}" width="6" height="6" fill="${p.main}"/>`;
+    } else if (f.tailType === 'long') {
+        s += `<path d="M ${tailX} ${midY-3} L ${tailX+tailSize+2} ${midY-6} Q ${tailX+tailSize+6} ${midY} ${tailX+tailSize+2} ${midY+6} L ${tailX} ${midY+3} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX+1} ${midY-2} L ${tailX+tailSize} ${midY-4} Q ${tailX+tailSize+3} ${midY} ${tailX+tailSize} ${midY+4} L ${tailX+1} ${midY+2} Z" fill="${p.fin}"/>`;
     } else if (f.tailType === 'asymmetric-fork') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="6" height="4" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+6} ${midY-2} L ${tailX+14} ${midY-14} Q ${tailX+16} ${midY-14} ${tailX+16} ${midY-10} L ${tailX+8} ${midY-2} Z" fill="${p.fin}"/>`;
-        s += `<path d="M ${tailX+6} ${midY+2} L ${tailX+12} ${midY+8} Q ${tailX+14} ${midY+8} ${tailX+14} ${midY+6} L ${tailX+8} ${midY+2} Z" fill="${p.fin}"/>`;
+        // Верх больше
+        s += `<path d="M ${tailX} ${midY-2} Q ${tailX+tailSize+4} ${midY-tailSize-6} ${tailX+tailSize+6} ${midY-tailSize/2} Q ${tailX+tailSize} ${midY-2} ${tailX+4} ${midY-2} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX+2} ${midY-2} Q ${tailX+tailSize+2} ${midY-tailSize-4} ${tailX+tailSize+4} ${midY-tailSize/2} Q ${tailX+tailSize-2} ${midY-2} ${tailX+4} ${midY-2} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${tailX} ${midY+2} Q ${tailX+tailSize-2} ${midY+tailSize+2} ${tailX+tailSize} ${midY+tailSize/2} Q ${tailX+tailSize-4} ${midY+2} ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX-2}" y="${midY-3}" width="6" height="6" fill="${p.main}"/>`;
     } else if (f.tailType === 'leaf') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="4" height="4" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+4} ${midY} Q ${tailX+10} ${midY-10} ${tailX+18} ${midY} Q ${tailX+10} ${midY+10} ${tailX+4} ${midY} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+10}" y="${midY-4}" width="2" height="8" fill="${p.dark}" opacity="0.4"/>`;
-    }
-
-    // === ШИПЫ НА СПИНЕ ===
-    if (f.spikes) {
-        for (let i = 0; i < 6; i++) {
-            const sx = x1 + headLen + 2 + i * 6;
-            s += `<rect x="${sx}" y="${bodyY-2}" width="2" height="2" fill="${p.dark}"/>`;
-        }
+        s += `<path d="M ${tailX} ${midY} Q ${tailX+tailSize} ${midY-tailSize-2} ${tailX+tailSize+4} ${midY} Q ${tailX+tailSize} ${midY+tailSize+2} ${tailX} ${midY} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${tailX+2} ${midY} Q ${tailX+tailSize-2} ${midY-tailSize+2} ${tailX+tailSize+2} ${midY} Q ${tailX+tailSize-2} ${midY+tailSize-2} ${tailX+2} ${midY} Z" fill="${p.fin}"/>`;
     }
 
     // === КОСТНЫЕ ПЛАСТИНЫ (осётр) ===
     if (f.scutes) {
-        for (let i = 0; i < 8; i++) {
-            const sx = x1 + headLen + 6 + i * 8;
-            s += `<rect x="${sx}" y="${bodyY-2}" width="4" height="4" fill="${p.dark}"/>`;
-            s += `<rect x="${sx}" y="${bodyY+bodyH-2}" width="4" height="4" fill="${p.dark}"/>`;
-            s += `<rect x="${sx+1}" y="${bodyY-2}" width="2" height="1" fill="${p.light}" opacity="0.5"/>`;
+        for (let i = 0; i < 6; i++) {
+            const sx = x1 + headLen + 8 + i * 8;
+            if (sx < x2 - 6) {
+                s += `<path d="M ${sx} ${bodyY-1} L ${sx+3} ${bodyY-6} L ${sx+6} ${bodyY-1} Z" fill="${p.dark}"/>`;
+                s += `<path d="M ${sx+2} ${bodyY+bodyH} L ${sx+4} ${bodyY+bodyH+4} L ${sx+6} ${bodyY+bodyH} Z" fill="${p.dark}"/>`;
+            }
         }
     }
 
     // === ГОРБ (лосось) ===
     if (f.hump) {
-        s += `<rect x="${x1+16}" y="${bodyY-4}" width="12" height="4" fill="${p.main}"/>`;
-        s += `<rect x="${x1+18}" y="${bodyY-6}" width="8" height="2" fill="${p.main}"/>`;
+        s += `<path d="M ${cx-6} ${bodyY+1} Q ${cx} ${bodyY-8} ${cx+6} ${bodyY+1} Z" fill="${p.dark}"/>`;
+        s += `<path d="M ${cx-4} ${bodyY} Q ${cx} ${bodyY-6} ${cx+4} ${bodyY} Z" fill="${p.main}"/>`;
     }
 
     // === СЛИЗЬ (линь) ===
     if (f.slime) {
-        for (let i = 0; i < 12; i++) {
-            const sx = x1 + 10 + i * 6;
-            const sy = bodyY + 4 + (i % 2) * 6;
-            s += `<rect x="${sx}" y="${sy}" width="2" height="2" fill="#ffffff" opacity="0.45"/>`;
-        }
+        s += `<ellipse cx="${cx-8}" cy="${cy-4}" rx="3" ry="2" fill="#ffffff" opacity="0.5"/>`;
+        s += `<ellipse cx="${cx+4}" cy="${cy-6}" rx="2" ry="1.5" fill="#ffffff" opacity="0.4"/>`;
+        s += `<ellipse cx="${cx+12}" cy="${cy-3}" rx="2" ry="1.5" fill="#ffffff" opacity="0.45"/>`;
     }
 
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges" ${scale !== 1 ? `width="${64*scale/2}" height="${64*scale/2}"` : ''}>${s}</svg>`
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" ${scale !== 1 ? `width="${64*scale/2}" height="${64*scale/2}"` : ''}>${s}</svg>`
     );
 }
 // === ЗОМБИ-РЫБА (уникальная для каждого типа) ===
