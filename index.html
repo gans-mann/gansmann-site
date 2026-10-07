@@ -976,17 +976,23 @@ const PALETTES = {
 
 // === ЯРКАЯ НЕЖИТЬ (мрачная, но выразительная) ===
 const UNDEAD_PALETTE = {
-    main: '#6a7a4a',       // мрачно-зелёный, но яркий
-    dark: '#0a0a0a',       // почти чёрный контур
-    light: '#a8b878',      // светлый блик
-    belly: '#c8d098',      // брюхо
-    fin: '#4a5a2a',        // плавники
-    eye: '#c0ff00',        // ядовито-зелёный глаз
-    pupil: '#000000',
-    gill: '#3a4a1a',
-    spot: '#3a4a1a',       // гнилые пятна
-    stripe: '#3a4a1a'      // тёмные полосы
+    main:    '#8ac040',       // ЯДОВИТО-ЗЕЛЁНЫЙ (основа тела)
+    dark:    '#2a3a10',       // тёмный контур
+    light:   '#c8f060',       // ЯРКИЙ кислотный блик
+    belly:   '#e8f0a0',       // светло-жёлтое брюхо (гниль)
+    fin:     '#6a9030',       // тёмно-зелёные плавники
+    eye:     '#ff5500',       // ОРАНЖЕВЫЙ светящийся глаз
+    pupil:   '#ff0000',       // КРАСНЫЙ зрачок
+    gill:    '#4a6020',       // тёмные жабры
+    spot:    '#c03060',       // БАГРОВЫЕ гниющие пятна
+    stripe:  '#3a5020'        // тёмные полосы
 };
+
+// Дополнительные цвета для костей и внутренностей (будут использоваться в коде)
+const UNDEAD_BONE = '#f0e8c8';      // КОСТЬ — светло-бежевый
+const UNDEAD_BONE_DARK = '#a89878'; // тень кости
+const UNDEAD_GUTS = '#d02040';      // ВНУТРЕННОСТИ — кроваво-красный
+const UNDEAD_GUTS_LIGHT = '#ff6080';// светлые внутренности
 
 
 // ========================================================
@@ -1148,7 +1154,8 @@ const FISH_FORMS = {
     
 function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
-    const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey];   // ← добавили проверку
+    const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey]; // ← добавили проверку
+    const isUndead = paletteKey === 'undead';
     if (!p) return '';
     const f = form;
 
@@ -1402,7 +1409,57 @@ function makeFishSVG(paletteKey, form, scale) {
             s += `<rect x="${sx}" y="${sy}" width="1" height="1" fill="#ffffff" opacity="0.4"/>`;
         }
     }
+    // === КОСТИ И ВНУТРЕННОСТИ ДЛЯ НЕЖИТИ ===
+    if (isUndead) {
+        // ОГОЛЁННЫЕ РЁБРА (3-4 кости поперёк тела)
+        const ribPositions = [6, 10, 14, 18];
+        for (const rx of ribPositions) {
+            const ribX = x1 + rx;
+            if (ribX < x2 - 4) {
+                // Кость — светлая линия
+                s += `<rect x="${ribX}" y="${bodyY + 3}" width="1" height="${bodyH - 6}" fill="${UNDEAD_BONE}"/>`;
+                // Тень кости справа
+                s += `<rect x="${ribX + 1}" y="${bodyY + 3}" width="1" height="${bodyH - 6}" fill="${UNDEAD_BONE_DARK}" opacity="0.7"/>`;
+                // Кончики костей (утолщения)
+                s += `<rect x="${ribX - 1}" y="${bodyY + 3}" width="3" height="1" fill="${UNDEAD_BONE}"/>`;
+                s += `<rect x="${ribX - 1}" y="${bodyY + bodyH - 4}" width="3" height="1" fill="${UNDEAD_BONE}"/>`;
+            }
+        }
 
+        // ПОЗВОНОЧНИК (тонкая линия вдоль тела)
+        s += `<rect x="${x1 + 4}" y="${cy}" width="${bodyLen - 8}" height="1" fill="${UNDEAD_BONE}" opacity="0.8"/>`;
+        // Сегменты позвоночника (утолщения)
+        for (let i = 0; i < 6; i++) {
+            const px = x1 + 6 + i * 4;
+            if (px < x2 - 4) {
+                s += `<rect x="${px}" y="${cy - 1}" width="1" height="3" fill="${UNDEAD_BONE}"/>`;
+            }
+        }
+
+        // ВНУТРЕННОСТИ (видны через «раны»)
+        const woundPositions = [[8, 4], [16, bodyH - 6]];
+        for (const [wx, wy] of woundPositions) {
+            const woundX = x1 + wx;
+            const woundY = bodyY + wy;
+            if (woundX < x2 - 6 && woundY < bodyY + bodyH - 3) {
+                // Красная рана
+                s += `<rect x="${woundX}" y="${woundY}" width="4" height="3" fill="${UNDEAD_GUTS}"/>`;
+                // Светлые внутренности
+                s += `<rect x="${woundX + 1}" y="${woundY + 1}" width="2" height="1" fill="${UNDEAD_GUTS_LIGHT}"/>`;
+            }
+        }
+
+        // ЧЕРЕП НА ГОЛОВЕ (если рыба крупная)
+        if (bodyLen > 16) {
+            const skullX = x1 + 2;
+            const skullY = bodyY + 2;
+            // Белый череп
+            s += `<rect x="${skullX}" y="${skullY}" width="4" height="4" fill="${UNDEAD_BONE}"/>`;
+            // Глазницы (пустые)
+            s += `<rect x="${skullX + 1}" y="${skullY + 1}" width="1" height="1" fill="${UNDEAD_PALETTE.dark}"/>`;
+            s += `<rect x="${skullX + 3}" y="${skullY + 1}" width="1" height="1" fill="${UNDEAD_PALETTE.dark}"/>`;
+        }
+    }
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
         `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
     );
@@ -1502,7 +1559,6 @@ function getFishForm(fishName) {
 
 function getFishIcon(fishName, scale) {
     const info = getFishForm(fishName);
-
     if (info.isUndead) {
         return makeFishSVG('undead', info.form, scale);
     }
