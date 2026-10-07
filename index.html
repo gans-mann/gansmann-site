@@ -2219,30 +2219,35 @@ const urlParams = new URLSearchParams(window.location.search);
 const playerName = urlParams.get('player');
 const playerCard = document.getElementById('playerCard');
 
-if (!playerName) {
-    playerCard.innerHTML = `
-        <div class="error">
-            <p style="font-size: 1.1rem; margin-bottom: 8px;">🎣 Укажите ник игрока в адресе</p>
-            <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">
-                Пример: <code style="background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 5px;">?player=ваш_ник</code>
-            </p>
-        </div>
-    `;
-} else {
+// === ФУНКЦИЯ ЗАГРУЗКИ И ОТРИСОВКИ ===
+function loadAndRender(silent) {
     fetch(DATA_URL + '?t=' + Date.now())
         .then(response => {
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             return response.json();
         })
         .then(data => {
+            // === Проверяем, изменились ли данные ===
+            const newJson = JSON.stringify(data);
+            if (silent && window._lastJson === newJson) {
+                return; // ничего не поменялось — не перерисовываем
+            }
+            window._lastJson = newJson;
+
+            // === Время обновления ===
             if (data._lastUpdate) {
                 document.getElementById('updateTime').textContent = data._lastUpdate;
                 document.getElementById('lastUpdate').style.display = 'block';
             }
+
+            // === Статистика ===
             if (data._stats) renderServerStats(data._stats);
+
+            // === Глобальные данные для карточки ===
             if (data._personalRecords) window._personalRecords = data._personalRecords;
             if (data._lifetimeCatches) window._lifetimeCatches = data._lifetimeCatches;
 
+            // === Игрок ===
             const playerKey = Object.keys(data).find(
                 key => !key.startsWith('_') && key.toLowerCase() === playerName.toLowerCase()
             );
@@ -2260,15 +2265,39 @@ if (!playerName) {
             renderInventory(playerKey, data[playerKey]);
         })
         .catch(err => {
-            console.error(err);
-            playerCard.innerHTML = `
-                <div class="error">
-                    <p style="font-size: 1.1rem; margin-bottom: 8px;">Не удалось загрузить данные</p>
-                    <p style="color: rgba(255,255,255,0.5);">Попробуйте позже</p>
-                    <p style="color: rgba(255,255,255,0.3); font-size: 0.75rem; margin-top: 8px;">${err.message}</p>
-                </div>
-            `;
+            if (!silent) {
+                console.error(err);
+                playerCard.innerHTML = `
+                    <div class="error">
+                        <p style="font-size: 1.1rem; margin-bottom: 8px;">Не удалось загрузить данные</p>
+                        <p style="color: rgba(255,255,255,0.5);">Попробуйте позже</p>
+                        <p style="color: rgba(255,255,255,0.3); font-size: 0.75rem; margin-top: 8px;">${err.message}</p>
+                    </div>
+                `;
+            }
         });
+}
+
+// === ЗАГРУЗКА ИГРОКА ===
+const urlParams = new URLSearchParams(window.location.search);
+const playerName = urlParams.get('player');
+const playerCard = document.getElementById('playerCard');
+
+if (!playerName) {
+    playerCard.innerHTML = `
+        <div class="error">
+            <p style="font-size: 1.1rem; margin-bottom: 8px;">🎣 Укажите ник игрока в адресе</p>
+            <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">
+                Пример: <code style="background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px;">?player=ваш_ник</code>
+            </p>
+        </div>
+    `;
+} else {
+    // Первая загрузка — с индикатором "Загрузка..."
+    loadAndRender(false);
+
+    // Автообновление каждые 15 секунд (silent = без индикатора)
+    setInterval(() => loadAndRender(true), 5000);
 }
 
 function renderServerStats(stats) {
