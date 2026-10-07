@@ -1645,13 +1645,13 @@ function getFishInfo(fishName) {
     }
     if (!data) data = FISH_DATA['Плотва'];
 
-    return {
-        isUndead: info.isUndead,
-        baseName: info.baseName,
-        min: data.min,
-        max: data.max,
-        rarity: data.rarity
-    };
+return {
+    isUndead: info.isUndead,
+    baseName: info.baseName,
+    min: data.min,
+    max: data.max,
+    rarity: (data.rarity || 'common').toLowerCase()  // ← приводим к нижнему регистру
+};
 }
 
 function capitalizeName(name) {
