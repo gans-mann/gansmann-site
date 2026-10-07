@@ -747,16 +747,25 @@ function renderRecords(records) {
 }
 
 // === СЧЁТЧИК ПОЙМАНО ЗА ВСЁ ВРЕМЯ ===
+// === СЧЁТЧИК ПОЙМАНО ЗА ВСЁ ВРЕМЯ (учитывает регистр и ё/е) ===
 function getLifetimeCount(fishName) {
     if (!window._lifetimeCatches) return 0;
 
-    const fishKey = fishName.toLowerCase();
+    // Нормализация: нижний регистр + ё → е + trim
+    const normalize = (s) => String(s).toLowerCase().replace('ё', 'е').trim();
+    const targetKey = normalize(fishName);
+
     let total = 0;
 
     for (const player in window._lifetimeCatches) {
         const playerCatches = window._lifetimeCatches[player];
-        if (playerCatches && playerCatches[fishKey] !== undefined) {
-            total += playerCatches[fishKey];
+        if (!playerCatches || typeof playerCatches !== 'object') continue;
+
+        // Пробегаем все ключи игрока — сравниваем нормализованно
+        for (const storedFish in playerCatches) {
+            if (normalize(storedFish) === targetKey) {
+                total += playerCatches[storedFish] || 0;
+            }
         }
     }
 
