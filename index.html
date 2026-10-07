@@ -1670,7 +1670,25 @@ const ALL_FISH = [
 // ========================================================
 // ВСПОМОГАТЕЛЬНЫЕ
 // ========================================================
+function getFishInfo(fishName) {
+    const info = getFishForm(fishName);
+    let data = null;
+    for (const key in FISH_DATA) {
+        if (key.toLowerCase().replace('ё', 'е') === info.baseName.toLowerCase().replace('ё', 'е')) {
+            data = FISH_DATA[key];
+            break;
+        }
+    }
+    if (!data) data = FISH_DATA['Плотва'];
 
+    return {
+        isUndead: info.isUndead,
+        baseName: info.baseName,
+        min: data.min,
+        max: data.max,
+        rarity: (data.rarity || 'common').toLowerCase()
+    };
+}
 function getFishForm(fishName) {
     const isUndead = fishName.toLowerCase().startsWith('нежить ');
     const baseName = isUndead ? fishName.substring(7).trim() : fishName;
