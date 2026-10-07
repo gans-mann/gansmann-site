@@ -377,6 +377,56 @@ body::before {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+ /* === КРАСИВАЯ ПОДСКАЗКА ПРИ НАВЕДЕНИИ === */
+.record-card {
+    position: relative;
+    cursor: help;
+}
+
+.record-card::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: linear-gradient(135deg, rgba(20, 40, 60, 0.98) 0%, rgba(15, 30, 45, 0.98) 100%);
+    border: 1.5px solid rgba(0, 212, 255, 0.6);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    color: #00d4ff;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 100;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0,212,255,0.3);
+    letter-spacing: 0.3px;
+}
+
+.record-card::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 212, 255, 0.6);
+    opacity: 0;
+    transition: opacity 0.25s;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.record-card:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-12px);
+}
+
+.record-card:hover::before {
+    opacity: 1;
+}
     
 /* === ЗАГЛУШКА === */
 .loading {
@@ -643,7 +693,7 @@ function renderRecords(records) {
             const lifetimeCount = getLifetimeCount(fish);
 
             regularRows.push(`
-                <div class="record-card rarity-${rarity}" title="Поймано за всё время: ${lifetimeCount}">
+                <div class="record-card rarity-${rarity}" data-tooltip="🎣 Поймано за всё время: ${lifetimeCount}">
                     <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
                     <div class="record-fish">${escapeHtml(fish)}${isTrophy ? ' 🏆' : ''}</div>
                     <div class="record-size-block">
@@ -669,7 +719,7 @@ function renderRecords(records) {
             const lifetimeCount = getLifetimeCount(undeadFish);
 
             undeadRows.push(`
-                <div class="record-card undead rarity-${rarity}" title="Поймано за всё время: ${lifetimeCount}">
+                <div class="record-card undead rarity-${rarity}" data-tooltip="🧟 Поймано за всё время: ${lifetimeCount}">
                     <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
                     <div class="record-fish">${escapeHtml(fish)}${isTrophy ? ' 🏆' : ''}</div>
                     <div class="record-size-block">
