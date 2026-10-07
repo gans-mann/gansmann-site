@@ -12,9 +12,9 @@
 body {
     font-family: 'Montserrat', sans-serif;
     background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-    min-height: 100vh; color: #fff; padding: 15px;
+    min-height: 100vh; color: #fff; padding: 10px;
     display: flex; justify-content: center; align-items: flex-start;
-    padding-top: 25px; position: relative; overflow-x: hidden;
+    padding-top: 20px; position: relative; overflow-x: hidden;
 }
 body::before {
     content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -23,64 +23,64 @@ body::before {
         radial-gradient(circle at 80% 70%, rgba(0,255,200,0.06) 0%, transparent 40%);
     pointer-events: none; z-index: 0;
 }
-.container { width: 100%; max-width: 950px; position: relative; z-index: 1; }
+.container { width: 100%; max-width: 1200px; position: relative; z-index: 1; }
 
-.header { text-align: center; margin-bottom: 20px; }
+.header { text-align: center; margin-bottom: 15px; }
 .header h1 {
-    font-size: 2rem; font-weight: 900;
+    font-size: 1.8rem; font-weight: 900;
     background: linear-gradient(135deg, #00d4ff, #00ffa3);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; margin-bottom: 5px; letter-spacing: -1px;
+    background-clip: text; margin-bottom: 3px; letter-spacing: -1px;
 }
-.header .subtitle { font-size: 0.9rem; color: rgba(255,255,255,0.55); }
+.header .subtitle { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
 
 .server-stats {
     background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
-    padding: 15px; margin-bottom: 15px;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
+    padding: 12px; margin-bottom: 12px;
 }
-.server-stats h2 { font-size: 1.1rem; margin-bottom: 12px; color: #00d4ff; }
+.server-stats h2 { font-size: 1rem; margin-bottom: 10px; color: #00d4ff; }
 .stats-grid-4 {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px;
 }
 .server-stat {
     background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px; padding: 12px; text-align: center; transition: all 0.3s;
+    border-radius: 10px; padding: 10px; text-align: center; transition: all 0.3s;
 }
 .server-stat:hover {
     background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.3); transform: translateY(-2px);
 }
-.server-stat .stat-icon { font-size: 1.4rem; margin-bottom: 4px; }
+.server-stat .stat-icon { font-size: 1.2rem; margin-bottom: 3px; }
 .server-stat .stat-value {
-    font-size: 1.2rem; font-weight: 900; color: #00d4ff;
-    line-height: 1.2; margin-bottom: 3px; word-break: break-word;
+    font-size: 1.1rem; font-weight: 900; color: #00d4ff;
+    line-height: 1.2; margin-bottom: 2px; word-break: break-word;
 }
 .server-stat .stat-label {
-    font-size: 0.7rem; color: rgba(255,255,255,0.5);
+    font-size: 0.65rem; color: rgba(255,255,255,0.5);
     text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
 }
 
 .player-card {
     background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
-    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 18px;
+    padding: 15px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
 }
 .player-header {
-    display: flex; align-items: center; gap: 15px;
-    margin-bottom: 15px; padding-bottom: 12px;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px; padding-bottom: 10px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .player-avatar {
-    width: 55px; height: 55px; border-radius: 50%;
+    width: 50px; height: 50px; border-radius: 50%;
     background: linear-gradient(135deg, #00d4ff, #00ffa3);
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; font-weight: 900; color: #0f2027;
+    font-size: 1.4rem; font-weight: 900; color: #0f2027;
     box-shadow: 0 8px 24px rgba(0,212,255,0.3); flex-shrink: 0;
 }
 .player-info { flex: 1; }
-.player-info h2 { font-size: 1.3rem; margin-bottom: 3px; }
-.player-info .player-stats { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+.player-info h2 { font-size: 1.2rem; margin-bottom: 2px; }
+.player-info .player-stats { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
 .player-info .player-stats span { color: #00ffa3; font-weight: 600; }
 
 .twitch-link {
@@ -92,7 +92,7 @@ body::before {
 .twitch-link:hover { background: #7a2ee0; }
 
 .collection-progress {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
 }
 .progress-block {
     background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
@@ -119,36 +119,21 @@ body::before {
     background: linear-gradient(90deg, #a78bfa, #c4b5fd);
 }
 
-.records-section {
-    background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2);
-    border-radius: 10px; padding: 12px; margin-bottom: 15px;
-}
-.records-section h3 { font-size: 0.9rem; color: #ffd700; margin-bottom: 8px; }
-.record-list { display: flex; flex-direction: column; gap: 5px; }
-.record-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 6px 10px; background: rgba(255,255,255,0.03);
-    border-radius: 6px; font-size: 0.85rem;
-}
-.record-row .record-fish { font-weight: 600; }
-.record-row .record-size { color: #ffd700; font-weight: 700; }
-
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
 .stat-box {
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px; padding: 12px; text-align: center; transition: all 0.3s ease;
+    border-radius: 12px; padding: 10px; text-align: center; transition: all 0.3s ease;
 }
-.stat-box:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
-.stat-box .stat-icon { font-size: 1.4rem; margin-bottom: 4px; }
-.stat-box .stat-value { font-size: 1.5rem; font-weight: 900; color: #00d4ff; line-height: 1; margin-bottom: 4px; }
+.stat-box .stat-icon { font-size: 1.2rem; margin-bottom: 3px; }
+.stat-box .stat-value { font-size: 1.3rem; font-weight: 900; color: #00d4ff; line-height: 1; margin-bottom: 3px; }
 .stat-box .stat-label {
-    font-size: 0.75rem; color: rgba(255,255,255,0.6);
+    font-size: 0.7rem; color: rgba(255,255,255,0.6);
     text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
 }
 .stat-box.undead .stat-value { color: #a78bfa; }
 
 .fish-section h3 {
-    font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;
+    font-size: 0.9rem; font-weight: 700; margin-bottom: 8px;
     display: flex; align-items: center; gap: 8px;
 }
 .fish-section h3::before {
@@ -156,30 +141,78 @@ body::before {
     background: linear-gradient(135deg, #00d4ff, #00ffa3); border-radius: 2px;
 }
 .fish-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 6px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 5px;
 }
 
+/* КРАСОЧНЫЕ КАРТОЧКИ РЫБ */
 .fish-item {
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px; padding: 8px 10px;
+    border-radius: 10px; padding: 7px 9px;
     display: flex; align-items: center; gap: 8px;
-    transition: all 0.3s ease; cursor: pointer;
+    transition: all 0.25s ease; cursor: pointer;
     position: relative; user-select: none;
+    border: 1px solid transparent;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
 }
-.fish-item:hover {
-    background: rgba(0,212,255,0.1); border-color: rgba(0,212,255,0.3);
+/* Редкость: обычная — нейтральный синеватый */
+.fish-item.rarity-common {
+    border-color: rgba(120, 160, 200, 0.25);
+    background: linear-gradient(135deg, rgba(70, 110, 150, 0.15) 0%, rgba(40, 70, 100, 0.08) 100%);
 }
+.fish-item.rarity-common:hover {
+    background: linear-gradient(135deg, rgba(100, 150, 200, 0.25) 0%, rgba(60, 100, 140, 0.12) 100%);
+    border-color: rgba(120, 180, 230, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 180, 255, 0.15);
+}
+/* Редкость: редкая — синяя */
+.fish-item.rarity-rare {
+    border-color: rgba(0, 212, 255, 0.4);
+    background: linear-gradient(135deg, rgba(0, 180, 255, 0.15) 0%, rgba(0, 120, 180, 0.08) 100%);
+}
+.fish-item.rarity-rare:hover {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.3) 0%, rgba(0, 150, 220, 0.15) 100%);
+    border-color: rgba(0, 212, 255, 0.7);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+}
+/* Редкость: эпическая — фиолетовая */
+.fish-item.rarity-epic {
+    border-color: rgba(167, 139, 250, 0.4);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.18) 0%, rgba(120, 90, 200, 0.08) 100%);
+}
+.fish-item.rarity-epic:hover {
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.35) 0%, rgba(140, 110, 220, 0.18) 100%);
+    border-color: rgba(167, 139, 250, 0.7);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(167, 139, 250, 0.3);
+}
+/* Редкость: легендарная — золотая */
+.fish-item.rarity-legendary {
+    border-color: rgba(255, 215, 0, 0.5);
+    background: linear-gradient(135deg, rgba(255, 200, 50, 0.2) 0%, rgba(200, 140, 0, 0.08) 100%);
+}
+.fish-item.rarity-legendary:hover {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.35) 0%, rgba(220, 160, 20, 0.15) 100%);
+    border-color: rgba(255, 215, 0, 0.8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.35);
+}
+/* Нежить — фиолетовый оттенок поверх всего */
 .fish-item.undead {
-    background: rgba(167,139,250,0.08); border-color: rgba(167,139,250,0.2);
+    filter: hue-rotate(20deg);
 }
-.fish-item.undead:hover {
-    background: rgba(167,139,250,0.15); border-color: rgba(167,139,250,0.4);
+.fish-item.undead.rarity-common {
+    border-color: rgba(167, 139, 250, 0.4);
+    background: linear-gradient(135deg, rgba(120, 90, 200, 0.18) 0%, rgba(80, 60, 150, 0.08) 100%);
 }
+.fish-item.undead.rarity-common:hover {
+    background: linear-gradient(135deg, rgba(140, 110, 220, 0.3) 0%, rgba(100, 80, 170, 0.15) 100%);
+    border-color: rgba(167, 139, 250, 0.7);
+}
+
 .fish-item.active {
-    background: rgba(0,212,255,0.15); border-color: rgba(0,212,255,0.5);
-}
-.fish-item.undead.active {
-    background: rgba(167,139,250,0.2); border-color: rgba(167,139,250,0.5);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
 }
 
 .fish-icon {
@@ -187,80 +220,180 @@ body::before {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     flex-shrink: 0;
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
 }
 
 .fish-name {
-    font-size: 0.8rem; font-weight: 600; flex: 1;
+    font-size: 0.78rem; font-weight: 600; flex: 1;
     min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .fish-count {
-    background: rgba(0,212,255,0.15); color: #00d4ff;
-    font-weight: 700; font-size: 0.75rem; padding: 2px 7px;
+    background: rgba(0,212,255,0.2); color: #00d4ff;
+    font-weight: 700; font-size: 0.72rem; padding: 2px 6px;
     border-radius: 5px; flex-shrink: 0;
 }
-.fish-item.undead .fish-count {
-    background: rgba(167,139,250,0.2); color: #a78bfa;
+.fish-item.rarity-epic .fish-count { background: rgba(167,139,250,0.25); color: #c4b5fd; }
+.fish-item.rarity-legendary .fish-count { background: rgba(255,215,0,0.25); color: #ffd700; }
+.fish-item.undead .fish-count { background: rgba(167,139,250,0.25); color: #c4b5fd; }
+
+/* === МОДАЛЬНАЯ КАРТОЧКА РЫБЫ === */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+    padding: 20px;
+}
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+.fish-modal {
+    background: linear-gradient(135deg, rgba(30, 50, 70, 0.98), rgba(20, 35, 50, 0.98));
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 420px;
+    width: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.25s ease;
+}
+.modal-overlay.show .fish-modal { transform: scale(1); }
+
+.fish-modal.rarity-rare { border-color: rgba(0, 212, 255, 0.5); box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,212,255,0.2); }
+.fish-modal.rarity-epic { border-color: rgba(167, 139, 250, 0.5); box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(167,139,250,0.2); }
+.fish-modal.rarity-legendary { border-color: rgba(255, 215, 0, 0.6); box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 60px rgba(255,215,0,0.3); }
+
+.modal-close {
+    position: absolute; top: 12px; right: 12px;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: none; color: #fff;
+    font-size: 1.2rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+}
+.modal-close:hover { background: rgba(255,80,80,0.4); transform: rotate(90deg); }
+
+.modal-fish-icon-wrap {
+    display: flex; justify-content: center; align-items: center;
+    margin-bottom: 15px;
+    padding: 20px;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+    border-radius: 16px;
+    position: relative;
+}
+.modal-fish-icon {
+    width: 128px; height: 128px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.5));
+    animation: fishSwim 3s ease-in-out infinite;
+}
+@keyframes fishSwim {
+    0%, 100% { transform: translateY(0) scaleX(1); }
+    50% { transform: translateY(-6px) scaleX(1); }
 }
 
-/* Tooltip с личным рекордом */
-.fish-tooltip {
-    position: absolute;
-    top: -48px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(15, 32, 39, 0.98);
-    border: 1px solid rgba(255, 215, 0, 0.5);
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-size: 0.75rem;
-    color: #ffd700;
+.modal-fish-name {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin-bottom: 3px;
+    background: linear-gradient(135deg, #00d4ff, #00ffa3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.modal-fish-name.undead {
+    background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modal-rarity {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.modal-rarity.rarity-common { color: #8ab4d6; }
+.modal-rarity.rarity-rare { color: #00d4ff; }
+.modal-rarity.rarity-epic { color: #a78bfa; }
+.modal-rarity.rarity-legendary { color: #ffd700; text-shadow: 0 0 12px rgba(255,215,0,0.5); }
+
+.modal-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.modal-info-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+}
+.modal-info-block .info-label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
     font-weight: 600;
-    white-space: nowrap;
-    z-index: 100;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    margin-bottom: 5px;
 }
-.fish-tooltip::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid rgba(255, 215, 0, 0.5);
+.modal-info-block .info-value {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #00d4ff;
 }
-.fish-tooltip.show { opacity: 1; }
-.fish-tooltip.no-record { color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.2); }
-.fish-tooltip.no-record::after { border-top-color: rgba(255,255,255,0.2); }
+.modal-info-block .info-value.record { color: #ffd700; }
+.modal-info-block .info-value.no-record { color: rgba(255,255,255,0.35); font-size: 0.85rem; font-weight: 600; }
+
+.modal-count {
+    text-align: center;
+    padding: 10px;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #00d4ff;
+}
+.modal-count span { font-size: 1.1rem; font-weight: 900; }
 
 .last-update {
-    text-align: center; margin-top: 15px;
-    font-size: 0.75rem; color: rgba(255,255,255,0.4);
+    text-align: center; margin-top: 12px;
+    font-size: 0.7rem; color: rgba(255,255,255,0.4);
 }
 .last-update .update-time { color: #00d4ff; font-weight: 600; }
 
 .footer {
-    text-align: center; margin-top: 15px; padding: 15px;
-    font-size: 0.8rem; color: rgba(255,255,255,0.4);
+    text-align: center; margin-top: 12px; padding: 12px;
+    font-size: 0.75rem; color: rgba(255,255,255,0.4);
 }
 .footer a { color: #00d4ff; text-decoration: none; }
 
-.loading, .error { text-align: center; padding: 40px 20px; font-size: 1rem; }
+.loading, .error { text-align: center; padding: 30px 15px; font-size: 0.95rem; }
 .loading { color: rgba(255,255,255,0.6); }
 .error { color: #ff6b6b; }
 
 @media (max-width: 600px) {
-    body { padding: 10px; padding-top: 15px; }
-    .header h1 { font-size: 1.6rem; }
-    .player-card { padding: 15px; border-radius: 16px; }
+    body { padding: 8px; padding-top: 12px; }
+    .header h1 { font-size: 1.5rem; }
+    .player-card { padding: 12px; border-radius: 14px; }
     .player-header { flex-direction: column; text-align: center; }
     .collection-progress { grid-template-columns: 1fr; }
     .stats-grid { grid-template-columns: 1fr; }
-    .fish-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .fish-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .modal-fish-icon { width: 96px; height: 96px; }
 }
 </style>
 </head>
@@ -289,12 +422,16 @@ body::before {
     </div>
 </div>
 
+<!-- Модальное окно для карточки рыбы -->
+<div class="modal-overlay" id="fishModal">
+    <div class="fish-modal" id="fishModalContent"></div>
+</div>
+
 <script>
 // ========================================================
-// ПИКСЕЛЬНЫЕ ИКОНКИ РЫБ (32×32) — реалистичный стиль
+// ПАЛИТРЫ И ДАННЫЕ РЫБ
 // ========================================================
 
-// Палитры цветов для каждой рыбы
 const PALETTES = {
     pike:     { main: '#4a6b2a', dark: '#2a3f1a', light: '#6b8a4a', belly: '#8fa860', fin: '#3a5020', eye: '#ffd700', pupil: '#000', gill: '#2a3f1a', spot: '#2a3f1a' },
     trout:    { main: '#d97645', dark: '#8a4a28', light: '#e89a6a', belly: '#f0b890', fin: '#b05530', eye: '#ffd700', pupil: '#000', gill: '#8a4a28', spot: '#c0392b' },
@@ -317,38 +454,34 @@ const PALETTES = {
     grayling: { main: '#9098a8', dark: '#606878', light: '#b8c0d0', belly: '#e0e8f0', fin: '#7880a0', eye: '#ffd700', pupil: '#000', gill: '#606878', spot: '#4a5a6a' },
     snakehead:{ main: '#5a5a3a', dark: '#3a3a1a', light: '#7a7a5a', belly: '#a0a080', fin: '#4a4a2a', eye: '#ffd700', pupil: '#000', gill: '#3a3a1a', spot: '#2a2a0a' },
     burbot:   { main: '#5a5a4a', dark: '#3a3a2a', light: '#7a7a6a', belly: '#a0a090', fin: '#4a4a3a', eye: '#ffd700', pupil: '#000', gill: '#3a3a2a', spot: '#3a3a2a' },
-    loach:    { main: '#8a6a3a', dark: '#5a4020', light: '#b08a5a', belly: '#c8a878', fin: '#70502a', eye: '#ffd700', pupil: '#000', gill: '#5a4020', spot: '#3a2818' },
-    sabrefish:{ main: '#b0b8c0', dark: '#808890', light: '#d8e0e8', belly: '#f0f8ff', fin: '#9098a0', eye: '#ffd700', pupil: '#000', gill: '#808890', spot: '#808890' },
-    carp_big: { main: '#8a6a3a', dark: '#5a4020', light: '#b08a5a', belly: '#d0b080', fin: '#6a5028', eye: '#ffd700', pupil: '#000', gill: '#5a4020', spot: '#5a4020' },
-    silvercarp:{main: '#b8c0c8', dark: '#8890a0', light: '#e0e8f0', belly: '#ffffff', fin: '#98a0b0', eye: '#ffd700', pupil: '#000', gill: '#8890a0', spot: '#8890a0' },
     eel:      { main: '#3a5a3a', dark: '#1a3a1a', light: '#5a7a5a', belly: '#8aa08a', fin: '#2a4a2a', eye: '#ffd700', pupil: '#000', gill: '#1a3a1a', spot: '#1a3a1a' },
     lamprey:  { main: '#6a6a7a', dark: '#3a3a4a', light: '#9a9aaa', belly: '#c0c0d0', fin: '#4a4a5a', eye: '#ffd700', pupil: '#000', gill: '#3a3a4a', spot: '#3a3a4a' },
-    minnow:   { main: '#a0b0c0', dark: '#708090', light: '#c8d8e8', belly: '#e8f0f8', fin: '#8898a8', eye: '#ffd700', pupil: '#000', gill: '#708090', spot: '#a0b0c0' }
+    silvercarp:{main: '#b8c0c8', dark: '#8890a0', light: '#e0e8f0', belly: '#ffffff', fin: '#98a0b0', eye: '#ffd700', pupil: '#000', gill: '#8890a0', spot: '#8890a0' },
+    carp_big: { main: '#8a6a3a', dark: '#5a4020', light: '#b08a5a', belly: '#d0b080', fin: '#6a5028', eye: '#ffd700', pupil: '#000', gill: '#5a4020', spot: '#5a4020' },
+    sabrefish:{ main: '#b0b8c0', dark: '#808890', light: '#d8e0e8', belly: '#f0f8ff', fin: '#9098a0', eye: '#ffd700', pupil: '#000', gill: '#808890', spot: '#808890' }
 };
 
-// Отрисовка рыбы 32×32. Принимает палитру и параметры тела.
-function makeFish(palette, opts) {
+// Отрисовка рыбы 32×32 с параметром масштаба
+function makeFishSVG(palette, opts, scale) {
     opts = opts || {};
+    scale = scale || 1;
     const bodyLen = opts.bodyLen || 22;
     const bodyH = opts.bodyH || 12;
     const headX = opts.headX || 3;
     const bodyY = opts.bodyY || 10;
-    const tailType = opts.tailType || 'fork'; // 'fork' | 'fan' | 'long'
-    const longBody = opts.longBody || false;
+    const tailType = opts.tailType || 'fork';
 
     const p = palette;
+    const cy = bodyY + bodyH / 2;
+    const x1 = headX, x2 = headX + bodyLen;
     let s = '';
 
-    // ТЕЛО (эллипс через path с прямыми сегментами для пиксельного эффекта)
-    const x1 = headX, x2 = headX + bodyLen;
-    const cy = bodyY + bodyH / 2;
-
-    // Основное тело
+    // ТЕЛО
     s += `<rect x="${x1}" y="${bodyY+2}" width="${bodyLen}" height="${bodyH-4}" fill="${p.main}"/>`;
     s += `<rect x="${x1+1}" y="${bodyY+1}" width="${bodyLen-2}" height="${bodyH-2}" fill="${p.main}"/>`;
     s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="${bodyH}" fill="${p.main}"/>`;
 
-    // Брюхо (светлое снизу)
+    // Брюхо
     s += `<rect x="${x1+2}" y="${bodyY+bodyH-3}" width="${bodyLen-4}" height="2" fill="${p.belly}"/>`;
     s += `<rect x="${x1+3}" y="${bodyY+bodyH-4}" width="${bodyLen-6}" height="1" fill="${p.belly}"/>`;
 
@@ -356,7 +489,7 @@ function makeFish(palette, opts) {
     s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="1" fill="${p.dark}"/>`;
     s += `<rect x="${x1+3}" y="${bodyY+1}" width="${bodyLen-6}" height="1" fill="${p.dark}"/>`;
 
-    // Чешуя (мелкие светлые точки)
+    // Чешуя
     for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 2; j++) {
             const sx = x1 + 4 + i * 4;
@@ -367,45 +500,38 @@ function makeFish(palette, opts) {
         }
     }
 
-    // Пятна (для некоторых рыб)
+    // Пятна
     if (p.spot && opts.spots) {
-        const spots = opts.spots || [];
-        for (const [sx, sy] of spots) {
+        for (const [sx, sy] of opts.spots) {
             s += `<rect x="${x1 + sx}" y="${bodyY + sy}" width="2" height="2" fill="${p.spot}" opacity="0.7"/>`;
         }
     }
 
-    // ГОЛОВА (затемнение у рта)
+    // Голова затемнение
     s += `<rect x="${x1}" y="${bodyY+2}" width="3" height="${bodyH-4}" fill="${p.dark}" opacity="0.4"/>`;
 
-    // ЖАБРЫ (дуга)
+    // Жабры
     s += `<rect x="${x1+5}" y="${bodyY+2}" width="1" height="2" fill="${p.gill}" opacity="0.7"/>`;
     s += `<rect x="${x1+6}" y="${bodyY+3}" width="1" height="${bodyH-6}" fill="${p.gill}" opacity="0.7"/>`;
     s += `<rect x="${x1+5}" y="${bodyY+bodyH-4}" width="1" height="2" fill="${p.gill}" opacity="0.7"/>`;
 
-    // ГЛАЗ
-    const eyeX = x1 + 2;
-    const eyeY = bodyY + 3;
-    s += `<rect x="${eyeX}" y="${eyeY}" width="3" height="3" fill="${p.eye}"/>`;
-    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="2" height="2" fill="${p.pupil}"/>`;
+    // Глаз
+    s += `<rect x="${x1+2}" y="${bodyY+3}" width="3" height="3" fill="${p.eye}"/>`;
+    s += `<rect x="${x1+3}" y="${bodyY+4}" width="2" height="2" fill="${p.pupil}"/>`;
 
-    // РОТ
+    // Рот
     s += `<rect x="${x1-1}" y="${cy}" width="2" height="1" fill="${p.dark}"/>`;
 
-    // ВЕРХНИЙ ПЛАВНИК
+    // Плавники
     s += `<rect x="${x1+6}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
     s += `<rect x="${x1+7}" y="${bodyY-3}" width="4" height="3" fill="${p.fin}"/>`;
     s += `<rect x="${x1+11}" y="${bodyY-2}" width="3" height="2" fill="${p.fin}"/>`;
     s += `<rect x="${x1+7}" y="${bodyY-3}" width="4" height="1" fill="${p.light}" opacity="0.5"/>`;
-
-    // БОКОВОЙ ПЛАВНИК (грудной)
     s += `<rect x="${x1+6}" y="${bodyY+bodyH-2}" width="4" height="3" fill="${p.fin}"/>`;
     s += `<rect x="${x1+7}" y="${bodyY+bodyH+1}" width="3" height="1" fill="${p.fin}"/>`;
-
-    // БРЮШНОЙ ПЛАВНИК
     s += `<rect x="${x1+12}" y="${bodyY+bodyH-1}" width="3" height="2" fill="${p.fin}" opacity="0.8"/>`;
 
-    // ХВОСТ
+    // Хвост
     const tailX = x2;
     if (tailType === 'fork') {
         s += `<rect x="${tailX}" y="${cy-1}" width="2" height="2" fill="${p.main}"/>`;
@@ -420,205 +546,86 @@ function makeFish(palette, opts) {
         s += `<rect x="${tailX+3}" y="${cy-5}" width="3" height="10" fill="${p.fin}"/>`;
         s += `<rect x="${tailX+6}" y="${cy-6}" width="2" height="12" fill="${p.fin}"/>`;
         s += `<rect x="${tailX+8}" y="${cy-5}" width="1" height="10" fill="${p.dark}" opacity="0.5"/>`;
-    } else { // long (для угря, миноги)
+    } else {
         s += `<rect x="${tailX}" y="${cy-1}" width="6" height="3" fill="${p.main}"/>`;
         s += `<rect x="${tailX+5}" y="${cy-2}" width="3" height="5" fill="${p.fin}"/>`;
         s += `<rect x="${tailX+7}" y="${cy-3}" width="2" height="7" fill="${p.dark}" opacity="0.6"/>`;
     }
 
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">${s}</svg>`
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
     );
 }
 
-// ========================================================
-// КОНКРЕТНЫЕ ИКОНКИ ДЛЯ КАЖДОЙ РЫБЫ
-// ========================================================
-
-const FISH_ICONS = {
-    // Щука — длинная, зелёная, пятнистая
-    'Щука': makeFish(PALETTES.pike, { bodyLen: 24, bodyH: 9, tailType: 'fork', spots: [[8,2],[14,4],[18,3],[10,5]] }),
-
-    // Форель — оранжево-розовая с пятнами
-    'Форель': makeFish(PALETTES.trout, { bodyLen: 20, bodyH: 11, tailType: 'fork', spots: [[6,2],[10,4],[14,3],[8,6],[12,5]] }),
-
-    // Карп — золотистый, крупный
-    'Карп': makeFish(PALETTES.carp, { bodyLen: 20, bodyH: 14, tailType: 'fork' }),
-
-    // Окунь — зеленоватый с полосами
-    'Окунь': makeFish(PALETTES.perch, { bodyLen: 18, bodyH: 12, tailType: 'fork', spots: [[6,2],[8,5],[10,3],[12,6],[14,2],[16,5]] }),
-
-    // Сом — тёмный, массивный с усами
-    'Сом': makeFish(PALETTES.catfish, { bodyLen: 22, bodyH: 13, tailType: 'fan' }),
-
-    // Осётр — серый, длинный с шипами
-    'Осётр': makeFish(PALETTES.sturgeon, { bodyLen: 24, bodyH: 10, tailType: 'fork' }),
-
-    // Пиранья — красная, зубастая
-    'Пиранья': makeFish(PALETTES.piranha, { bodyLen: 18, bodyH: 13, tailType: 'fork' }),
-
-    // Лосось — розово-оранжевый
-    'Лосось': makeFish(PALETTES.salmon, { bodyLen: 20, bodyH: 13, tailType: 'fork' }),
-
-    // Уклейка — маленькая серебристая
-    'Уклейка': makeFish(PALETTES.bleak, { bodyLen: 16, bodyH: 8, tailType: 'fork' }),
-
-    // Плотва — серебристая с красным глазом
-    'Плотва': makeFish(PALETTES.roach, { bodyLen: 18, bodyH: 11, tailType: 'fork' }),
-
-    // Ёрш — колючий, зеленоватый
-    'Ёрш': makeFish(PALETTES.ruffe, { bodyLen: 18, bodyH: 11, tailType: 'fan' }),
-
-    // Лещ — высокий, серебристый
-    'Лещ': makeFish(PALETTES.bream, { bodyLen: 18, bodyH: 15, tailType: 'fork' }),
-
-    // Голавль — серебристый
-    'Голавль': makeFish(PALETTES.chub, { bodyLen: 20, bodyH: 12, tailType: 'fork' }),
-
-    // Язь — золотистый
-    'Язь': makeFish(PALETTES.ide, { bodyLen: 19, bodyH: 12, tailType: 'fork' }),
-
-    // Линь — зеленовато-золотистый
-    'Линь': makeFish(PALETTES.tench, { bodyLen: 19, bodyH: 13, tailType: 'fork' }),
-
-    // Судак — серый, длинный
-    'Судак': makeFish(PALETTES.zander, { bodyLen: 22, bodyH: 10, tailType: 'fork' }),
-
-    // Голец — серый с красными точками
-    'Голец': makeFish(PALETTES.char, { bodyLen: 20, bodyH: 11, tailType: 'fork', spots: [[7,2],[11,4],[15,3],[9,6]] }),
-
-    // Сиг — серебристый
-    'Сиг': makeFish(PALETTES.whitefish, { bodyLen: 20, bodyH: 12, tailType: 'fork' }),
-
-    // Хариус — серый с большим плавником
-    'Хариус': makeFish(PALETTES.grayling, { bodyLen: 19, bodyH: 12, tailType: 'fork' }),
-
-    // Змееголов — очень длинный, зелёный
-    'Змееголов': makeFish(PALETTES.snakehead, { bodyLen: 26, bodyH: 8, tailType: 'fan' }),
-
-    // Налим — коричневый, длинный
-    'Налим': makeFish(PALETTES.burbot, { bodyLen: 22, bodyH: 11, tailType: 'fan' }),
-
-    // Минога — длинная, серая
-    'Минога': makeFish(PALETTES.lamprey, { bodyLen: 26, bodyH: 7, tailType: 'long', longBody: true }),
-
-    // Толстолобик — серебристый, крупный
-    'Толстолобик': makeFish(PALETTES.silvercarp, { bodyLen: 20, bodyH: 13, tailType: 'fork' }),
-
-    // Белый амур — светлый, длинный
-    'Белый амур': makeFish(PALETTES.silvercarp, { bodyLen: 22, bodyH: 12, tailType: 'fork' }),
-
-    // Угорь — очень длинный, змеевидный
-    'Угорь': makeFish(PALETTES.eel, { bodyLen: 28, bodyH: 6, tailType: 'long', longBody: true }),
-
-    // Чоп — серебристый
-    'Чоп': makeFish(PALETTES.sabrefish, { bodyLen: 20, bodyH: 10, tailType: 'fork' }),
-
-    // Сазан — золотисто-коричневый
-    'Сазан': makeFish(PALETTES.carp_big, { bodyLen: 20, bodyH: 14, tailType: 'fork' }),
-
-    // Карась — золотистый, высокий
-    'Карась': makeFish(PALETTES.carp, { bodyLen: 17, bodyH: 14, tailType: 'fork' }),
-
-    // Краснопёрка — красная с серебром
-    'Краснопёрка': makeFish(PALETTES.roach, { bodyLen: 18, bodyH: 11, tailType: 'fork' }),
-
-    // Пескарь — маленький, коричневый
-    'Пескарь': makeFish(PALETTES.burbot, { bodyLen: 14, bodyH: 8, tailType: 'fork' })
+// Данные для каждой рыбы: палитра, форма, диапазон размеров, редкость
+const FISH_DATA = {
+    'Щука':       { palette: 'pike',     opts: { bodyLen: 24, bodyH: 9, tailType: 'fork', spots: [[8,2],[14,4],[18,3],[10,5]] }, min: 10, max: 120, rarity: 'rare' },
+    'Форель':     { palette: 'trout',    opts: { bodyLen: 20, bodyH: 11, tailType: 'fork', spots: [[6,2],[10,4],[14,3],[8,6],[12,5]] }, min: 10, max: 70, rarity: 'rare' },
+    'Карп':       { palette: 'carp',     opts: { bodyLen: 20, bodyH: 14, tailType: 'fork' }, min: 20, max: 100, rarity: 'rare' },
+    'Окунь':      { palette: 'perch',    opts: { bodyLen: 18, bodyH: 12, tailType: 'fork', spots: [[6,2],[8,5],[10,3],[12,6],[14,2],[16,5]] }, min: 10, max: 40, rarity: 'common' },
+    'Сом':        { palette: 'catfish',  opts: { bodyLen: 22, bodyH: 13, tailType: 'fan' }, min: 10, max: 250, rarity: 'legendary' },
+    'Осётр':      { palette: 'sturgeon', opts: { bodyLen: 24, bodyH: 10, tailType: 'fork' }, min: 20, max: 200, rarity: 'legendary' },
+    'Пиранья':    { palette: 'piranha',  opts: { bodyLen: 18, bodyH: 13, tailType: 'fork' }, min: 5, max: 30, rarity: 'legendary' },
+    'Лосось':     { palette: 'salmon',   opts: { bodyLen: 20, bodyH: 13, tailType: 'fork' }, min: 20, max: 120, rarity: 'epic' },
+    'Уклейка':    { palette: 'bleak',    opts: { bodyLen: 16, bodyH: 8, tailType: 'fork' }, min: 5, max: 15, rarity: 'common' },
+    'Плотва':     { palette: 'roach',    opts: { bodyLen: 18, bodyH: 11, tailType: 'fork' }, min: 7, max: 30, rarity: 'common' },
+    'Ёрш':        { palette: 'ruffe',    opts: { bodyLen: 18, bodyH: 11, tailType: 'fan' }, min: 5, max: 20, rarity: 'common' },
+    'Лещ':        { palette: 'bream',    opts: { bodyLen: 18, bodyH: 15, tailType: 'fork' }, min: 15, max: 60, rarity: 'common' },
+    'Голавль':    { palette: 'chub',     opts: { bodyLen: 20, bodyH: 12, tailType: 'fork' }, min: 10, max: 60, rarity: 'common' },
+    'Язь':        { palette: 'ide',      opts: { bodyLen: 19, bodyH: 12, tailType: 'fork' }, min: 10, max: 60, rarity: 'common' },
+    'Линь':       { palette: 'tench',    opts: { bodyLen: 19, bodyH: 13, tailType: 'fork' }, min: 20, max: 50, rarity: 'common' },
+    'Судак':      { palette: 'zander',   opts: { bodyLen: 22, bodyH: 10, tailType: 'fork' }, min: 10, max: 90, rarity: 'rare' },
+    'Голец':      { palette: 'char',     opts: { bodyLen: 20, bodyH: 11, tailType: 'fork', spots: [[7,2],[11,4],[15,3],[9,6]] }, min: 20, max: 60, rarity: 'common' },
+    'Сиг':        { palette: 'whitefish',opts: { bodyLen: 20, bodyH: 12, tailType: 'fork' }, min: 20, max: 60, rarity: 'rare' },
+    'Хариус':     { palette: 'grayling', opts: { bodyLen: 19, bodyH: 12, tailType: 'fork' }, min: 20, max: 50, rarity: 'rare' },
+    'Змееголов':  { palette: 'snakehead',opts: { bodyLen: 26, bodyH: 8, tailType: 'fan' }, min: 20, max: 100, rarity: 'rare' },
+    'Налим':      { palette: 'burbot',   opts: { bodyLen: 22, bodyH: 11, tailType: 'fan' }, min: 20, max: 80, rarity: 'rare' },
+    'Минога':     { palette: 'lamprey',  opts: { bodyLen: 26, bodyH: 7, tailType: 'long' }, min: 15, max: 40, rarity: 'epic' },
+    'Толстолобик':{ palette: 'silvercarp',opts: { bodyLen: 20, bodyH: 13, tailType: 'fork' }, min: 10, max: 100, rarity: 'epic' },
+    'Белый амур': { palette: 'silvercarp',opts: { bodyLen: 22, bodyH: 12, tailType: 'fork' }, min: 30, max: 120, rarity: 'epic' },
+    'Угорь':      { palette: 'eel',      opts: { bodyLen: 28, bodyH: 6, tailType: 'long' }, min: 20, max: 150, rarity: 'epic' },
+    'Чоп':        { palette: 'sabrefish',opts: { bodyLen: 20, bodyH: 10, tailType: 'fork' }, min: 5, max: 30, rarity: 'common' },
+    'Сазан':      { palette: 'carp_big', opts: { bodyLen: 20, bodyH: 14, tailType: 'fork' }, min: 20, max: 100, rarity: 'epic' },
+    'Карась':     { palette: 'carp',     opts: { bodyLen: 17, bodyH: 14, tailType: 'fork' }, min: 10, max: 40, rarity: 'common' },
+    'Краснопёрка':{ palette: 'roach',    opts: { bodyLen: 18, bodyH: 11, tailType: 'fork' }, min: 5, max: 35, rarity: 'common' },
+    'Пескарь':    { palette: 'burbot',   opts: { bodyLen: 14, bodyH: 8, tailType: 'fork' }, min: 5, max: 15, rarity: 'common' }
 };
 
-// Нежить — фиолетовая перекраска
+const RARITY_INFO = {
+    common:    { label: 'Обычная',     color: '#8ab4d6', icon: '⚪' },
+    rare:      { label: 'Редкая',      color: '#00d4ff', icon: '🔷' },
+    epic:      { label: 'Эпическая',   color: '#a78bfa', icon: '💜' },
+    legendary: { label: 'Легендарная', color: '#ffd700', icon: '⭐' }
+};
+
 const UNDEAD_PALETTE = {
     main: '#a78bfa', dark: '#7c3aed', light: '#c4b5fd', belly: '#ddd6fe',
     fin: '#8b5cf6', eye: '#ffd700', pupil: '#000', gill: '#7c3aed', spot: '#7c3aed'
 };
 
-// Иконка для нежити
-function makeUndeadFish(basePalette, opts) {
-    return makeFish(UNDEAD_PALETTE, opts);
-}
-
-// Получение иконки для рыбы
-function getFishIcon(fishName) {
+// Получение данных рыбы по имени (с учётом нежити)
+function getFishInfo(fishName) {
     const isUndead = fishName.toLowerCase().startsWith('нежить ');
     const baseName = isUndead ? fishName.substring(7).trim() : fishName;
 
-    // Ищем базовую рыбу
-    let iconData = null;
-    let matchedKey = null;
-    for (const key in FISH_ICONS) {
+    let data = null;
+    for (const key in FISH_DATA) {
         if (key.toLowerCase().replace('ё', 'е') === baseName.toLowerCase().replace('ё', 'е')) {
-            iconData = FISH_ICONS[key];
-            matchedKey = key;
+            data = FISH_DATA[key];
             break;
         }
     }
+    if (!data) data = FISH_DATA['Плотва'];
 
-    if (!iconData) {
-        // Fallback — плотва
-        iconData = FISH_ICONS['Плотва'];
-        matchedKey = 'Плотва';
-    }
-
-    if (isUndead) {
-        // Перерисовываем с фиолетовой палитрой
-        const basePaletteKey = getPaletteKeyForFish(matchedKey);
-        return makeUndeadFish(PALETTES[basePaletteKey], getOptionsForFish(matchedKey));
-    }
-
-    return iconData;
+    return { isUndead, baseName, data };
 }
 
-// Определение палитры и опций для каждой рыбы (дублируется для нежити)
-function getPaletteKeyForFish(fishName) {
-    const map = {
-        'Щука': 'pike', 'Форель': 'trout', 'Карп': 'carp', 'Окунь': 'perch',
-        'Сом': 'catfish', 'Осётр': 'sturgeon', 'Пиранья': 'piranha',
-        'Лосось': 'salmon', 'Уклейка': 'bleak', 'Плотва': 'roach',
-        'Ёрш': 'ruffe', 'Лещ': 'bream', 'Голавль': 'chub', 'Язь': 'ide',
-        'Линь': 'tench', 'Судак': 'zander', 'Голец': 'char', 'Сиг': 'whitefish',
-        'Хариус': 'grayling', 'Змееголов': 'snakehead', 'Налим': 'burbot',
-        'Минога': 'lamprey', 'Толстолобик': 'silvercarp', 'Белый амур': 'silvercarp',
-        'Угорь': 'eel', 'Чоп': 'sabrefish', 'Сазан': 'carp_big',
-        'Карась': 'carp', 'Краснопёрка': 'roach', 'Пескарь': 'burbot'
-    };
-    return map[fishName] || 'roach';
-}
-
-function getOptionsForFish(fishName) {
-    const map = {
-        'Щука': { bodyLen: 24, bodyH: 9, tailType: 'fork', spots: [[8,2],[14,4],[18,3],[10,5]] },
-        'Форель': { bodyLen: 20, bodyH: 11, tailType: 'fork', spots: [[6,2],[10,4],[14,3],[8,6],[12,5]] },
-        'Карп': { bodyLen: 20, bodyH: 14, tailType: 'fork' },
-        'Окунь': { bodyLen: 18, bodyH: 12, tailType: 'fork', spots: [[6,2],[8,5],[10,3],[12,6],[14,2],[16,5]] },
-        'Сом': { bodyLen: 22, bodyH: 13, tailType: 'fan' },
-        'Осётр': { bodyLen: 24, bodyH: 10, tailType: 'fork' },
-        'Пиранья': { bodyLen: 18, bodyH: 13, tailType: 'fork' },
-        'Лосось': { bodyLen: 20, bodyH: 13, tailType: 'fork' },
-        'Уклейка': { bodyLen: 16, bodyH: 8, tailType: 'fork' },
-        'Плотва': { bodyLen: 18, bodyH: 11, tailType: 'fork' },
-        'Ёрш': { bodyLen: 18, bodyH: 11, tailType: 'fan' },
-        'Лещ': { bodyLen: 18, bodyH: 15, tailType: 'fork' },
-        'Голавль': { bodyLen: 20, bodyH: 12, tailType: 'fork' },
-        'Язь': { bodyLen: 19, bodyH: 12, tailType: 'fork' },
-        'Линь': { bodyLen: 19, bodyH: 13, tailType: 'fork' },
-        'Судак': { bodyLen: 22, bodyH: 10, tailType: 'fork' },
-        'Голец': { bodyLen: 20, bodyH: 11, tailType: 'fork', spots: [[7,2],[11,4],[15,3],[9,6]] },
-        'Сиг': { bodyLen: 20, bodyH: 12, tailType: 'fork' },
-        'Хариус': { bodyLen: 19, bodyH: 12, tailType: 'fork' },
-        'Змееголов': { bodyLen: 26, bodyH: 8, tailType: 'fan' },
-        'Налим': { bodyLen: 22, bodyH: 11, tailType: 'fan' },
-        'Минога': { bodyLen: 26, bodyH: 7, tailType: 'long', longBody: true },
-        'Толстолобик': { bodyLen: 20, bodyH: 13, tailType: 'fork' },
-        'Белый амур': { bodyLen: 22, bodyH: 12, tailType: 'fork' },
-        'Угорь': { bodyLen: 28, bodyH: 6, tailType: 'long', longBody: true },
-        'Чоп': { bodyLen: 20, bodyH: 10, tailType: 'fork' },
-        'Сазан': { bodyLen: 20, bodyH: 14, tailType: 'fork' },
-        'Карась': { bodyLen: 17, bodyH: 14, tailType: 'fork' },
-        'Краснопёрка': { bodyLen: 18, bodyH: 11, tailType: 'fork' },
-        'Пескарь': { bodyLen: 14, bodyH: 8, tailType: 'fork' }
-    };
-    return map[fishName] || { bodyLen: 18, bodyH: 11, tailType: 'fork' };
+function getFishIcon(fishName, scale) {
+    const info = getFishInfo(fishName);
+    if (info.isUndead) {
+        return makeFishSVG(UNDEAD_PALETTE, info.data.opts, scale);
+    }
+    return makeFishSVG(PALETTES[info.data.palette], info.data.opts, scale);
 }
 
 const ALL_FISH = [
@@ -631,7 +638,7 @@ const ALL_FISH = [
 ];
 
 // ========================================================
-// ЗАГРУЗКА И ОТОБРАЖЕНИЕ ДАННЫХ
+// ЗАГРУЗКА ДАННЫХ
 // ========================================================
 
 const DATA_URL = '/data.json';
@@ -642,9 +649,9 @@ const playerCard = document.getElementById('playerCard');
 if (!playerName) {
     playerCard.innerHTML = `
         <div class="error">
-            <p style="font-size: 1.2rem; margin-bottom: 10px;">🎣 Укажите ник игрока в адресе</p>
-            <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">
-                Пример: <code style="background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px;">?player=ваш_ник</code>
+            <p style="font-size: 1.1rem; margin-bottom: 8px;">🎣 Укажите ник игрока в адресе</p>
+            <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">
+                Пример: <code style="background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 5px;">?player=ваш_ник</code>
             </p>
         </div>
     `;
@@ -659,9 +666,7 @@ if (!playerName) {
                 document.getElementById('updateTime').textContent = data._lastUpdate;
                 document.getElementById('lastUpdate').style.display = 'block';
             }
-
             if (data._stats) renderServerStats(data._stats);
-
             if (data._personalRecords) window._personalRecords = data._personalRecords;
 
             const playerKey = Object.keys(data).find(
@@ -671,7 +676,7 @@ if (!playerName) {
             if (!playerKey) {
                 playerCard.innerHTML = `
                     <div class="error">
-                        <p style="font-size: 1.2rem; margin-bottom: 10px;">Игрок не найден</p>
+                        <p style="font-size: 1.1rem; margin-bottom: 8px;">Игрок не найден</p>
                         <p style="color: rgba(255,255,255,0.5);">@${playerName} ещё не ловил рыбу</p>
                     </div>
                 `;
@@ -684,9 +689,9 @@ if (!playerName) {
             console.error(err);
             playerCard.innerHTML = `
                 <div class="error">
-                    <p style="font-size: 1.2rem; margin-bottom: 10px;">Не удалось загрузить данные</p>
+                    <p style="font-size: 1.1rem; margin-bottom: 8px;">Не удалось загрузить данные</p>
                     <p style="color: rgba(255,255,255,0.5);">Попробуйте позже</p>
-                    <p style="color: rgba(255,255,255,0.3); font-size: 0.8rem; margin-top: 10px;">${err.message}</p>
+                    <p style="color: rgba(255,255,255,0.3); font-size: 0.75rem; margin-top: 8px;">${err.message}</p>
                 </div>
             `;
         });
@@ -694,8 +699,7 @@ if (!playerName) {
 
 function renderServerStats(stats) {
     const grid = document.getElementById('serverStatsGrid');
-    const topPlayerName = capitalizeFishName(stats.topPlayer || '');
-
+    const topPlayerName = capitalizeName(stats.topPlayer || '');
     grid.innerHTML = `
         <div class="server-stat">
             <div class="stat-icon">🐟</div>
@@ -709,19 +713,19 @@ function renderServerStats(stats) {
         </div>
         <div class="server-stat">
             <div class="stat-icon">🏆</div>
-            <div class="stat-value" style="font-size: 1rem;">@${topPlayerName}</div>
+            <div class="stat-value" style="font-size: 0.95rem;">@${topPlayerName}</div>
             <div class="stat-label">Лидер (${stats.topPlayerCount})</div>
         </div>
         <div class="server-stat">
             <div class="stat-icon">💎</div>
-            <div class="stat-value" style="font-size: 1rem;">${capitalizeFishName(stats.rarestFish || '—')}</div>
+            <div class="stat-value" style="font-size: 0.95rem;">${capitalizeName(stats.rarestFish || '—')}</div>
             <div class="stat-label">Самая редкая</div>
         </div>
     `;
     document.getElementById('serverStats').style.display = 'block';
 }
 
-function capitalizeFishName(name) {
+function capitalizeName(name) {
     if (!name) return '';
     if (name.toLowerCase().startsWith('нежить ')) {
         const base = name.substring(7);
@@ -731,12 +735,9 @@ function capitalizeFishName(name) {
 }
 
 function renderInventory(playerName, inventory) {
-    let totalRegular = 0;
-    let totalUndead = 0;
-    const regularFish = [];
-    const undeadFish = [];
-    const regularSet = new Set();
-    const undeadSet = new Set();
+    let totalRegular = 0, totalUndead = 0;
+    const regularFish = [], undeadFish = [];
+    const regularSet = new Set(), undeadSet = new Set();
 
     for (const [fish, count] of Object.entries(inventory)) {
         if (count <= 0) continue;
@@ -760,8 +761,7 @@ function renderInventory(playerName, inventory) {
     const total = totalRegular + totalUndead;
     const firstLetter = playerName.charAt(0).toUpperCase();
 
-    let regularCaught = 0;
-    let undeadCaught = 0;
+    let regularCaught = 0, undeadCaught = 0;
     ALL_FISH.forEach(fish => {
         const normalized = fish.toLowerCase().replace('ё', 'е');
         if (regularSet.has(normalized)) regularCaught++;
@@ -770,34 +770,6 @@ function renderInventory(playerName, inventory) {
     const totalTypes = ALL_FISH.length;
     const regularPercent = Math.round(regularCaught / totalTypes * 100);
     const undeadPercent = Math.round(undeadCaught / totalTypes * 100);
-
-    // Личные рекорды
-    let recordsHtml = '';
-    if (window._personalRecords) {
-        const pk = playerName.toLowerCase();
-        const personalRecords = [];
-        for (const [key, size] of Object.entries(window._personalRecords)) {
-            const [recPlayer, recFish] = key.split('|');
-            if (recPlayer === pk) personalRecords.push({ fish: recFish, size });
-        }
-        personalRecords.sort((a, b) => b.size - a.size);
-        const topRecords = personalRecords.slice(0, 5);
-        if (topRecords.length > 0) {
-            recordsHtml = `
-                <div class="records-section">
-                    <h3>🏆 Личные рекорды</h3>
-                    <div class="record-list">
-                        ${topRecords.map(r => `
-                            <div class="record-row">
-                                <span class="record-fish">${capitalizeFishName(r.fish)}</span>
-                                <span class="record-size">${r.size} см</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-    }
 
     let html = `
         <div class="player-header">
@@ -830,8 +802,6 @@ function renderInventory(playerName, inventory) {
             </div>
         </div>
 
-        ${recordsHtml}
-
         <div class="stats-grid">
             <div class="stat-box">
                 <div class="stat-icon">🐟</div>
@@ -851,13 +821,17 @@ function renderInventory(playerName, inventory) {
             <div class="fish-section">
                 <h3>🐟 Обычные рыбы</h3>
                 <div class="fish-grid">
-                    ${regularFish.map(fish => `
-                        <div class="fish-item" data-fish="${fish.displayName}">
-                            <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
-                            <span class="fish-name">${fish.displayName}</span>
-                            <span class="fish-count">×${fish.count}</span>
-                        </div>
-                    `).join('')}
+                    ${regularFish.map(fish => {
+                        const info = getFishInfo(fish.name);
+                        const rarity = info.data.rarity;
+                        return `
+                            <div class="fish-item rarity-${rarity}" data-fish="${fish.name}" data-display="${fish.displayName}">
+                                <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
+                                <span class="fish-name">${fish.displayName}</span>
+                                <span class="fish-count">×${fish.count}</span>
+                            </div>
+                        `;
+                    }).join('')}
                 </div>
             </div>
         `;
@@ -865,16 +839,20 @@ function renderInventory(playerName, inventory) {
 
     if (undeadFish.length > 0) {
         html += `
-            <div class="fish-section" style="margin-top: 15px;">
+            <div class="fish-section" style="margin-top: 12px;">
                 <h3>🧟 Нежить</h3>
                 <div class="fish-grid">
-                    ${undeadFish.map(fish => `
-                        <div class="fish-item undead" data-fish="${fish.displayName}">
-                            <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
-                            <span class="fish-name">${fish.displayName}</span>
-                            <span class="fish-count">×${fish.count}</span>
-                        </div>
-                    `).join('')}
+                    ${undeadFish.map(fish => {
+                        const info = getFishInfo(fish.name);
+                        const rarity = info.data.rarity;
+                        return `
+                            <div class="fish-item undead rarity-${rarity}" data-fish="${fish.name}" data-display="${fish.displayName}">
+                                <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
+                                <span class="fish-name">${fish.displayName}</span>
+                                <span class="fish-count">×${fish.count}</span>
+                            </div>
+                        `;
+                    }).join('')}
                 </div>
             </div>
         `;
@@ -886,69 +864,79 @@ function renderInventory(playerName, inventory) {
 
     playerCard.innerHTML = html;
 
-    // === ПРИВЯЗКА КЛИКОВ К КАРТОЧКАМ ===
-    attachFishClickHandlers();
-}
-
-function attachFishClickHandlers() {
+    // Привязка кликов
     document.querySelectorAll('.fish-item').forEach(item => {
         item.addEventListener('click', function(e) {
             e.stopPropagation();
             const fishName = this.getAttribute('data-fish');
-            const isUndead = this.classList.contains('undead');
-            const recordKey = (playerName + '|' + (isUndead ? 'нежить ' : '') + fishName).toLowerCase();
-
-            // Закрываем все другие tooltip
-            document.querySelectorAll('.fish-tooltip').forEach(t => {
-                if (!this.contains(t)) t.remove();
-            });
-
-            // Если уже открыт — закрываем
-            const existing = this.querySelector('.fish-tooltip');
-            if (existing) {
-                existing.remove();
-                this.classList.remove('active');
-                return;
-            }
-
-            // Убираем active у всех
-            document.querySelectorAll('.fish-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-
-            // Получаем личный рекорд
-            let recordText = 'Рекорд не установлен';
-            let hasRecord = false;
-            if (window._personalRecords && window._personalRecords[recordKey]) {
-                recordText = '🏆 Твой рекорд: ' + window._personalRecords[recordKey] + ' см';
-                hasRecord = true;
-            }
-
-            // Создаём tooltip
-            const tooltip = document.createElement('div');
-            tooltip.className = 'fish-tooltip' + (hasRecord ? '' : ' no-record');
-            tooltip.textContent = recordText;
-            this.appendChild(tooltip);
-
-            // Анимация появления
-            requestAnimationFrame(() => tooltip.classList.add('show'));
-
-            // Автозакрытие через 3 секунды
-            setTimeout(() => {
-                if (tooltip.parentNode) {
-                    tooltip.classList.remove('show');
-                    setTimeout(() => tooltip.remove(), 200);
-                    this.classList.remove('active');
-                }
-            }, 3000);
+            const count = parseInt(this.querySelector('.fish-count').textContent.replace('×', ''), 10);
+            showFishModal(fishName, count);
         });
     });
-
-    // Клик вне карточек — закрыть все tooltip
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.fish-tooltip').forEach(t => t.remove());
-        document.querySelectorAll('.fish-item').forEach(i => i.classList.remove('active'));
-    });
 }
+
+// ========================================================
+// МОДАЛЬНАЯ КАРТОЧКА РЫБЫ
+// ========================================================
+
+function showFishModal(fishName, count) {
+    const info = getFishInfo(fishName);
+    const data = info.data;
+    const rarity = RARITY_INFO[data.rarity];
+
+    // Личный рекорд
+    const recordKey = (playerName.toLowerCase() + '|' + fishName.toLowerCase());
+    let recordHtml = '';
+    if (window._personalRecords && window._personalRecords[recordKey]) {
+        recordHtml = `<div class="info-value record">${window._personalRecords[recordKey]} см</div>`;
+    } else {
+        recordHtml = `<div class="info-value no-record">не установлен</div>`;
+    }
+
+    // Название с префиксом нежити
+    const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
+
+    // Большая иконка с масштабом 4 (128×128)
+    const bigIcon = getFishIcon(fishName, 4);
+
+    const modal = document.getElementById('fishModalContent');
+    modal.className = 'fish-modal rarity-' + data.rarity;
+    modal.innerHTML = `
+        <button class="modal-close" onclick="closeFishModal()">✕</button>
+        <div class="modal-fish-icon-wrap">
+            <img src="${bigIcon}" alt="${info.baseName}" class="modal-fish-icon">
+        </div>
+        <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
+        <div class="modal-rarity rarity-${data.rarity}">${rarity.icon} ${rarity.label}</div>
+        <div class="modal-info-grid">
+            <div class="modal-info-block">
+                <div class="info-label">Размер</div>
+                <div class="info-value">${data.min}–${data.max} см</div>
+            </div>
+            <div class="modal-info-block">
+                <div class="info-label">Твой рекорд</div>
+                ${recordHtml}
+            </div>
+        </div>
+        <div class="modal-count">Поймано: <span>${count}</span> шт.</div>
+    `;
+
+    document.getElementById('fishModal').classList.add('show');
+}
+
+function closeFishModal() {
+    document.getElementById('fishModal').classList.remove('show');
+}
+
+// Закрытие по клику вне модального окна
+document.getElementById('fishModal').addEventListener('click', function(e) {
+    if (e.target === this) closeFishModal();
+});
+
+// Закрытие по Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeFishModal();
+});
 </script>
 </body>
 </html>
