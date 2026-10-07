@@ -1707,14 +1707,193 @@ function getFishForm(fishName) {
 
 function getFishIcon(fishName, scale) {
     const info = getFishForm(fishName);
-    const paletteKey = info.isUndead ? 'undead' : info.form.palette;
-    
-    // Если есть уникальная палитра нежити — используем её
-    if (info.isUndead && UNDEAD_PALETTES && UNDEAD_PALETTES[info.form.palette]) {
-        return makeFishSVGWithPalette(UNDEAD_PALETTES[info.form.palette], info.form, scale);
+
+    // Если нежить — берём уникальную палитру
+    if (info.isUndead && typeof UNDEAD_PALETTES !== 'undefined' && UNDEAD_PALETTES[info.form.palette]) {
+        // Временно используем общую UNDEAD_PALETTE
+        return makeFishSVGWithCustomPalette(UNDEAD_PALETTES[info.form.palette], info.form, scale);
     }
-    
-    return makeFishSVG(paletteKey, info.form, scale);
+    if (info.isUndead) {
+        return makeFishSVGWithCustomPalette(UNDEAD_PALETTE, info.form, scale);
+    }
+
+    // Обычная рыба
+    return makeFishSVG(info.form.palette, info.form, scale);
+}
+
+// Универсальная отрисовка с готовой палитрой
+function makeFishSVGWithCustomPalette(palette, form, scale) {
+    scale = scale || 1;
+    const p = palette;
+    const f = form;
+
+    const bodyLen = f.bodyLen;
+    const bodyH = f.bodyH;
+    const bodyY = f.bodyY || Math.floor((32 - bodyH) / 2);
+    const headX = 3;
+    const cy = bodyY + bodyH / 2;
+    const x1 = headX, x2 = headX + bodyLen;
+    let s = '';
+
+    // Контур
+    s += `<rect x="${x1-1}" y="${bodyY}" width="${bodyLen+2}" height="${bodyH}" fill="${p.dark}"/>`;
+    s += `<rect x="${x1}" y="${bodyY-1}" width="${bodyLen}" height="${bodyH+2}" fill="${p.dark}"/>`;
+
+    // Тело
+    s += `<rect x="${x1}" y="${bodyY+1}" width="${bodyLen}" height="${bodyH-2}" fill="${p.main}"/>`;
+    s += `<rect x="${x1+1}" y="${bodyY}" width="${bodyLen-2}" height="${bodyH}" fill="${p.main}"/>`;
+
+    // Светлый верх
+    s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="2" fill="${p.light}"/>`;
+    // Тёмный низ
+    s += `<rect x="${x1+2}" y="${bodyY+bodyH-2}" width="${bodyLen-4}" height="2" fill="${p.dark}" opacity="0.6"/>`;
+    // Брюхо
+    const bellyH = Math.max(2, Math.floor(bodyH * 0.3));
+    s += `<rect x="${x1+3}" y="${bodyY+bodyH-bellyH-1}" width="${bodyLen-6}" height="${bellyH}" fill="${p.belly}" opacity="0.9"/>`;
+
+    // Полосы
+    if (f.stripes) {
+        for (const [sx] of f.stripes) {
+            const sxAbs = x1 + sx + 2;
+            if (sxAbs < x2 - 4) {
+                s += `<rect x="${sxAbs}" y="${bodyY+2}" width="2" height="${bodyH-4}" fill="${p.stripe}" opacity="0.8"/>`;
+            }
+        }
+    }
+
+    // Пятна
+    if (f.spots) {
+        for (const [sx, sy] of f.spots) {
+            const sxAbs = x1 + sx + 1;
+            const syAbs = bodyY + sy + 1;
+            if (sxAbs < x2 - 4 && syAbs < bodyY + bodyH - 3) {
+                s += `<rect x="${sxAbs}" y="${syAbs}" width="4" height="4" fill="${p.spot}" opacity="0.85"/>`;
+            }
+        }
+    }
+
+    // Голова
+    const headLen = f.headLen || 4;
+    if (f.headShape === 'pointed') {
+        s += `<rect x="${x1-2}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.main}"/>`;
+    } else if (f.headShape === 'flat') {
+        s += `<rect x="${x1-2}" y="${bodyY+4}" width="2" height="${bodyH-8}" fill="${p.main}"/>`;
+    } else if (f.headShape === 'big-head') {
+        s += `<rect x="${x1-1}" y="${bodyY+1}" width="2" height="${bodyH-2}" fill="${p.main}"/>`;
+    } else if (f.headShape === 'long-snout') {
+        s += `<rect x="${x1-4}" y="${cy-1}" width="4" height="3" fill="${p.dark}"/>`;
+    } else if (f.headShape === 'trumpet') {
+        s += `<rect x="${x1-4}" y="${cy-2}" width="4" height="4" fill="${p.dark}"/>`;
+    }
+
+    // Жабры
+    const gillX = x1 + headLen;
+    s += `<rect x="${gillX+1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.gill}"/>`;
+
+    // Глаз
+    const eyeX = x1 + 2;
+    const eyeY = bodyY + Math.floor(bodyH / 3);
+    s += `<rect x="${eyeX-1}" y="${eyeY-1}" width="6" height="6" fill="${p.dark}"/>`;
+    s += `<rect x="${eyeX}" y="${eyeY}" width="4" height="4" fill="${p.eye}"/>`;
+    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="2" height="2" fill="${p.pupil}"/>`;
+    s += `<rect x="${eyeX}" y="${eyeY}" width="1" height="1" fill="#ffffff"/>`;
+
+    // Рот
+    s += `<rect x="${x1-1}" y="${cy}" width="2" height="1" fill="${p.dark}"/>`;
+
+    // Усы
+    if (f.whiskers) {
+        s += `<rect x="${x1-3}" y="${cy-2}" width="3" height="1" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-3}" y="${cy+2}" width="3" height="1" fill="${p.dark}"/>`;
+    }
+
+    // Верхний плавник
+    const finStart = x1 + headLen + 2;
+    const topFinType = f.topFin || 'medium';
+    const topFinSize = f.topFinSize || 4;
+
+    if (topFinType === 'high-spiky' || topFinType === 'very-spiky') {
+        for (let i = 0; i < topFinSize; i++) {
+            const fx = finStart + i * 2;
+            const fh = 3 + (i % 2 === 0 ? 2 : 0);
+            s += `<rect x="${fx-1}" y="${bodyY-fh-1}" width="3" height="${fh+1}" fill="${p.dark}"/>`;
+            s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
+        }
+    } else if (topFinType === 'sail') {
+        for (let i = 0; i < topFinSize; i++) {
+            const fx = finStart + i;
+            const fh = Math.min(topFinSize - i, 6);
+            if (fh > 0) {
+                s += `<rect x="${fx-1}" y="${bodyY-fh-1}" width="2" height="${fh+1}" fill="${p.dark}"/>`;
+                s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
+            }
+        }
+    } else if (topFinType === 'small' || topFinType === 'small-back') {
+        s += `<rect x="${finStart+2}" y="${bodyY-5}" width="6" height="6" fill="${p.dark}"/>`;
+        s += `<rect x="${finStart+3}" y="${bodyY-4}" width="4" height="4" fill="${p.fin}"/>`;
+    } else if (topFinType === 'long-back' || topFinType === 'long-back-merged') {
+        s += `<rect x="${finStart-1}" y="${bodyY-5}" width="${topFinSize+1}" height="6" fill="${p.dark}"/>`;
+        s += `<rect x="${finStart}" y="${bodyY-4}" width="${topFinSize-1}" height="4" fill="${p.fin}"/>`;
+    } else if (topFinType === 'tiny') {
+        s += `<rect x="${finStart}" y="${bodyY-3}" width="3" height="4" fill="${p.dark}"/>`;
+    } else {
+        s += `<rect x="${finStart}" y="${bodyY-6}" width="8" height="7" fill="${p.dark}"/>`;
+        s += `<rect x="${finStart+1}" y="${bodyY-5}" width="6" height="5" fill="${p.fin}"/>`;
+    }
+
+    // Брюшной плавник
+    const bottomStart = x1 + headLen + 2;
+    if (f.bottomFin === 'long-anal' || f.bottomFin === 'long-anal-merged') {
+        s += `<rect x="${bottomStart-1}" y="${bodyY+bodyH}" width="14" height="5" fill="${p.dark}"/>`;
+        s += `<rect x="${bottomStart}" y="${bodyY+bodyH}" width="12" height="3" fill="${p.fin}"/>`;
+    } else if (f.bottomFin === 'medium' || f.bottomFin === 'red-fins') {
+        s += `<rect x="${bottomStart-1}" y="${bodyY+bodyH}" width="7" height="5" fill="${p.dark}"/>`;
+        s += `<rect x="${bottomStart}" y="${bodyY+bodyH}" width="5" height="3" fill="${f.bottomFin === 'red-fins' ? '#e04030' : p.fin}"/>`;
+    } else if (f.bottomFin === 'small' || f.bottomFin === 'small-adipose') {
+        s += `<rect x="${bottomStart+1}" y="${bodyY+bodyH}" width="5" height="4" fill="${p.dark}"/>`;
+        s += `<rect x="${bottomStart+2}" y="${bodyY+bodyH}" width="3" height="2" fill="${p.fin}"/>`;
+    }
+
+    // Грудной плавник
+    const pecStart = x1 + headLen + 1;
+    s += `<rect x="${pecStart}" y="${cy+1}" width="5" height="5" fill="${p.dark}"/>`;
+    s += `<rect x="${pecStart+1}" y="${cy+2}" width="3" height="3" fill="${p.fin}"/>`;
+
+    // Хвост
+    const tailX = x2;
+    const tailSize = f.tailSize || 5;
+    const midY = cy;
+
+    if (f.tailType === 'fork') {
+        s += `<rect x="${tailX}" y="${midY-tailSize-1}" width="3" height="${tailSize+2}" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+2}" y="${midY-tailSize}" width="2" height="${tailSize+1}" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+1}" y="${midY-tailSize}" width="1" height="${tailSize-1}" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX}" y="${midY-1}" width="3" height="${tailSize+2}" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+2}" y="${midY}" width="2" height="${tailSize+1}" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+1}" y="${midY+1}" width="1" height="${tailSize-1}" fill="${p.fin}"/>`;
+    } else if (f.tailType === 'fan') {
+        s += `<rect x="${tailX}" y="${midY-tailSize-1}" width="${tailSize+2}" height="${tailSize*2+3}" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+1}" y="${midY-tailSize}" width="${tailSize}" height="${tailSize*2+1}" fill="${p.fin}"/>`;
+    } else if (f.tailType === 'round') {
+        s += `<rect x="${tailX}" y="${midY-tailSize}" width="${tailSize}" height="${tailSize*2+1}" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+1}" y="${midY-tailSize+1}" width="${tailSize-1}" height="${tailSize*2-1}" fill="${p.fin}"/>`;
+    } else if (f.tailType === 'long') {
+        s += `<rect x="${tailX}" y="${midY-2}" width="${tailSize+2}" height="5" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+1}" y="${midY-1}" width="${tailSize}" height="3" fill="${p.fin}"/>`;
+    } else if (f.tailType === 'asymmetric-fork') {
+        s += `<rect x="${tailX}" y="${midY-tailSize-2}" width="${tailSize+2}" height="${tailSize+3}" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+1}" y="${midY-tailSize-1}" width="${tailSize}" height="${tailSize}" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX}" y="${midY}" width="${tailSize}" height="${tailSize+1}" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+1}" y="${midY+1}" width="${tailSize-1}" height="${tailSize-1}" fill="${p.fin}"/>`;
+    } else if (f.tailType === 'leaf') {
+        s += `<rect x="${tailX}" y="${midY-tailSize}" width="${tailSize+2}" height="${tailSize*2+1}" fill="${p.dark}"/>`;
+        s += `<rect x="${tailX+1}" y="${midY-tailSize+1}" width="${tailSize}" height="${tailSize*2-1}" fill="${p.fin}"/>`;
+    }
+
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale/2}" height="${32*scale/2}"` : ''}>${s}</svg>`
+    );
 }
 
 function capitalizeName(name) {
