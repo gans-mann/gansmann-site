@@ -934,7 +934,20 @@ body::before {
     color: #e0d090;
     text-shadow: 0 0 18px rgba(200, 180, 100, 0.9);
 }
-
+/* === ПОДСВЕТКА ИЗМЕНЕНИЯ СЧЁТЧИКА === */
+.count-value.updated {
+    animation: countFlash 1s ease;
+}
+@keyframes countFlash {
+    0% { 
+        color: #00ff88; 
+        text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88; 
+        transform: scale(1.2); 
+    }
+    100% { 
+        transform: scale(1); 
+    }
+}
 @media (max-width: 600px) {
     .modal-counts { grid-template-columns: 1fr; }
 }
@@ -2215,7 +2228,8 @@ function capitalizeName(name) {
 // ========================================================
 
 const DATA_URL = '/data.json';
-
+// === СОСТОЯНИЕ КАРТОЧКИ ===
+let currentModalFish = null;  // какая рыба открыта сейчас (или null)
 // === ФУНКЦИЯ ЗАГРУЗКИ И ОТРИСОВКИ ===
 function loadAndRender(silent) {
     fetch(DATA_URL + '?t=' + Date.now())
@@ -2260,6 +2274,15 @@ function loadAndRender(silent) {
             }
 
             renderInventory(playerKey, data[playerKey]);
+
+// === ЕСЛИ КАРТОЧКА ОТКРЫТА — ОБНОВЛЯЕМ ЕЁ ===
+if (currentModalFish) {
+    const fishData = data[playerKey];
+    if (fishData && fishData[currentModalFish] !== undefined) {
+        // Обновляем count и lifetimeCount внутри карточки
+        refreshOpenModal(currentModalFish, fishData[currentModalFish]);
+    }
+}
         })
         .catch(err => {
             if (!silent) {
@@ -2470,6 +2493,7 @@ function renderInventory(playerName, inventory) {
 // ========================================================
 
 function showFishModal(fishName, count) {
+    currentModalFish = fishName;
     const info = getFishInfo(fishName);
     const rarity = RARITY_INFO[info.rarity];
 // Счётчик поймано за всё время
@@ -2582,8 +2606,73 @@ const displayName = info.isUndead ? '🧟 ' + baseCapitalized : baseCapitalized;
     
 function closeFishModal() {
     document.getElementById('fishModal').classList.remove('show');
+    currentModalFish = null;  // ← сбрасываем
 }
+// === ОБНОВЛЕНИЕ ОТКРЫТОЙ КАРТОЧКИ БЕЗ ЗАКРЫТИЯ ===
+function refreshOpenModal(fishName, count) {
+    const info = getFishInfo(fishName);
+    const modal = document.getElementById('fishModalContent');
+    if (!modal) return;
 
+    // === СЧИТАЕМ LIFETIME ===
+    let lifetimeCount = count;
+    if (window._lifetimeCatches && window._lifetimeCatches[playerName.toLowerCase()]) {
+        const playerLT = window._lifetimeCatches[playerName.toLowerCase()];
+        const fishKey = fishName.toLowerCase();
+        if (playerLT[fishKey] !== undefined) {
+            lifetimeCount = playerLT[fishKey];
+        }
+    }
+
+    // === ФУНКЦИЯ ОБНОВЛЕНИЯ ЗНАЧЕНИЯ С ПОДСВЕТКОЙ ===
+    function setCountValue(el, newValue) {
+        if (!el) return;
+        const current = el.textContent.trim();
+        if (current !== String(newValue)) {
+            el.textContent = newValue;
+            // Перезапуск CSS-анимации
+            el.classList.remove('updated');
+            void el.offsetWidth; // reflow — обязательно для перезапуска анимации
+            el.classList.add('updated');
+            setTimeout(() => el.classList.remove('updated'), 1000);
+        }
+    }
+
+    // === ОБНОВЛЯЕМ СЧЁТЧИКИ ===
+    const countItems = modal.querySelectorAll('.modal-count-item .count-value');
+    if (countItems.length >= 1) {
+        setCountValue(countItems[0], count);
+    }
+    if (countItems.length >= 2) {
+        setCountValue(countItems[1], lifetimeCount);
+    }
+
+    // === ОБНОВЛЯЕМ ЛИЧНЫЙ РЕКОРД ===
+    const recordBlock = modal.querySelector('.modal-info-block:last-child');
+    if (recordBlock) {
+        const recordValueEl = recordBlock.querySelector('.info-value');
+        if (recordValueEl) {
+            const recordKey = (playerName.toLowerCase() + '|' + fishName.toLowerCase());
+            if (window._personalRecords && window._personalRecords[recordKey]) {
+                const newRecord = window._personalRecords[recordKey] + ' см';
+                if (recordValueEl.textContent.trim() !== newRecord) {
+                    recordValueEl.className = 'info-value record';
+                    recordValueEl.textContent = newRecord;
+                    // Подсветка рекорда
+                    recordValueEl.classList.remove('updated');
+                    void recordValueEl.offsetWidth;
+                    recordValueEl.classList.add('updated');
+                    setTimeout(() => recordValueEl.classList.remove('updated'), 1000);
+                }
+            } else {
+                if (recordValueEl.textContent.trim() !== 'не установлен') {
+                    recordValueEl.className = 'info-value no-record';
+                    recordValueEl.textContent = 'не установлен';
+                }
+            }
+        }
+    }
+}
 document.getElementById('fishModal').addEventListener('click', function(e) {
     if (e.target === this) closeFishModal();
 });
