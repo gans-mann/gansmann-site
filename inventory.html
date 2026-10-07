@@ -2246,8 +2246,6 @@ function loadAndRender(silent) {
                 document.getElementById('lastUpdate').style.display = 'block';
             }
 
-            // === Статистика ===
-            if (data._stats) renderServerStats(data._stats);
 
             // === Глобальные данные для карточки ===
             if (data._personalRecords) window._personalRecords = data._personalRecords;
