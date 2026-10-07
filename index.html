@@ -1959,33 +1959,32 @@ function showFishModal(fishName, count) {
     const modal = document.getElementById('fishModalContent');
     modal.className = 'fish-modal rarity-' + info.rarity + (info.isUndead ? ' undead' : '');
     modal.innerHTML = `
-        <div class="modal-corner tl">${cornerSVG}</div>
-        <div class="modal-corner tr">${cornerSVG}</div>
-        <div class="modal-corner bl">${cornerSVG}</div>
-        <div class="modal-corner br">${cornerSVG}</div>
-        ${holoHtml}
-        ${crownHtml}
-        ${gemsHtml}
-        ${particlesHtml}
-        <button class="modal-close" onclick="closeFishModal()">✕</button>
-        <div class="modal-fish-icon-wrap">
-            <img src="${bigIcon}" alt="${info.baseName}" class="modal-fish-icon">
+    <div class="modal-corner tl">${cornerSVG}</div>
+    <div class="modal-corner tr">${cornerSVG}</div>
+    <div class="modal-corner bl">${cornerSVG}</div>
+    <div class="modal-corner br">${cornerSVG}</div>
+    ${holoHtml}
+    ${crownHtml}
+    ${gemsHtml}
+    ${particlesHtml}
+    <button class="modal-close" onclick="closeFishModal()">✕</button>
+    <div class="modal-fish-icon-wrap">
+        <img src="${bigIcon}" alt="${info.baseName}" class="modal-fish-icon">
+    </div>
+    <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
+    <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label.toUpperCase()}</div>
+    <div class="modal-info-grid">
+        <div class="modal-info-block">
+            <div class="info-label">Размер</div>
+            <div class="info-value">${info.min}–${info.max} см</div>
         </div>
-        <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
-        <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label.toUpperCase()}</div>
-        <div class="modal-info-grid">
-            <div class="modal-info-block">
-                <div class="info-label">Размер</div>
-                <div class="info-value">${info.min}–${info.max} см</div>
-            </div>
-            <div class="modal-info-block">
-                <div class="info-label">Твой рекорд</div>
-                ${recordHtml}
-            </div>
+        <div class="modal-info-block">
+            <div class="info-label">Твой рекорд</div>
+            ${recordHtml}
         </div>
-        <div class="modal-count ${info.isUndead ? 'undead' : ''}">Поймано: <span>${count}</span> шт.</div>
-    `;
-
+    </div>
+    <div class="modal-count ${info.isUndead ? 'undead' : ''}">Поймано: <span>${count}</span> шт.</div>
+`;
     document.getElementById('fishModal').classList.add('show');
 }
     
