@@ -1910,19 +1910,50 @@ function showFishModal(fishName, count) {
     const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
     const bigIcon = getFishIcon(fishName, 5);
 
-    const cornerSVG = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M 3 3 Q 3 15 10 15 Q 18 15 18 8 Q 18 3 12 3 Q 8 3 8 7"/><path d="M 6 6 Q 6 12 12 12"/><circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/></svg>`;
+    // Вензеля в углах
+    const cornerSVG = `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M 5 5 Q 5 20 15 20 Q 28 20 28 10 Q 28 5 18 5 Q 12 5 12 12"/>
+        <path d="M 10 10 Q 10 18 20 18"/>
+        <circle cx="15" cy="15" r="2" fill="currentColor" stroke="none"/>
+        <path d="M 5 5 L 10 10" stroke-opacity="0.5"/>
+    </svg>`;
 
+    // Частицы для epic/legendary
     let particlesHtml = '';
     if (info.rarity === 'legendary' || info.rarity === 'epic') {
         particlesHtml = '<div class="modal-particles">';
-        for (let i = 0; i < 8; i++) {
-            const left = 10 + Math.random() * 80;
-            const top = 30 + Math.random() * 60;
+        for (let i = 0; i < 12; i++) {
+            const left = 5 + Math.random() * 90;
+            const top = 20 + Math.random() * 70;
             const delay = Math.random() * 4;
             const duration = 3 + Math.random() * 2;
             particlesHtml += `<div class="particle" style="left: ${left}%; top: ${top}%; animation-delay: ${delay}s; animation-duration: ${duration}s;"></div>`;
         }
         particlesHtml += '</div>';
+    }
+
+    // Голограмма
+    let holoHtml = '';
+    if (info.rarity === 'legendary' || info.rarity === 'epic') {
+        holoHtml = '<div class="modal-holo"></div>';
+    }
+
+    // Корона для легендарных
+    let crownHtml = '';
+    if (info.rarity === 'legendary') {
+        crownHtml = `<div class="modal-crown">${info.isUndead ? '💀' : '👑'}</div>`;
+    }
+
+    // Камни для epic/legendary
+    let gemsHtml = '';
+    if (info.rarity === 'legendary' || info.rarity === 'epic') {
+        const gemChar = info.isUndead ? '💠' : '💎';
+        gemsHtml = `
+            <div class="modal-gem g1">${gemChar}</div>
+            <div class="modal-gem g2">${gemChar}</div>
+            <div class="modal-gem g3">${gemChar}</div>
+            <div class="modal-gem g4">${gemChar}</div>
+        `;
     }
 
     const modal = document.getElementById('fishModalContent');
@@ -1932,6 +1963,9 @@ function showFishModal(fishName, count) {
         <div class="modal-corner tr">${cornerSVG}</div>
         <div class="modal-corner bl">${cornerSVG}</div>
         <div class="modal-corner br">${cornerSVG}</div>
+        ${holoHtml}
+        ${crownHtml}
+        ${gemsHtml}
         ${particlesHtml}
         <button class="modal-close" onclick="closeFishModal()">✕</button>
         <div class="modal-fish-icon-wrap">
@@ -1954,7 +1988,7 @@ function showFishModal(fishName, count) {
 
     document.getElementById('fishModal').classList.add('show');
 }
-
+    
 function closeFishModal() {
     document.getElementById('fishModal').classList.remove('show');
 }
