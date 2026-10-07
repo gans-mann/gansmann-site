@@ -518,7 +518,7 @@ body::before {
 /* === КОРОНА (для легендарных карточек) === */
 .modal-crown {
     position: absolute;
-    top: -28px;
+    top: 8px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 42px;
@@ -583,15 +583,15 @@ body::before {
 
 /* Кнопка закрытия */
 .modal-close {
-    position: absolute; top: 18px; right: 18px;
-    width: 38px; height: 38px; border-radius: 50%;
+    position: absolute; top: 10px; right: 10px;
+    width: 34px; height: 34px; border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
-    font-size: 1.2rem; cursor: pointer;
+    font-size: 1.1rem; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.25s;
-    z-index: 15;
+    z-index: 20;
     backdrop-filter: blur(6px);
 }
 .modal-close:hover { 
@@ -600,7 +600,7 @@ body::before {
     border-color: rgba(255, 100, 100, 0.8);
     box-shadow: 0 0 20px rgba(255, 80, 80, 0.6);
 }
-
+    
 /* === ИКОНКА РЫБЫ С ОРЕОЛОМ === */
 .modal-fish-icon-wrap {
     display: flex; justify-content: center; align-items: center;
@@ -855,7 +855,89 @@ body::before {
     background: linear-gradient(90deg, transparent 0%, rgba(160, 180, 120, 0.8) 50%, transparent 100%);
 }
 .modal-count.undead span { text-shadow: 0 0 16px rgba(160, 180, 120, 0.7); }
+/* === ДВА СЧЁТЧИКА В КАРТОЧКЕ === */
+.modal-counts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+.modal-count-item {
+    text-align: center;
+    padding: 14px 10px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.18) 0%, rgba(0,212,255,0.05) 100%);
+    border: 1px solid rgba(0,212,255,0.4);
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(0,212,255,0.15);
+}
+.modal-count-item::before,
+.modal-count-item::after {
+    content: '';
+    position: absolute;
+    left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.8) 50%, transparent 100%);
+}
+.modal-count-item::before { top: 0; }
+.modal-count-item::after { bottom: 0; }
+.modal-count-item .count-label {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+.modal-count-item .count-value {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #00d4ff;
+    text-shadow: 0 0 16px rgba(0, 212, 255, 0.7);
+    line-height: 1;
+}
+/* Второй счётчик — золотой (за всё время) */
+.modal-count-item.lifetime {
+    background: linear-gradient(135deg, rgba(255,215,0,0.18) 0%, rgba(255,215,0,0.05) 100%);
+    border-color: rgba(255,215,0,0.5);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(255,215,0,0.2);
+}
+.modal-count-item.lifetime::before,
+.modal-count-item.lifetime::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.9) 50%, transparent 100%);
+}
+.modal-count-item.lifetime .count-value {
+    color: #ffd700;
+    text-shadow: 0 0 18px rgba(255, 215, 0, 0.9);
+}
+/* Нежить */
+.modal-counts.undead .modal-count-item {
+    background: linear-gradient(135deg, rgba(140,160,100,0.2) 0%, rgba(140,160,100,0.06) 100%);
+    border-color: rgba(140,160,100,0.5);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(140,160,100,0.2);
+}
+.modal-counts.undead .modal-count-item::before,
+.modal-counts.undead .modal-count-item::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(160, 180, 120, 0.8) 50%, transparent 100%);
+}
+.modal-counts.undead .modal-count-item .count-value {
+    color: #a8b878;
+    text-shadow: 0 0 16px rgba(160, 180, 120, 0.7);
+}
+.modal-counts.undead .modal-count-item.lifetime {
+    background: linear-gradient(135deg, rgba(200,180,100,0.2) 0%, rgba(200,180,100,0.06) 100%);
+    border-color: rgba(200,180,100,0.6);
+}
+.modal-counts.undead .modal-count-item.lifetime .count-value {
+    color: #e0d090;
+    text-shadow: 0 0 18px rgba(200, 180, 100, 0.9);
+}
 
+@media (max-width: 600px) {
+    .modal-counts { grid-template-columns: 1fr; }
+}
 /* Легендарная плашка «Поймано» — золотая */
 .fish-modal.rarity-legendary .modal-count {
     background: linear-gradient(135deg, rgba(255,215,0,0.25) 0%, rgba(200,150,0,0.08) 100%);
@@ -2159,6 +2241,7 @@ if (!playerName) {
             }
             if (data._stats) renderServerStats(data._stats);
             if (data._personalRecords) window._personalRecords = data._personalRecords;
+            if (data._lifetimeCatches) window._lifetimeCatches = data._lifetimeCatches;
 
             const playerKey = Object.keys(data).find(
                 key => !key.startsWith('_') && key.toLowerCase() === playerName.toLowerCase()
@@ -2363,7 +2446,15 @@ function renderInventory(playerName, inventory) {
 function showFishModal(fishName, count) {
     const info = getFishInfo(fishName);
     const rarity = RARITY_INFO[info.rarity];
-
+// Счётчик поймано за всё время
+let lifetimeCount = count; // fallback
+if (window._lifetimeCatches && window._lifetimeCatches[playerName.toLowerCase()]) {
+    const playerLT = window._lifetimeCatches[playerName.toLowerCase()];
+    const fishKey = fishName.toLowerCase();
+    if (playerLT[fishKey] !== undefined) {
+        lifetimeCount = playerLT[fishKey];
+    }
+}
     const recordKey = (playerName.toLowerCase() + '|' + fishName.toLowerCase());
     let recordHtml = '';
     if (window._personalRecords && window._personalRecords[recordKey]) {
@@ -2449,7 +2540,16 @@ const displayName = info.isUndead ? '🧟 ' + baseCapitalized : baseCapitalized;
             ${recordHtml}
         </div>
     </div>
-    <div class="modal-count ${info.isUndead ? 'undead' : ''}">Поймано: <span>${count}</span> шт.</div>
+    <div class="modal-counts ${info.isUndead ? 'undead' : ''}">
+    <div class="modal-count-item">
+        <div class="count-label">📦 В инвентаре</div>
+        <div class="count-value">${count}</div>
+    </div>
+    <div class="modal-count-item lifetime">
+        <div class="count-label">🏆 Поймано за всё время</div>
+        <div class="count-value">${lifetimeCount}</div>
+    </div>
+</div>
 `;
     document.getElementById('fishModal').classList.add('show');
 }
