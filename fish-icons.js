@@ -39,6 +39,38 @@ const UNDEAD_PALETTE = {
     fin: '#4a5a2a', eye: '#c0ff00', pupil: '#000000', gill: '#3a4a1a',
     spot: '#3a4a1a', stripe: '#3a4a1a'
 };
+// === ИНДИВИДУАЛЬНЫЕ ПАЛИТРЫ НЕЖИТИ ===
+const UNDEAD_FISH_PALETTES = {
+    pike:      { main: '#c0d040', dark: '#4a5020', light: '#f0f860', belly: '#f8f8a0', fin: '#90a020', eye: '#ffffff', pupil: '#ff0000', gill: '#606820', spot: '#d04060', stripe: '#505820' },
+    zander:    { main: '#60c0c0', dark: '#205050', light: '#a0f0f0', belly: '#c8f8f8', fin: '#409090', eye: '#ffffff', pupil: '#ff0000', gill: '#307070', spot: '#d04080', stripe: '#205050' },
+    perch:     { main: '#8ac040', dark: '#2a3a10', light: '#c8f060', belly: '#e8f0a0', fin: '#6a9030', eye: '#ffffff', pupil: '#ff0000', gill: '#4a6020', spot: '#c03060', stripe: '#3a5020' },
+    ruffe:     { main: '#c0a060', dark: '#605020', light: '#f0d090', belly: '#f8e0c0', fin: '#907030', eye: '#ffffff', pupil: '#ff0000', gill: '#705020', spot: '#d06070', stripe: '#605020' },
+    catfish:   { main: '#302838', dark: '#0a0810', light: '#605070', belly: '#907080', fin: '#201820', eye: '#ff0000', pupil: '#ffff00', gill: '#0a0810', spot: '#c04080', stripe: '#201820' },
+    burbot:    { main: '#90a060', dark: '#405020', light: '#c0d090', belly: '#e0e8b0', fin: '#607040', eye: '#ffffff', pupil: '#ff0000', gill: '#506030', spot: '#b04060', stripe: '#506030' },
+    piranha:   { main: '#d02040', dark: '#500010', light: '#ff6080', belly: '#ffa0b0', fin: '#900020', eye: '#ffff00', pupil: '#000000', gill: '#700018', spot: '#ff0000', stripe: '#500010' },
+    snakehead: { main: '#a0b040', dark: '#405010', light: '#d0e070', belly: '#e8f0a0', fin: '#708030', eye: '#ffffff', pupil: '#ff0000', gill: '#506020', spot: '#c03060', stripe: '#405010' },
+    carp:      { main: '#e0c040', dark: '#705020', light: '#fff080', belly: '#fff8c0', fin: '#b09020', eye: '#ffffff', pupil: '#ff0000', gill: '#805020', spot: '#d04060', stripe: '#705020' },
+    carp_big:  { main: '#e0a030', dark: '#704010', light: '#ffd080', belly: '#ffe8b0', fin: '#b07020', eye: '#ffffff', pupil: '#ff0000', gill: '#805020', spot: '#d04070', stripe: '#704010' },
+    crucian:   { main: '#f0d030', dark: '#806010', light: '#fff890', belly: '#fffcc0', fin: '#c0a020', eye: '#ffffff', pupil: '#ff0000', gill: '#907010', spot: '#d04060', stripe: '#806010' },
+    bream:     { main: '#8080c0', dark: '#303060', light: '#c0c0f0', belly: '#e0e0f8', fin: '#6060a0', eye: '#ffffff', pupil: '#ff0000', gill: '#505090', spot: '#c04080', stripe: '#303060' },
+    silvercarp:{ main: '#a0b0c8', dark: '#506070', light: '#d0e0f0', belly: '#f0f8ff', fin: '#8090a8', eye: '#ffffff', pupil: '#ff0000', gill: '#607080', spot: '#c06090', stripe: '#506070' },
+    tench:     { main: '#a0c050', dark: '#405020', light: '#d8f080', belly: '#e8f8b0', fin: '#709030', eye: '#ffffff', pupil: '#ff0000', gill: '#506020', spot: '#c04080', stripe: '#405020' },
+    ide:       { main: '#d0a040', dark: '#604010', light: '#f8d080', belly: '#ffe8b0', fin: '#a08020', eye: '#ffffff', pupil: '#ff0000', gill: '#806020', spot: '#d04070', stripe: '#604010' },
+    trout:     { main: '#f07050', dark: '#802020', light: '#ffb8a0', belly: '#ffd8c8', fin: '#c04030', eye: '#ffff00', pupil: '#ff0000', gill: '#902828', spot: '#ff00a0', stripe: '#802020' },
+    salmon:    { main: '#ff7060', dark: '#902820', light: '#ffb0a0', belly: '#ffd8d0', fin: '#d05040', eye: '#ffff00', pupil: '#ff0000', gill: '#a03028', spot: '#ff10a0', stripe: '#902820' },
+    char:      { main: '#8080a0', dark: '#303050', light: '#c0c0e0', belly: '#e0e0f0', fin: '#606080', eye: '#ffffff', pupil: '#ff0000', gill: '#505070', spot: '#ff00a0', stripe: '#303050' },
+    whitefish: { main: '#b0c0d0', dark: '#506070', light: '#e8f0f8', belly: '#ffffff', fin: '#9098a8', eye: '#ffffff', pupil: '#ff0000', gill: '#607080', spot: '#c06090', stripe: '#506070' },
+    grayling:  { main: '#90a0c0', dark: '#405070', light: '#c0d0f0', belly: '#e0e8f8', fin: '#7080a0', eye: '#ffffff', pupil: '#ff0000', gill: '#506078', spot: '#c040a0', stripe: '#405070' },
+    bleak:     { main: '#60d0e0', dark: '#205060', light: '#a0f0ff', belly: '#d0f8ff', fin: '#4090a0', eye: '#ffffff', pupil: '#ff0000', gill: '#307080', spot: '#c04080', stripe: '#205060' },
+    roach:     { main: '#b0a0c0', dark: '#504070', light: '#e0d0f0', belly: '#f8f0ff', fin: '#9080a0', eye: '#ffffff', pupil: '#ff0000', gill: '#706090', spot: '#d04090', stripe: '#504070' },
+    chub:      { main: '#c0a0a0', dark: '#705050', light: '#f0d0d0', belly: '#f8e8e8', fin: '#a08080', eye: '#ffffff', pupil: '#ff0000', gill: '#806060', spot: '#c05080', stripe: '#705050' },
+    rudd:      { main: '#e0a080', dark: '#805040', light: '#ffd0b0', belly: '#ffe8d0', fin: '#d04030', eye: '#ffffff', pupil: '#ff0000', gill: '#905040', spot: '#ff00a0', stripe: '#805040' },
+    sabrefish: { main: '#b0b8c8', dark: '#505868', light: '#e0e8f0', belly: '#f8fcff', fin: '#9098a8', eye: '#ffffff', pupil: '#ff0000', gill: '#606878', spot: '#c06090', stripe: '#505868' },
+    gudgeon:   { main: '#c0a878', dark: '#605030', light: '#f0d8b0', belly: '#f8e8c8', fin: '#907040', eye: '#ffffff', pupil: '#ff0000', gill: '#705020', spot: '#c05080', stripe: '#605030' },
+    sturgeon:  { main: '#5060a0', dark: '#202850', light: '#8898d0', belly: '#b8c0e0', fin: '#405078', eye: '#ffffff', pupil: '#ff0000', gill: '#303868', spot: '#a04080', stripe: '#202850' },
+    eel:       { main: '#4ac060', dark: '#1a5020', light: '#90f0a0', belly: '#c0f8c8', fin: '#3a8040', eye: '#ffffff', pupil: '#ff0000', gill: '#2a6030', spot: '#c04080', stripe: '#1a5020' },
+    lamprey:   { main: '#9080b0', dark: '#403060', light: '#c8b8e0', belly: '#e8e0f0', fin: '#705890', eye: '#ffffff', pupil: '#ff0000', gill: '#504070', spot: '#c05090', stripe: '#403060' }
+};
 
 const UNDEAD_BONE = '#f0e8c8';
 const UNDEAD_BONE_DARK = '#a89878';
@@ -339,7 +371,267 @@ function makeFishSVG(paletteKey, form, scale) {
         `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
     );
 }
+function makeFishSVGWithCustomPalette(palette, form, scale) {
+    scale = scale || 1;
+    const p = palette;
+    if (!p) return '';
+    const f = form;
+    const isUndead = true;
 
+    const bodyLen = f.bodyLen;
+    const bodyH = f.bodyH;
+    const bodyY = f.bodyY || Math.floor((32 - bodyH) / 2);
+    const headX = 3;
+    const cy = bodyY + bodyH / 2;
+    const x1 = headX, x2 = headX + bodyLen;
+    let s = '';
+
+    s += `<rect x="${x1}" y="${bodyY+2}" width="${bodyLen}" height="${bodyH-4}" fill="${p.main}"/>`;
+    s += `<rect x="${x1+1}" y="${bodyY+1}" width="${bodyLen-2}" height="${bodyH-2}" fill="${p.main}"/>`;
+    s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="${bodyH}" fill="${p.main}"/>`;
+
+    const bellyH = Math.max(2, Math.floor(bodyH * 0.25));
+    s += `<rect x="${x1+2}" y="${bodyY+bodyH-bellyH}" width="${bodyLen-4}" height="${bellyH}" fill="${p.belly}" opacity="0.9"/>`;
+
+    s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="1" fill="${p.dark}"/>`;
+    s += `<rect x="${x1+3}" y="${bodyY+1}" width="${bodyLen-6}" height="1" fill="${p.dark}" opacity="0.6"/>`;
+
+    if (f.bigScales) {
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 3; j++) {
+                const sx = x1 + 4 + i * 4;
+                const sy = bodyY + 3 + j * 3;
+                if (sx < x2 - 2 && sy < bodyY + bodyH - 3) {
+                    s += `<rect x="${sx}" y="${sy}" width="2" height="2" fill="${p.light}" opacity="0.4"/>`;
+                }
+            }
+        }
+    } else {
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 2; j++) {
+                const sx = x1 + 4 + i * 3;
+                const sy = bodyY + 3 + j * 4;
+                if (sx < x2 - 2 && sy < bodyY + bodyH - 2) {
+                    s += `<rect x="${sx}" y="${sy}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
+                }
+            }
+        }
+    }
+
+    if (f.stripes) {
+        for (const [sx] of f.stripes) {
+            const sxAbs = x1 + sx;
+            if (sxAbs < x2 - 2) {
+                s += `<rect x="${sxAbs}" y="${bodyY+1}" width="1" height="${bodyH-2}" fill="${p.stripe}" opacity="0.5"/>`;
+            }
+        }
+    }
+
+    if (f.spots) {
+        for (const [sx, sy] of f.spots) {
+            const sxAbs = x1 + sx;
+            const syAbs = bodyY + sy;
+            if (sxAbs < x2 - 2 && syAbs < bodyY + bodyH - 1) {
+                s += `<rect x="${sxAbs}" y="${syAbs}" width="2" height="2" fill="${p.spot}" opacity="0.8"/>`;
+                s += `<rect x="${sxAbs}" y="${syAbs}" width="1" height="1" fill="${p.dark}" opacity="0.4"/>`;
+            }
+        }
+    }
+
+    const headLen = f.headLen || 5;
+    if (f.headShape === 'pointed') {
+        s += `<rect x="${x1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.main}"/>`;
+        s += `<rect x="${x1+1}" y="${bodyY+2}" width="1" height="${bodyH-4}" fill="${p.main}"/>`;
+    } else if (f.headShape === 'snake') {
+        s += `<rect x="${x1-1}" y="${bodyY+3}" width="3" height="${bodyH-6}" fill="${p.main}"/>`;
+    } else if (f.headShape === 'flat') {
+        s += `<rect x="${x1-1}" y="${bodyY+4}" width="3" height="${bodyH-8}" fill="${p.main}"/>`;
+    } else if (f.headShape === 'long-snout') {
+        s += `<rect x="${x1-3}" y="${cy-1}" width="4" height="2" fill="${p.main}"/>`;
+        s += `<rect x="${x1-3}" y="${cy-2}" width="3" height="1" fill="${p.dark}"/>`;
+    } else if (f.headShape === 'trumpet') {
+        s += `<rect x="${x1-3}" y="${cy-2}" width="3" height="4" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-3}" y="${cy-1}" width="2" height="2" fill="${p.spot}"/>`;
+    } else if (f.headShape === 'big-head') {
+        s += `<rect x="${x1-1}" y="${bodyY+2}" width="3" height="${bodyH-4}" fill="${p.main}"/>`;
+    } else if (f.headShape === 'blunt') {
+        s += `<rect x="${x1}" y="${bodyY+2}" width="3" height="${bodyH-4}" fill="${p.main}"/>`;
+    } else if (f.headShape === 'small') {
+        s += `<rect x="${x1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.main}"/>`;
+    }
+
+    s += `<rect x="${x1}" y="${bodyY+3}" width="1" height="${bodyH-6}" fill="${p.dark}" opacity="0.4"/>`;
+
+    const gillX = x1 + headLen;
+    s += `<rect x="${gillX}" y="${bodyY+2}" width="1" height="2" fill="${p.gill}" opacity="0.8"/>`;
+    s += `<rect x="${gillX+1}" y="${bodyY+3}" width="1" height="${bodyH-6}" fill="${p.gill}" opacity="0.8"/>`;
+    s += `<rect x="${gillX}" y="${bodyY+bodyH-4}" width="1" height="2" fill="${p.gill}" opacity="0.8"/>`;
+
+    const eyeX = x1 + 2;
+    const eyeY = bodyY + Math.floor(bodyH / 3);
+    s += `<rect x="${eyeX}" y="${eyeY}" width="3" height="3" fill="${p.eye}"/>`;
+    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="2" height="2" fill="${p.pupil}"/>`;
+    s += `<rect x="${eyeX}" y="${eyeY}" width="1" height="1" fill="#ffffff" opacity="0.8"/>`;
+
+    s += `<rect x="${x1-1}" y="${cy}" width="2" height="1" fill="${p.dark}"/>`;
+
+    if (f.teeth) {
+        s += `<rect x="${x1}" y="${cy+1}" width="1" height="1" fill="#ffffff"/>`;
+        s += `<rect x="${x1+1}" y="${cy+1}" width="1" height="1" fill="#ffffff"/>`;
+    }
+
+    if (f.whiskers) {
+        s += `<rect x="${x1-2}" y="${cy-2}" width="2" height="1" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-3}" y="${cy-3}" width="1" height="1" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-2}" y="${cy+2}" width="2" height="1" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-3}" y="${cy+3}" width="1" height="1" fill="${p.dark}"/>`;
+    }
+
+    const topFinSize = f.topFinSize || 4;
+    const topFinType = f.topFin || 'medium';
+    const finStart = x1 + headLen + 2;
+
+    if (topFinType === 'high-spiky' || topFinType === 'very-spiky') {
+        for (let i = 0; i < topFinSize; i++) {
+            const fx = finStart + i;
+            const fh = 3 + (i % 2 === 0 ? 2 : 0);
+            s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
+        }
+    } else if (topFinType === 'sail') {
+        for (let i = 0; i < topFinSize; i++) {
+            const fx = finStart + i;
+            const fh = Math.min(topFinSize - i, 8);
+            if (fh > 0) s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
+        }
+    } else if (topFinType === 'spiky') {
+        s += `<rect x="${finStart}" y="${bodyY-3}" width="1" height="3" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+1}" y="${bodyY-4}" width="1" height="4" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+2}" y="${bodyY-4}" width="1" height="4" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+3}" y="${bodyY-3}" width="1" height="3" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+4}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
+    } else if (topFinType === 'long-back' || topFinType === 'long-back-merged') {
+        for (let i = 0; i < topFinSize; i++) {
+            const fx = finStart + i;
+            s += `<rect x="${fx}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
+        }
+    } else if (topFinType === 'small-back') {
+        s += `<rect x="${finStart+2}" y="${bodyY-2}" width="3" height="2" fill="${p.fin}"/>`;
+    } else if (topFinType === 'dorsal-long') {
+        s += `<rect x="${finStart}" y="${bodyY-2}" width="${topFinSize}" height="2" fill="${p.fin}"/>`;
+    } else if (topFinType === 'tiny') {
+        s += `<rect x="${finStart}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
+    } else if (topFinType === 'small') {
+        s += `<rect x="${finStart+1}" y="${bodyY-2}" width="2" height="2" fill="${p.fin}"/>`;
+    } else {
+        s += `<rect x="${finStart}" y="${bodyY-3}" width="1" height="3" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+1}" y="${bodyY-4}" width="4" height="4" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+5}" y="${bodyY-3}" width="2" height="3" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+1}" y="${bodyY-4}" width="3" height="1" fill="${p.light}" opacity="0.6"/>`;
+    }
+
+    const bottomFinStart = x1 + headLen + 2;
+    if (f.bottomFin === 'long-anal' || f.bottomFin === 'long-anal-merged') {
+        for (let i = 0; i < 8; i++) {
+            const fx = bottomFinStart + i;
+            s += `<rect x="${fx}" y="${bodyY+bodyH}" width="1" height="2" fill="${p.fin}"/>`;
+        }
+    } else if (f.bottomFin === 'medium') {
+        s += `<rect x="${bottomFinStart}" y="${bodyY+bodyH}" width="4" height="3" fill="${p.fin}"/>`;
+        s += `<rect x="${bottomFinStart+4}" y="${bodyY+bodyH}" width="2" height="2" fill="${p.fin}"/>`;
+    } else if (f.bottomFin === 'small-adipose') {
+        s += `<rect x="${bottomFinStart+6}" y="${bodyY+bodyH}" width="2" height="2" fill="${p.fin}"/>`;
+    } else if (f.bottomFin === 'red-fins') {
+        s += `<rect x="${bottomFinStart}" y="${bodyY+bodyH}" width="4" height="3" fill="#c03028"/>`;
+        s += `<rect x="${bottomFinStart+4}" y="${bodyY+bodyH}" width="2" height="2" fill="#c03028"/>`;
+    } else if (f.bottomFin === 'small') {
+        s += `<rect x="${bottomFinStart+1}" y="${bodyY+bodyH}" width="3" height="2" fill="${p.fin}"/>`;
+    }
+
+    s += `<rect x="${x1+headLen+1}" y="${cy+1}" width="3" height="3" fill="${p.fin}" opacity="0.85"/>`;
+    s += `<rect x="${x1+headLen+4}" y="${cy+2}" width="2" height="2" fill="${p.fin}" opacity="0.7"/>`;
+
+    const tailX = x2;
+    const tailSize = f.tailSize || 6;
+    const midY = cy;
+
+    if (f.tailType === 'fork') {
+        s += `<path d="M ${tailX} ${midY-1} L ${tailX+2} ${midY-1} L ${tailX+tailSize} ${midY-tailSize-1} Q ${tailX+tailSize+1} ${midY-tailSize-2} ${tailX+tailSize-1} ${midY-tailSize-3} L ${tailX+2} ${midY-1} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${tailX} ${midY+1} L ${tailX+2} ${midY+1} L ${tailX+tailSize} ${midY+tailSize+1} Q ${tailX+tailSize+1} ${midY+tailSize+2} ${tailX+tailSize-1} ${midY+tailSize+3} L ${tailX+2} ${midY+1} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
+    } else if (f.tailType === 'fan') {
+        s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+2} ${midY-5} Q ${tailX+tailSize-1} ${midY-tailSize-3} ${tailX+tailSize+1} ${midY} Q ${tailX+tailSize-1} ${midY+tailSize+3} ${tailX+2} ${midY+5} Z" fill="${p.fin}"/>`;
+        for (let i = -2; i <= 2; i++) {
+            s += `<rect x="${tailX+4+i}" y="${midY + i*3 - 1}" width="1" height="2" fill="${p.dark}" opacity="0.5"/>`;
+        }
+    } else if (f.tailType === 'long') {
+        s += `<rect x="${tailX}" y="${midY-1}" width="5" height="3" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+4} ${midY-2} Q ${tailX+9} ${midY-4} ${tailX+11} ${midY-1} Q ${tailX+11} ${midY+1} ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+9}" y="${midY-3}" width="2" height="6" fill="${p.dark}" opacity="0.5"/>`;
+    } else if (f.tailType === 'round') {
+        s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
+        s += `<ellipse cx="${tailX+4}" cy="${midY}" rx="3" ry="4" fill="${p.fin}"/>`;
+    } else if (f.tailType === 'asymmetric-fork') {
+        s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+3} ${midY-1} L ${tailX+7} ${midY-7} Q ${tailX+8} ${midY-7} ${tailX+8} ${midY-5} L ${tailX+4} ${midY-1} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${tailX+3} ${midY+1} L ${tailX+6} ${midY+4} Q ${tailX+7} ${midY+4} ${tailX+7} ${midY+3} L ${tailX+4} ${midY+1} Z" fill="${p.fin}"/>`;
+    } else if (f.tailType === 'leaf') {
+        s += `<rect x="${tailX}" y="${midY-1}" width="2" height="2" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+2} ${midY} Q ${tailX+5} ${midY-5} ${tailX+9} ${midY} Q ${tailX+5} ${midY+5} ${tailX+2} ${midY} Z" fill="${p.fin}"/>`;
+    }
+
+    if (f.spikes) {
+        for (let i = 0; i < 4; i++) {
+            const sx = x1 + headLen + 1 + i * 3;
+            s += `<rect x="${sx}" y="${bodyY-1}" width="1" height="1" fill="${p.dark}"/>`;
+        }
+    }
+    if (f.scutes) {
+        for (let i = 0; i < 5; i++) {
+            const sx = x1 + headLen + 3 + i * 4;
+            s += `<rect x="${sx}" y="${bodyY-1}" width="2" height="2" fill="${p.dark}"/>`;
+            s += `<rect x="${sx}" y="${bodyY+bodyH-1}" width="2" height="2" fill="${p.dark}"/>`;
+        }
+    }
+    if (f.hump) {
+        s += `<rect x="${x1+8}" y="${bodyY-2}" width="6" height="2" fill="${p.main}"/>`;
+        s += `<rect x="${x1+9}" y="${bodyY-3}" width="4" height="1" fill="${p.main}"/>`;
+    }
+    if (f.slime) {
+        for (let i = 0; i < 6; i++) {
+            const sx = x1 + 5 + i * 3;
+            const sy = bodyY + 2 + (i % 2) * 3;
+            s += `<rect x="${sx}" y="${sy}" width="1" height="1" fill="#ffffff" opacity="0.4"/>`;
+        }
+    }
+
+    if (isUndead) {
+        const ribPositions = [6, 10, 14, 18];
+        for (const rx of ribPositions) {
+            const ribX = x1 + rx;
+            if (ribX < x2 - 4) {
+                s += `<rect x="${ribX}" y="${bodyY + 3}" width="1" height="${bodyH - 6}" fill="${UNDEAD_BONE}"/>`;
+                s += `<rect x="${ribX + 1}" y="${bodyY + 3}" width="1" height="${bodyH - 6}" fill="${UNDEAD_BONE_DARK}" opacity="0.7"/>`;
+                s += `<rect x="${ribX - 1}" y="${bodyY + 3}" width="3" height="1" fill="${UNDEAD_BONE}"/>`;
+                s += `<rect x="${ribX - 1}" y="${bodyY + bodyH - 4}" width="3" height="1" fill="${UNDEAD_BONE}"/>`;
+            }
+        }
+        s += `<rect x="${x1 + 4}" y="${cy}" width="${bodyLen - 8}" height="1" fill="${UNDEAD_BONE}" opacity="0.8"/>`;
+        const woundPositions = [[8, 4], [16, bodyH - 6]];
+        for (const [wx, wy] of woundPositions) {
+            const woundX = x1 + wx;
+            const woundY = bodyY + wy;
+            if (woundX < x2 - 6 && woundY < bodyY + bodyH - 3) {
+                s += `<rect x="${woundX}" y="${woundY}" width="4" height="3" fill="${UNDEAD_GUTS}"/>`;
+                s += `<rect x="${woundX + 1}" y="${woundY + 1}" width="2" height="1" fill="${UNDEAD_GUTS_LIGHT}"/>`;
+            }
+        }
+    }
+
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
+    );
+}
 function getFishForm(fishName) {
     const isUndead = fishName.toLowerCase().startsWith('нежить ');
     const baseName = isUndead ? fishName.substring(7).trim() : fishName;
@@ -358,6 +650,16 @@ function getFishForm(fishName) {
 
 function getFishIcon(fishName, scale) {
     const info = getFishForm(fishName);
-    const paletteKey = info.isUndead ? 'undead' : info.form.palette;
-    return makeFishSVG(paletteKey, info.form, scale);
+
+    if (info.isUndead) {
+        // Используем индивидуальную палитру нежити, если есть
+        const undeadKey = info.form.palette;
+        if (typeof UNDEAD_FISH_PALETTES !== 'undefined' && UNDEAD_FISH_PALETTES[undeadKey]) {
+            return makeFishSVGWithCustomPalette(UNDEAD_FISH_PALETTES[undeadKey], info.form, scale);
+        }
+        // Fallback на общую палитру нежити
+        return makeFishSVG('undead', info.form, scale);
+    }
+
+    return makeFishSVG(info.form.palette, info.form, scale);
 }
