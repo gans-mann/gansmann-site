@@ -941,29 +941,44 @@ body::before {
 // ========================================================
 
 const PALETTES = {
-    // === ОБЫЧНЫЕ ===
-    // Окунь — зелёный с полосами
-    perch:     { main: '#6ab04c', dark: '#2a4a1a', light: '#a8e060', belly: '#f0f0c0', fin: '#e07020', eye: '#fff', pupil: '#000', gill: '#2a4a1a', spot: '#2a4a1a', stripe: '#2a4a1a' },
-    // Пескарь — коричневый с усами
-    gudgeon:   { main: '#a08060', dark: '#503820', light: '#d0b890', belly: '#f0e0c0', fin: '#806040', eye: '#fff', pupil: '#000', gill: '#503820', spot: '#806040', stripe: '#503820' },
+    // === ЭТАП 1.1: 5 рыб ===
+    
+    // Окунь — зелёный с полосами, оранжевые плавники
+    perch: {
+        main: '#4a8030', light: '#80b050', dark: '#1a1a1a',
+        belly: '#c8d8a0', fin: '#e08020', eye: '#ffffff', pupil: '#000000',
+        stripe: '#2a5018', spot: '#2a5018', gill: '#2a5018'
+    },
+    
+    // Пескарь — коричневый, с усами
+    gudgeon: {
+        main: '#a08060', light: '#d0b890', dark: '#1a1a1a',
+        belly: '#f0e0c0', fin: '#806040', eye: '#ffffff', pupil: '#000000',
+        stripe: '#503820', spot: '#806040', gill: '#503820'
+    },
+    
     // Плотва — серебристая с красным глазом
-    roach:     { main: '#b8c0c8', dark: '#586068', light: '#e8f0f8', belly: '#ffffff', fin: '#c03028', eye: '#ffd700', pupil: '#000', gill: '#586068', spot: '#c03028', stripe: '#707880' },
+    roach: {
+        main: '#b8c0c8', light: '#e8f0f8', dark: '#1a1a1a',
+        belly: '#ffffff', fin: '#c03028', eye: '#ffd700', pupil: '#000000',
+        stripe: '#707880', spot: '#c03028', gill: '#586068'
+    },
+    
     // Карась — золотой, круглый
-    crucian:   { main: '#e8c040', dark: '#8a6010', light: '#fff080', belly: '#fff8d0', fin: '#c09020', eye: '#fff', pupil: '#000', gill: '#8a6010', spot: '#c09020', stripe: '#8a6010' },
+    crucian: {
+        main: '#e8c040', light: '#fff080', dark: '#1a1a1a',
+        belly: '#fff8d0', fin: '#c09020', eye: '#ffffff', pupil: '#000000',
+        stripe: '#8a6010', spot: '#c09020', gill: '#8a6010'
+    },
+    
     // Лещ — серебристый, высокий
-    bream:     { main: '#a8b0c0', dark: '#505868', light: '#d8e0f0', belly: '#f8faff', fin: '#7888a0', eye: '#ffd700', pupil: '#000', gill: '#505868', spot: '#7888a0', stripe: '#505868' },
-    // Краснопёрка — серебристая с красными плавниками
-    rudd:      { main: '#c0a880', dark: '#705030', light: '#f0d8b0', belly: '#fff0d0', fin: '#e03028', eye: '#ffd700', pupil: '#000', gill: '#705030', spot: '#e03028', stripe: '#906840' },
-    // Ёрш — коричневый с шипами
-    ruffe:     { main: '#a89070', dark: '#5a4020', light: '#d8b898', belly: '#f0e0c8', fin: '#806040', eye: '#ffd700', pupil: '#000', gill: '#5a4020', spot: '#5a4020', stripe: '#5a4020' },
-    // Уклейка — голубая, маленькая
-    bleak:     { main: '#88c0e0', dark: '#306890', light: '#c8e8ff', belly: '#ffffff', fin: '#5090b8', eye: '#fff', pupil: '#000', gill: '#306890', spot: '#5090b8', stripe: '#306890' },
-    // Голавль — серебристо-серый, крупная голова
-    chub:      { main: '#a8b8c0', dark: '#506070', light: '#d8e8f0', belly: '#f0f8ff', fin: '#8090a0', eye: '#ffd700', pupil: '#000', gill: '#506070', spot: '#8090a0', stripe: '#506070' },
-    // Линь — золотисто-зелёный, скользкий
-    tench:     { main: '#90a860', dark: '#405020', light: '#c0d890', belly: '#e0f0b0', fin: '#608040', eye: '#ffd700', pupil: '#000', gill: '#405020', spot: '#405020', stripe: '#608040' },
+    bream: {
+        main: '#a8b0c0', light: '#d8e0f0', dark: '#1a1a1a',
+        belly: '#f8faff', fin: '#7888a0', eye: '#ffd700', pupil: '#000000',
+        stripe: '#505868', spot: '#7888a0', gill: '#505868'
+    },
 
-    // Остальные (пока — старые палитры, обновим на этапе 2/3)
+    // Остальные — пока старые (обновим в этапах 1.2–1.6)
     pike:      { main: '#4a6b2a', dark: '#2a3f1a', light: '#6b8a4a', belly: '#8fa860', fin: '#3a5020', eye: '#ffd700', pupil: '#000', gill: '#2a3f1a', spot: '#1a2810', stripe: '#2a3f1a' },
     zander:    { main: '#707880', dark: '#404850', light: '#98a0a8', belly: '#c0c8d0', fin: '#586068', eye: '#ffd700', pupil: '#000', gill: '#404850', spot: '#3a4048', stripe: '#3a4048' },
     catfish:   { main: '#3a2a1a', dark: '#1a1208', light: '#5a4030', belly: '#7a6050', fin: '#2a1a0a', eye: '#f0f0f0', pupil: '#000', gill: '#1a1208', spot: '#1a1208', stripe: '#1a1208' },
@@ -979,10 +994,24 @@ const PALETTES = {
     char:      { main: '#7a8090', dark: '#4a5060', light: '#a0a8b8', belly: '#d0d8e0', fin: '#606878', eye: '#ffd700', pupil: '#000', gill: '#4a5060', spot: '#c0392b', stripe: '#4a5060' },
     whitefish: { main: '#a8b0b8', dark: '#708088', light: '#d0d8e0', belly: '#f0f8ff', fin: '#8890a0', eye: '#ffd700', pupil: '#000', gill: '#708088', spot: '#708088', stripe: '#708088' },
     grayling:  { main: '#9098a8', dark: '#606878', light: '#b8c0d0', belly: '#e0e8f0', fin: '#7880a0', eye: '#ffd700', pupil: '#000', gill: '#606878', spot: '#4a5a6a', stripe: '#4a5a6a' },
+    bleak:     { main: '#88c0e0', dark: '#306890', light: '#c8e8ff', belly: '#ffffff', fin: '#5090b8', eye: '#fff', pupil: '#000', gill: '#306890', spot: '#5090b8', stripe: '#306890' },
+    chub:      { main: '#a8b8c0', dark: '#506070', light: '#d8e8f0', belly: '#f0f8ff', fin: '#8090a0', eye: '#ffd700', pupil: '#000', gill: '#506070', spot: '#8090a0', stripe: '#506070' },
+    rudd:      { main: '#c0a880', dark: '#705030', light: '#f0d8b0', belly: '#fff0d0', fin: '#e03028', eye: '#ffd700', pupil: '#000', gill: '#705030', spot: '#e03028', stripe: '#906840' },
+    ruffe:     { main: '#a89070', dark: '#5a4020', light: '#d8b898', belly: '#f0e0c8', fin: '#806040', eye: '#ffd700', pupil: '#000', gill: '#5a4020', spot: '#5a4020', stripe: '#5a4020' },
+    tench:     { main: '#90a860', dark: '#405020', light: '#c0d890', belly: '#e0f0b0', fin: '#608040', eye: '#ffd700', pupil: '#000', gill: '#405020', spot: '#405020', stripe: '#608040' },
     sabrefish: { main: '#b0b8c0', dark: '#808890', light: '#d8e0e8', belly: '#f0f8ff', fin: '#9098a0', eye: '#ffd700', pupil: '#000', gill: '#808890', spot: '#808890', stripe: '#808890' },
     sturgeon:  { main: '#5a6a7a', dark: '#3a4a5a', light: '#7a8a9a', belly: '#a0b0c0', fin: '#4a5a6a', eye: '#ffd700', pupil: '#000', gill: '#3a4a5a', spot: '#3a4a5a', stripe: '#3a4a5a' },
     eel:       { main: '#3a5a3a', dark: '#1a3a1a', light: '#5a7a5a', belly: '#8aa08a', fin: '#2a4a2a', eye: '#ffd700', pupil: '#000', gill: '#1a3a1a', spot: '#1a3a1a', stripe: '#1a3a1a' },
     lamprey:   { main: '#6a6a7a', dark: '#3a3a4a', light: '#9a9aaa', belly: '#c0c0d0', fin: '#4a4a5a', eye: '#ffd700', pupil: '#000', gill: '#3a3a4a', spot: '#3a3a4a', stripe: '#3a3a4a' }
+};
+
+// === УНИКАЛЬНЫЕ ПАЛИТРЫ НЕЖИТИ (этап 1.1) ===
+const UNDEAD_PALETTES = {
+    perch:     { main: '#6a8a4a', light: '#a8c878', dark: '#0a0a0a', belly: '#c0d0a0', fin: '#4a5a2a', eye: '#c0ff00', pupil: '#000', stripe: '#2a3a10', spot: '#2a3a10', gill: '#2a3a10' },
+    gudgeon:   { main: '#6a5a40', light: '#a89880', dark: '#0a0a0a', belly: '#c0b090', fin: '#4a3a20', eye: '#c0ff00', pupil: '#000', stripe: '#2a2010', spot: '#4a3a20', gill: '#2a2010' },
+    roach:     { main: '#8a9098', light: '#b8c0c8', dark: '#0a0a0a', belly: '#d8e0e8', fin: '#8a2a2a', eye: '#ff5500', pupil: '#000', stripe: '#4a5058', spot: '#8a2a2a', gill: '#3a4048' },
+    crucian:   { main: '#a89030', light: '#d8c060', dark: '#0a0a0a', belly: '#e8d890', fin: '#8a6820', eye: '#c0ff00', pupil: '#000', stripe: '#5a4010', spot: '#8a6820', gill: '#5a4010' },
+    bream:     { main: '#7080a0', light: '#a0b0d0', dark: '#0a0a0a', belly: '#c8d0e8', fin: '#586880', eye: '#c0ff00', pupil: '#000', stripe: '#303850', spot: '#586880', gill: '#303850' }
 };
 
 // === УНИКАЛЬНЫЕ ПАЛИТРЫ ДЛЯ НЕЖИТИ (каждая рыба — своя) ===
@@ -1011,7 +1040,255 @@ const UNDEAD_PALETTE = {
     spot: '#8a5a3a',       // гнилые коричневые пятна
     stripe: '#1a2a10'
 };
+// === ПИКСЕЛЬНЫЕ СПРАЙТЫ 16×16 (в стиле Stardew Valley) ===
+// Символы:
+//   . = прозрачный
+//   K = контур (тёмный)
+//   M = основная палитра (main)
+//   L = светлый блик (light)
+//   B = брюхо (belly)
+//   F = плавник (fin)
+//   S = полоса/пятно (stripe)
+//   W = белок глаза
+//   P = зрачок
+//   G = жабры (gill)
 
+const FISH_SPRITES = {
+    // === ОКУНЬ — зелёный, полосатый, оранжевые плавники ===
+    'Окунь': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "......KKKKK.....",
+            "....KKMMMMMKK...",
+            "...KMLMMMMMMMK..",
+            "..KMLMMWMMWMMKK.",
+            "..KMMMWPWMWPMK.F",
+            ".KMMMMWPWMMMWMKFF",
+            "KMMMMMMMWMMMMMKF",
+            "KMMSMMMMMMMSMMKF",
+            "KMMSMMMMMMMSMMKK",
+            ".KMMSMMMMMMSMMK.",
+            "..KMMSMMMMSMMKK.",
+            "...KMMMMMMMKK...",
+            "....KKKKKKK.....",
+            "................",
+            "................"
+        ]
+    },
+
+    // === ПЕСКАРЬ — коричневый, с усами ===
+    'Пескарь': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "................",
+            "......KKKK......",
+            "....KKMMMMKK....",
+            "...KMLMMMMMMK...",
+            "..KMLMWMMWMMKK.K",
+            ".KMMMWPWMMPWMMKK",
+            "KMMMWWPWMMWMMMMK",
+            "KMMMMMMMWMMMMMMK",
+            "KMMMMSMMMMSMMMMK",
+            ".KMMMMSMMSMMMMK.",
+            "..KMMMMMMMMMMK..",
+            "...KKMMMMMMKK...",
+            ".....KKKKKK.....",
+            "................",
+            "................"
+        ]
+    },
+
+    // === ПЛОТВА — серебристая, красный глаз ===
+    'Плотва': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "................",
+            ".....KKKKKK.....",
+            "...KKMMMMMMKK...",
+            "..KMLMMMMMMMK...",
+            "..KMLMMMWMMMKK..",
+            ".KMMMMMWPWMMMKF.",
+            "KMMMMWWPWMMMMMKF",
+            "KMMMMMMMMMMMMMKK",
+            "KMMSMMMMMMMMMMK.",
+            "KMMSMMMMMMMMMK..",
+            ".KMMSMMMMMMMK...",
+            "..KMMMMMMMMK....",
+            "...KKKKKKKK.....",
+            "................",
+            "................"
+        ]
+    },
+
+    // === КАРАСЬ — золотой, высокий, круглый ===
+    'Карась': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "......KKKK......",
+            "....KKMMMMKK....",
+            "...KMLMMMMMMK...",
+            "..KMLMMWMMWMK...",
+            "..KMMMWPWMMMKF..",
+            ".KMMMMWPWMMMMKF.",
+            "KMMMMMMMWMMMMMKF",
+            "KMMMMMMMMMMMMMKK",
+            "KMMMMMMMMMMMMK..",
+            ".KMMMMMMMMMMK...",
+            "..KMMMMMMMMK....",
+            "...KKMMMMKK.....",
+            ".....KKKK.......",
+            "................",
+            "................"
+        ]
+    },
+
+    // === ЛЕЩ — серебристый, высокий и сжатый ===
+    'Лещ': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "......KKKK......",
+            "....KKMMMMKK....",
+            "...KMLMMMMMMK...",
+            "..KMLMMMWMMMKF..",
+            ".KMMMWMMPWMMMKFF",
+            "KMMMMWMPWMMMMMKF",
+            "KMMMMMMMMMMMMMKF",
+            "KMMMMMMMMMMMMMKK",
+            "KMMMMMMMMMMMMK..",
+            ".KMMMMMMMMMMK...",
+            "..KMMMMMMMMK....",
+            "...KKMMMMKK.....",
+            ".....KKKK.......",
+            "................",
+            "................"
+        ]
+    }
+};
+
+// === СПРАЙТЫ НЕЖИТИ (мрачная версия, 16×16) ===
+// Рисуем тех же рыб, но с уникальной палитрой и элементами зомби
+
+const UNDEAD_SPRITES = {
+    // Окунь-нежить — гнило-зелёный, с костями
+    'Окунь': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "......KKKKK.....",
+            "....KKMMMMMKK...",
+            "...KMLKMMMMMMK..",
+            "..KMLKMWMMWMMKK.",
+            "..KMKMKMPWMPMK.F",
+            ".KMKMMKMPWMMWMKFF",
+            "KMKMMMKMWMMMMMKF",
+            "KMKSMMMMMMMSMMKF",
+            "KMKSMMMMMMMSMMKK",
+            ".KMMSMMMMMMSMMK.",
+            "..KMMSMMMMSMMKK.",
+            "...KMMMMMMMKK...",
+            "....KKKKKKK.....",
+            "................",
+            "................"
+        ]
+    },
+
+    // Пескарь-нежить — гнило-коричневый
+    'Пескарь': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "................",
+            "......KKKK......",
+            "....KKMMMMKK....",
+            "...KMLKMMMMMK...",
+            "..KMLKMWMMWMMK.K",
+            ".KMKMMWPWMMPWMKK",
+            "KMKMMWWPWMMWMMMK",
+            "KMKMMMMMWMMMMMMK",
+            "KMMSMMMMMMMSMMMK",
+            ".KMMSMMMMSMMMMK.",
+            "..KMMMMMMMMMMK..",
+            "...KKMMMMMMKK...",
+            ".....KKKKKK.....",
+            "................",
+            "................"
+        ]
+    },
+
+    // Плотва-нежить — пепельно-серая, светящиеся глаза
+    'Плотва': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "................",
+            ".....KKKKKK.....",
+            "...KKMMMMMMKK...",
+            "..KMLKMMMMMMK...",
+            "..KMLKMMWMMMKK..",
+            ".KMKMMMWPWMMMKF.",
+            "KMKMMWWPWMMMMMKF",
+            "KMKMMMMMMMMMMMKK",
+            "KMMSMMMMMMMMMMK.",
+            "KMMSMMMMMMMMMK..",
+            ".KMMSMMMMMMMK...",
+            "..KMMMMMMMMK....",
+            "...KKKKKKKK.....",
+            "................",
+            "................"
+        ]
+    },
+
+    // Карась-нежить — тускло-золотой, с впалыми боками
+    'Карась': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "......KKKK......",
+            "....KKMMMMKK....",
+            "...KMLKMMMMMK...",
+            "..KMLKMWMMWMK...",
+            "..KMKMMWPWMMMKF..",
+            ".KMKMMWMPWMMMMKF.",
+            "KMKMMMMMWMMMMMKF",
+            "KMKMMMMMMMMMMMKK",
+            "KMKMMMMMMMMMMK..",
+            ".KMMMMMMMMMMK...",
+            "..KMMMMMMMMK....",
+            "...KKMMMMKK.....",
+            ".....KKKK.......",
+            "................",
+            "................"
+        ]
+    },
+
+    // Лещ-нежить — синевато-серый, впалые бока
+    'Лещ': {
+        palette: { 'K': 'dark', 'M': 'main', 'L': 'light', 'B': 'belly', 'F': 'fin', 'S': 'stripe', 'W': 'eye', 'P': 'pupil', 'G': 'gill' },
+        pixels: [
+            "................",
+            "......KKKK......",
+            "....KKMMMMKK....",
+            "...KMLKMMMMMK...",
+            "..KMLKMWMMMKF..",
+            ".KMKMMWMPWMMMKFF",
+            "KMKMMWPWMMMMMMKF",
+            "KMKMMMMMMMMMMMKF",
+            "KMKMMMMMMMMMMMKK",
+            "KMKMMMMMMMMMMK..",
+            ".KMMMMMMMMMMK...",
+            "..KMMMMMMMMK....",
+            "...KKMMMMKK.....",
+            ".....KKKK.......",
+            "................",
+            "................"
+        ]
+    }
+};
 // ========================================================
 // ФОРМЫ РЫБ
 // ========================================================
@@ -1855,16 +2132,63 @@ function getFishForm(fishName) {
 
 function getFishIcon(fishName, scale) {
     const info = getFishForm(fishName);
+    const baseName = info.baseName;
+
+    // Ищем спрайт по имени
+    if (info.isUndead && UNDEAD_SPRITES[baseName]) {
+        const palette = UNDEAD_PALETTES[info.form.palette] || UNDEAD_PALETTE;
+        return renderPixelSprite(UNDEAD_SPRITES[baseName], palette, scale);
+    }
+    if (!info.isUndead && FISH_SPRITES[baseName]) {
+        const palette = PALETTES[info.form.palette] || PALETTES[info.form.palette];
+        return renderPixelSprite(FISH_SPRITES[baseName], palette, scale);
+    }
+
+    // Fallback — старая отрисовка
     if (info.isUndead) {
-        // Проверяем, есть ли уникальная палитра нежити
-        const undeadPaletteKey = info.form.palette;
-        if (UNDEAD_PALETTES && UNDEAD_PALETTES[undeadPaletteKey]) {
-            return makeFishSVGWithPalette(UNDEAD_PALETTES[undeadPaletteKey], info.form, scale);
-        }
-        // Fallback — общая палитра нежити
         return makeUndeadFishSVG(info.form, scale);
     }
     return makeFishSVG(info.form.palette, info.form, scale);
+}
+
+// === ОТРИСОВКА ПИКСЕЛЬНОГО СПРАЙТА ===
+function renderPixelSprite(sprite, palette, scale) {
+    scale = scale || 1;
+    const rects = [];
+    
+    for (let y = 0; y < sprite.pixels.length; y++) {
+        const row = sprite.pixels[y];
+        let x = 0;
+        while (x < row.length) {
+            const ch = row[x];
+            if (ch === '.') { x++; continue; }
+            
+            // Ищем длину одного цвета
+            let len = 1;
+            while (x + len < row.length && row[x + len] === ch) len++;
+            
+            // Получаем цвет
+            let color = null;
+            if (ch === 'K') color = palette.dark;
+            else if (ch === 'M') color = palette.main;
+            else if (ch === 'L') color = palette.light;
+            else if (ch === 'B') color = palette.belly;
+            else if (ch === 'F') color = palette.fin;
+            else if (ch === 'S') color = palette.stripe;
+            else if (ch === 'W') color = palette.eye;
+            else if (ch === 'P') color = palette.pupil;
+            else if (ch === 'G') color = palette.gill;
+            
+            if (color) {
+                rects.push(`<rect x="${x}" y="${y}" width="${len}" height="1" fill="${color}"/>`);
+            }
+            x += len;
+        }
+    }
+    
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges" ${scale !== 1 ? `width="${16*scale}" height="${16*scale}"` : ''}>${rects.join('')}</svg>`
+    );
 }
 
 function getFishInfo(fishName) {
