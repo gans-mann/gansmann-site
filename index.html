@@ -2174,42 +2174,6 @@ function showFishModal(fishName, count) {
     document.getElementById('fishModal').classList.add('show');
 }
 
-    // Личный рекорд
-    const recordKey = (playerName.toLowerCase() + '|' + fishName.toLowerCase());
-    let recordHtml = '';
-    if (window._personalRecords && window._personalRecords[recordKey]) {
-        recordHtml = `<div class="info-value record">${window._personalRecords[recordKey]} см</div>`;
-    } else {
-        recordHtml = `<div class="info-value no-record">не установлен</div>`;
-    }
-
-    const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
-    const bigIcon = getFishIcon(fishName, 5);
-
-    const modal = document.getElementById('fishModalContent');
-    modal.className = 'fish-modal rarity-' + info.rarity;
-    modal.innerHTML = `
-        <button class="modal-close" onclick="closeFishModal()">✕</button>
-        <div class="modal-fish-icon-wrap">
-            <img src="${bigIcon}" alt="${info.baseName}" class="modal-fish-icon">
-        </div>
-        <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
-        <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label}</div>
-        <div class="modal-info-grid">
-            <div class="modal-info-block">
-                <div class="info-label">Размер</div>
-                <div class="info-value">${info.min}–${info.max} см</div>
-            </div>
-            <div class="modal-info-block">
-                <div class="info-label">Твой рекорд</div>
-                ${recordHtml}
-            </div>
-        </div>
-        <div class="modal-count ${info.isUndead ? 'undead' : ''}">Поймано: <span>${count}</span> шт.</div>
-    `;
-
-    document.getElementById('fishModal').classList.add('show');
-}
 
 function closeFishModal() {
     document.getElementById('fishModal').classList.remove('show');
