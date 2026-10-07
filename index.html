@@ -1905,7 +1905,8 @@ function showFishModal(fishName, count) {
         recordHtml = `<div class="info-value no-record">не установлен</div>`;
     }
 
-    const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
+    const baseCapitalized = info.baseName.charAt(0).toUpperCase() + info.baseName.slice(1);
+const displayName = info.isUndead ? '🧟 ' + baseCapitalized : baseCapitalized;
     const bigIcon = getFishIcon(fishName, 5);
 
     // Вензеля в углах
