@@ -1322,21 +1322,19 @@ function makeFishSVG(paletteKey, form, scale) {
     // === ХВОСТ === (плавные формы через path)
 const tailX = x2;
 const tailSize = f.tailSize || 6;
+const midY = cy; // ← ЭТА СТРОКА БЫЛА ПРОПУЩЕНА
 
 if (f.tailType === 'fork') {
     // Плавная вилка — две дуги
-    const midY = cy;
     s += `<path d="M ${tailX} ${midY-1} L ${tailX+2} ${midY-1} L ${tailX+tailSize} ${midY-tailSize-1} Q ${tailX+tailSize+1} ${midY-tailSize-2} ${tailX+tailSize-1} ${midY-tailSize-3} L ${tailX+2} ${midY-1} Z" fill="${p.fin}"/>`;
     s += `<path d="M ${tailX} ${midY+1} L ${tailX+2} ${midY+1} L ${tailX+tailSize} ${midY+tailSize+1} Q ${tailX+tailSize+1} ${midY+tailSize+2} ${tailX+tailSize-1} ${midY+tailSize+3} L ${tailX+2} ${midY+1} Z" fill="${p.fin}"/>`;
     s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
-    // Прожилки
     s += `<rect x="${tailX+3}" y="${midY-2}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
     s += `<rect x="${tailX+3}" y="${midY+1}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
 } else if (f.tailType === 'fan') {
     // Плавный веер — полукруг
     s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
     s += `<path d="M ${tailX+2} ${midY-5} Q ${tailX+tailSize-1} ${midY-tailSize-3} ${tailX+tailSize+1} ${midY} Q ${tailX+tailSize-1} ${midY+tailSize+3} ${tailX+2} ${midY+5} Z" fill="${p.fin}"/>`;
-    // Рёбра веера
     for (let i = -2; i <= 2; i++) {
         s += `<rect x="${tailX+4+i}" y="${midY + i*3 - 1}" width="1" height="2" fill="${p.dark}" opacity="0.5"/>`;
     }
