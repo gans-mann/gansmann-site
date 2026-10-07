@@ -147,383 +147,150 @@ body::before {
     gap: 10px;
 }
 
-/* === ГРАНДИОЗНЫЕ КАРТОЧКИ === */
+/* === ПЛАШКИ РЫБ === */
 .fish-item {
-    border-radius: 16px;
+    border-radius: 14px;
     padding: 12px 14px;
     display: flex; align-items: center; gap: 12px;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s ease;
     cursor: pointer;
     position: relative; user-select: none;
     border: 2px solid transparent;
     overflow: hidden;
-    background-clip: padding-box;
 }
 
 .fish-item .fish-item-inner {
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     pointer-events: none; z-index: 0;
 }
-
-/* Верхняя/нижняя узорная полоса */
-.fish-item .fish-item-inner::before,
+.fish-item .fish-item-inner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
+    opacity: 0.5;
+    border-radius: 2px;
+}
 .fish-item .fish-item-inner::after {
     content: '';
     position: absolute;
-    left: 12%; right: 12%;
+    bottom: 0; left: 10%; right: 10%;
     height: 2px;
     background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
-    opacity: 0.6;
-}
-.fish-item .fish-item-inner::before { top: 0; }
-.fish-item .fish-item-inner::after { bottom: 0; }
-
-/* Уголки */
-.fish-item::before,
-.fish-item::after {
-    content: '';
-    position: absolute;
-    width: 18px; height: 18px;
-    border: 2px solid currentColor;
-    opacity: 0.7;
-    transition: all 0.35s;
-    pointer-events: none;
-}
-.fish-item::before {
-    top: 4px; left: 4px;
-    border-right: none; border-bottom: none;
-    border-top-left-radius: 8px;
-}
-.fish-item::after {
-    bottom: 4px; right: 4px;
-    border-left: none; border-top: none;
-    border-bottom-right-radius: 8px;
-}
-.fish-item:hover::before,
-.fish-item:hover::after {
-    width: 24px; height: 24px; opacity: 1;
+    opacity: 0.5;
+    border-radius: 2px;
 }
 .fish-item > * { position: relative; z-index: 1; }
 
-/* === ОБЫЧНАЯ — простая, серая рамка === */
 .fish-item.rarity-common {
     color: rgba(140, 180, 220, 0.7);
     border-color: rgba(120, 160, 200, 0.45);
     background: linear-gradient(135deg, rgba(70, 110, 150, 0.28) 0%, rgba(40, 70, 100, 0.15) 50%, rgba(70, 110, 150, 0.22) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 .fish-item.rarity-common:hover {
     border-color: rgba(170, 210, 250, 0.85);
     background: linear-gradient(135deg, rgba(100, 150, 200, 0.4) 0%, rgba(60, 100, 140, 0.22) 50%, rgba(100, 150, 200, 0.32) 100%);
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3), 0 0 20px rgba(120, 180, 230, 0.15), inset 0 1px 0 rgba(255,255,255,0.12);
+    box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3), 0 0 20px rgba(120, 180, 230, 0.15);
 }
 
-/* === РЕДКАЯ — голубая с блеском === */
 .fish-item.rarity-rare {
-    color: rgba(0, 212, 255, 0.85);
+    color: rgba(0, 212, 255, 0.8);
     border-color: rgba(0, 212, 255, 0.55);
-    background: linear-gradient(135deg, rgba(0, 180, 255, 0.3) 0%, rgba(0, 120, 180, 0.15) 50%, rgba(0, 180, 255, 0.24) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 14px rgba(0,212,255,0.25), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.15);
-    position: relative;
-}
-/* Блик-«звезда» по диагонали */
-.fish-item.rarity-rare .fish-item-inner {
-    background-image: linear-gradient(115deg, transparent 40%, rgba(0, 240, 255, 0.15) 45%, rgba(255, 255, 255, 0.25) 50%, rgba(0, 240, 255, 0.15) 55%, transparent 60%);
-    background-size: 200% 200%;
-    animation: rareShine 4s ease-in-out infinite;
-}
-@keyframes rareShine {
-    0% { background-position: 200% 50%; }
-    100% { background-position: -100% 50%; }
+    background: linear-gradient(135deg, rgba(0, 180, 255, 0.28) 0%, rgba(0, 120, 180, 0.15) 50%, rgba(0, 180, 255, 0.22) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 14px rgba(0,212,255,0.2);
 }
 .fish-item.rarity-rare:hover {
     border-color: rgba(100, 235, 255, 1);
     background: linear-gradient(135deg, rgba(0, 212, 255, 0.45) 0%, rgba(0, 150, 220, 0.25) 50%, rgba(0, 212, 255, 0.35) 100%);
     transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45), 0 0 30px rgba(0, 212, 255, 0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+    box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45), 0 0 30px rgba(0, 212, 255, 0.3);
 }
 
-/* === ЭПИЧЕСКАЯ — фиолетовая с рубинами === */
 .fish-item.rarity-epic {
-    color: rgba(200, 180, 255, 0.9);
-    border-color: rgba(167, 139, 250, 0.7);
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.35) 0%, rgba(120, 90, 200, 0.18) 50%, rgba(167, 139, 250, 0.28) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 18px rgba(167,139,250,0.3), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.2);
-}
-/* Голографический перелив для эпических */
-.fish-item.rarity-epic .fish-item-inner {
-    background: linear-gradient(
-        115deg,
-        transparent 30%,
-        rgba(255, 100, 200, 0.15) 40%,
-        rgba(140, 100, 255, 0.2) 50%,
-        rgba(100, 200, 255, 0.15) 60%,
-        transparent 70%
-    );
-    background-size: 300% 300%;
-    animation: holoSweepCard 5s ease-in-out infinite;
-    mix-blend-mode: screen;
-}
-@keyframes holoSweepCard {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-/* Камни в углах (псевдо-элементы) */
-.fish-item.rarity-epic .fish-icon-wrap,
-.fish-item.rarity-legendary .fish-icon-wrap {
-    position: relative;
+    color: rgba(200, 180, 255, 0.85);
+    border-color: rgba(167, 139, 250, 0.6);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(120, 90, 200, 0.15) 50%, rgba(167, 139, 250, 0.24) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 18px rgba(167,139,250,0.25);
 }
 .fish-item.rarity-epic:hover {
     border-color: rgba(220, 205, 255, 1);
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.5) 0%, rgba(140, 110, 220, 0.3) 50%, rgba(167, 139, 250, 0.4) 100%);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.48) 0%, rgba(140, 110, 220, 0.28) 50%, rgba(167, 139, 250, 0.38) 100%);
     transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.55), 0 0 40px rgba(167, 139, 250, 0.4), inset 0 1px 0 rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5), 0 0 36px rgba(167, 139, 250, 0.35);
 }
 
-/* === ЛЕГЕНДАРНАЯ — золотая с короной === */
 .fish-item.rarity-legendary {
-    color: rgba(255, 240, 150, 1);
-    border-color: rgba(255, 215, 0, 0.9);
-    background: 
-        radial-gradient(circle at 15% 15%, rgba(255, 245, 180, 0.35) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(255, 200, 50, 0.35) 0%, transparent 40%),
-        linear-gradient(135deg, rgba(255, 200, 50, 0.42) 0%, rgba(200, 140, 0, 0.22) 50%, rgba(255, 200, 50, 0.34) 100%);
-    box-shadow: 
-        0 2px 8px rgba(0,0,0,0.3),
-        0 0 30px rgba(255,215,0,0.5),
-        0 0 60px rgba(255,215,0,0.2),
-        inset 0 1px 0 rgba(255,255,255,0.2),
-        inset 0 -1px 0 rgba(0,0,0,0.2);
-    animation: legendaryPulseStrong 2.5s ease-in-out infinite;
-    position: relative;
+    color: rgba(255, 230, 130, 0.9);
+    border-color: rgba(255, 215, 0, 0.75);
+    background: linear-gradient(135deg, rgba(255, 200, 50, 0.35) 0%, rgba(200, 140, 0, 0.18) 50%, rgba(255, 200, 50, 0.28) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3);
+    animation: legendaryPulse 3s ease-in-out infinite;
 }
-@keyframes legendaryPulseStrong {
-    0%, 100% { 
-        box-shadow: 
-            0 2px 8px rgba(0,0,0,0.3),
-            0 0 30px rgba(255,215,0,0.5),
-            0 0 60px rgba(255,215,0,0.2),
-            inset 0 1px 0 rgba(255,255,255,0.2),
-            inset 0 -1px 0 rgba(0,0,0,0.2);
-    }
-    50% { 
-        box-shadow: 
-            0 2px 8px rgba(0,0,0,0.3),
-            0 0 50px rgba(255,215,0,0.8),
-            0 0 90px rgba(255,215,0,0.4),
-            inset 0 1px 0 rgba(255,255,255,0.3),
-            inset 0 -1px 0 rgba(0,0,0,0.2);
-    }
+@keyframes legendaryPulse {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 40px rgba(255,215,0,0.55); }
 }
-/* Голографический перелив */
-.fish-item.rarity-legendary .fish-item-inner {
-    background: linear-gradient(
-        115deg,
-        transparent 25%,
-        rgba(255, 220, 100, 0.2) 35%,
-        rgba(255, 255, 200, 0.3) 50%,
-        rgba(255, 220, 100, 0.2) 65%,
-        transparent 75%
-    );
-    background-size: 300% 300%;
-    animation: holoSweepCard 4s ease-in-out infinite;
-    mix-blend-mode: screen;
-}
-
-/* === КОРОНА для легендарных (::before карточки) === */
-.fish-item.rarity-legendary::before {
-    content: '👑';
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-    width: auto; height: auto;
-    border: none;
-    opacity: 1;
-    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.9));
-    z-index: 5;
-    animation: crownFloat 2s ease-in-out infinite;
-    transition: none;
-}
-@keyframes crownFloat {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-3px); }
-}
-.fish-item.rarity-legendary:hover::before {
-    font-size: 24px;
-    width: auto; height: auto;
-}
-
-/* Камни в углах для легендарных */
-.fish-item.rarity-legendary::after {
-    content: '💎';
-    position: absolute;
-    bottom: -4px;
-    right: 4px;
-    font-size: 14px;
-    width: auto; height: auto;
-    border: none;
-    opacity: 0.9;
-    filter: drop-shadow(0 0 6px rgba(100, 220, 255, 0.9));
-    z-index: 5;
-    animation: gemTwinkle 3s ease-in-out infinite;
-}
-@keyframes gemTwinkle {
-    0%, 100% { opacity: 0.7; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.15); }
-}
-
 .fish-item.rarity-legendary:hover {
-    border-color: rgba(255, 250, 200, 1);
-    background: 
-        radial-gradient(circle at 15% 15%, rgba(255, 245, 180, 0.5) 0%, transparent 45%),
-        radial-gradient(circle at 85% 85%, rgba(255, 220, 80, 0.5) 0%, transparent 45%),
-        linear-gradient(135deg, rgba(255, 215, 0, 0.55) 0%, rgba(220, 160, 20, 0.35) 50%, rgba(255, 215, 0, 0.45) 100%);
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 
-        0 10px 40px rgba(255, 215, 0, 0.7),
-        0 0 70px rgba(255, 215, 0, 0.5),
-        inset 0 1px 0 rgba(255,255,255,0.3);
+    border-color: rgba(255, 245, 150, 1);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.5) 0%, rgba(220, 160, 20, 0.3) 50%, rgba(255, 215, 0, 0.4) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 40px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.45);
 }
 
-/* === НЕЖИТЬ — мрачная, зелёно-серая с костями === */
-.fish-item.undead {
-    position: relative;
-}
-
-/* Нежить обычная */
+/* Нежить */
 .fish-item.undead.rarity-common {
-    color: rgba(150, 170, 120, 0.85);
-    border-color: rgba(100, 120, 70, 0.65);
-    background: linear-gradient(135deg, rgba(60, 70, 50, 0.5) 0%, rgba(30, 40, 25, 0.3) 50%, rgba(60, 70, 50, 0.4) 100%);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 14px rgba(100,120,70,0.2), inset 0 1px 0 rgba(200,220,150,0.08);
+    color: rgba(150, 170, 120, 0.8);
+    border-color: rgba(120, 130, 90, 0.55);
+    background: linear-gradient(135deg, rgba(70, 80, 60, 0.4) 0%, rgba(40, 50, 35, 0.2) 50%, rgba(70, 80, 60, 0.3) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(120,140,90,0.15);
 }
 .fish-item.undead.rarity-common:hover {
-    border-color: rgba(180, 200, 140, 0.95);
-    background: linear-gradient(135deg, rgba(90, 105, 70, 0.65) 0%, rgba(50, 65, 40, 0.4) 50%, rgba(90, 105, 70, 0.5) 100%);
-    box-shadow: 0 8px 28px rgba(140, 160, 100, 0.45), 0 0 30px rgba(140, 160, 100, 0.3), inset 0 1px 0 rgba(200,220,150,0.15);
+    border-color: rgba(180, 200, 140, 0.9);
+    background: linear-gradient(135deg, rgba(100, 120, 80, 0.55) 0%, rgba(60, 75, 50, 0.3) 50%, rgba(100, 120, 80, 0.4) 100%);
+    box-shadow: 0 8px 24px rgba(140, 160, 100, 0.4), 0 0 24px rgba(140, 160, 100, 0.25);
 }
-
-/* Нежить редкая */
 .fish-item.undead.rarity-rare {
-    color: rgba(120, 180, 180, 0.9);
-    border-color: rgba(70, 130, 130, 0.75);
-    background: linear-gradient(135deg, rgba(40, 80, 90, 0.5) 0%, rgba(25, 50, 55, 0.3) 50%, rgba(40, 80, 90, 0.4) 100%);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 18px rgba(70,140,140,0.25), inset 0 1px 0 rgba(150,200,200,0.1);
-}
-.fish-item.undead.rarity-rare .fish-item-inner {
-    background: linear-gradient(115deg, transparent 40%, rgba(100, 200, 200, 0.15) 45%, rgba(180, 255, 255, 0.2) 50%, rgba(100, 200, 200, 0.15) 55%, transparent 60%);
-    background-size: 200% 200%;
-    animation: rareShine 5s ease-in-out infinite;
-    mix-blend-mode: screen;
+    color: rgba(130, 180, 200, 0.85);
+    border-color: rgba(100, 140, 160, 0.65);
+    background: linear-gradient(135deg, rgba(60, 90, 110, 0.4) 0%, rgba(40, 60, 80, 0.2) 50%, rgba(60, 90, 110, 0.32) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 16px rgba(100,150,180,0.2);
 }
 .fish-item.undead.rarity-rare:hover {
-    border-color: rgba(140, 220, 220, 1);
-    background: linear-gradient(135deg, rgba(70, 120, 130, 0.6) 0%, rgba(45, 80, 85, 0.4) 50%, rgba(70, 120, 130, 0.5) 100%);
-    box-shadow: 0 8px 32px rgba(90, 180, 180, 0.5), 0 0 40px rgba(90, 180, 180, 0.35);
+    border-color: rgba(160, 210, 240, 0.95);
+    background: linear-gradient(135deg, rgba(90, 130, 160, 0.55) 0%, rgba(60, 90, 110, 0.3) 50%, rgba(90, 130, 160, 0.42) 100%);
+    box-shadow: 0 8px 28px rgba(110, 160, 190, 0.45), 0 0 30px rgba(110, 160, 190, 0.3);
 }
-
-/* Нежить эпическая */
 .fish-item.undead.rarity-epic {
-    color: rgba(170, 130, 190, 0.9);
-    border-color: rgba(130, 80, 150, 0.75);
-    background: linear-gradient(135deg, rgba(80, 40, 100, 0.5) 0%, rgba(45, 25, 55, 0.3) 50%, rgba(80, 40, 100, 0.4) 100%);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 20px rgba(140,80,170,0.3), inset 0 1px 0 rgba(200,150,220,0.1);
-}
-.fish-item.undead.rarity-epic .fish-item-inner {
-    background: linear-gradient(
-        115deg,
-        transparent 30%,
-        rgba(200, 80, 150, 0.15) 40%,
-        rgba(150, 80, 200, 0.25) 50%,
-        rgba(100, 150, 200, 0.15) 60%,
-        transparent 70%
-    );
-    background-size: 300% 300%;
-    animation: holoSweepCard 5s ease-in-out infinite;
-    mix-blend-mode: screen;
+    color: rgba(160, 140, 190, 0.85);
+    border-color: rgba(120, 100, 140, 0.7);
+    background: linear-gradient(135deg, rgba(80, 60, 100, 0.4) 0%, rgba(50, 40, 70, 0.2) 50%, rgba(80, 60, 100, 0.32) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 18px rgba(140,110,170,0.22);
 }
 .fish-item.undead.rarity-epic:hover {
-    border-color: rgba(200, 160, 230, 1);
-    background: linear-gradient(135deg, rgba(110, 70, 130, 0.6) 0%, rgba(70, 45, 85, 0.4) 50%, rgba(110, 70, 130, 0.5) 100%);
-    box-shadow: 0 8px 36px rgba(150, 100, 190, 0.55), 0 0 45px rgba(150, 100, 190, 0.4);
+    border-color: rgba(200, 180, 230, 0.95);
+    background: linear-gradient(135deg, rgba(120, 95, 150, 0.55) 0%, rgba(80, 65, 110, 0.3) 50%, rgba(120, 95, 150, 0.42) 100%);
+    box-shadow: 0 8px 30px rgba(150, 120, 180, 0.45), 0 0 32px rgba(150, 120, 180, 0.3);
 }
-
-/* Нежить легендарная — золотая с черепом */
 .fish-item.undead.rarity-legendary {
-    color: rgba(220, 200, 140, 1);
-    border-color: rgba(200, 170, 80, 0.9);
-    background: 
-        radial-gradient(circle at 15% 15%, rgba(220, 200, 130, 0.35) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(180, 140, 50, 0.35) 0%, transparent 40%),
-        linear-gradient(135deg, rgba(140, 110, 50, 0.55) 0%, rgba(90, 65, 25, 0.35) 50%, rgba(140, 110, 50, 0.45) 100%);
-    box-shadow: 
-        0 2px 10px rgba(0,0,0,0.4),
-        0 0 30px rgba(200,170,80,0.5),
-        0 0 60px rgba(200,170,80,0.25),
-        inset 0 1px 0 rgba(255,240,180,0.15);
-    animation: undeadLegendaryStrong 3s ease-in-out infinite;
+    color: rgba(200, 180, 120, 0.9);
+    border-color: rgba(160, 140, 70, 0.8);
+    background: linear-gradient(135deg, rgba(110, 90, 50, 0.42) 0%, rgba(70, 55, 30, 0.22) 50%, rgba(110, 90, 50, 0.34) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(160,140,70,0.3);
+    animation: undeadLegendaryPulse 3s ease-in-out infinite;
 }
-@keyframes undeadLegendaryStrong {
-    0%, 100% { 
-        box-shadow: 
-            0 2px 10px rgba(0,0,0,0.4),
-            0 0 30px rgba(200,170,80,0.5),
-            0 0 60px rgba(200,170,80,0.25);
-    }
-    50% { 
-        box-shadow: 
-            0 2px 10px rgba(0,0,0,0.4),
-            0 0 50px rgba(200,170,80,0.8),
-            0 0 90px rgba(200,170,80,0.45);
-    }
-}
-.fish-item.undead.rarity-legendary .fish-item-inner {
-    background: linear-gradient(
-        115deg,
-        transparent 25%,
-        rgba(200, 160, 60, 0.2) 35%,
-        rgba(255, 230, 150, 0.3) 50%,
-        rgba(200, 160, 60, 0.2) 65%,
-        transparent 75%
-    );
-    background-size: 300% 300%;
-    animation: holoSweepCard 5s ease-in-out infinite;
-    mix-blend-mode: screen;
-}
-
-/* Череп вместо короны для нежити-легендарки */
-.fish-item.undead.rarity-legendary::before {
-    content: '💀';
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 22px;
-    width: auto; height: auto;
-    border: none;
-    opacity: 1;
-    filter: drop-shadow(0 0 8px rgba(200, 170, 80, 0.9));
-    z-index: 5;
-    animation: crownFloat 3s ease-in-out infinite;
+@keyframes undeadLegendaryPulse {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(160,140,70,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 42px rgba(160,140,70,0.55); }
 }
 .fish-item.undead.rarity-legendary:hover {
-    border-color: rgba(240, 220, 150, 1);
-    background: 
-        radial-gradient(circle at 15% 15%, rgba(220, 200, 130, 0.5) 0%, transparent 45%),
-        radial-gradient(circle at 85% 85%, rgba(180, 140, 50, 0.5) 0%, transparent 45%),
-        linear-gradient(135deg, rgba(160, 130, 60, 0.65) 0%, rgba(110, 85, 35, 0.4) 50%, rgba(160, 130, 60, 0.55) 100%);
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 
-        0 10px 40px rgba(200,170,80,0.7),
-        0 0 70px rgba(200,170,80,0.5),
-        inset 0 1px 0 rgba(255,240,180,0.25);
+    border-color: rgba(230, 210, 120, 1);
+    background: linear-gradient(135deg, rgba(140, 120, 70, 0.58) 0%, rgba(95, 80, 45, 0.32) 50%, rgba(140, 120, 70, 0.45) 100%);
+    box-shadow: 0 8px 40px rgba(170, 150, 80, 0.6), 0 0 50px rgba(170, 150, 80, 0.45);
 }
 
-/* Иконка рыбы */
 .fish-icon {
     width: 56px; height: 56px;
     image-rendering: pixelated;
@@ -534,15 +301,11 @@ body::before {
 }
 .fish-item:hover .fish-icon { transform: scale(1.1); }
 
-/* Имя рыбы */
 .fish-name {
     font-size: 0.95rem; font-weight: 700; flex: 1;
     min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-    letter-spacing: 0.3px;
 }
-
-/* Счётчик */
 .fish-count {
     background: rgba(0,212,255,0.3); color: #ffffff;
     font-weight: 900; font-size: 0.95rem; padding: 5px 11px;
@@ -555,67 +318,196 @@ body::before {
 .fish-item.rarity-common .fish-count { background: rgba(120,160,200,0.4); }
 .fish-item.rarity-rare .fish-count { background: rgba(0,212,255,0.45); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 12px rgba(0,212,255,0.5); }
 .fish-item.rarity-epic .fish-count { background: rgba(167,139,250,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 14px rgba(167,139,250,0.5); }
-.fish-item.rarity-legendary .fish-count { 
-    background: linear-gradient(135deg, #ffd700, #ffed4e); 
-    color: #3a2500;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 0 20px rgba(255,215,0,0.7);
-    border-color: rgba(255, 240, 150, 0.8);
-}
-.fish-item.undead .fish-count { background: rgba(120,130,90,0.5); color: #e8f0d0; }
-.fish-item.undead.rarity-legendary .fish-count {
-    background: linear-gradient(135deg, #c8b878, #e8d8a0);
-    color: #2a1f00;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 0 20px rgba(200,170,80,0.7);
-}
-
-/* === МОДАЛЬНОЕ ОКНО === */
+.fish-item.rarity-legendary .fish-count { background: rgba(255,215,0,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 16px rgba(255,215,0,0.6); color: #fff8d0; }
+.fish-item.undead .fish-count { background: rgba(120,130,90,0.5); }
+/* === МОДАЛЬНОЕ ОКНО (КАРТОЧКА РЫБЫ) === */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(12px);
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(14px);
     display: flex; align-items: center; justify-content: center;
     z-index: 1000;
     opacity: 0; pointer-events: none;
     transition: opacity 0.3s ease;
     padding: 20px;
+    perspective: 1200px;
 }
 .modal-overlay.show { opacity: 1; pointer-events: auto; }
 
 .fish-modal {
-    background: radial-gradient(ellipse at top, rgba(50, 70, 95, 0.98) 0%, rgba(20, 35, 50, 0.99) 100%);
-    border-radius: 24px;
-    padding: 32px 28px 24px;
-    max-width: 500px;
+    background: 
+        radial-gradient(ellipse at 30% 20%, rgba(80, 100, 130, 0.95) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(40, 60, 85, 0.98) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(35, 55, 80, 0.98) 0%, rgba(15, 28, 42, 0.99) 100%);
+    border-radius: 28px;
+    padding: 40px 32px 28px;
+    max-width: 540px;
     width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.8),
+        0 0 80px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
     position: relative;
-    transform: scale(0.85) translateY(30px);
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: scale(0.85) translateY(30px) rotateX(8deg);
+    transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
     overflow: hidden;
+    transform-style: preserve-3d;
+    isolation: isolate;
 }
-.modal-overlay.show .fish-modal { transform: scale(1) translateY(0); }
+.modal-overlay.show .fish-modal { 
+    transform: scale(1) translateY(0) rotateX(0deg);
+}
 
-.fish-modal.rarity-epic::before,
-.fish-modal.rarity-legendary::before {
+/* === ВРАЩАЮЩИЕСЯ ВЕНЗЕЛЯ В УГЛАХ === */
+.modal-corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    color: currentColor;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 6;
+    transition: all 0.4s;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+.fish-modal:hover .modal-corner {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 14px currentColor);
+}
+.modal-corner.tl { top: 12px; left: 12px; }
+.modal-corner.tr { top: 12px; right: 12px; transform: scaleX(-1); }
+.modal-corner.bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+.modal-corner.br { bottom: 12px; right: 12px; transform: scale(-1, -1); }
+.fish-modal:hover .modal-corner.tr { transform: scaleX(-1) scale(1.05); }
+.fish-modal:hover .modal-corner.bl { transform: scaleY(-1) scale(1.05); }
+.fish-modal:hover .modal-corner.br { transform: scale(-1, -1) scale(1.05); }
+
+/* Внутренняя тонкая рамка */
+.fish-modal::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* === ВЕРХНЯЯ ДЕКОРАТИВНАЯ ЛИНИЯ С ЗАВИТКАМИ === */
+.fish-modal::after {
+    content: '❦ ═══ ❦ ═══ ❦';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    color: currentColor;
+    opacity: 0.7;
+    letter-spacing: 4px;
+    z-index: 6;
+    white-space: nowrap;
+    text-shadow: 0 0 10px currentColor;
+}
+
+/* === РАМКА ПО РЕДКОСТИ === */
+.fish-modal.rarity-common { 
+    color: rgba(160, 200, 240, 0.9); 
+    border-color: rgba(140, 180, 220, 0.6);
+    box-shadow: 
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 60px rgba(140, 180, 220, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.fish-modal.rarity-rare { 
+    color: #00d4ff; 
+    border-color: rgba(0, 212, 255, 0.75);
+    box-shadow: 
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 80px rgba(0,212,255,0.4),
+        0 0 120px rgba(0,212,255,0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.fish-modal.rarity-epic { 
+    color: #c4b5fd; 
+    border-color: rgba(167, 139, 250, 0.8);
+    box-shadow: 
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 80px rgba(167,139,250,0.45),
+        0 0 120px rgba(167,139,250,0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    animation: epicAura 4s ease-in-out infinite;
+}
+@keyframes epicAura {
+    0%, 100% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(167,139,250,0.45), 0 0 120px rgba(167,139,250,0.25), inset 0 1px 0 rgba(255,255,255,0.15); }
+    50% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(167,139,250,0.6), 0 0 150px rgba(167,139,250,0.35), inset 0 1px 0 rgba(255,255,255,0.2); }
+}
+.fish-modal.rarity-legendary { 
+    color: #ffd700; 
+    border-color: rgba(255, 215, 0, 0.9);
+    box-shadow: 
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 100px rgba(255,215,0,0.5),
+        0 0 180px rgba(255,215,0,0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    animation: legendaryAura 3s ease-in-out infinite;
+}
+@keyframes legendaryAura {
+    0%, 100% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(255,215,0,0.5), 0 0 180px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2); }
+    50% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 140px rgba(255,215,0,0.75), 0 0 240px rgba(255,215,0,0.5), inset 0 1px 0 rgba(255,255,255,0.25); }
+}
+
+/* Нежить */
+.fish-modal.undead.rarity-common { 
+    color: rgba(150, 170, 120, 0.9); 
+    border-color: rgba(120, 140, 90, 0.7);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(120,140,90,0.3);
+}
+.fish-modal.undead.rarity-rare { 
+    color: #8ab4c8; 
+    border-color: rgba(100, 140, 160, 0.75);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 70px rgba(100,150,180,0.35);
+}
+.fish-modal.undead.rarity-epic { 
+    color: #a890c8; 
+    border-color: rgba(130, 100, 150, 0.8);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(140,110,170,0.4);
+    animation: epicAura 4s ease-in-out infinite;
+}
+.fish-modal.undead.rarity-legendary { 
+    color: #c8b078; 
+    border-color: rgba(200, 170, 80, 0.9);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(200,170,80,0.5);
+    animation: undeadLegendaryAura 3s ease-in-out infinite;
+}
+@keyframes undeadLegendaryAura {
+    0%, 100% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(200,170,80,0.5); }
+    50% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 140px rgba(200,170,80,0.75); }
+}
+
+/* === ГОЛОГРАФИЧЕСКИЙ ПЕРЕЛИВ (для epic/legendary) === */
+.fish-modal.rarity-epic .modal-holo,
+.fish-modal.rarity-legendary .modal-holo {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(
         115deg,
-        transparent 20%,
-        rgba(255, 100, 200, 0.15) 30%,
-        rgba(100, 200, 255, 0.2) 40%,
-        rgba(200, 255, 100, 0.15) 50%,
-        rgba(255, 200, 100, 0.2) 60%,
-        transparent 70%
+        transparent 15%,
+        rgba(255, 100, 200, 0.18) 30%,
+        rgba(140, 100, 255, 0.22) 45%,
+        rgba(100, 200, 255, 0.18) 55%,
+        rgba(255, 200, 100, 0.22) 70%,
+        transparent 85%
     );
     background-size: 300% 300%;
     animation: holoSweep 6s ease-in-out infinite;
     pointer-events: none;
     z-index: 1;
     mix-blend-mode: screen;
-    border-radius: 24px;
+    border-radius: 26px;
 }
 @keyframes holoSweep {
     0% { background-position: 0% 50%; }
@@ -623,104 +515,97 @@ body::before {
     100% { background-position: 0% 50%; }
 }
 
-.fish-modal.rarity-legendary::after {
-    content: '';
+/* === КОРОНА (для легендарных карточек) === */
+.modal-crown {
     position: absolute;
-    top: 0; left: -100%;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 100, 0.9) 30%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 100, 0.9) 70%, transparent 100%);
-    animation: shineTop 3s ease-in-out infinite;
-    z-index: 3;
-}
-@keyframes shineTop {
-    0% { left: -100%; }
-    50% { left: 100%; }
-    100% { left: 100%; }
-}
-
-.fish-modal:not(.rarity-epic):not(.rarity-legendary)::before {
-    content: '';
-    position: absolute;
-    top: 8px; left: 8px; right: 8px; bottom: 8px;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 42px;
+    filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+    z-index: 10;
+    animation: crownBob 3s ease-in-out infinite;
     pointer-events: none;
-    z-index: 0;
+}
+@keyframes crownBob {
+    0%, 100% { transform: translateX(-50%) translateY(0) rotate(-3deg); }
+    50% { transform: translateX(-50%) translateY(-6px) rotate(3deg); }
 }
 
-.fish-modal.rarity-common { color: rgba(140, 180, 220, 0.8); border-color: rgba(120, 160, 200, 0.5); }
-.fish-modal.rarity-rare { color: #00d4ff; border-color: rgba(0, 212, 255, 0.6); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(0,212,255,0.3), inset 0 1px 0 rgba(255,255,255,0.1); }
-.fish-modal.rarity-epic { color: #a78bfa; border-color: rgba(167, 139, 250, 0.6); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(167,139,250,0.3), inset 0 1px 0 rgba(255,255,255,0.1); }
-.fish-modal.rarity-legendary { color: #ffd700; border-color: rgba(255, 215, 0, 0.7); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 80px rgba(255,215,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15); }
-
-.fish-modal.undead.rarity-common { color: rgba(140, 160, 100, 0.85); border-color: rgba(120, 140, 90, 0.6); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 40px rgba(120,140,90,0.3); }
-.fish-modal.undead.rarity-rare { color: #8ab4c8; border-color: rgba(100, 140, 160, 0.65); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 50px rgba(100,150,180,0.3); }
-.fish-modal.undead.rarity-epic { color: #a890c8; border-color: rgba(120, 100, 140, 0.7); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 50px rgba(140,110,170,0.3); }
-.fish-modal.undead.rarity-legendary { color: #c8b078; border-color: rgba(160, 140, 70, 0.8); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(160,140,70,0.4); }
-
-.modal-corner {
+/* === КАМНИ ПО УГЛАМ (для epic/legendary) === */
+.modal-gem {
     position: absolute;
-    width: 40px; height: 40px;
-    color: currentColor;
-    opacity: 0.5;
+    font-size: 18px;
+    opacity: 0.9;
+    z-index: 7;
     pointer-events: none;
-    z-index: 4;
-    transition: opacity 0.3s;
+    filter: drop-shadow(0 0 8px currentColor);
+    animation: gemTwinkle 2.5s ease-in-out infinite;
 }
-.fish-modal:hover .modal-corner { opacity: 0.85; }
-.modal-corner.tl { top: 10px; left: 10px; }
-.modal-corner.tr { top: 10px; right: 10px; transform: scaleX(-1); }
-.modal-corner.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
-.modal-corner.br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
+@keyframes gemTwinkle {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+.modal-gem.g1 { top: 40px; left: 20px; animation-delay: 0s; }
+.modal-gem.g2 { top: 40px; right: 20px; animation-delay: 0.6s; }
+.modal-gem.g3 { bottom: 40px; left: 20px; animation-delay: 1.2s; }
+.modal-gem.g4 { bottom: 40px; right: 20px; animation-delay: 1.8s; }
 
+/* === ЧАСТИЦЫ === */
 .modal-particles {
     position: absolute;
     inset: 0;
     pointer-events: none;
     overflow: hidden;
     z-index: 5;
-    border-radius: 24px;
+    border-radius: 26px;
 }
 .particle {
     position: absolute;
-    width: 4px; height: 4px;
+    width: 5px; height: 5px;
     background: radial-gradient(circle, #fff 0%, #ffd700 60%, transparent 100%);
     border-radius: 50%;
-    box-shadow: 0 0 8px #ffd700, 0 0 16px #ffd700;
+    box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
     animation: particleFloat 4s ease-in-out infinite;
     opacity: 0;
 }
 @keyframes particleFloat {
     0% { transform: translateY(0) scale(0); opacity: 0; }
     15% { opacity: 1; }
-    50% { transform: translateY(-60px) scale(1); opacity: 1; }
+    50% { transform: translateY(-70px) scale(1.2); opacity: 1; }
     85% { opacity: 0.6; }
-    100% { transform: translateY(-120px) scale(0.3); opacity: 0; }
+    100% { transform: translateY(-140px) scale(0.3); opacity: 0; }
 }
 .fish-modal.rarity-epic .particle {
     background: radial-gradient(circle, #fff 0%, #a78bfa 60%, transparent 100%);
-    box-shadow: 0 0 8px #a78bfa, 0 0 16px #a78bfa;
+    box-shadow: 0 0 10px #a78bfa, 0 0 20px #a78bfa;
 }
 
+/* Кнопка закрытия */
 .modal-close {
-    position: absolute; top: 16px; right: 16px;
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: absolute; top: 18px; right: 18px;
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
     font-size: 1.2rem; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.25s;
-    z-index: 10;
-    backdrop-filter: blur(4px);
+    z-index: 15;
+    backdrop-filter: blur(6px);
 }
-.modal-close:hover { background: rgba(255, 80, 80, 0.5); transform: rotate(90deg) scale(1.1); border-color: rgba(255, 100, 100, 0.6); }
+.modal-close:hover { 
+    background: rgba(255, 80, 80, 0.6); 
+    transform: rotate(90deg) scale(1.15);
+    border-color: rgba(255, 100, 100, 0.8);
+    box-shadow: 0 0 20px rgba(255, 80, 80, 0.6);
+}
 
+/* === ИКОНКА РЫБЫ С ОРЕОЛОМ === */
 .modal-fish-icon-wrap {
     display: flex; justify-content: center; align-items: center;
-    margin-bottom: 18px;
-    padding: 28px 20px;
+    margin-bottom: 20px;
+    padding: 30px 20px 20px;
     position: relative;
     z-index: 2;
 }
@@ -729,27 +614,27 @@ body::before {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 220px; height: 220px;
+    width: 260px; height: 260px;
     border-radius: 50%;
-    background: radial-gradient(circle, currentColor 0%, transparent 65%);
-    opacity: 0.18;
+    background: radial-gradient(circle, currentColor 0%, transparent 60%);
+    opacity: 0.25;
     animation: haloPulse 3s ease-in-out infinite;
     z-index: -1;
 }
 @keyframes haloPulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.18; }
-    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.3; }
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.25; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.4; }
 }
 .modal-fish-icon-wrap::after {
     content: '';
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 180px; height: 180px;
+    width: 220px; height: 220px;
     border-radius: 50%;
-    border: 1px dashed currentColor;
-    opacity: 0.25;
-    animation: rotateRing 20s linear infinite;
+    border: 2px dashed currentColor;
+    opacity: 0.35;
+    animation: rotateRing 25s linear infinite;
     z-index: -1;
 }
 @keyframes rotateRing {
@@ -758,19 +643,20 @@ body::before {
 }
 
 .modal-fish-icon {
-    width: 170px; height: 170px;
+    width: 190px; height: 190px;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    filter: drop-shadow(0 10px 24px rgba(0,0,0,0.7));
+    filter: drop-shadow(0 12px 30px rgba(0,0,0,0.8));
     animation: fishSwim 3s ease-in-out infinite;
     position: relative;
     z-index: 2;
 }
 @keyframes fishSwim {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-12px); }
 }
 
+/* === КАСКАДНОЕ ПОЯВЛЕНИЕ === */
 .fish-modal .modal-fish-icon-wrap,
 .fish-modal .modal-fish-name,
 .fish-modal .modal-rarity,
@@ -778,7 +664,7 @@ body::before {
 .fish-modal .modal-count {
     opacity: 0;
     transform: translateY(15px);
-    animation: fadeInUp 0.5s ease forwards;
+    animation: fadeInUp 0.55s ease forwards;
 }
 .fish-modal .modal-fish-icon-wrap { animation-delay: 0.15s; }
 .fish-modal .modal-fish-name { animation-delay: 0.25s; }
@@ -790,200 +676,220 @@ body::before {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* === ИМЯ РЫБЫ === */
 .modal-fish-name {
     text-align: center;
-    font-size: 1.55rem;
+    font-size: 1.7rem;
     font-weight: 900;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     background: linear-gradient(135deg, #00d4ff, #00ffa3);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     position: relative;
     z-index: 2;
-    letter-spacing: 1px;
-    text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
 }
 .modal-fish-name.undead {
     background: linear-gradient(135deg, #8a9a6a, #c8b878);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 20px rgba(140, 160, 100, 0.3);
+    text-shadow: 0 0 25px rgba(140, 160, 100, 0.4);
 }
 .modal-fish-name::before,
 .modal-fish-name::after {
     content: '❦';
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: currentColor;
-    opacity: 0.6;
+    opacity: 0.8;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     -webkit-text-fill-color: currentColor;
-    text-shadow: none;
+    text-shadow: 0 0 10px currentColor;
 }
-.modal-fish-name::before { left: 10%; }
-.modal-fish-name::after { right: 10%; }
+.modal-fish-name::before { left: 8%; }
+.modal-fish-name::after { right: 8%; }
 
+/* === РЕДКОСТЬ === */
 .modal-rarity {
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 800;
-    margin-bottom: 22px;
+    margin-bottom: 24px;
     text-transform: uppercase;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
     position: relative;
     z-index: 2;
     padding: 0 40px;
 }
-.modal-rarity.rarity-common { color: #8ab4d6; text-shadow: 0 0 10px rgba(138, 180, 214, 0.5); }
-.modal-rarity.rarity-rare { color: #00d4ff; text-shadow: 0 0 14px rgba(0,212,255,0.6); }
-.modal-rarity.rarity-epic { color: #c4b5fd; text-shadow: 0 0 14px rgba(167,139,250,0.6); }
+.modal-rarity.rarity-common { color: #8ab4d6; text-shadow: 0 0 12px rgba(138, 180, 214, 0.6); }
+.modal-rarity.rarity-rare { color: #00d4ff; text-shadow: 0 0 16px rgba(0,212,255,0.7); }
+.modal-rarity.rarity-epic { color: #c4b5fd; text-shadow: 0 0 16px rgba(167,139,250,0.7); }
 .modal-rarity.rarity-legendary {
     color: #ffd700;
-    text-shadow: 0 0 20px rgba(255,215,0,0.7);
+    font-size: 1.05rem;
+    letter-spacing: 7px;
+    text-shadow: 0 0 22px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.5);
     animation: legendaryGlow 2s ease-in-out infinite;
 }
 @keyframes legendaryGlow {
-    0%, 100% { text-shadow: 0 0 20px rgba(255,215,0,0.7); }
-    50% { text-shadow: 0 0 30px rgba(255,215,0,1), 0 0 40px rgba(255,215,0,0.6); }
+    0%, 100% { text-shadow: 0 0 22px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.5); }
+    50% { text-shadow: 0 0 32px rgba(255,215,0,1), 0 0 60px rgba(255,215,0,0.7); }
 }
 .modal-rarity::after {
     content: '';
     display: block;
     width: 60%;
     height: 1px;
-    margin: 8px auto 0;
+    margin: 10px auto 0;
     background: linear-gradient(90deg, transparent 0%, currentColor 50%, transparent 100%);
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
+/* === БЛОКИ ИНФОРМАЦИИ === */
 .modal-info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 14px;
+    margin-bottom: 18px;
     position: relative;
     z-index: 2;
 }
 .modal-info-block {
-    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 16px;
-    padding: 16px 12px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 18px;
+    padding: 18px 14px;
     text-align: center;
     position: relative;
     overflow: hidden;
     transition: all 0.3s;
 }
 .modal-info-block:hover {
-    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.04) 100%);
-    border-color: rgba(255,255,255,0.2);
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%);
+    border-color: rgba(255,255,255,0.25);
     transform: translateY(-2px);
 }
 .modal-info-block::before,
 .modal-info-block::after {
     content: '';
     position: absolute;
-    width: 12px; height: 12px;
+    width: 14px; height: 14px;
     border: 1px solid currentColor;
-    opacity: 0.4;
+    opacity: 0.5;
 }
 .modal-info-block::before {
-    top: 5px; left: 5px;
+    top: 6px; left: 6px;
     border-right: none; border-bottom: none;
-    border-top-left-radius: 6px;
+    border-top-left-radius: 8px;
 }
 .modal-info-block::after {
-    bottom: 5px; right: 5px;
+    bottom: 6px; right: 6px;
     border-left: none; border-top: none;
-    border-bottom-right-radius: 6px;
+    border-bottom-right-radius: 8px;
 }
 .modal-info-block .info-label {
-    font-size: 0.68rem;
-    color: rgba(255,255,255,0.55);
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.6);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 2.5px;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 .modal-info-block .info-value {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: 900;
     color: #00d4ff;
-    text-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+    text-shadow: 0 0 14px rgba(0, 212, 255, 0.5);
 }
 .modal-info-block .info-value.record {
     color: #ffd700;
-    text-shadow: 0 0 14px rgba(255,215,0,0.5);
+    text-shadow: 0 0 18px rgba(255,215,0,0.6);
 }
 .modal-info-block .info-value.no-record {
     color: rgba(255,255,255,0.35);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
     text-shadow: none;
 }
 
+/* === ПЛАШКА «ПОЙМАНО» === */
 .modal-count {
     text-align: center;
-    padding: 14px;
-    background: linear-gradient(135deg, rgba(0,212,255,0.15) 0%, rgba(0,212,255,0.05) 100%);
-    border: 1px solid rgba(0,212,255,0.35);
-    border-radius: 14px;
-    font-size: 0.95rem;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(0,212,255,0.06) 100%);
+    border: 1px solid rgba(0,212,255,0.45);
+    border-radius: 16px;
+    font-size: 1rem;
     font-weight: 600;
     color: #00d4ff;
     position: relative;
     z-index: 2;
     overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(0,212,255,0.2);
 }
-.modal-count::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 20%; right: 20%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.8) 50%, transparent 100%);
-}
+.modal-count::before,
 .modal-count::after {
     content: '';
     position: absolute;
-    bottom: 0; left: 20%; right: 20%;
+    left: 20%; right: 20%;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.8) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.9) 50%, transparent 100%);
 }
+.modal-count::before { top: 0; }
+.modal-count::after { bottom: 0; }
 .modal-count span {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 900;
-    text-shadow: 0 0 12px rgba(0, 212, 255, 0.6);
+    text-shadow: 0 0 16px rgba(0, 212, 255, 0.7);
 }
 .modal-count.undead {
-    background: linear-gradient(135deg, rgba(140,160,100,0.18) 0%, rgba(120,130,90,0.06) 100%);
-    border-color: rgba(140,160,100,0.4);
+    background: linear-gradient(135deg, rgba(140,160,100,0.22) 0%, rgba(120,130,90,0.08) 100%);
+    border-color: rgba(140,160,100,0.5);
     color: #a8b878;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(140,160,100,0.2);
 }
 .modal-count.undead::before,
 .modal-count.undead::after {
-    background: linear-gradient(90deg, transparent 0%, rgba(160, 180, 120, 0.7) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(160, 180, 120, 0.8) 50%, transparent 100%);
 }
-.modal-count.undead span { text-shadow: 0 0 12px rgba(160, 180, 120, 0.6); }
+.modal-count.undead span { text-shadow: 0 0 16px rgba(160, 180, 120, 0.7); }
 
-.last-update {
-    text-align: center; margin-top: 12px;
-    font-size: 0.7rem; color: rgba(255,255,255,0.4);
+/* Легендарная плашка «Поймано» — золотая */
+.fish-modal.rarity-legendary .modal-count {
+    background: linear-gradient(135deg, rgba(255,215,0,0.25) 0%, rgba(200,150,0,0.08) 100%);
+    border-color: rgba(255,215,0,0.6);
+    color: #ffd700;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 25px rgba(255,215,0,0.3);
 }
-.last-update .update-time { color: #00d4ff; font-weight: 600; }
-
-.footer {
-    text-align: center; margin-top: 12px; padding: 12px;
-    font-size: 0.75rem; color: rgba(255,255,255,0.4);
+.fish-modal.rarity-legendary .modal-count::before,
+.fish-modal.rarity-legendary .modal-count::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.9) 50%, transparent 100%);
 }
-.footer a { color: #00d4ff; text-decoration: none; }
+.fish-modal.rarity-legendary .modal-count span { text-shadow: 0 0 18px rgba(255, 215, 0, 0.9); }
 
-.loading, .error { text-align: center; padding: 30px 15px; font-size: 0.95rem; }
-.loading { color: rgba(255,255,255,0.6); }
-.error { color: #ff6b6b; }
-
+@media (max-width: 700px) {
+    body { padding: 8px; padding-top: 12px; }
+    .header h1 { font-size: 1.5rem; }
+    .player-card { padding: 12px; border-radius: 14px; }
+    .player-header { flex-direction: column; text-align: center; }
+    .collection-progress { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .fish-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    .fish-icon { width: 44px; height: 44px; }
+    .modal-fish-icon { width: 130px; height: 130px; }
+    .fish-modal { padding: 28px 20px 20px; }
+    .modal-fish-name { font-size: 1.4rem; }
+    .modal-rarity { font-size: 0.85rem; letter-spacing: 3px; padding: 0 20px; }
+    .modal-fish-icon-wrap::before { width: 200px; height: 200px; }
+    .modal-fish-icon-wrap::after { width: 160px; height: 160px; }
+    .modal-corner { width: 44px; height: 44px; }
+    .modal-crown { font-size: 32px; top: -22px; }
+    .modal-gem { font-size: 14px; }
+}
 @media (max-width: 700px) {
     body { padding: 8px; padding-top: 12px; }
     .header h1 { font-size: 1.5rem; }
@@ -1128,472 +1034,522 @@ function makeFishSVG(paletteKey, form, scale) {
     if (!p) return '';
     const f = form;
 
-    const bodyLen = f.bodyLen;
-    const bodyH = f.bodyH;
-    const bodyY = f.bodyY || Math.floor((32 - bodyH) / 2);
-    const headX = 3;
+    // 64×64 разрешение (×2 от старого)
+    const bodyLen = f.bodyLen * 2;
+    const bodyH = f.bodyH * 2;
+    const bodyY = (f.bodyY || Math.floor((32 - f.bodyH) / 2)) * 2;
+    const headX = 6;
     const cy = bodyY + bodyH / 2;
     const x1 = headX, x2 = headX + bodyLen;
     let s = '';
 
-    // Тело
-    s += `<rect x="${x1}" y="${bodyY+2}" width="${bodyLen}" height="${bodyH-4}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+1}" y="${bodyY+1}" width="${bodyLen-2}" height="${bodyH-2}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="${bodyH}" fill="${p.main}"/>`;
+    // === ТЕЛО ===
+    s += `<rect x="${x1}" y="${bodyY+4}" width="${bodyLen}" height="${bodyH-8}" fill="${p.main}"/>`;
+    s += `<rect x="${x1+2}" y="${bodyY+2}" width="${bodyLen-4}" height="${bodyH-4}" fill="${p.main}"/>`;
+    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="${bodyH}" fill="${p.main}"/>`;
+    // Мягкие боковые градиенты
+    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="2" fill="${p.light}" opacity="0.3"/>`;
+    s += `<rect x="${x1+4}" y="${bodyY+bodyH-2}" width="${bodyLen-8}" height="2" fill="${p.dark}" opacity="0.3"/>`;
 
-    // Брюхо
-    const bellyH = Math.max(2, Math.floor(bodyH * 0.25));
-    s += `<rect x="${x1+2}" y="${bodyY+bodyH-bellyH}" width="${bodyLen-4}" height="${bellyH}" fill="${p.belly}" opacity="0.9"/>`;
+    // === БРЮХО ===
+    const bellyH = Math.max(4, Math.floor(bodyH * 0.3));
+    s += `<rect x="${x1+4}" y="${bodyY+bodyH-bellyH}" width="${bodyLen-8}" height="${bellyH}" fill="${p.belly}" opacity="0.95"/>`;
+    // Блик на брюхе
+    s += `<rect x="${x1+6}" y="${bodyY+bodyH-bellyH+1}" width="${bodyLen-14}" height="1" fill="#ffffff" opacity="0.3"/>`;
 
-    // Верхняя тёмная полоса
-    s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="1" fill="${p.dark}"/>`;
-    s += `<rect x="${x1+3}" y="${bodyY+1}" width="${bodyLen-6}" height="1" fill="${p.dark}" opacity="0.6"/>`;
+    // === ВЕРХНЯЯ ТЁМНАЯ ПОЛОСА (спинка) ===
+    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="2" fill="${p.dark}"/>`;
+    s += `<rect x="${x1+6}" y="${bodyY+2}" width="${bodyLen-12}" height="1" fill="${p.dark}" opacity="0.7"/>`;
 
-    // Чешуя
+    // === ЧЕШУЯ (более детальная) ===
     if (f.bigScales) {
-        for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 3; j++) {
-                const sx = x1 + 4 + i * 4;
-                const sy = bodyY + 3 + j * 3;
-                if (sx < x2 - 2 && sy < bodyY + bodyH - 3) {
-                    s += `<rect x="${sx}" y="${sy}" width="2" height="2" fill="${p.light}" opacity="0.4"/>`;
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 5; j++) {
+                const sx = x1 + 8 + i * 4;
+                const sy = bodyY + 6 + j * 4;
+                if (sx < x2 - 4 && sy < bodyY + bodyH - 4) {
+                    // Крупная чешуя — светлый прямоугольник с тенью
+                    s += `<rect x="${sx}" y="${sy}" width="3" height="3" fill="${p.light}" opacity="0.5"/>`;
+                    s += `<rect x="${sx+3}" y="${sy+3}" width="1" height="1" fill="${p.dark}" opacity="0.3"/>`;
                 }
             }
         }
     } else {
-        for (let i = 0; i < 6; i++) {
-            for (let j = 0; j < 2; j++) {
-                const sx = x1 + 4 + i * 3;
-                const sy = bodyY + 3 + j * 4;
-                if (sx < x2 - 2 && sy < bodyY + bodyH - 2) {
-                    s += `<rect x="${sx}" y="${sy}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
+        for (let i = 0; i < 12; i++) {
+            for (let j = 0; j < 4; j++) {
+                const sx = x1 + 8 + i * 3;
+                const sy = bodyY + 6 + j * 5;
+                if (sx < x2 - 4 && sy < bodyY + bodyH - 3) {
+                    s += `<rect x="${sx}" y="${sy}" width="2" height="2" fill="${p.light}" opacity="0.45"/>`;
+                    s += `<rect x="${sx+2}" y="${sy+2}" width="1" height="1" fill="${p.dark}" opacity="0.25"/>`;
                 }
             }
         }
     }
 
-    // Полосы
+    // === ГОРИЗОНТАЛЬНАЯ БОКОВАЯ ЛИНИЯ ===
+    s += `<rect x="${x1+headX}" y="${cy}" width="${bodyLen-headX-4}" height="1" fill="${p.dark}" opacity="0.4"/>`;
+
+    // === ПОЛОСЫ (для окуня, змееголова и т.п.) ===
     if (f.stripes) {
         for (const [sx, syOff] of f.stripes) {
-            const sxAbs = x1 + sx;
-            if (sxAbs < x2 - 2) {
-                s += `<rect x="${sxAbs}" y="${bodyY+1}" width="1" height="${bodyH-2}" fill="${p.stripe}" opacity="0.5"/>`;
+            const sxAbs = x1 + sx * 2;
+            if (sxAbs < x2 - 4) {
+                s += `<rect x="${sxAbs}" y="${bodyY+2}" width="2" height="${bodyH-4}" fill="${p.stripe}" opacity="0.55"/>`;
             }
         }
     }
 
-    // Пятна
+    // === ПЯТНА ===
     if (f.spots) {
         for (const [sx, sy] of f.spots) {
-            const sxAbs = x1 + sx;
-            const syAbs = bodyY + sy;
-            if (sxAbs < x2 - 2 && syAbs < bodyY + bodyH - 1) {
-                s += `<rect x="${sxAbs}" y="${syAbs}" width="2" height="2" fill="${p.spot}" opacity="0.8"/>`;
-                s += `<rect x="${sxAbs}" y="${syAbs}" width="1" height="1" fill="${p.dark}" opacity="0.4"/>`;
+            const sxAbs = x1 + sx * 2;
+            const syAbs = bodyY + sy * 2;
+            if (sxAbs < x2 - 4 && syAbs < bodyY + bodyH - 2) {
+                // Основное пятно
+                s += `<rect x="${sxAbs}" y="${syAbs}" width="4" height="4" fill="${p.spot}" opacity="0.85"/>`;
+                // Внутренняя тень
+                s += `<rect x="${sxAbs}" y="${syAbs}" width="2" height="2" fill="${p.dark}" opacity="0.5"/>`;
+                // Блик
+                s += `<rect x="${sxAbs+3}" y="${syAbs+3}" width="1" height="1" fill="${p.light}" opacity="0.6"/>`;
             }
         }
     }
 
-    // Голова
-    const headLen = f.headLen || 5;
+    // === ГОЛОВА (разные формы) ===
+    const headLen = (f.headLen || 5) * 2;
+
     if (f.headShape === 'pointed') {
-        s += `<rect x="${x1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.main}"/>`;
-        s += `<rect x="${x1+1}" y="${bodyY+2}" width="1" height="${bodyH-4}" fill="${p.main}"/>`;
+        // Заострённая (щука)
+        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
+        s += `<rect x="${x1+2}" y="${bodyY+4}" width="2" height="${bodyH-8}" fill="${p.main}"/>`;
     } else if (f.headShape === 'snake') {
-        s += `<rect x="${x1-1}" y="${bodyY+3}" width="3" height="${bodyH-6}" fill="${p.main}"/>`;
-        s += `<rect x="${x1}" y="${bodyY+2}" width="2" height="${bodyH-4}" fill="${p.main}"/>`;
+        s += `<rect x="${x1-2}" y="${bodyY+6}" width="6" height="${bodyH-12}" fill="${p.main}"/>`;
+        s += `<rect x="${x1}" y="${bodyY+4}" width="4" height="${bodyH-8}" fill="${p.main}"/>`;
     } else if (f.headShape === 'flat') {
-        s += `<rect x="${x1-1}" y="${bodyY+4}" width="3" height="${bodyH-8}" fill="${p.main}"/>`;
-        s += `<rect x="${x1}" y="${bodyY+2}" width="2" height="${bodyH-4}" fill="${p.main}"/>`;
+        s += `<rect x="${x1-2}" y="${bodyY+8}" width="6" height="${bodyH-16}" fill="${p.main}"/>`;
+        s += `<rect x="${x1}" y="${bodyY+4}" width="4" height="${bodyH-8}" fill="${p.main}"/>`;
     } else if (f.headShape === 'long-snout') {
-        s += `<rect x="${x1-3}" y="${cy-1}" width="4" height="2" fill="${p.main}"/>`;
-        s += `<rect x="${x1-3}" y="${cy-2}" width="3" height="1" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-6}" y="${cy-2}" width="8" height="4" fill="${p.main}"/>`;
+        s += `<rect x="${x1-6}" y="${cy-4}" width="6" height="2" fill="${p.dark}"/>`;
     } else if (f.headShape === 'trumpet') {
-        s += `<rect x="${x1-3}" y="${cy-2}" width="3" height="4" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-3}" y="${cy-1}" width="2" height="2" fill="${p.spot}"/>`;
+        s += `<rect x="${x1-6}" y="${cy-4}" width="6" height="8" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-6}" y="${cy-2}" width="4" height="4" fill="${p.spot}"/>`;
     } else if (f.headShape === 'big-head') {
-        s += `<rect x="${x1-1}" y="${bodyY+2}" width="3" height="${bodyH-4}" fill="${p.main}"/>`;
+        s += `<rect x="${x1-2}" y="${bodyY+4}" width="6" height="${bodyH-8}" fill="${p.main}"/>`;
     } else if (f.headShape === 'blunt') {
-        s += `<rect x="${x1}" y="${bodyY+2}" width="3" height="${bodyH-4}" fill="${p.main}"/>`;
+        s += `<rect x="${x1}" y="${bodyY+4}" width="6" height="${bodyH-8}" fill="${p.main}"/>`;
     } else if (f.headShape === 'small') {
-        s += `<rect x="${x1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.main}"/>`;
+        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
     }
 
-    s += `<rect x="${x1}" y="${bodyY+3}" width="1" height="${bodyH-6}" fill="${p.dark}" opacity="0.4"/>`;
+    // Затемнение у рта
+    s += `<rect x="${x1}" y="${bodyY+6}" width="2" height="${bodyH-12}" fill="${p.dark}" opacity="0.4"/>`;
 
-    // Жабры
+    // === ЖАБРЫ (двойная дуга) ===
     const gillX = x1 + headLen;
-    s += `<rect x="${gillX}" y="${bodyY+2}" width="1" height="2" fill="${p.gill}" opacity="0.8"/>`;
-    s += `<rect x="${gillX+1}" y="${bodyY+3}" width="1" height="${bodyH-6}" fill="${p.gill}" opacity="0.8"/>`;
-    s += `<rect x="${gillX}" y="${bodyY+bodyH-4}" width="1" height="2" fill="${p.gill}" opacity="0.8"/>`;
+    s += `<rect x="${gillX}" y="${bodyY+4}" width="2" height="4" fill="${p.gill}" opacity="0.85"/>`;
+    s += `<rect x="${gillX+2}" y="${bodyY+6}" width="2" height="${bodyH-12}" fill="${p.gill}" opacity="0.85"/>`;
+    s += `<rect x="${gillX}" y="${bodyY+bodyH-8}" width="2" height="4" fill="${p.gill}" opacity="0.85"/>`;
+    // Дополнительная линия жабр (более детальная)
+    s += `<rect x="${gillX+4}" y="${bodyY+8}" width="1" height="${bodyH-16}" fill="${p.gill}" opacity="0.5"/>`;
 
-    // Глаз
-    const eyeX = x1 + 2;
+    // === ГЛАЗ (детализированный) ===
+    const eyeX = x1 + 4;
     const eyeY = bodyY + Math.floor(bodyH / 3);
-    s += `<rect x="${eyeX}" y="${eyeY}" width="3" height="3" fill="${p.eye}"/>`;
-    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="2" height="2" fill="${p.pupil}"/>`;
-    s += `<rect x="${eyeX}" y="${eyeY}" width="1" height="1" fill="#ffffff" opacity="0.8"/>`;
+    // Тёмная впадина
+    s += `<rect x="${eyeX-1}" y="${eyeY-1}" width="6" height="6" fill="${p.dark}" opacity="0.5"/>`;
+    // Белок/жёлтый глаз
+    s += `<rect x="${eyeX}" y="${eyeY}" width="4" height="4" fill="${p.eye}"/>`;
+    // Зрачок
+    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="3" height="3" fill="${p.pupil}"/>`;
+    // Блик
+    s += `<rect x="${eyeX}" y="${eyeY}" width="2" height="2" fill="#ffffff" opacity="0.9"/>`;
+    // Второй блик (маленький)
+    s += `<rect x="${eyeX+3}" y="${eyeY+3}" width="1" height="1" fill="#ffffff" opacity="0.6"/>`;
 
-    // Рот
-    s += `<rect x="${x1-1}" y="${cy}" width="2" height="1" fill="${p.dark}"/>`;
+    // === РОТ ===
+    s += `<rect x="${x1-2}" y="${cy}" width="4" height="2" fill="${p.dark}"/>`;
 
+    // Зубы (пиранья)
     if (f.teeth) {
-        s += `<rect x="${x1}" y="${cy+1}" width="1" height="1" fill="#ffffff"/>`;
-        s += `<rect x="${x1+1}" y="${cy+1}" width="1" height="1" fill="#ffffff"/>`;
+        s += `<rect x="${x1-1}" y="${cy+2}" width="2" height="2" fill="#ffffff"/>`;
+        s += `<rect x="${x1+2}" y="${cy+2}" width="2" height="2" fill="#ffffff"/>`;
+        s += `<rect x="${x1-1}" y="${cy-3}" width="2" height="2" fill="#ffffff" opacity="0.85"/>`;
     }
 
-    // Усы
+    // === УСЫ ===
     if (f.whiskers) {
-        s += `<rect x="${x1-2}" y="${cy-2}" width="2" height="1" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-3}" y="${cy-3}" width="1" height="1" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-2}" y="${cy+2}" width="2" height="1" fill="${p.dark}"/>`;
-        s += `<rect x="${x1-3}" y="${cy+3}" width="1" height="1" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-4}" y="${cy-4}" width="4" height="2" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-6}" y="${cy-6}" width="2" height="2" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-4}" y="${cy+4}" width="4" height="2" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-6}" y="${cy+6}" width="2" height="2" fill="${p.dark}"/>`;
+        // Дополнительные маленькие усы
+        s += `<rect x="${x1-3}" y="${cy-1}" width="2" height="1" fill="${p.dark}" opacity="0.6"/>`;
+        s += `<rect x="${x1-3}" y="${cy+1}" width="2" height="1" fill="${p.dark}" opacity="0.6"/>`;
     }
 
-    // Верхний плавник
-    const topFinSize = f.topFinSize || 4;
+    // === ВЕРХНИЙ ПЛАВНИК ===
+    const topFinSize = (f.topFinSize || 4) * 2;
     const topFinType = f.topFin || 'medium';
-    const finStart = x1 + headLen + 2;
+    const finStart = x1 + headLen + 4;
 
     if (topFinType === 'high-spiky') {
         for (let i = 0; i < topFinSize; i++) {
-            const fx = finStart + i;
-            const fh = 3 + (i % 2 === 0 ? 2 : 0);
-            s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
+            const fx = finStart + i * 2;
+            const fh = 6 + (i % 2 === 0 ? 4 : 0);
+            s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="${fh}" fill="${p.fin}"/>`;
+            // Тонкая линия по краю
+            s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="1" fill="${p.light}" opacity="0.5"/>`;
         }
     } else if (topFinType === 'very-spiky') {
         for (let i = 0; i < topFinSize; i++) {
-            const fx = finStart + i;
-            const fh = 2 + (i % 2 === 0 ? 3 : 1);
-            s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
+            const fx = finStart + i * 2;
+            const fh = 4 + (i % 2 === 0 ? 6 : 2);
+            s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="${fh}" fill="${p.fin}"/>`;
         }
     } else if (topFinType === 'sail') {
         for (let i = 0; i < topFinSize; i++) {
-            const fx = finStart + i;
-            const fh = Math.min(topFinSize - i, 8);
-            if (fh > 0) s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
+            const fx = finStart + i * 2;
+            const fh = Math.min((topFinSize - i) * 2, 16);
+            if (fh > 0) s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="${fh}" fill="${p.fin}"/>`;
         }
     } else if (topFinType === 'spiky') {
-        s += `<rect x="${finStart}" y="${bodyY-3}" width="1" height="3" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+1}" y="${bodyY-4}" width="1" height="4" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+2}" y="${bodyY-4}" width="1" height="4" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+3}" y="${bodyY-3}" width="1" height="3" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+4}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
+        for (let i = 0; i < 5; i++) {
+            const fx = finStart + i * 2;
+            s += `<rect x="${fx}" y="${bodyY-(3+i%2)*2}" width="2" height="${(3+i%2)*2}" fill="${p.fin}"/>`;
+        }
     } else if (topFinType === 'long-back' || topFinType === 'long-back-merged') {
         for (let i = 0; i < topFinSize; i++) {
-            const fx = finStart + i;
-            s += `<rect x="${fx}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
+            const fx = finStart + i * 2;
+            s += `<rect x="${fx}" y="${bodyY-4}" width="2" height="4" fill="${p.fin}"/>`;
         }
     } else if (topFinType === 'small-back') {
-        s += `<rect x="${finStart+2}" y="${bodyY-2}" width="3" height="2" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+4}" y="${bodyY-4}" width="6" height="4" fill="${p.fin}"/>`;
     } else if (topFinType === 'dorsal-long') {
-        s += `<rect x="${finStart}" y="${bodyY-2}" width="${topFinSize}" height="2" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart}" y="${bodyY-4}" width="${topFinSize*2}" height="4" fill="${p.fin}"/>`;
     } else if (topFinType === 'tiny') {
-        s += `<rect x="${finStart}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart}" y="${bodyY-4}" width="2" height="4" fill="${p.fin}"/>`;
     } else if (topFinType === 'small') {
-        s += `<rect x="${finStart+1}" y="${bodyY-2}" width="2" height="2" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+2}" y="${bodyY-4}" width="4" height="4" fill="${p.fin}"/>`;
     } else {
-        s += `<rect x="${finStart}" y="${bodyY-3}" width="1" height="3" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+1}" y="${bodyY-4}" width="4" height="4" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+5}" y="${bodyY-3}" width="2" height="3" fill="${p.fin}"/>`;
-        s += `<rect x="${finStart+1}" y="${bodyY-4}" width="3" height="1" fill="${p.light}" opacity="0.6"/>`;
+        // medium
+        s += `<rect x="${finStart}" y="${bodyY-6}" width="2" height="6" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+2}" y="${bodyY-8}" width="8" height="8" fill="${p.fin}"/>`;
+        s += `<rect x="${finStart+10}" y="${bodyY-6}" width="4" height="6" fill="${p.fin}"/>`;
+        // Блик
+        s += `<rect x="${finStart+2}" y="${bodyY-8}" width="6" height="2" fill="${p.light}" opacity="0.6"/>`;
     }
 
-    // Брюшной плавник
-    const bottomFinStart = x1 + headLen + 2;
+    // === БРЮШНОЙ ПЛАВНИК ===
+    const bottomFinStart = x1 + headLen + 4;
     if (f.bottomFin === 'long-anal' || f.bottomFin === 'long-anal-merged') {
-        for (let i = 0; i < 8; i++) {
-            const fx = bottomFinStart + i;
-            s += `<rect x="${fx}" y="${bodyY+bodyH}" width="1" height="2" fill="${p.fin}"/>`;
+        for (let i = 0; i < 16; i++) {
+            const fx = bottomFinStart + i * 2;
+            s += `<rect x="${fx}" y="${bodyY+bodyH}" width="2" height="4" fill="${p.fin}"/>`;
         }
     } else if (f.bottomFin === 'medium') {
-        s += `<rect x="${bottomFinStart}" y="${bodyY+bodyH}" width="4" height="3" fill="${p.fin}"/>`;
-        s += `<rect x="${bottomFinStart+4}" y="${bodyY+bodyH}" width="2" height="2" fill="${p.fin}"/>`;
+        s += `<rect x="${bottomFinStart}" y="${bodyY+bodyH}" width="8" height="6" fill="${p.fin}"/>`;
+        s += `<rect x="${bottomFinStart+8}" y="${bodyY+bodyH}" width="4" height="4" fill="${p.fin}"/>`;
     } else if (f.bottomFin === 'small-adipose') {
-        s += `<rect x="${bottomFinStart+6}" y="${bodyY+bodyH}" width="2" height="2" fill="${p.fin}"/>`;
+        s += `<rect x="${bottomFinStart+12}" y="${bodyY+bodyH}" width="4" height="4" fill="${p.fin}"/>`;
     } else if (f.bottomFin === 'red-fins') {
-        s += `<rect x="${bottomFinStart}" y="${bodyY+bodyH}" width="4" height="3" fill="#c03028"/>`;
-        s += `<rect x="${bottomFinStart+4}" y="${bodyY+bodyH}" width="2" height="2" fill="#c03028"/>`;
+        s += `<rect x="${bottomFinStart}" y="${bodyY+bodyH}" width="8" height="6" fill="#c03028"/>`;
+        s += `<rect x="${bottomFinStart+8}" y="${bodyY+bodyH}" width="4" height="4" fill="#c03028"/>`;
     } else if (f.bottomFin === 'small') {
-        s += `<rect x="${bottomFinStart+1}" y="${bodyY+bodyH}" width="3" height="2" fill="${p.fin}"/>`;
+        s += `<rect x="${bottomFinStart+2}" y="${bodyY+bodyH}" width="6" height="4" fill="${p.fin}"/>`;
     }
 
-    // Грудной плавник
-    s += `<rect x="${x1+headLen+1}" y="${cy+1}" width="3" height="3" fill="${p.fin}" opacity="0.85"/>`;
-    s += `<rect x="${x1+headLen+4}" y="${cy+2}" width="2" height="2" fill="${p.fin}" opacity="0.7"/>`;
+    // === ГРУДНОЙ ПЛАВНИК (с детализацией) ===
+    s += `<rect x="${x1+headLen+2}" y="${cy+2}" width="6" height="6" fill="${p.fin}" opacity="0.9"/>`;
+    s += `<rect x="${x1+headLen+8}" y="${cy+4}" width="4" height="4" fill="${p.fin}" opacity="0.75"/>`;
+    // Блик
+    s += `<rect x="${x1+headLen+2}" y="${cy+2}" width="4" height="1" fill="${p.light}" opacity="0.5"/>`;
 
-    // === ХВОСТ ===
+    // === ХВОСТ (плавные формы) ===
     const tailX = x2;
-    const tailSize = f.tailSize || 6;
+    const tailSize = (f.tailSize || 6) * 2;
     const midY = cy;
 
     if (f.tailType === 'fork') {
-        s += `<path d="M ${tailX} ${midY-1} L ${tailX+2} ${midY-1} L ${tailX+tailSize} ${midY-tailSize-1} Q ${tailX+tailSize+1} ${midY-tailSize-2} ${tailX+tailSize-1} ${midY-tailSize-3} L ${tailX+2} ${midY-1} Z" fill="${p.fin}"/>`;
-        s += `<path d="M ${tailX} ${midY+1} L ${tailX+2} ${midY+1} L ${tailX+tailSize} ${midY+tailSize+1} Q ${tailX+tailSize+1} ${midY+tailSize+2} ${tailX+tailSize-1} ${midY+tailSize+3} L ${tailX+2} ${midY+1} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
-        s += `<rect x="${tailX+3}" y="${midY-2}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
-        s += `<rect x="${tailX+3}" y="${midY+1}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
+        // Верхняя лопасть
+        s += `<path d="M ${tailX} ${midY-2} L ${tailX+4} ${midY-2} L ${tailX+tailSize} ${midY-tailSize-2} Q ${tailX+tailSize+2} ${midY-tailSize-4} ${tailX+tailSize-2} ${midY-tailSize-6} L ${tailX+4} ${midY-2} Z" fill="${p.fin}"/>`;
+        // Нижняя лопасть
+        s += `<path d="M ${tailX} ${midY+2} L ${tailX+4} ${midY+2} L ${tailX+tailSize} ${midY+tailSize+2} Q ${tailX+tailSize+2} ${midY+tailSize+4} ${tailX+tailSize-2} ${midY+tailSize+6} L ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
+        // Основание хвоста
+        s += `<rect x="${tailX}" y="${midY-2}" width="6" height="4" fill="${p.main}"/>`;
+        // Прожилки
+        s += `<rect x="${tailX+6}" y="${midY-4}" width="2" height="2" fill="${p.light}" opacity="0.6"/>`;
+        s += `<rect x="${tailX+6}" y="${midY+2}" width="2" height="2" fill="${p.light}" opacity="0.6"/>`;
     } else if (f.tailType === 'fan') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+2} ${midY-5} Q ${tailX+tailSize-1} ${midY-tailSize-3} ${tailX+tailSize+1} ${midY} Q ${tailX+tailSize-1} ${midY+tailSize+3} ${tailX+2} ${midY+5} Z" fill="${p.fin}"/>`;
-        for (let i = -2; i <= 2; i++) {
-            s += `<rect x="${tailX+4+i}" y="${midY + i*3 - 1}" width="1" height="2" fill="${p.dark}" opacity="0.5"/>`;
+        s += `<rect x="${tailX}" y="${midY-4}" width="4" height="8" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+4} ${midY-10} Q ${tailX+tailSize-2} ${midY-tailSize-6} ${tailX+tailSize+2} ${midY} Q ${tailX+tailSize-2} ${midY+tailSize+6} ${tailX+4} ${midY+10} Z" fill="${p.fin}"/>`;
+        // Рёбра веера
+        for (let i = -3; i <= 3; i++) {
+            s += `<rect x="${tailX+8+i*2}" y="${midY + i*3 - 2}" width="2" height="4" fill="${p.dark}" opacity="0.5"/>`;
         }
     } else if (f.tailType === 'long') {
-        s += `<rect x="${tailX}" y="${midY-1}" width="5" height="3" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+4} ${midY-2} Q ${tailX+9} ${midY-4} ${tailX+11} ${midY-1} Q ${tailX+11} ${midY+1} ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+9}" y="${midY-3}" width="2" height="6" fill="${p.dark}" opacity="0.5"/>`;
+        s += `<rect x="${tailX}" y="${midY-2}" width="10" height="6" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+8} ${midY-4} Q ${tailX+18} ${midY-8} ${tailX+22} ${midY-2} Q ${tailX+22} ${midY+2} ${tailX+8} ${midY+4} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+18}" y="${midY-6}" width="4" height="12" fill="${p.dark}" opacity="0.5"/>`;
     } else if (f.tailType === 'round') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
-        s += `<ellipse cx="${tailX+4}" cy="${midY}" rx="3" ry="4" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+3}" y="${midY-4}" width="1" height="8" fill="${p.dark}" opacity="0.4"/>`;
+        s += `<rect x="${tailX}" y="${midY-4}" width="4" height="8" fill="${p.main}"/>`;
+        s += `<ellipse cx="${tailX+8}" cy="${midY}" rx="6" ry="8" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+6}" y="${midY-8}" width="2" height="16" fill="${p.dark}" opacity="0.4"/>`;
     } else if (f.tailType === 'asymmetric-fork') {
-        s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+3} ${midY-1} L ${tailX+7} ${midY-7} Q ${tailX+8} ${midY-7} ${tailX+8} ${midY-5} L ${tailX+4} ${midY-1} Z" fill="${p.fin}"/>`;
-        s += `<path d="M ${tailX+3} ${midY+1} L ${tailX+6} ${midY+4} Q ${tailX+7} ${midY+4} ${tailX+7} ${midY+3} L ${tailX+4} ${midY+1} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX}" y="${midY-2}" width="6" height="4" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+6} ${midY-2} L ${tailX+14} ${midY-14} Q ${tailX+16} ${midY-14} ${tailX+16} ${midY-10} L ${tailX+8} ${midY-2} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${tailX+6} ${midY+2} L ${tailX+12} ${midY+8} Q ${tailX+14} ${midY+8} ${tailX+14} ${midY+6} L ${tailX+8} ${midY+2} Z" fill="${p.fin}"/>`;
     } else if (f.tailType === 'leaf') {
-        s += `<rect x="${tailX}" y="${midY-1}" width="2" height="2" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+2} ${midY} Q ${tailX+5} ${midY-5} ${tailX+9} ${midY} Q ${tailX+5} ${midY+5} ${tailX+2} ${midY} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+5}" y="${midY-2}" width="1" height="4" fill="${p.dark}" opacity="0.4"/>`;
+        s += `<rect x="${tailX}" y="${midY-2}" width="4" height="4" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+4} ${midY} Q ${tailX+10} ${midY-10} ${tailX+18} ${midY} Q ${tailX+10} ${midY+10} ${tailX+4} ${midY} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+10}" y="${midY-4}" width="2" height="8" fill="${p.dark}" opacity="0.4"/>`;
     }
 
-    // Шипы
+    // === ШИПЫ НА СПИНЕ ===
     if (f.spikes) {
-        for (let i = 0; i < 4; i++) {
-            const sx = x1 + headLen + 1 + i * 3;
-            s += `<rect x="${sx}" y="${bodyY-1}" width="1" height="1" fill="${p.dark}"/>`;
-        }
-    }
-
-    // Костные пластины
-    if (f.scutes) {
-        for (let i = 0; i < 5; i++) {
-            const sx = x1 + headLen + 3 + i * 4;
-            s += `<rect x="${sx}" y="${bodyY-1}" width="2" height="2" fill="${p.dark}"/>`;
-            s += `<rect x="${sx}" y="${bodyY+bodyH-1}" width="2" height="2" fill="${p.dark}"/>`;
-        }
-    }
-
-    // Горб
-    if (f.hump) {
-        s += `<rect x="${x1+8}" y="${bodyY-2}" width="6" height="2" fill="${p.main}"/>`;
-        s += `<rect x="${x1+9}" y="${bodyY-3}" width="4" height="1" fill="${p.main}"/>`;
-    }
-
-    // Слизь
-    if (f.slime) {
         for (let i = 0; i < 6; i++) {
-            const sx = x1 + 5 + i * 3;
-            const sy = bodyY + 2 + (i % 2) * 3;
-            s += `<rect x="${sx}" y="${sy}" width="1" height="1" fill="#ffffff" opacity="0.4"/>`;
+            const sx = x1 + headLen + 2 + i * 6;
+            s += `<rect x="${sx}" y="${bodyY-2}" width="2" height="2" fill="${p.dark}"/>`;
+        }
+    }
+
+    // === КОСТНЫЕ ПЛАСТИНЫ (осётр) ===
+    if (f.scutes) {
+        for (let i = 0; i < 8; i++) {
+            const sx = x1 + headLen + 6 + i * 8;
+            s += `<rect x="${sx}" y="${bodyY-2}" width="4" height="4" fill="${p.dark}"/>`;
+            s += `<rect x="${sx}" y="${bodyY+bodyH-2}" width="4" height="4" fill="${p.dark}"/>`;
+            s += `<rect x="${sx+1}" y="${bodyY-2}" width="2" height="1" fill="${p.light}" opacity="0.5"/>`;
+        }
+    }
+
+    // === ГОРБ (лосось) ===
+    if (f.hump) {
+        s += `<rect x="${x1+16}" y="${bodyY-4}" width="12" height="4" fill="${p.main}"/>`;
+        s += `<rect x="${x1+18}" y="${bodyY-6}" width="8" height="2" fill="${p.main}"/>`;
+    }
+
+    // === СЛИЗЬ (линь) ===
+    if (f.slime) {
+        for (let i = 0; i < 12; i++) {
+            const sx = x1 + 10 + i * 6;
+            const sy = bodyY + 4 + (i % 2) * 6;
+            s += `<rect x="${sx}" y="${sy}" width="2" height="2" fill="#ffffff" opacity="0.45"/>`;
         }
     }
 
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges" ${scale !== 1 ? `width="${64*scale/2}" height="${64*scale/2}"` : ''}>${s}</svg>`
     );
 }
-// === ЗОМБИ-РЫБА ===
+// === ЗОМБИ-РЫБА (уникальная для каждого типа) ===
 function makeUndeadFishSVG(form, scale) {
     scale = scale || 1;
     const p = UNDEAD_PALETTE;
     const f = form;
 
-    const bodyLen = f.bodyLen;
-    const bodyH = f.bodyH;
-    const bodyY = f.bodyY || Math.floor((32 - bodyH) / 2);
-    const headX = 3;
+    const bodyLen = f.bodyLen * 2;
+    const bodyH = f.bodyH * 2;
+    const bodyY = (f.bodyY || Math.floor((32 - f.bodyH) / 2)) * 2;
+    const headX = 6;
     const cy = bodyY + bodyH / 2;
     const x1 = headX, x2 = headX + bodyLen;
     let s = '';
 
-    // === ТЕЛО — рваное, местами кости ===
-    s += `<rect x="${x1}" y="${bodyY+2}" width="${bodyLen}" height="${bodyH-4}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+1}" y="${bodyY+1}" width="${bodyLen-2}" height="${bodyH-2}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="${bodyH}" fill="${p.main}"/>`;
+    // === ТЕЛО — БОЛОТНО-ЗЕЛЁНОЕ ===
+    s += `<rect x="${x1}" y="${bodyY+4}" width="${bodyLen}" height="${bodyH-8}" fill="${p.main}"/>`;
+    s += `<rect x="${x1+2}" y="${bodyY+2}" width="${bodyLen-4}" height="${bodyH-4}" fill="${p.main}"/>`;
+    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="${bodyH}" fill="${p.main}"/>`;
 
-    // Тёмные шрамы (рваные раны)
-    s += `<rect x="${x1+6}" y="${bodyY+2}" width="4" height="1" fill="${p.dark}"/>`;
-    s += `<rect x="${x1+9}" y="${bodyY+3}" width="3" height="1" fill="${p.dark}"/>`;
-    s += `<rect x="${x1+14}" y="${bodyY+bodyH-4}" width="5" height="1" fill="${p.dark}"/>`;
+    // Тёмные раны по телу (случайно, но стабильно)
+    const woundPositions = [[12, 4, 8, 2], [24, 8, 6, 2], [32, bodyH-8, 10, 2], [44, 6, 5, 2], [18, bodyH-6, 7, 2]];
+    for (const [wx, wy, ww, wh] of woundPositions) {
+        if (x1 + wx < x2 - 6 && bodyY + wy < bodyY + bodyH - 2) {
+            s += `<rect x="${x1+wx}" y="${bodyY+wy}" width="${ww}" height="${wh}" fill="${p.dark}"/>`;
+            // Красная рана
+            s += `<rect x="${x1+wx+2}" y="${bodyY+wy}" width="${Math.max(2, ww-4)}" height="1" fill="#6a1a1a" opacity="0.9"/>`;
+        }
+    }
 
-    // Брюхо
-    const bellyH = Math.max(2, Math.floor(bodyH * 0.25));
-    s += `<rect x="${x1+2}" y="${bodyY+bodyH-bellyH}" width="${bodyLen-4}" height="${bellyH}" fill="${p.belly}" opacity="0.8"/>`;
+    // === БРЮХО ===
+    const bellyH = Math.max(4, Math.floor(bodyH * 0.3));
+    s += `<rect x="${x1+4}" y="${bodyY+bodyH-bellyH}" width="${bodyLen-8}" height="${bellyH}" fill="${p.belly}" opacity="0.85"/>`;
 
-    // Верхняя тёмная полоса
-    s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="1" fill="${p.dark}"/>`;
+    // === ВЕРХНЯЯ ТЁМНАЯ ПОЛОСА ===
+    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="2" fill="${p.dark}"/>`;
 
-    // === ОГОЛЁННЫЕ КОСТИ (рёбра) ===
+    // === ОГОЛЁННЫЕ РЁБРА (индивидуальное расположение) ===
     // Верхние рёбра
-    const ribPositions = [4, 8, 12, 16];
-    for (const rx of ribPositions) {
-        if (x1 + rx < x2 - 3) {
-            // Кость — светлая линия
-            s += `<rect x="${x1+rx}" y="${bodyY+1}" width="1" height="${Math.floor(bodyH/2)}" fill="#e8d8b0" opacity="0.9"/>`;
-            // Тень кости
-            s += `<rect x="${x1+rx+1}" y="${bodyY+1}" width="1" height="${Math.floor(bodyH/2)}" fill="${p.dark}" opacity="0.6"/>`;
-            // Кончик кости (утолщение)
-            s += `<rect x="${x1+rx-1}" y="${bodyY+Math.floor(bodyH/2)-1}" width="3" height="1" fill="#e8d8b0"/>`;
+    const topRibs = [10, 20, 30, 40];
+    for (const rx of topRibs) {
+        if (x1 + rx < x2 - 6) {
+            // Кость
+            s += `<rect x="${x1+rx}" y="${bodyY+2}" width="2" height="${Math.floor(bodyH/2)-2}" fill="#e8d8b0"/>`;
+            s += `<rect x="${x1+rx+2}" y="${bodyY+2}" width="1" height="${Math.floor(bodyH/2)-2}" fill="#8a7a5a"/>`;
+            // Утолщение
+            s += `<rect x="${x1+rx-2}" y="${bodyY+Math.floor(bodyH/2)-4}" width="6" height="3" fill="#e8d8b0"/>`;
+            s += `<rect x="${x1+rx}" y="${bodyY+Math.floor(bodyH/2)-2}" width="2" height="2" fill="#8a7a5a" opacity="0.7"/>`;
         }
     }
-
     // Нижние рёбра
-    for (const rx of ribPositions) {
-        if (x1 + rx < x2 - 3) {
-            s += `<rect x="${x1+rx}" y="${bodyY+bodyH-Math.floor(bodyH/2)}" width="1" height="${Math.floor(bodyH/2)}" fill="#d8c8a0" opacity="0.8"/>`;
-            s += `<rect x="${x1+rx-1}" y="${bodyY+bodyH-Math.floor(bodyH/2)}" width="3" height="1" fill="#e8d8b0" opacity="0.9"/>`;
+    for (const rx of topRibs) {
+        if (x1 + rx < x2 - 6) {
+            s += `<rect x="${x1+rx}" y="${bodyY+bodyH-Math.floor(bodyH/2)+2}" width="2" height="${Math.floor(bodyH/2)-4}" fill="#d8c8a0"/>`;
+            s += `<rect x="${x1+rx-2}" y="${bodyY+bodyH-Math.floor(bodyH/2)}" width="6" height="3" fill="#d8c8a0" opacity="0.9"/>`;
         }
     }
 
-    // Позвоночник — тонкая линия
-    s += `<rect x="${x1+2}" y="${cy}" width="${bodyLen-4}" height="1" fill="#d8c8a0" opacity="0.5"/>`;
-
-    // === ЧЕШУЯ — редкая, с проплешинами ===
-    for (let i = 0; i < 5; i++) {
-        for (let j = 0; j < 2; j++) {
-            if ((i + j) % 3 !== 0) {
-                const sx = x1 + 5 + i * 3;
-                const sy = bodyY + 4 + j * 3;
-                if (sx < x2 - 2 && sy < bodyY + bodyH - 3) {
-                    s += `<rect x="${sx}" y="${sy}" width="1" height="1" fill="${p.light}" opacity="0.4"/>`;
-                }
-            }
-        }
-    }
-
-    // === ПЯТНА ГНИЕНИЯ (коричневые) ===
-    const rotSpots = [[8,3],[13,5],[17,4],[10,7],[15,2]];
-    for (const [sx, sy] of rotSpots) {
-        if (x1 + sx < x2 - 2 && bodyY + sy < bodyY + bodyH - 1) {
-            s += `<rect x="${x1+sx}" y="${bodyY+sy}" width="2" height="2" fill="${p.spot}" opacity="0.7"/>`;
-            s += `<rect x="${x1+sx}" y="${bodyY+sy}" width="1" height="1" fill="${p.dark}" opacity="0.5"/>`;
+    // Позвоночник
+    s += `<rect x="${x1+4}" y="${cy}" width="${bodyLen-8}" height="2" fill="#d8c8a0" opacity="0.55"/>`;
+    // Сегменты позвоночника
+    for (let i = 0; i < 6; i++) {
+        const px = x1 + 8 + i * 8;
+        if (px < x2 - 4) {
+            s += `<rect x="${px}" y="${cy-2}" width="2" height="6" fill="#8a7a5a" opacity="0.7"/>`;
         }
     }
 
     // === ГОЛОВА — полу-скелет ===
-    const headLen = f.headLen || 5;
+    const headLen = (f.headLen || 5) * 2;
 
-    // Сама голова (частично)
     if (f.headShape === 'pointed') {
-        s += `<rect x="${x1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.main}"/>`;
+        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
     } else if (f.headShape === 'snake') {
-        s += `<rect x="${x1-1}" y="${bodyY+3}" width="3" height="${bodyH-6}" fill="${p.main}"/>`;
+        s += `<rect x="${x1-2}" y="${bodyY+6}" width="6" height="${bodyH-12}" fill="${p.main}"/>`;
     } else if (f.headShape === 'flat') {
-        s += `<rect x="${x1-1}" y="${bodyY+4}" width="3" height="${bodyH-8}" fill="${p.main}"/>`;
+        s += `<rect x="${x1-2}" y="${bodyY+8}" width="6" height="${bodyH-16}" fill="${p.main}"/>`;
     } else if (f.headShape === 'big-head') {
-        s += `<rect x="${x1-1}" y="${bodyY+2}" width="3" height="${bodyH-4}" fill="${p.main}"/>`;
+        s += `<rect x="${x1-2}" y="${bodyY+4}" width="6" height="${bodyH-8}" fill="${p.main}"/>`;
     } else if (f.headShape === 'small') {
-        s += `<rect x="${x1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.main}"/>`;
+        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
     } else if (f.headShape === 'long-snout') {
-        // Костяной нос
-        s += `<rect x="${x1-3}" y="${cy-1}" width="4" height="2" fill="#d8c8a0"/>`;
-        s += `<rect x="${x1-3}" y="${cy-1}" width="4" height="1" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-6}" y="${cy-2}" width="8" height="4" fill="#d8c8a0"/>`;
+        s += `<rect x="${x1-6}" y="${cy-4}" width="6" height="2" fill="${p.dark}"/>`;
     } else if (f.headShape === 'trumpet') {
-        s += `<rect x="${x1-3}" y="${cy-2}" width="3" height="4" fill="${p.dark}"/>`;
+        s += `<rect x="${x1-6}" y="${cy-4}" width="6" height="8" fill="${p.dark}"/>`;
     }
 
-    // Трещина/рана на голове
-    s += `<rect x="${x1+2}" y="${bodyY+2}" width="1" height="3" fill="${p.dark}" opacity="0.7"/>`;
+    // Трещина черепа (на голове)
+    s += `<rect x="${x1+2}" y="${bodyY+4}" width="2" height="6" fill="#1a1a1a"/>`;
+    s += `<rect x="${x1+4}" y="${bodyY+8}" width="4" height="2" fill="#1a1a1a"/>`;
+    // Обнажённая кость на голове
+    s += `<rect x="${x1+6}" y="${bodyY+6}" width="3" height="3" fill="#e8d8b0" opacity="0.9"/>`;
 
-    // === ЖАБРЫ — обнажённые, красноватые ===
+    // === ЖАБРЫ — красно-коричневые ===
     const gillX = x1 + headLen;
-    s += `<rect x="${gillX}" y="${bodyY+2}" width="1" height="3" fill="#8a2a2a" opacity="0.9"/>`;
-    s += `<rect x="${gillX+1}" y="${bodyY+3}" width="1" height="${bodyH-6}" fill="#6a1a1a" opacity="0.9"/>`;
-    s += `<rect x="${gillX}" y="${bodyY+bodyH-5}" width="1" height="3" fill="#8a2a2a" opacity="0.9"/>`;
+    s += `<rect x="${gillX}" y="${bodyY+4}" width="2" height="6" fill="#8a2a2a"/>`;
+    s += `<rect x="${gillX+2}" y="${bodyY+6}" width="2" height="${bodyH-12}" fill="#6a1a1a"/>`;
+    s += `<rect x="${gillX}" y="${bodyY+bodyH-10}" width="2" height="6" fill="#8a2a2a"/>`;
+    // Обнажённые жабры
+    s += `<rect x="${gillX+4}" y="${bodyY+8}" width="2" height="2" fill="#d8c8a0" opacity="0.8"/>`;
+    s += `<rect x="${gillX+4}" y="${bodyY+bodyH-10}" width="2" height="2" fill="#d8c8a0" opacity="0.8"/>`;
 
-    // === ГЛАЗ — светящийся ядовитый ===
-    const eyeX = x1 + 2;
+    // === ГЛАЗ (светящийся зелёный) ===
+    const eyeX = x1 + 4;
     const eyeY = bodyY + Math.floor(bodyH / 3);
     // Тёмная впадина
-    s += `<rect x="${eyeX-1}" y="${eyeY-1}" width="5" height="5" fill="${p.dark}"/>`;
-    // Светящийся глаз
-    s += `<rect x="${eyeX}" y="${eyeY}" width="3" height="3" fill="#c0ff00"/>`;
-    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="2" height="2" fill="${p.pupil}"/>`;
-    // Блик
-    s += `<rect x="${eyeX}" y="${eyeY}" width="1" height="1" fill="#ffffff" opacity="0.9"/>`;
-
+    s += `<rect x="${eyeX-2}" y="${eyeY-2}" width="8" height="8" fill="#0a1a05"/>`;
+    // Свечение
+    s += `<rect x="${eyeX-1}" y="${eyeY-1}" width="6" height="6" fill="#4a8a1a" opacity="0.7"/>`;
+    // Основной глаз
+    s += `<rect x="${eyeX}" y="${eyeY}" width="4" height="4" fill="#c0ff00"/>`;
+    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="3" height="3" fill="#000"/>`;
+    s += `<rect x="${eyeX}" y="${eyeY}" width="2" height="2" fill="#ffffff"/>`;
     // Второй глаз (полу-открытый)
-    s += `<rect x="${eyeX+2}" y="${eyeY-1}" width="1" height="1" fill="#c0ff00" opacity="0.5"/>`;
+    s += `<rect x="${eyeX+4}" y="${eyeY}" width="2" height="2" fill="#c0ff00" opacity="0.6"/>`;
 
-    // === РОТ — оскал с зубами ===
-    s += `<rect x="${x1-1}" y="${cy}" width="2" height="1" fill="${p.dark}"/>`;
-    // Клыки
-    s += `<rect x="${x1}" y="${cy+1}" width="1" height="1" fill="#e8d8b0"/>`;
-    s += `<rect x="${x1+1}" y="${cy+1}" width="1" height="1" fill="#e8d8b0"/>`;
+    // === РОТ — оскал с клыками ===
+    s += `<rect x="${x1-2}" y="${cy}" width="4" height="2" fill="#1a1a1a"/>`;
     // Верхние клыки
-    s += `<rect x="${x1}" y="${cy-1}" width="1" height="1" fill="#e8d8b0" opacity="0.8"/>`;
+    s += `<rect x="${x1-1}" y="${cy+2}" width="2" height="3" fill="#e8d8b0"/>`;
+    s += `<rect x="${x1+2}" y="${cy+2}" width="2" height="3" fill="#e8d8b0"/>`;
+    // Нижние клыки
+    s += `<rect x="${x1}" y="${cy-4}" width="2" height="3" fill="#e8d8b0" opacity="0.9"/>`;
+    s += `<rect x="${x1+3}" y="${cy-4}" width="2" height="3" fill="#e8d8b0" opacity="0.9"/>`;
 
-    // === ВЕРХНИЙ ПЛАВНИК — рваный, с костями ===
-    const finStart = x1 + headLen + 2;
-    const topFinSize = f.topFinSize || 4;
-    for (let i = 0; i < topFinSize; i++) {
-        const fx = finStart + i;
-        const fh = 2 + (i % 2 === 0 ? 1 : 0);
-        s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
-        // Костные шипы между лучами
-        if (i % 2 === 0) {
-            s += `<rect x="${fx}" y="${bodyY-fh-1}" width="1" height="1" fill="#d8c8a0"/>`;
-        }
+    // === УСЫ (если есть) ===
+    if (f.whiskers) {
+        s += `<rect x="${x1-4}" y="${cy-4}" width="4" height="2" fill="#2a1a0a"/>`;
+        s += `<rect x="${x1-6}" y="${cy-6}" width="2" height="2" fill="#2a1a0a"/>`;
+        s += `<rect x="${x1-4}" y="${cy+4}" width="4" height="2" fill="#2a1a0a"/>`;
+        s += `<rect x="${x1-6}" y="${cy+6}" width="2" height="2" fill="#2a1a0a"/>`;
     }
 
+    // === ВЕРХНИЙ ПЛАВНИК — РВАНИЙ с костями ===
+    const finStart = x1 + headLen + 4;
+    const topFinSize = (f.topFinSize || 4) * 2;
+
+    for (let i = 0; i < topFinSize; i++) {
+        const fx = finStart + i * 2;
+        const fh = 4 + (i % 3 === 0 ? 4 : 2);
+        // Полупрозрачная мембрана
+        s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="${fh}" fill="${p.fin}" opacity="0.75"/>`;
+        // Костный шип
+        if (i % 2 === 0) {
+            s += `<rect x="${fx}" y="${bodyY-fh-2}" width="2" height="3" fill="#d8c8a0"/>`;
+        }
+    }
+    // Разрыв в плавнике
+    s += `<rect x="${finStart + Math.floor(topFinSize/2)*2}" y="${bodyY-6}" width="4" height="6" fill="transparent"/>`;
+
     // === БРЮШНОЙ ПЛАВНИК — рваный ===
-    s += `<rect x="${finStart+1}" y="${bodyY+bodyH}" width="3" height="2" fill="${p.fin}"/>`;
-    s += `<rect x="${finStart+5}" y="${bodyY+bodyH}" width="2" height="2" fill="${p.fin}"/>`;
+    s += `<rect x="${finStart+4}" y="${bodyY+bodyH}" width="6" height="4" fill="${p.fin}"/>`;
+    s += `<rect x="${finStart+14}" y="${bodyY+bodyH}" width="4" height="3" fill="${p.fin}"/>`;
+    // Кость
+    s += `<rect x="${finStart+6}" y="${bodyY+bodyH+4}" width="2" height="2" fill="#d8c8a0"/>`;
 
     // === ГРУДНОЙ ПЛАВНИК — рваный ===
-    s += `<rect x="${x1+headLen+1}" y="${cy+1}" width="3" height="2" fill="${p.fin}" opacity="0.8"/>`;
-    s += `<rect x="${x1+headLen+4}" y="${cy+2}" width="2" height="1" fill="${p.fin}" opacity="0.6"/>`;
+    s += `<rect x="${x1+headLen+2}" y="${cy+2}" width="6" height="4" fill="${p.fin}" opacity="0.8"/>`;
+    s += `<rect x="${x1+headLen+8}" y="${cy+4}" width="3" height="2" fill="${p.fin}" opacity="0.6"/>`;
 
-    // === ХВОСТ — рваный, с костями ===
+    // === ХВОСТ — с костью ===
     const tailX = x2;
-    const tailSize = f.tailSize || 6;
+    const tailSize = (f.tailSize || 6) * 2;
     const midY = cy;
 
     if (f.tailType === 'fork') {
-        // Верхняя лопасть
-        s += `<path d="M ${tailX} ${midY-1} L ${tailX+2} ${midY-1} L ${tailX+tailSize} ${midY-tailSize-1} Q ${tailX+tailSize+1} ${midY-tailSize-2} ${tailX+tailSize-1} ${midY-tailSize-3} L ${tailX+2} ${midY-1} Z" fill="${p.fin}"/>`;
-        // Нижняя лопасть
-        s += `<path d="M ${tailX} ${midY+1} L ${tailX+2} ${midY+1} L ${tailX+tailSize} ${midY+tailSize+1} Q ${tailX+tailSize+1} ${midY+tailSize+2} ${tailX+tailSize-1} ${midY+tailSize+3} L ${tailX+2} ${midY+1} Z" fill="${p.fin}"/>`;
-        // Центральная кость
-        s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
-        s += `<rect x="${tailX+3}" y="${midY}" width="${tailSize-2}" height="1" fill="#d8c8a0" opacity="0.7"/>`;
+        s += `<path d="M ${tailX} ${midY-2} L ${tailX+4} ${midY-2} L ${tailX+tailSize} ${midY-tailSize-2} Q ${tailX+tailSize+2} ${midY-tailSize-4} ${tailX+tailSize-2} ${midY-tailSize-6} L ${tailX+4} ${midY-2} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${tailX} ${midY+2} L ${tailX+4} ${midY+2} L ${tailX+tailSize} ${midY+tailSize+2} Q ${tailX+tailSize+2} ${midY+tailSize+4} ${tailX+tailSize-2} ${midY+tailSize+6} L ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX}" y="${midY-2}" width="6" height="4" fill="${p.main}"/>`;
+        // Позвоночная кость
+        s += `<rect x="${tailX+6}" y="${midY}" width="${tailSize-4}" height="2" fill="#d8c8a0" opacity="0.8"/>`;
     } else if (f.tailType === 'fan') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+2} ${midY-5} Q ${tailX+tailSize-1} ${midY-tailSize-3} ${tailX+tailSize+1} ${midY} Q ${tailX+tailSize-1} ${midY+tailSize+3} ${tailX+2} ${midY+5} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX}" y="${midY-4}" width="4" height="8" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+4} ${midY-10} Q ${tailX+tailSize-2} ${midY-tailSize-6} ${tailX+tailSize+2} ${midY} Q ${tailX+tailSize-2} ${midY+tailSize+6} ${tailX+4} ${midY+10} Z" fill="${p.fin}"/>`;
         // Костные лучи
-        for (let i = -2; i <= 2; i++) {
-            s += `<rect x="${tailX+4+i}" y="${midY + i*3 - 1}" width="1" height="2" fill="#d8c8a0" opacity="0.6"/>`;
+        for (let i = -3; i <= 3; i++) {
+            s += `<rect x="${tailX+8+i*2}" y="${midY + i*3 - 2}" width="2" height="4" fill="#d8c8a0" opacity="0.6"/>`;
         }
     } else if (f.tailType === 'long') {
-        s += `<rect x="${tailX}" y="${midY-1}" width="5" height="3" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+4} ${midY-2} Q ${tailX+9} ${midY-4} ${tailX+11} ${midY-1} Q ${tailX+11} ${midY+1} ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+5}" y="${midY}" width="6" height="1" fill="#d8c8a0" opacity="0.6"/>`;
+        s += `<rect x="${tailX}" y="${midY-2}" width="10" height="6" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+8} ${midY-4} Q ${tailX+18} ${midY-8} ${tailX+22} ${midY-2} Q ${tailX+22} ${midY+2} ${tailX+8} ${midY+4} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+10}" y="${midY}" width="12" height="2" fill="#d8c8a0" opacity="0.7"/>`;
     } else if (f.tailType === 'round') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
-        s += `<ellipse cx="${tailX+4}" cy="${midY}" rx="3" ry="4" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+2}" y="${midY}" width="5" height="1" fill="#d8c8a0" opacity="0.6"/>`;
+        s += `<rect x="${tailX}" y="${midY-4}" width="4" height="8" fill="${p.main}"/>`;
+        s += `<ellipse cx="${tailX+8}" cy="${midY}" rx="6" ry="8" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+4}" y="${midY}" width="8" height="2" fill="#d8c8a0" opacity="0.6"/>`;
     } else if (f.tailType === 'asymmetric-fork') {
-        s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+3} ${midY-1} L ${tailX+7} ${midY-7} Q ${tailX+8} ${midY-7} ${tailX+8} ${midY-5} L ${tailX+4} ${midY-1} Z" fill="${p.fin}"/>`;
-        s += `<path d="M ${tailX+3} ${midY+1} L ${tailX+6} ${midY+4} Q ${tailX+7} ${midY+4} ${tailX+7} ${midY+3} L ${tailX+4} ${midY+1} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+3}" y="${midY}" width="5" height="1" fill="#d8c8a0" opacity="0.7"/>`;
+        s += `<rect x="${tailX}" y="${midY-2}" width="6" height="4" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+6} ${midY-2} L ${tailX+14} ${midY-14} Q ${tailX+16} ${midY-14} ${tailX+16} ${midY-10} L ${tailX+8} ${midY-2} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${tailX+6} ${midY+2} L ${tailX+12} ${midY+8} Q ${tailX+14} ${midY+8} ${tailX+14} ${midY+6} L ${tailX+8} ${midY+2} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+6}" y="${midY}" width="8" height="2" fill="#d8c8a0" opacity="0.8"/>`;
     } else if (f.tailType === 'leaf') {
-        s += `<rect x="${tailX}" y="${midY-1}" width="2" height="2" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+2} ${midY} Q ${tailX+5} ${midY-5} ${tailX+9} ${midY} Q ${tailX+5} ${midY+5} ${tailX+2} ${midY} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+3}" y="${midY}" width="6" height="1" fill="#d8c8a0" opacity="0.6"/>`;
+        s += `<rect x="${tailX}" y="${midY-2}" width="4" height="4" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+4} ${midY} Q ${tailX+10} ${midY-10} ${tailX+18} ${midY} Q ${tailX+10} ${midY+10} ${tailX+4} ${midY} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+6}" y="${midY}" width="10" height="2" fill="#d8c8a0" opacity="0.7"/>`;
     }
 
-    // === КОСТНЫЕ ШИПЫ НА СПИНЕ (у некоторых) ===
+    // === КОСТНЫЕ ШИПЫ ===
     if (f.spikes) {
-        for (let i = 0; i < 4; i++) {
-            const sx = x1 + headLen + 1 + i * 3;
-            s += `<rect x="${sx}" y="${bodyY-2}" width="1" height="2" fill="#d8c8a0"/>`;
+        for (let i = 0; i < 6; i++) {
+            const sx = x1 + headLen + 2 + i * 6;
+            s += `<rect x="${sx}" y="${bodyY-4}" width="2" height="4" fill="#e8d8b0"/>`;
         }
     }
 
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges" ${scale !== 1 ? `width="${64*scale/2}" height="${64*scale/2}"` : ''}>${s}</svg>`
     );
 }
 // ========================================================
@@ -1982,7 +1938,7 @@ function showFishModal(fishName, count) {
             <img src="${bigIcon}" alt="${info.baseName}" class="modal-fish-icon">
         </div>
         <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
-        <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label}</div>
+        <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label.toUpperCase()}</div>
         <div class="modal-info-grid">
             <div class="modal-info-block">
                 <div class="info-label">Размер</div>
