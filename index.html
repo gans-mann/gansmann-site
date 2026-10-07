@@ -975,39 +975,19 @@ const PALETTES = {
 };
 
 // === ЯРКАЯ НЕЖИТЬ (мрачная, но выразительная) ===
-const UNDEAD_PALETTE = { main: '#6a7a4a', dark: '#0a0a0a', light: '#a8b878', belly: '#c8d098', fin: '#4a5a2a', eye: '#c0ff00', pupil: '#000000', gill: '#3a4a1a', spot: '#3a4a1a', stripe: '#3a4a1a' };
-
-const UNDEAD_PALETTES = {
-    pike:      { main: '#6a7a4a', dark: '#0a0a0a', light: '#a8b878', belly: '#c8d098', fin: '#8a5a20', eye: '#c0ff00', pupil: '#000000', gill: '#4a5a1a', spot: '#0a0a0a', stripe: '#3a4a1a' },
-    zander:    { main: '#707880', dark: '#0a0a0a', light: '#a8b0b8', belly: '#d8d8d8', fin: '#8a3020', eye: '#ff5500', pupil: '#000000', gill: '#404850', spot: '#404850', stripe: '#404850' },
-    perch:     { main: '#6a8a4a', dark: '#0a0a0a', light: '#a8c878', belly: '#c0d0a0', fin: '#a85810', eye: '#c0ff00', pupil: '#000000', gill: '#3a4a1a', spot: '#0a0a0a', stripe: '#0a0a0a' },
-    ruffe:     { main: '#8a7850', dark: '#0a0a0a', light: '#b8a878', belly: '#d0c098', fin: '#604010', eye: '#c0ff00', pupil: '#000000', gill: '#4a3820', spot: '#4a3820', stripe: '#4a3820' },
-    catfish:   { main: '#4a3828', dark: '#0a0a0a', light: '#7a6050', belly: '#a08868', fin: '#2a1808', eye: '#ff5500', pupil: '#000000', gill: '#2a1808', spot: '#0a0a0a', stripe: '#2a1808' },
-    burbot:    { main: '#6a6a4a', dark: '#0a0a0a', light: '#9a9a78', belly: '#b8b898', fin: '#4a4a28', eye: '#c0ff00', pupil: '#000000', gill: '#3a3a1a', spot: '#3a3a1a', stripe: '#3a3a1a' },
-    piranha:   { main: '#a02020', dark: '#0a0a0a', light: '#d04040', belly: '#e09090', fin: '#600000', eye: '#ffff00', pupil: '#000000', gill: '#600000', spot: '#600000', stripe: '#600000' },
-    snakehead: { main: '#5a6a2a', dark: '#0a0a0a', light: '#8a9a58', belly: '#b0b880', fin: '#3a4a10', eye: '#c0ff00', pupil: '#000000', gill: '#2a3a08', spot: '#2a3a08', stripe: '#2a3a08' },
-    carp:      { main: '#b08830', dark: '#0a0a0a', light: '#d8b868', belly: '#e8d098', fin: '#805810', eye: '#c0ff00', pupil: '#000000', gill: '#604818', spot: '#604818', stripe: '#604818' },
-    carp_big:  { main: '#a87828', dark: '#0a0a0a', light: '#d0a860', belly: '#e0c890', fin: '#704810', eye: '#c0ff00', pupil: '#000000', gill: '#503818', spot: '#503818', stripe: '#503818' },
-    crucian:   { main: '#c8a030', dark: '#0a0a0a', light: '#e8c868', belly: '#f0d898', fin: '#a87010', eye: '#c0ff00', pupil: '#000000', gill: '#806018', spot: '#806018', stripe: '#806018' },
-    bream:     { main: '#8898a8', dark: '#0a0a0a', light: '#b8c8d8', belly: '#d8e0e8', fin: '#586878', eye: '#ff5500', pupil: '#000000', gill: '#485868', spot: '#586878', stripe: '#485868' },
-    silvercarp:{ main: '#a8b0b8', dark: '#0a0a0a', light: '#d0d8e0', belly: '#e8f0f8', fin: '#7888a0', eye: '#c0ff00', pupil: '#000000', gill: '#607080', spot: '#607080', stripe: '#607080' },
-    tench:     { main: '#789840', dark: '#0a0a0a', light: '#a8c870', belly: '#c8d898', fin: '#507028', eye: '#c0ff00', pupil: '#000000', gill: '#385018', spot: '#385018', stripe: '#507028' },
-    ide:       { main: '#a89050', dark: '#0a0a0a', light: '#d0b878', belly: '#e0d0a0', fin: '#807018', eye: '#c0ff00', pupil: '#000000', gill: '#605018', spot: '#605018', stripe: '#605018' },
-    trout:     { main: '#c06848', dark: '#0a0a0a', light: '#e09878', belly: '#e8b898', fin: '#903818', eye: '#ff5500', pupil: '#000000', gill: '#783820', spot: '#a01818', stripe: '#783820' },
-    salmon:    { main: '#d07050', dark: '#0a0a0a', light: '#e8a088', belly: '#f0c0a8', fin: '#a03820', eye: '#ff5500', pupil: '#000000', gill: '#883818', spot: '#b04828', stripe: '#883818' },
-    char:      { main: '#6a7888', dark: '#0a0a0a', light: '#98a8b8', belly: '#b8c8d8', fin: '#a02818', eye: '#c0ff00', pupil: '#000000', gill: '#485868', spot: '#a02818', stripe: '#485868' },
-    whitefish: { main: '#a0a8b0', dark: '#0a0a0a', light: '#c8d0d8', belly: '#e0e8f0', fin: '#687888', eye: '#c0ff00', pupil: '#000000', gill: '#586878', spot: '#586878', stripe: '#586878' },
-    grayling:  { main: '#8898a8', dark: '#0a0a0a', light: '#b8c8d8', belly: '#d8e8f8', fin: '#6878a0', eye: '#c0ff00', pupil: '#000000', gill: '#506070', spot: '#405868', stripe: '#506070' },
-    bleak:     { main: '#6898b8', dark: '#0a0a0a', light: '#a0c8e0', belly: '#d0e8f8', fin: '#387090', eye: '#c0ff00', pupil: '#000000', gill: '#205870', spot: '#387090', stripe: '#205870' },
-    roach:     { main: '#a8b0b8', dark: '#0a0a0a', light: '#d0d8e0', belly: '#e8f0f8', fin: '#c02020', eye: '#ff5500', pupil: '#000000', gill: '#586878', spot: '#c02020', stripe: '#687888' },
-    chub:      { main: '#98a8b0', dark: '#0a0a0a', light: '#c8d0d8', belly: '#e0e8f0', fin: '#687888', eye: '#ff5500', pupil: '#000000', gill: '#485868', spot: '#687888', stripe: '#485868' },
-    rudd:      { main: '#b09870', dark: '#0a0a0a', light: '#d0b898', belly: '#e8d8b8', fin: '#c02818', eye: '#ff5500', pupil: '#000000', gill: '#786048', spot: '#c02818', stripe: '#786048' },
-    sabrefish: { main: '#a8b0b8', dark: '#0a0a0a', light: '#d0d8e0', belly: '#e8f0f8', fin: '#7888a0', eye: '#c0ff00', pupil: '#000000', gill: '#687888', spot: '#687888', stripe: '#687888' },
-    gudgeon:   { main: '#987848', dark: '#0a0a0a', light: '#c0a878', belly: '#d8c898', fin: '#785828', eye: '#c0ff00', pupil: '#000000', gill: '#583818', spot: '#583818', stripe: '#583818' },
-    sturgeon:  { main: '#485888', dark: '#0a0a0a', light: '#7888b8', belly: '#a8b8d8', fin: '#384868', eye: '#c0ff00', pupil: '#000000', gill: '#384868', spot: '#384868', stripe: '#384868' },
-    eel:       { main: '#3a6a3a', dark: '#0a0a0a', light: '#689868', belly: '#98b898', fin: '#204020', eye: '#c0ff00', pupil: '#000000', gill: '#204020', spot: '#204020', stripe: '#204020' },
-    lamprey:   { main: '#6878a0', dark: '#0a0a0a', light: '#98a8d0', belly: '#c0c8e8', fin: '#404868', eye: '#c0ff00', pupil: '#000000', gill: '#404868', spot: '#404868', stripe: '#404868' }
+const UNDEAD_PALETTE = {
+    main: '#6a7a4a',       // мрачно-зелёный, но яркий
+    dark: '#0a0a0a',       // почти чёрный контур
+    light: '#a8b878',      // светлый блик
+    belly: '#c8d098',      // брюхо
+    fin: '#4a5a2a',        // плавники
+    eye: '#c0ff00',        // ядовито-зелёный глаз
+    pupil: '#000000',
+    gill: '#3a4a1a',
+    spot: '#3a4a1a',       // гнилые пятна
+    stripe: '#3a4a1a'      // тёмные полосы
 };
+
 
 // ========================================================
 // ФОРМЫ РЫБ
@@ -1168,7 +1148,7 @@ const FISH_FORMS = {
     
 function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
-    const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey];
+    const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey];   // ← добавили проверку
     if (!p) return '';
     const f = form;
 
@@ -1428,214 +1408,7 @@ function makeFishSVG(paletteKey, form, scale) {
     );
 }
 // === ЗОМБИ-РЫБА (уникальная для каждого типа) ===
-function makeUndeadFishSVG(form, scale) {
-    scale = scale || 1;
-    const p = UNDEAD_PALETTE;
-    const f = form;
 
-    const bodyLen = f.bodyLen * 2;
-    const bodyH = f.bodyH * 2;
-    const bodyY = (f.bodyY || Math.floor((32 - f.bodyH) / 2)) * 2;
-    const headX = 6;
-    const cy = bodyY + bodyH / 2;
-    const x1 = headX, x2 = headX + bodyLen;
-    let s = '';
-
-    // === ТЕЛО — БОЛОТНО-ЗЕЛЁНОЕ ===
-    s += `<rect x="${x1}" y="${bodyY+4}" width="${bodyLen}" height="${bodyH-8}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+2}" y="${bodyY+2}" width="${bodyLen-4}" height="${bodyH-4}" fill="${p.main}"/>`;
-    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="${bodyH}" fill="${p.main}"/>`;
-
-    // Тёмные раны по телу (случайно, но стабильно)
-    const woundPositions = [[12, 4, 8, 2], [24, 8, 6, 2], [32, bodyH-8, 10, 2], [44, 6, 5, 2], [18, bodyH-6, 7, 2]];
-    for (const [wx, wy, ww, wh] of woundPositions) {
-        if (x1 + wx < x2 - 6 && bodyY + wy < bodyY + bodyH - 2) {
-            s += `<rect x="${x1+wx}" y="${bodyY+wy}" width="${ww}" height="${wh}" fill="${p.dark}"/>`;
-            // Красная рана
-            s += `<rect x="${x1+wx+2}" y="${bodyY+wy}" width="${Math.max(2, ww-4)}" height="1" fill="#6a1a1a" opacity="0.9"/>`;
-        }
-    }
-
-    // === БРЮХО ===
-    const bellyH = Math.max(4, Math.floor(bodyH * 0.3));
-    s += `<rect x="${x1+4}" y="${bodyY+bodyH-bellyH}" width="${bodyLen-8}" height="${bellyH}" fill="${p.belly}" opacity="0.85"/>`;
-
-    // === ВЕРХНЯЯ ТЁМНАЯ ПОЛОСА ===
-    s += `<rect x="${x1+4}" y="${bodyY}" width="${bodyLen-8}" height="2" fill="${p.dark}"/>`;
-
-    // === ОГОЛЁННЫЕ РЁБРА (индивидуальное расположение) ===
-    // Верхние рёбра
-    const topRibs = [10, 20, 30, 40];
-    for (const rx of topRibs) {
-        if (x1 + rx < x2 - 6) {
-            // Кость
-            s += `<rect x="${x1+rx}" y="${bodyY+2}" width="2" height="${Math.floor(bodyH/2)-2}" fill="#e8d8b0"/>`;
-            s += `<rect x="${x1+rx+2}" y="${bodyY+2}" width="1" height="${Math.floor(bodyH/2)-2}" fill="#8a7a5a"/>`;
-            // Утолщение
-            s += `<rect x="${x1+rx-2}" y="${bodyY+Math.floor(bodyH/2)-4}" width="6" height="3" fill="#e8d8b0"/>`;
-            s += `<rect x="${x1+rx}" y="${bodyY+Math.floor(bodyH/2)-2}" width="2" height="2" fill="#8a7a5a" opacity="0.7"/>`;
-        }
-    }
-    // Нижние рёбра
-    for (const rx of topRibs) {
-        if (x1 + rx < x2 - 6) {
-            s += `<rect x="${x1+rx}" y="${bodyY+bodyH-Math.floor(bodyH/2)+2}" width="2" height="${Math.floor(bodyH/2)-4}" fill="#d8c8a0"/>`;
-            s += `<rect x="${x1+rx-2}" y="${bodyY+bodyH-Math.floor(bodyH/2)}" width="6" height="3" fill="#d8c8a0" opacity="0.9"/>`;
-        }
-    }
-
-    // Позвоночник
-    s += `<rect x="${x1+4}" y="${cy}" width="${bodyLen-8}" height="2" fill="#d8c8a0" opacity="0.55"/>`;
-    // Сегменты позвоночника
-    for (let i = 0; i < 6; i++) {
-        const px = x1 + 8 + i * 8;
-        if (px < x2 - 4) {
-            s += `<rect x="${px}" y="${cy-2}" width="2" height="6" fill="#8a7a5a" opacity="0.7"/>`;
-        }
-    }
-
-    // === ГОЛОВА — полу-скелет ===
-    const headLen = (f.headLen || 5) * 2;
-
-    if (f.headShape === 'pointed') {
-        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'snake') {
-        s += `<rect x="${x1-2}" y="${bodyY+6}" width="6" height="${bodyH-12}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'flat') {
-        s += `<rect x="${x1-2}" y="${bodyY+8}" width="6" height="${bodyH-16}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'big-head') {
-        s += `<rect x="${x1-2}" y="${bodyY+4}" width="6" height="${bodyH-8}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'small') {
-        s += `<rect x="${x1}" y="${bodyY+6}" width="4" height="${bodyH-12}" fill="${p.main}"/>`;
-    } else if (f.headShape === 'long-snout') {
-        s += `<rect x="${x1-6}" y="${cy-2}" width="8" height="4" fill="#d8c8a0"/>`;
-        s += `<rect x="${x1-6}" y="${cy-4}" width="6" height="2" fill="${p.dark}"/>`;
-    } else if (f.headShape === 'trumpet') {
-        s += `<rect x="${x1-6}" y="${cy-4}" width="6" height="8" fill="${p.dark}"/>`;
-    }
-
-    // Трещина черепа (на голове)
-    s += `<rect x="${x1+2}" y="${bodyY+4}" width="2" height="6" fill="#1a1a1a"/>`;
-    s += `<rect x="${x1+4}" y="${bodyY+8}" width="4" height="2" fill="#1a1a1a"/>`;
-    // Обнажённая кость на голове
-    s += `<rect x="${x1+6}" y="${bodyY+6}" width="3" height="3" fill="#e8d8b0" opacity="0.9"/>`;
-
-    // === ЖАБРЫ — красно-коричневые ===
-    const gillX = x1 + headLen;
-    s += `<rect x="${gillX}" y="${bodyY+4}" width="2" height="6" fill="#8a2a2a"/>`;
-    s += `<rect x="${gillX+2}" y="${bodyY+6}" width="2" height="${bodyH-12}" fill="#6a1a1a"/>`;
-    s += `<rect x="${gillX}" y="${bodyY+bodyH-10}" width="2" height="6" fill="#8a2a2a"/>`;
-    // Обнажённые жабры
-    s += `<rect x="${gillX+4}" y="${bodyY+8}" width="2" height="2" fill="#d8c8a0" opacity="0.8"/>`;
-    s += `<rect x="${gillX+4}" y="${bodyY+bodyH-10}" width="2" height="2" fill="#d8c8a0" opacity="0.8"/>`;
-
-    // === ГЛАЗ (светящийся зелёный) ===
-    const eyeX = x1 + 4;
-    const eyeY = bodyY + Math.floor(bodyH / 3);
-    // Тёмная впадина
-    s += `<rect x="${eyeX-2}" y="${eyeY-2}" width="8" height="8" fill="#0a1a05"/>`;
-    // Свечение
-    s += `<rect x="${eyeX-1}" y="${eyeY-1}" width="6" height="6" fill="#4a8a1a" opacity="0.7"/>`;
-    // Основной глаз
-    s += `<rect x="${eyeX}" y="${eyeY}" width="4" height="4" fill="#c0ff00"/>`;
-    s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="3" height="3" fill="#000"/>`;
-    s += `<rect x="${eyeX}" y="${eyeY}" width="2" height="2" fill="#ffffff"/>`;
-    // Второй глаз (полу-открытый)
-    s += `<rect x="${eyeX+4}" y="${eyeY}" width="2" height="2" fill="#c0ff00" opacity="0.6"/>`;
-
-    // === РОТ — оскал с клыками ===
-    s += `<rect x="${x1-2}" y="${cy}" width="4" height="2" fill="#1a1a1a"/>`;
-    // Верхние клыки
-    s += `<rect x="${x1-1}" y="${cy+2}" width="2" height="3" fill="#e8d8b0"/>`;
-    s += `<rect x="${x1+2}" y="${cy+2}" width="2" height="3" fill="#e8d8b0"/>`;
-    // Нижние клыки
-    s += `<rect x="${x1}" y="${cy-4}" width="2" height="3" fill="#e8d8b0" opacity="0.9"/>`;
-    s += `<rect x="${x1+3}" y="${cy-4}" width="2" height="3" fill="#e8d8b0" opacity="0.9"/>`;
-
-    // === УСЫ (если есть) ===
-    if (f.whiskers) {
-        s += `<rect x="${x1-4}" y="${cy-4}" width="4" height="2" fill="#2a1a0a"/>`;
-        s += `<rect x="${x1-6}" y="${cy-6}" width="2" height="2" fill="#2a1a0a"/>`;
-        s += `<rect x="${x1-4}" y="${cy+4}" width="4" height="2" fill="#2a1a0a"/>`;
-        s += `<rect x="${x1-6}" y="${cy+6}" width="2" height="2" fill="#2a1a0a"/>`;
-    }
-
-    // === ВЕРХНИЙ ПЛАВНИК — РВАНИЙ с костями ===
-    const finStart = x1 + headLen + 4;
-    const topFinSize = (f.topFinSize || 4) * 2;
-
-    for (let i = 0; i < topFinSize; i++) {
-        const fx = finStart + i * 2;
-        const fh = 4 + (i % 3 === 0 ? 4 : 2);
-        // Полупрозрачная мембрана
-        s += `<rect x="${fx}" y="${bodyY-fh}" width="2" height="${fh}" fill="${p.fin}" opacity="0.75"/>`;
-        // Костный шип
-        if (i % 2 === 0) {
-            s += `<rect x="${fx}" y="${bodyY-fh-2}" width="2" height="3" fill="#d8c8a0"/>`;
-        }
-    }
-    // Разрыв в плавнике
-    s += `<rect x="${finStart + Math.floor(topFinSize/2)*2}" y="${bodyY-6}" width="4" height="6" fill="transparent"/>`;
-
-    // === БРЮШНОЙ ПЛАВНИК — рваный ===
-    s += `<rect x="${finStart+4}" y="${bodyY+bodyH}" width="6" height="4" fill="${p.fin}"/>`;
-    s += `<rect x="${finStart+14}" y="${bodyY+bodyH}" width="4" height="3" fill="${p.fin}"/>`;
-    // Кость
-    s += `<rect x="${finStart+6}" y="${bodyY+bodyH+4}" width="2" height="2" fill="#d8c8a0"/>`;
-
-    // === ГРУДНОЙ ПЛАВНИК — рваный ===
-    s += `<rect x="${x1+headLen+2}" y="${cy+2}" width="6" height="4" fill="${p.fin}" opacity="0.8"/>`;
-    s += `<rect x="${x1+headLen+8}" y="${cy+4}" width="3" height="2" fill="${p.fin}" opacity="0.6"/>`;
-
-    // === ХВОСТ — с костью ===
-    const tailX = x2;
-    const tailSize = (f.tailSize || 6) * 2;
-    const midY = cy;
-
-    if (f.tailType === 'fork') {
-        s += `<path d="M ${tailX} ${midY-2} L ${tailX+4} ${midY-2} L ${tailX+tailSize} ${midY-tailSize-2} Q ${tailX+tailSize+2} ${midY-tailSize-4} ${tailX+tailSize-2} ${midY-tailSize-6} L ${tailX+4} ${midY-2} Z" fill="${p.fin}"/>`;
-        s += `<path d="M ${tailX} ${midY+2} L ${tailX+4} ${midY+2} L ${tailX+tailSize} ${midY+tailSize+2} Q ${tailX+tailSize+2} ${midY+tailSize+4} ${tailX+tailSize-2} ${midY+tailSize+6} L ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX}" y="${midY-2}" width="6" height="4" fill="${p.main}"/>`;
-        // Позвоночная кость
-        s += `<rect x="${tailX+6}" y="${midY}" width="${tailSize-4}" height="2" fill="#d8c8a0" opacity="0.8"/>`;
-    } else if (f.tailType === 'fan') {
-        s += `<rect x="${tailX}" y="${midY-4}" width="4" height="8" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+4} ${midY-10} Q ${tailX+tailSize-2} ${midY-tailSize-6} ${tailX+tailSize+2} ${midY} Q ${tailX+tailSize-2} ${midY+tailSize+6} ${tailX+4} ${midY+10} Z" fill="${p.fin}"/>`;
-        // Костные лучи
-        for (let i = -3; i <= 3; i++) {
-            s += `<rect x="${tailX+8+i*2}" y="${midY + i*3 - 2}" width="2" height="4" fill="#d8c8a0" opacity="0.6"/>`;
-        }
-    } else if (f.tailType === 'long') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="10" height="6" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+8} ${midY-4} Q ${tailX+18} ${midY-8} ${tailX+22} ${midY-2} Q ${tailX+22} ${midY+2} ${tailX+8} ${midY+4} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+10}" y="${midY}" width="12" height="2" fill="#d8c8a0" opacity="0.7"/>`;
-    } else if (f.tailType === 'round') {
-        s += `<rect x="${tailX}" y="${midY-4}" width="4" height="8" fill="${p.main}"/>`;
-        s += `<ellipse cx="${tailX+8}" cy="${midY}" rx="6" ry="8" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+4}" y="${midY}" width="8" height="2" fill="#d8c8a0" opacity="0.6"/>`;
-    } else if (f.tailType === 'asymmetric-fork') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="6" height="4" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+6} ${midY-2} L ${tailX+14} ${midY-14} Q ${tailX+16} ${midY-14} ${tailX+16} ${midY-10} L ${tailX+8} ${midY-2} Z" fill="${p.fin}"/>`;
-        s += `<path d="M ${tailX+6} ${midY+2} L ${tailX+12} ${midY+8} Q ${tailX+14} ${midY+8} ${tailX+14} ${midY+6} L ${tailX+8} ${midY+2} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+6}" y="${midY}" width="8" height="2" fill="#d8c8a0" opacity="0.8"/>`;
-    } else if (f.tailType === 'leaf') {
-        s += `<rect x="${tailX}" y="${midY-2}" width="4" height="4" fill="${p.main}"/>`;
-        s += `<path d="M ${tailX+4} ${midY} Q ${tailX+10} ${midY-10} ${tailX+18} ${midY} Q ${tailX+10} ${midY+10} ${tailX+4} ${midY} Z" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+6}" y="${midY}" width="10" height="2" fill="#d8c8a0" opacity="0.7"/>`;
-    }
-
-    // === КОСТНЫЕ ШИПЫ ===
-    if (f.spikes) {
-        for (let i = 0; i < 6; i++) {
-            const sx = x1 + headLen + 2 + i * 6;
-            s += `<rect x="${sx}" y="${bodyY-4}" width="2" height="4" fill="#e8d8b0"/>`;
-        }
-    }
-
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges" ${scale !== 1 ? `width="${64*scale/2}" height="${64*scale/2}"` : ''}>${s}</svg>`
-    );
-}
 // ========================================================
 // ДАННЫЕ
 // ========================================================
@@ -1731,11 +1504,10 @@ function getFishIcon(fishName, scale) {
     const info = getFishForm(fishName);
 
     if (info.isUndead) {
-        return makeUndeadFishSVG(info.form, scale);
+        return makeFishSVG('undead', info.form, scale);
     }
     return makeFishSVG(info.form.palette, info.form, scale);
 }
-
 // Универсальная отрисовка с готовой палитрой
 function makeFishSVGWithCustomPalette(palette, form, scale) {
     scale = scale || 1;
