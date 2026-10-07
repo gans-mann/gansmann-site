@@ -1,7 +1,8 @@
 // ========================================================
-// ОТРИСОВКА РЫБ (общая для index.html и inventory.html)
+// РЫБЫ — ОТРИСОВКА (общая для index.html и inventory.html)
 // ========================================================
 
+// === ОБЫЧНЫЕ ПАЛИТРЫ ===
 const PALETTES = {
     pike:      { main: '#4a6b2a', dark: '#2a3f1a', light: '#6b8a4a', belly: '#8fa860', fin: '#3a5020', eye: '#ffd700', pupil: '#000', gill: '#2a3f1a', spot: '#1a2810', stripe: '#2a3f1a' },
     zander:    { main: '#707880', dark: '#404850', light: '#98a0a8', belly: '#c0c8d0', fin: '#586068', eye: '#ffd700', pupil: '#000', gill: '#404850', spot: '#3a4048', stripe: '#3a4048' },
@@ -34,11 +35,19 @@ const PALETTES = {
     lamprey:   { main: '#6a6a7a', dark: '#3a3a4a', light: '#9a9aaa', belly: '#c0c0d0', fin: '#4a4a5a', eye: '#ffd700', pupil: '#000', gill: '#3a3a4a', spot: '#3a3a4a', stripe: '#3a3a4a' }
 };
 
+// === ОБЩАЯ ПАЛИТРА НЕЖИТИ (fallback) ===
 const UNDEAD_PALETTE = {
     main: '#6a7a4a', dark: '#0a0a0a', light: '#a8b878', belly: '#c8d098',
     fin: '#4a5a2a', eye: '#c0ff00', pupil: '#000000', gill: '#3a4a1a',
     spot: '#3a4a1a', stripe: '#3a4a1a'
 };
+
+// === КОНСТАНТЫ ДЛЯ КОСТЕЙ И ВНУТРЕННОСТЕЙ ===
+const UNDEAD_BONE = '#f0e8c8';
+const UNDEAD_BONE_DARK = '#a89878';
+const UNDEAD_GUTS = '#d02040';
+const UNDEAD_GUTS_LIGHT = '#ff6080';
+
 // === ИНДИВИДУАЛЬНЫЕ ПАЛИТРЫ НЕЖИТИ ===
 const UNDEAD_FISH_PALETTES = {
     pike:      { main: '#c0d040', dark: '#4a5020', light: '#f0f860', belly: '#f8f8a0', fin: '#90a020', eye: '#ffffff', pupil: '#ff0000', gill: '#606820', spot: '#d04060', stripe: '#505820' },
@@ -72,11 +81,7 @@ const UNDEAD_FISH_PALETTES = {
     lamprey:   { main: '#9080b0', dark: '#403060', light: '#c8b8e0', belly: '#e8e0f0', fin: '#705890', eye: '#ffffff', pupil: '#ff0000', gill: '#504070', spot: '#c05090', stripe: '#403060' }
 };
 
-const UNDEAD_BONE = '#f0e8c8';
-const UNDEAD_BONE_DARK = '#a89878';
-const UNDEAD_GUTS = '#d02040';
-const UNDEAD_GUTS_LIGHT = '#ff6080';
-
+// === ФОРМЫ РЫБ ===
 const FISH_FORMS = {
     'Щука':       { bodyLen: 26, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 7, tailType: 'fork', tailSize: 6, topFin: 'small-back', topFinSize: 4, bottomFin: 'small', spots: [[10,2],[15,4],[19,3],[12,5],[17,2]], stripes: null, whiskers: false, spikes: false, palette: 'pike' },
     'Судак':      { bodyLen: 24, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 6, tailType: 'fork', tailSize: 6, topFin: 'spiky', topFinSize: 6, bottomFin: 'small', spots: null, stripes: [[8,2],[12,2],[16,2],[20,2]], whiskers: false, spikes: false, palette: 'zander' },
@@ -110,6 +115,9 @@ const FISH_FORMS = {
     'Минога':     { bodyLen: 28, bodyH: 6, bodyY: 13, headShape: 'trumpet', headLen: 3, tailType: 'leaf', tailSize: 5, topFin: 'dorsal-long', topFinSize: 10, bottomFin: 'none', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'lamprey', snakeLike: true }
 };
 
+// ========================================================
+// ФУНКЦИЯ ОТРИСОВКИ (с палитрой по ключу)
+// ========================================================
 function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
     const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey];
@@ -371,6 +379,10 @@ function makeFishSVG(paletteKey, form, scale) {
         `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
     );
 }
+
+// ========================================================
+// ФУНКЦИЯ ОТРИСОВКИ (с готовой палитрой — для нежити)
+// ========================================================
 function makeFishSVGWithCustomPalette(palette, form, scale) {
     scale = scale || 1;
     const p = palette;
@@ -632,6 +644,11 @@ function makeFishSVGWithCustomPalette(palette, form, scale) {
         `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
     );
 }
+
+// ========================================================
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+// ========================================================
+
 function getFishForm(fishName) {
     const isUndead = fishName.toLowerCase().startsWith('нежить ');
     const baseName = isUndead ? fishName.substring(7).trim() : fishName;
