@@ -153,143 +153,303 @@ body::before {
     gap: 10px;
 }
 
-/* === УКРАШЕННЫЕ КАРТОЧКИ === */
+/* === ГРАНДИОЗНЫЕ КАРТОЧКИ === */
 .fish-item {
-    border-radius: 14px;
-    padding: 12px 14px;
-    display: flex; align-items: center; gap: 12px;
-    transition: all 0.25s ease;
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative; user-select: none;
     border: 2px solid transparent;
     overflow: hidden;
+    background-clip: padding-box;
 }
 
-/* Декоративный блик */
-.fish-item::before {
+/* Декоративные уголки (псевдо-элементы) */
+.fish-item::before,
+.fish-item::after {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.4s;
+    width: 18px;
+    height: 18px;
+    border: 2px solid currentColor;
+    opacity: 0.7;
+    transition: all 0.35s;
     pointer-events: none;
 }
-.fish-item:hover::before { opacity: 1; }
+.fish-item::before {
+    top: 4px; left: 4px;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+}
+.fish-item::after {
+    bottom: 4px; right: 4px;
+    border-left: none;
+    border-top: none;
+    border-bottom-right-radius: 8px;
+}
 
-/* Редкость: обычная — синеватый */
+.fish-item:hover::before,
+.fish-item:hover::after {
+    width: 24px;
+    height: 24px;
+    opacity: 1;
+}
+
+/* Внутренний узорный слой */
+.fish-item .fish-item-inner {
+    position: absolute;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Узорная полоска сверху */
+.fish-item .fish-item-inner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
+    opacity: 0.5;
+    border-radius: 2px;
+}
+
+/* Узорная полоска снизу */
+.fish-item .fish-item-inner::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
+    opacity: 0.5;
+    border-radius: 2px;
+}
+
+/* Содержимое карточки поверх узоров */
+.fish-item > * { position: relative; z-index: 1; }
+
+/* === ОБЫЧНАЯ — синевато-серая рамка === */
 .fish-item.rarity-common {
-    border-color: rgba(120, 160, 200, 0.4);
-    background: linear-gradient(135deg, rgba(70, 110, 150, 0.22) 0%, rgba(40, 70, 100, 0.12) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+    color: rgba(140, 180, 220, 0.7);
+    border-color: rgba(120, 160, 200, 0.45);
+    background: linear-gradient(135deg, rgba(70, 110, 150, 0.28) 0%, rgba(40, 70, 100, 0.15) 50%, rgba(70, 110, 150, 0.22) 100%);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        inset 0 -1px 0 rgba(0,0,0,0.15);
 }
 .fish-item.rarity-common:hover {
-    border-color: rgba(150, 200, 240, 0.7);
-    background: linear-gradient(135deg, rgba(100, 150, 200, 0.35) 0%, rgba(60, 100, 140, 0.2) 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(120, 180, 230, 0.25);
+    border-color: rgba(170, 210, 250, 0.85);
+    background: linear-gradient(135deg, rgba(100, 150, 200, 0.4) 0%, rgba(60, 100, 140, 0.22) 50%, rgba(100, 150, 200, 0.32) 100%);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 24px rgba(120, 180, 230, 0.3),
+        0 0 20px rgba(120, 180, 230, 0.15),
+        inset 0 1px 0 rgba(255,255,255,0.12);
 }
 
-/* Редкость: редкая — голубая, свечение */
+/* === РЕДКАЯ — голубая с усиленным свечением === */
 .fish-item.rarity-rare {
-    border-color: rgba(0, 212, 255, 0.5);
-    background: linear-gradient(135deg, rgba(0, 180, 255, 0.22) 0%, rgba(0, 120, 180, 0.12) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 12px rgba(0,212,255,0.15), inset 0 1px 0 rgba(255,255,255,0.08);
+    color: rgba(0, 212, 255, 0.8);
+    border-color: rgba(0, 212, 255, 0.55);
+    background: linear-gradient(135deg, rgba(0, 180, 255, 0.28) 0%, rgba(0, 120, 180, 0.15) 50%, rgba(0, 180, 255, 0.22) 100%);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.25),
+        0 0 14px rgba(0,212,255,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.1),
+        inset 0 -1px 0 rgba(0,0,0,0.15);
 }
 .fish-item.rarity-rare:hover {
-    border-color: rgba(0, 212, 255, 0.9);
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.38) 0%, rgba(0, 150, 220, 0.22) 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0, 212, 255, 0.4), 0 0 20px rgba(0,212,255,0.25);
+    border-color: rgba(100, 235, 255, 1);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.45) 0%, rgba(0, 150, 220, 0.25) 50%, rgba(0, 212, 255, 0.35) 100%);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 28px rgba(0, 212, 255, 0.45),
+        0 0 30px rgba(0, 212, 255, 0.3),
+        inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
-/* Редкость: эпическая — фиолетовая, аура */
+/* === ЭПИЧЕСКАЯ — фиолетовая с аурой === */
 .fish-item.rarity-epic {
-    border-color: rgba(167, 139, 250, 0.55);
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.25) 0%, rgba(120, 90, 200, 0.12) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 16px rgba(167,139,250,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+    color: rgba(200, 180, 255, 0.85);
+    border-color: rgba(167, 139, 250, 0.6);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(120, 90, 200, 0.15) 50%, rgba(167, 139, 250, 0.24) 100%);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.25),
+        0 0 18px rgba(167,139,250,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.1),
+        inset 0 -1px 0 rgba(0,0,0,0.15);
 }
 .fish-item.rarity-epic:hover {
-    border-color: rgba(200, 180, 255, 0.95);
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.42) 0%, rgba(140, 110, 220, 0.25) 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 28px rgba(167, 139, 250, 0.5), 0 0 24px rgba(167,139,250,0.3);
+    border-color: rgba(220, 205, 255, 1);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.48) 0%, rgba(140, 110, 220, 0.28) 50%, rgba(167, 139, 250, 0.38) 100%);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 32px rgba(167, 139, 250, 0.5),
+        0 0 36px rgba(167, 139, 250, 0.35),
+        inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
-/* Редкость: легендарная — золотая, сильная аура */
+/* === ЛЕГЕНДАРНАЯ — золотая, пульсирующая === */
 .fish-item.rarity-legendary {
-    border-color: rgba(255, 215, 0, 0.7);
-    background: linear-gradient(135deg, rgba(255, 200, 50, 0.28) 0%, rgba(200, 140, 0, 0.15) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 20px rgba(255,215,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+    color: rgba(255, 230, 130, 0.9);
+    border-color: rgba(255, 215, 0, 0.75);
+    background: linear-gradient(135deg, rgba(255, 200, 50, 0.35) 0%, rgba(200, 140, 0, 0.18) 50%, rgba(255, 200, 50, 0.28) 100%);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.25),
+        0 0 24px rgba(255,215,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.15),
+        inset 0 -1px 0 rgba(0,0,0,0.2);
     animation: legendaryPulse 3s ease-in-out infinite;
 }
 @keyframes legendaryPulse {
-    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 20px rgba(255,215,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1); }
-    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 32px rgba(255,215,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
+    0%, 100% { 
+        box-shadow: 
+            0 2px 8px rgba(0,0,0,0.25),
+            0 0 24px rgba(255,215,0,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.15),
+            inset 0 -1px 0 rgba(0,0,0,0.2);
+    }
+    50% { 
+        box-shadow: 
+            0 2px 8px rgba(0,0,0,0.25),
+            0 0 40px rgba(255,215,0,0.55),
+            inset 0 1px 0 rgba(255,255,255,0.2),
+            inset 0 -1px 0 rgba(0,0,0,0.2);
+    }
 }
 .fish-item.rarity-legendary:hover {
-    border-color: rgba(255, 235, 100, 1);
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.45) 0%, rgba(220, 160, 20, 0.25) 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 32px rgba(255, 215, 0, 0.6), 0 0 32px rgba(255,215,0,0.4);
+    border-color: rgba(255, 245, 150, 1);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.5) 0%, rgba(220, 160, 20, 0.3) 50%, rgba(255, 215, 0, 0.4) 100%);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 40px rgba(255, 215, 0, 0.6),
+        0 0 50px rgba(255, 215, 0, 0.45),
+        inset 0 1px 0 rgba(255,255,255,0.2);
 }
 
-/* Нежить — мрачная палитра */
-.fish-item.undead {
-    filter: saturate(0.6);
-}
+/* === НЕЖИТЬ — мрачная зелёно-серая === */
 .fish-item.undead.rarity-common {
-    border-color: rgba(120, 130, 90, 0.5);
-    background: linear-gradient(135deg, rgba(70, 80, 60, 0.3) 0%, rgba(40, 50, 35, 0.15) 100%);
-    filter: none;
+    color: rgba(150, 170, 120, 0.8);
+    border-color: rgba(120, 130, 90, 0.55);
+    background: linear-gradient(135deg, rgba(70, 80, 60, 0.4) 0%, rgba(40, 50, 35, 0.2) 50%, rgba(70, 80, 60, 0.3) 100%);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.3),
+        0 0 12px rgba(120,140,90,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.05);
 }
 .fish-item.undead.rarity-common:hover {
-    border-color: rgba(160, 180, 120, 0.8);
-    background: linear-gradient(135deg, rgba(100, 120, 80, 0.45) 0%, rgba(60, 75, 50, 0.25) 100%);
-    box-shadow: 0 6px 20px rgba(120, 140, 90, 0.35);
-    filter: none;
+    border-color: rgba(180, 200, 140, 0.9);
+    background: linear-gradient(135deg, rgba(100, 120, 80, 0.55) 0%, rgba(60, 75, 50, 0.3) 50%, rgba(100, 120, 80, 0.4) 100%);
+    box-shadow: 
+        0 8px 24px rgba(140, 160, 100, 0.4),
+        0 0 24px rgba(140, 160, 100, 0.25);
 }
 .fish-item.undead.rarity-rare {
-    border-color: rgba(100, 140, 160, 0.6);
-    background: linear-gradient(135deg, rgba(60, 90, 110, 0.35) 0%, rgba(40, 60, 80, 0.18) 100%);
-    filter: none;
+    color: rgba(130, 180, 200, 0.85);
+    border-color: rgba(100, 140, 160, 0.65);
+    background: linear-gradient(135deg, rgba(60, 90, 110, 0.4) 0%, rgba(40, 60, 80, 0.2) 50%, rgba(60, 90, 110, 0.32) 100%);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.3),
+        0 0 16px rgba(100,150,180,0.2);
 }
 .fish-item.undead.rarity-rare:hover {
-    border-color: rgba(140, 190, 220, 0.9);
-    background: linear-gradient(135deg, rgba(80, 120, 150, 0.5) 0%, rgba(55, 80, 100, 0.28) 100%);
-    box-shadow: 0 6px 24px rgba(100, 150, 180, 0.4);
-    filter: none;
+    border-color: rgba(160, 210, 240, 0.95);
+    background: linear-gradient(135deg, rgba(90, 130, 160, 0.55) 0%, rgba(60, 90, 110, 0.3) 50%, rgba(90, 130, 160, 0.42) 100%);
+    box-shadow: 
+        0 8px 28px rgba(110, 160, 190, 0.45),
+        0 0 30px rgba(110, 160, 190, 0.3);
 }
 .fish-item.undead.rarity-epic {
-    border-color: rgba(120, 100, 140, 0.6);
-    background: linear-gradient(135deg, rgba(80, 60, 100, 0.35) 0%, rgba(50, 40, 70, 0.18) 100%);
-    filter: none;
+    color: rgba(160, 140, 190, 0.85);
+    border-color: rgba(120, 100, 140, 0.7);
+    background: linear-gradient(135deg, rgba(80, 60, 100, 0.4) 0%, rgba(50, 40, 70, 0.2) 50%, rgba(80, 60, 100, 0.32) 100%);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.3),
+        0 0 18px rgba(140,110,170,0.22);
 }
 .fish-item.undead.rarity-epic:hover {
-    border-color: rgba(170, 140, 200, 0.9);
-    background: linear-gradient(135deg, rgba(110, 85, 140, 0.5) 0%, rgba(70, 55, 100, 0.28) 100%);
-    box-shadow: 0 6px 24px rgba(140, 110, 170, 0.4);
-    filter: none;
+    border-color: rgba(200, 180, 230, 0.95);
+    background: linear-gradient(135deg, rgba(120, 95, 150, 0.55) 0%, rgba(80, 65, 110, 0.3) 50%, rgba(120, 95, 150, 0.42) 100%);
+    box-shadow: 
+        0 8px 30px rgba(150, 120, 180, 0.45),
+        0 0 32px rgba(150, 120, 180, 0.3);
 }
 .fish-item.undead.rarity-legendary {
-    border-color: rgba(160, 140, 70, 0.7);
-    background: linear-gradient(135deg, rgba(110, 90, 50, 0.35) 0%, rgba(70, 55, 30, 0.18) 100%);
-    filter: none;
+    color: rgba(200, 180, 120, 0.9);
+    border-color: rgba(160, 140, 70, 0.8);
+    background: linear-gradient(135deg, rgba(110, 90, 50, 0.42) 0%, rgba(70, 55, 30, 0.22) 50%, rgba(110, 90, 50, 0.34) 100%);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.3),
+        0 0 26px rgba(160,140,70,0.3);
     animation: undeadLegendaryPulse 3s ease-in-out infinite;
 }
 @keyframes undeadLegendaryPulse {
-    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 20px rgba(160,140,70,0.25); }
-    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 32px rgba(160,140,70,0.4); }
+    0%, 100% { 
+        box-shadow: 
+            0 2px 8px rgba(0,0,0,0.3),
+            0 0 26px rgba(160,140,70,0.3);
+    }
+    50% { 
+        box-shadow: 
+            0 2px 8px rgba(0,0,0,0.3),
+            0 0 42px rgba(160,140,70,0.55);
+    }
 }
 .fish-item.undead.rarity-legendary:hover {
-    border-color: rgba(200, 180, 100, 1);
-    background: linear-gradient(135deg, rgba(140, 120, 70, 0.5) 0%, rgba(95, 80, 45, 0.28) 100%);
-    box-shadow: 0 6px 32px rgba(160, 140, 70, 0.55);
+    border-color: rgba(230, 210, 120, 1);
+    background: linear-gradient(135deg, rgba(140, 120, 70, 0.58) 0%, rgba(95, 80, 45, 0.32) 50%, rgba(140, 120, 70, 0.45) 100%);
+    box-shadow: 
+        0 8px 40px rgba(170, 150, 80, 0.6),
+        0 0 50px rgba(170, 150, 80, 0.45);
 }
 
+/* === ИКОНКА РЫБЫ === */
+.fish-icon {
+    width: 56px; height: 56px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    flex-shrink: 0;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+    transition: transform 0.3s;
+}
+.fish-item:hover .fish-icon {
+    transform: scale(1.08);
+}
+
+.fish-name {
+    font-size: 0.95rem; font-weight: 700; flex: 1;
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.fish-count {
+    background: rgba(0,212,255,0.3); color: #ffffff;
+    font-weight: 900; font-size: 0.95rem; padding: 5px 11px;
+    border-radius: 9px; flex-shrink: 0;
+    min-width: 40px; text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.3);
+}
+.fish-item.rarity-common .fish-count { background: rgba(120,160,200,0.4); }
+.fish-item.rarity-rare .fish-count { 
+    background: rgba(0,212,255,0.45); 
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 12px rgba(0,212,255,0.5);
+}
+.fish-item.rarity-epic .fish-count { 
+    background: rgba(167,139,250,0.5); 
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 14px rgba(167,139,250,0.5);
+}
+.fish-item.rarity-legendary .fish-count { 
+    background: rgba(255,215,0,0.5); 
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 16px rgba(255,215,0,0.6);
+    color: #fff8d0;
+}
+.fish-item.undead .fish-count { background: rgba(120,130,90,0.5); }
 /* === ИКОНКА РЫБЫ — КРУПНАЯ === */
 .fish-icon {
     width: 56px; height: 56px;
@@ -1159,48 +1319,48 @@ function makeFishSVG(paletteKey, form, scale) {
     s += `<rect x="${x1+headLen+1}" y="${cy+1}" width="3" height="3" fill="${p.fin}" opacity="0.85"/>`;
     s += `<rect x="${x1+headLen+4}" y="${cy+2}" width="2" height="2" fill="${p.fin}" opacity="0.7"/>`;
 
-    // === ХВОСТ ===
-    const tailX = x2;
-    const tailSize = f.tailSize || 6;
+    // === ХВОСТ === (плавные формы через path)
+const tailX = x2;
+const tailSize = f.tailSize || 6;
 
-    if (f.tailType === 'fork') {
-        // Вилкообразный
-        s += `<rect x="${tailX}" y="${cy-1}" width="2" height="2" fill="${p.main}"/>`;
-        for (let i = 0; i < tailSize; i++) {
-            const tx = tailX + 2 + i;
-            const topH = Math.max(1, Math.floor(tailSize * 0.7) - i);
-            const botH = Math.max(1, Math.floor(tailSize * 0.7) - i);
-            if (topH > 0) s += `<rect x="${tx}" y="${cy - topH - 1}" width="1" height="${topH}" fill="${p.fin}"/>`;
-            if (botH > 0) s += `<rect x="${tx}" y="${cy + 1}" width="1" height="${botH}" fill="${p.fin}"/>`;
-        }
-    } else if (f.tailType === 'fan') {
-        // Веер
-        s += `<rect x="${tailX}" y="${cy-2}" width="2" height="4" fill="${p.main}"/>`;
-        s += `<rect x="${tailX+2}" y="${cy-5}" width="2" height="10" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+4}" y="${cy-6}" width="2" height="12" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+6}" y="${cy-5}" width="1" height="10" fill="${p.dark}" opacity="0.5"/>`;
-    } else if (f.tailType === 'long') {
-        // Длинный
-        s += `<rect x="${tailX}" y="${cy-1}" width="6" height="3" fill="${p.main}"/>`;
-        s += `<rect x="${tailX+5}" y="${cy-2}" width="3" height="5" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+7}" y="${cy-3}" width="2" height="7" fill="${p.dark}" opacity="0.6"/>`;
-    } else if (f.tailType === 'round') {
-        // Круглый (линь)
-        s += `<rect x="${tailX}" y="${cy-2}" width="2" height="4" fill="${p.main}"/>`;
-        s += `<rect x="${tailX+2}" y="${cy-3}" width="2" height="6" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+4}" y="${cy-2}" width="1" height="4" fill="${p.dark}" opacity="0.5"/>`;
-    } else if (f.tailType === 'asymmetric-fork') {
-        // Асимметричный (осётр)
-        s += `<rect x="${tailX}" y="${cy-1}" width="3" height="2" fill="${p.main}"/>`;
-        s += `<rect x="${tailX+3}" y="${cy-4}" width="3" height="4" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+6}" y="${cy-5}" width="2" height="4" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+3}" y="${cy+1}" width="2" height="3" fill="${p.fin}"/>`;
-    } else if (f.tailType === 'leaf') {
-        // Листовидный (минога)
-        s += `<rect x="${tailX}" y="${cy-1}" width="3" height="2" fill="${p.main}"/>`;
-        s += `<rect x="${tailX+3}" y="${cy-3}" width="3" height="6" fill="${p.fin}"/>`;
-        s += `<rect x="${tailX+6}" y="${cy-2}" width="1" height="4" fill="${p.dark}" opacity="0.5"/>`;
+if (f.tailType === 'fork') {
+    // Плавная вилка — две дуги
+    const midY = cy;
+    s += `<path d="M ${tailX} ${midY-1} L ${tailX+2} ${midY-1} L ${tailX+tailSize} ${midY-tailSize-1} Q ${tailX+tailSize+1} ${midY-tailSize-2} ${tailX+tailSize-1} ${midY-tailSize-3} L ${tailX+2} ${midY-1} Z" fill="${p.fin}"/>`;
+    s += `<path d="M ${tailX} ${midY+1} L ${tailX+2} ${midY+1} L ${tailX+tailSize} ${midY+tailSize+1} Q ${tailX+tailSize+1} ${midY+tailSize+2} ${tailX+tailSize-1} ${midY+tailSize+3} L ${tailX+2} ${midY+1} Z" fill="${p.fin}"/>`;
+    s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
+    // Прожилки
+    s += `<rect x="${tailX+3}" y="${midY-2}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
+    s += `<rect x="${tailX+3}" y="${midY+1}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
+} else if (f.tailType === 'fan') {
+    // Плавный веер — полукруг
+    s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
+    s += `<path d="M ${tailX+2} ${midY-5} Q ${tailX+tailSize-1} ${midY-tailSize-3} ${tailX+tailSize+1} ${midY} Q ${tailX+tailSize-1} ${midY+tailSize+3} ${tailX+2} ${midY+5} Z" fill="${p.fin}"/>`;
+    // Рёбра веера
+    for (let i = -2; i <= 2; i++) {
+        s += `<rect x="${tailX+4+i}" y="${midY + i*3 - 1}" width="1" height="2" fill="${p.dark}" opacity="0.5"/>`;
     }
+} else if (f.tailType === 'long') {
+    // Длинный плавный
+    s += `<rect x="${tailX}" y="${midY-1}" width="5" height="3" fill="${p.main}"/>`;
+    s += `<path d="M ${tailX+4} ${midY-2} Q ${tailX+9} ${midY-4} ${tailX+11} ${midY-1} Q ${tailX+11} ${midY+1} ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
+    s += `<rect x="${tailX+9}" y="${midY-3}" width="2" height="6" fill="${p.dark}" opacity="0.5"/>`;
+} else if (f.tailType === 'round') {
+    // Круглый (линь)
+    s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
+    s += `<ellipse cx="${tailX+4}" cy="${midY}" rx="3" ry="4" fill="${p.fin}"/>`;
+    s += `<rect x="${tailX+3}" y="${midY-4}" width="1" height="8" fill="${p.dark}" opacity="0.4"/>`;
+} else if (f.tailType === 'asymmetric-fork') {
+    // Асимметричный (осётр) — верхняя лопасть длиннее
+    s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
+    s += `<path d="M ${tailX+3} ${midY-1} L ${tailX+7} ${midY-7} Q ${tailX+8} ${midY-7} ${tailX+8} ${midY-5} L ${tailX+4} ${midY-1} Z" fill="${p.fin}"/>`;
+    s += `<path d="M ${tailX+3} ${midY+1} L ${tailX+6} ${midY+4} Q ${tailX+7} ${midY+4} ${tailX+7} ${midY+3} L ${tailX+4} ${midY+1} Z" fill="${p.fin}"/>`;
+} else if (f.tailType === 'leaf') {
+    // Листовидный (минога)
+    s += `<rect x="${tailX}" y="${midY-1}" width="2" height="2" fill="${p.main}"/>`;
+    s += `<path d="M ${tailX+2} ${midY} Q ${tailX+5} ${midY-5} ${tailX+9} ${midY} Q ${tailX+5} ${midY+5} ${tailX+2} ${midY} Z" fill="${p.fin}"/>`;
+    s += `<rect x="${tailX+5}" y="${midY-2}" width="1" height="4" fill="${p.dark}" opacity="0.4"/>`;
+}
 
     // === ШИПЫ НА СПИНЕ ===
     if (f.spikes) {
@@ -1525,15 +1685,16 @@ function renderInventory(playerName, inventory) {
                 <h3>🐟 Обычные рыбы</h3>
                 <div class="fish-grid">
                     ${regularFish.map(fish => {
-                        const info = getFishInfo(fish.name);
-                        return `
-                            <div class="fish-item rarity-${info.rarity}" data-fish="${fish.name}">
-                                <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
-                                <span class="fish-name">${fish.displayName}</span>
-                                <span class="fish-count">×${fish.count}</span>
-                            </div>
-                        `;
-                    }).join('')}
+    const info = getFishInfo(fish.name);
+    return `
+        <div class="fish-item rarity-${info.rarity}" data-fish="${fish.name}">
+            <div class="fish-item-inner"></div>
+            <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
+            <span class="fish-name">${fish.displayName}</span>
+            <span class="fish-count">×${fish.count}</span>
+        </div>
+    `;
+}).join('')}
                 </div>
             </div>
         `;
@@ -1545,15 +1706,16 @@ function renderInventory(playerName, inventory) {
                 <h3>🧟 Нежить</h3>
                 <div class="fish-grid">
                     ${undeadFish.map(fish => {
-                        const info = getFishInfo(fish.name);
-                        return `
-                            <div class="fish-item undead rarity-${info.rarity}" data-fish="${fish.name}">
-                                <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
-                                <span class="fish-name">${fish.displayName}</span>
-                                <span class="fish-count">×${fish.count}</span>
-                            </div>
-                        `;
-                    }).join('')}
+    const info = getFishInfo(fish.name);
+    return `
+        <div class="fish-item undead rarity-${info.rarity}" data-fish="${fish.name}">
+            <div class="fish-item-inner"></div>
+            <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
+            <span class="fish-name">${fish.displayName}</span>
+            <span class="fish-count">×${fish.count}</span>
+        </div>
+    `;
+}).join('')}
                 </div>
             </div>
         `;
