@@ -213,7 +213,6 @@ body::before {
     padding: 10px 12px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 10px;
     transition: all 0.25s;
 }
@@ -222,6 +221,14 @@ body::before {
     background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.03) 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(0,212,255,0.15);
+}
+.record-icon {
+    width: 36px;
+    height: 36px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
 }
 .record-fish {
     font-size: 0.85rem;
@@ -248,10 +255,10 @@ body::before {
 }
 .record-holder {
     font-size: 0.65rem;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.55);
     font-weight: 600;
     margin-top: 2px;
-    max-width: 100px;
+    max-width: 160px;   /* ← было 100px, увеличили */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -269,7 +276,7 @@ body::before {
     color: #c8d888;
     text-shadow: 0 0 10px rgba(200,216,136,0.5);
 }
-
+    
 /* === ЗАГЛУШКА === */
 .loading {
     text-align: center;
@@ -361,7 +368,7 @@ body::before {
         <p>Сайт создан для стрима <a href="https://twitch.tv/gans_mann" target="_blank">gans_mann</a></p>
     </div>
 </div>
-
+<script src="/fish-icons.js"></script>
 <script>
 const DATA_URL = '/data.json';
 
@@ -483,8 +490,10 @@ function renderRecords(records) {
     for (const fish of ALL_FISH) {
         if (records[fish]) {
             const r = records[fish];
+            const icon = getFishIcon(fish);
             rows.push(`
                 <div class="record-card">
+                    <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
                     <div class="record-fish">${escapeHtml(fish)}</div>
                     <div class="record-size-block">
                         <div class="record-size">${r.size} см</div>
@@ -500,9 +509,11 @@ function renderRecords(records) {
         const undeadFish = 'Нежить ' + fish.toLowerCase();
         if (records[undeadFish]) {
             const r = records[undeadFish];
+            const icon = getFishIcon(undeadFish);
             rows.push(`
                 <div class="record-card undead">
-                    <div class="record-fish">🧟 ${escapeHtml(fish)}</div>
+                    <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
+                    <div class="record-fish">${escapeHtml(fish)}</div>
                     <div class="record-size-block">
                         <div class="record-size">${r.size} см</div>
                         <div class="record-holder">@${escapeHtml(r.holder)}</div>
