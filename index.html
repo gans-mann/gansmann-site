@@ -147,23 +147,43 @@ body::before {
     gap: 10px;
 }
 
+/* === ГРАНДИОЗНЫЕ КАРТОЧКИ === */
 .fish-item {
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 12px 14px;
     display: flex; align-items: center; gap: 12px;
-    transition: all 0.25s ease;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative; user-select: none;
     border: 2px solid transparent;
     overflow: hidden;
+    background-clip: padding-box;
 }
 
+.fish-item .fish-item-inner {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; z-index: 0;
+}
+
+/* Верхняя/нижняя узорная полоса */
+.fish-item .fish-item-inner::before,
+.fish-item .fish-item-inner::after {
+    content: '';
+    position: absolute;
+    left: 12%; right: 12%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
+    opacity: 0.6;
+}
+.fish-item .fish-item-inner::before { top: 0; }
+.fish-item .fish-item-inner::after { bottom: 0; }
+
+/* Уголки */
 .fish-item::before,
 .fish-item::after {
     content: '';
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 18px; height: 18px;
     border: 2px solid currentColor;
     opacity: 0.7;
     transition: all 0.35s;
@@ -171,50 +191,21 @@ body::before {
 }
 .fish-item::before {
     top: 4px; left: 4px;
-    border-right: none;
-    border-bottom: none;
+    border-right: none; border-bottom: none;
     border-top-left-radius: 8px;
 }
 .fish-item::after {
     bottom: 4px; right: 4px;
-    border-left: none;
-    border-top: none;
+    border-left: none; border-top: none;
     border-bottom-right-radius: 8px;
 }
 .fish-item:hover::before,
 .fish-item:hover::after {
-    width: 24px;
-    height: 24px;
-    opacity: 1;
-}
-
-.fish-item .fish-item-inner {
-    position: absolute;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
-    pointer-events: none;
-    z-index: 0;
-}
-.fish-item .fish-item-inner::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 10%; right: 10%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
-    opacity: 0.5;
-    border-radius: 2px;
-}
-.fish-item .fish-item-inner::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 10%; right: 10%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
-    opacity: 0.5;
-    border-radius: 2px;
+    width: 24px; height: 24px; opacity: 1;
 }
 .fish-item > * { position: relative; z-index: 1; }
 
+/* === ОБЫЧНАЯ — простая, серая рамка === */
 .fish-item.rarity-common {
     color: rgba(140, 180, 220, 0.7);
     border-color: rgba(120, 160, 200, 0.45);
@@ -228,11 +219,23 @@ body::before {
     box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3), 0 0 20px rgba(120, 180, 230, 0.15), inset 0 1px 0 rgba(255,255,255,0.12);
 }
 
+/* === РЕДКАЯ — голубая с блеском === */
 .fish-item.rarity-rare {
-    color: rgba(0, 212, 255, 0.8);
+    color: rgba(0, 212, 255, 0.85);
     border-color: rgba(0, 212, 255, 0.55);
-    background: linear-gradient(135deg, rgba(0, 180, 255, 0.28) 0%, rgba(0, 120, 180, 0.15) 50%, rgba(0, 180, 255, 0.22) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 14px rgba(0,212,255,0.2), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.15);
+    background: linear-gradient(135deg, rgba(0, 180, 255, 0.3) 0%, rgba(0, 120, 180, 0.15) 50%, rgba(0, 180, 255, 0.24) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 14px rgba(0,212,255,0.25), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.15);
+    position: relative;
+}
+/* Блик-«звезда» по диагонали */
+.fish-item.rarity-rare .fish-item-inner {
+    background-image: linear-gradient(115deg, transparent 40%, rgba(0, 240, 255, 0.15) 45%, rgba(255, 255, 255, 0.25) 50%, rgba(0, 240, 255, 0.15) 55%, transparent 60%);
+    background-size: 200% 200%;
+    animation: rareShine 4s ease-in-out infinite;
+}
+@keyframes rareShine {
+    0% { background-position: 200% 50%; }
+    100% { background-position: -100% 50%; }
 }
 .fish-item.rarity-rare:hover {
     border-color: rgba(100, 235, 255, 1);
@@ -241,87 +244,286 @@ body::before {
     box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45), 0 0 30px rgba(0, 212, 255, 0.3), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
+/* === ЭПИЧЕСКАЯ — фиолетовая с рубинами === */
 .fish-item.rarity-epic {
-    color: rgba(200, 180, 255, 0.85);
-    border-color: rgba(167, 139, 250, 0.6);
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(120, 90, 200, 0.15) 50%, rgba(167, 139, 250, 0.24) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 18px rgba(167,139,250,0.25), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.15);
+    color: rgba(200, 180, 255, 0.9);
+    border-color: rgba(167, 139, 250, 0.7);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.35) 0%, rgba(120, 90, 200, 0.18) 50%, rgba(167, 139, 250, 0.28) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 18px rgba(167,139,250,0.3), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.2);
+}
+/* Голографический перелив для эпических */
+.fish-item.rarity-epic .fish-item-inner {
+    background: linear-gradient(
+        115deg,
+        transparent 30%,
+        rgba(255, 100, 200, 0.15) 40%,
+        rgba(140, 100, 255, 0.2) 50%,
+        rgba(100, 200, 255, 0.15) 60%,
+        transparent 70%
+    );
+    background-size: 300% 300%;
+    animation: holoSweepCard 5s ease-in-out infinite;
+    mix-blend-mode: screen;
+}
+@keyframes holoSweepCard {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* Камни в углах (псевдо-элементы) */
+.fish-item.rarity-epic .fish-icon-wrap,
+.fish-item.rarity-legendary .fish-icon-wrap {
+    position: relative;
 }
 .fish-item.rarity-epic:hover {
     border-color: rgba(220, 205, 255, 1);
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.48) 0%, rgba(140, 110, 220, 0.28) 50%, rgba(167, 139, 250, 0.38) 100%);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.5) 0%, rgba(140, 110, 220, 0.3) 50%, rgba(167, 139, 250, 0.4) 100%);
     transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5), 0 0 36px rgba(167, 139, 250, 0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.55), 0 0 40px rgba(167, 139, 250, 0.4), inset 0 1px 0 rgba(255,255,255,0.18);
 }
 
+/* === ЛЕГЕНДАРНАЯ — золотая с короной === */
 .fish-item.rarity-legendary {
-    color: rgba(255, 230, 130, 0.9);
-    border-color: rgba(255, 215, 0, 0.75);
-    background: linear-gradient(135deg, rgba(255, 200, 50, 0.35) 0%, rgba(200, 140, 0, 0.18) 50%, rgba(255, 200, 50, 0.28) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.2);
-    animation: legendaryPulse 3s ease-in-out infinite;
+    color: rgba(255, 240, 150, 1);
+    border-color: rgba(255, 215, 0, 0.9);
+    background: 
+        radial-gradient(circle at 15% 15%, rgba(255, 245, 180, 0.35) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(255, 200, 50, 0.35) 0%, transparent 40%),
+        linear-gradient(135deg, rgba(255, 200, 50, 0.42) 0%, rgba(200, 140, 0, 0.22) 50%, rgba(255, 200, 50, 0.34) 100%);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.3),
+        0 0 30px rgba(255,215,0,0.5),
+        0 0 60px rgba(255,215,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.2),
+        inset 0 -1px 0 rgba(0,0,0,0.2);
+    animation: legendaryPulseStrong 2.5s ease-in-out infinite;
+    position: relative;
 }
-@keyframes legendaryPulse {
-    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.2); }
-    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 40px rgba(255,215,0,0.55), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.2); }
+@keyframes legendaryPulseStrong {
+    0%, 100% { 
+        box-shadow: 
+            0 2px 8px rgba(0,0,0,0.3),
+            0 0 30px rgba(255,215,0,0.5),
+            0 0 60px rgba(255,215,0,0.2),
+            inset 0 1px 0 rgba(255,255,255,0.2),
+            inset 0 -1px 0 rgba(0,0,0,0.2);
+    }
+    50% { 
+        box-shadow: 
+            0 2px 8px rgba(0,0,0,0.3),
+            0 0 50px rgba(255,215,0,0.8),
+            0 0 90px rgba(255,215,0,0.4),
+            inset 0 1px 0 rgba(255,255,255,0.3),
+            inset 0 -1px 0 rgba(0,0,0,0.2);
+    }
 }
-.fish-item.rarity-legendary:hover {
-    border-color: rgba(255, 245, 150, 1);
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.5) 0%, rgba(220, 160, 20, 0.3) 50%, rgba(255, 215, 0, 0.4) 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 40px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.2);
+/* Голографический перелив */
+.fish-item.rarity-legendary .fish-item-inner {
+    background: linear-gradient(
+        115deg,
+        transparent 25%,
+        rgba(255, 220, 100, 0.2) 35%,
+        rgba(255, 255, 200, 0.3) 50%,
+        rgba(255, 220, 100, 0.2) 65%,
+        transparent 75%
+    );
+    background-size: 300% 300%;
+    animation: holoSweepCard 4s ease-in-out infinite;
+    mix-blend-mode: screen;
 }
 
+/* === КОРОНА для легендарных (::before карточки) === */
+.fish-item.rarity-legendary::before {
+    content: '👑';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    width: auto; height: auto;
+    border: none;
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.9));
+    z-index: 5;
+    animation: crownFloat 2s ease-in-out infinite;
+    transition: none;
+}
+@keyframes crownFloat {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-3px); }
+}
+.fish-item.rarity-legendary:hover::before {
+    font-size: 24px;
+    width: auto; height: auto;
+}
+
+/* Камни в углах для легендарных */
+.fish-item.rarity-legendary::after {
+    content: '💎';
+    position: absolute;
+    bottom: -4px;
+    right: 4px;
+    font-size: 14px;
+    width: auto; height: auto;
+    border: none;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 6px rgba(100, 220, 255, 0.9));
+    z-index: 5;
+    animation: gemTwinkle 3s ease-in-out infinite;
+}
+@keyframes gemTwinkle {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.15); }
+}
+
+.fish-item.rarity-legendary:hover {
+    border-color: rgba(255, 250, 200, 1);
+    background: 
+        radial-gradient(circle at 15% 15%, rgba(255, 245, 180, 0.5) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(255, 220, 80, 0.5) 0%, transparent 45%),
+        linear-gradient(135deg, rgba(255, 215, 0, 0.55) 0%, rgba(220, 160, 20, 0.35) 50%, rgba(255, 215, 0, 0.45) 100%);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+        0 10px 40px rgba(255, 215, 0, 0.7),
+        0 0 70px rgba(255, 215, 0, 0.5),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+/* === НЕЖИТЬ — мрачная, зелёно-серая с костями === */
+.fish-item.undead {
+    position: relative;
+}
+
+/* Нежить обычная */
 .fish-item.undead.rarity-common {
-    color: rgba(150, 170, 120, 0.8);
-    border-color: rgba(120, 130, 90, 0.55);
-    background: linear-gradient(135deg, rgba(70, 80, 60, 0.4) 0%, rgba(40, 50, 35, 0.2) 50%, rgba(70, 80, 60, 0.3) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(120,140,90,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+    color: rgba(150, 170, 120, 0.85);
+    border-color: rgba(100, 120, 70, 0.65);
+    background: linear-gradient(135deg, rgba(60, 70, 50, 0.5) 0%, rgba(30, 40, 25, 0.3) 50%, rgba(60, 70, 50, 0.4) 100%);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 14px rgba(100,120,70,0.2), inset 0 1px 0 rgba(200,220,150,0.08);
 }
 .fish-item.undead.rarity-common:hover {
-    border-color: rgba(180, 200, 140, 0.9);
-    background: linear-gradient(135deg, rgba(100, 120, 80, 0.55) 0%, rgba(60, 75, 50, 0.3) 50%, rgba(100, 120, 80, 0.4) 100%);
-    box-shadow: 0 8px 24px rgba(140, 160, 100, 0.4), 0 0 24px rgba(140, 160, 100, 0.25);
-}
-.fish-item.undead.rarity-rare {
-    color: rgba(130, 180, 200, 0.85);
-    border-color: rgba(100, 140, 160, 0.65);
-    background: linear-gradient(135deg, rgba(60, 90, 110, 0.4) 0%, rgba(40, 60, 80, 0.2) 50%, rgba(60, 90, 110, 0.32) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 16px rgba(100,150,180,0.2);
-}
-.fish-item.undead.rarity-rare:hover {
-    border-color: rgba(160, 210, 240, 0.95);
-    background: linear-gradient(135deg, rgba(90, 130, 160, 0.55) 0%, rgba(60, 90, 110, 0.3) 50%, rgba(90, 130, 160, 0.42) 100%);
-    box-shadow: 0 8px 28px rgba(110, 160, 190, 0.45), 0 0 30px rgba(110, 160, 190, 0.3);
-}
-.fish-item.undead.rarity-epic {
-    color: rgba(160, 140, 190, 0.85);
-    border-color: rgba(120, 100, 140, 0.7);
-    background: linear-gradient(135deg, rgba(80, 60, 100, 0.4) 0%, rgba(50, 40, 70, 0.2) 50%, rgba(80, 60, 100, 0.32) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 18px rgba(140,110,170,0.22);
-}
-.fish-item.undead.rarity-epic:hover {
-    border-color: rgba(200, 180, 230, 0.95);
-    background: linear-gradient(135deg, rgba(120, 95, 150, 0.55) 0%, rgba(80, 65, 110, 0.3) 50%, rgba(120, 95, 150, 0.42) 100%);
-    box-shadow: 0 8px 30px rgba(150, 120, 180, 0.45), 0 0 32px rgba(150, 120, 180, 0.3);
-}
-.fish-item.undead.rarity-legendary {
-    color: rgba(200, 180, 120, 0.9);
-    border-color: rgba(160, 140, 70, 0.8);
-    background: linear-gradient(135deg, rgba(110, 90, 50, 0.42) 0%, rgba(70, 55, 30, 0.22) 50%, rgba(110, 90, 50, 0.34) 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(160,140,70,0.3);
-    animation: undeadLegendaryPulse 3s ease-in-out infinite;
-}
-@keyframes undeadLegendaryPulse {
-    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(160,140,70,0.3); }
-    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 42px rgba(160,140,70,0.55); }
-}
-.fish-item.undead.rarity-legendary:hover {
-    border-color: rgba(230, 210, 120, 1);
-    background: linear-gradient(135deg, rgba(140, 120, 70, 0.58) 0%, rgba(95, 80, 45, 0.32) 50%, rgba(140, 120, 70, 0.45) 100%);
-    box-shadow: 0 8px 40px rgba(170, 150, 80, 0.6), 0 0 50px rgba(170, 150, 80, 0.45);
+    border-color: rgba(180, 200, 140, 0.95);
+    background: linear-gradient(135deg, rgba(90, 105, 70, 0.65) 0%, rgba(50, 65, 40, 0.4) 50%, rgba(90, 105, 70, 0.5) 100%);
+    box-shadow: 0 8px 28px rgba(140, 160, 100, 0.45), 0 0 30px rgba(140, 160, 100, 0.3), inset 0 1px 0 rgba(200,220,150,0.15);
 }
 
+/* Нежить редкая */
+.fish-item.undead.rarity-rare {
+    color: rgba(120, 180, 180, 0.9);
+    border-color: rgba(70, 130, 130, 0.75);
+    background: linear-gradient(135deg, rgba(40, 80, 90, 0.5) 0%, rgba(25, 50, 55, 0.3) 50%, rgba(40, 80, 90, 0.4) 100%);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 18px rgba(70,140,140,0.25), inset 0 1px 0 rgba(150,200,200,0.1);
+}
+.fish-item.undead.rarity-rare .fish-item-inner {
+    background: linear-gradient(115deg, transparent 40%, rgba(100, 200, 200, 0.15) 45%, rgba(180, 255, 255, 0.2) 50%, rgba(100, 200, 200, 0.15) 55%, transparent 60%);
+    background-size: 200% 200%;
+    animation: rareShine 5s ease-in-out infinite;
+    mix-blend-mode: screen;
+}
+.fish-item.undead.rarity-rare:hover {
+    border-color: rgba(140, 220, 220, 1);
+    background: linear-gradient(135deg, rgba(70, 120, 130, 0.6) 0%, rgba(45, 80, 85, 0.4) 50%, rgba(70, 120, 130, 0.5) 100%);
+    box-shadow: 0 8px 32px rgba(90, 180, 180, 0.5), 0 0 40px rgba(90, 180, 180, 0.35);
+}
+
+/* Нежить эпическая */
+.fish-item.undead.rarity-epic {
+    color: rgba(170, 130, 190, 0.9);
+    border-color: rgba(130, 80, 150, 0.75);
+    background: linear-gradient(135deg, rgba(80, 40, 100, 0.5) 0%, rgba(45, 25, 55, 0.3) 50%, rgba(80, 40, 100, 0.4) 100%);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 20px rgba(140,80,170,0.3), inset 0 1px 0 rgba(200,150,220,0.1);
+}
+.fish-item.undead.rarity-epic .fish-item-inner {
+    background: linear-gradient(
+        115deg,
+        transparent 30%,
+        rgba(200, 80, 150, 0.15) 40%,
+        rgba(150, 80, 200, 0.25) 50%,
+        rgba(100, 150, 200, 0.15) 60%,
+        transparent 70%
+    );
+    background-size: 300% 300%;
+    animation: holoSweepCard 5s ease-in-out infinite;
+    mix-blend-mode: screen;
+}
+.fish-item.undead.rarity-epic:hover {
+    border-color: rgba(200, 160, 230, 1);
+    background: linear-gradient(135deg, rgba(110, 70, 130, 0.6) 0%, rgba(70, 45, 85, 0.4) 50%, rgba(110, 70, 130, 0.5) 100%);
+    box-shadow: 0 8px 36px rgba(150, 100, 190, 0.55), 0 0 45px rgba(150, 100, 190, 0.4);
+}
+
+/* Нежить легендарная — золотая с черепом */
+.fish-item.undead.rarity-legendary {
+    color: rgba(220, 200, 140, 1);
+    border-color: rgba(200, 170, 80, 0.9);
+    background: 
+        radial-gradient(circle at 15% 15%, rgba(220, 200, 130, 0.35) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(180, 140, 50, 0.35) 0%, transparent 40%),
+        linear-gradient(135deg, rgba(140, 110, 50, 0.55) 0%, rgba(90, 65, 25, 0.35) 50%, rgba(140, 110, 50, 0.45) 100%);
+    box-shadow: 
+        0 2px 10px rgba(0,0,0,0.4),
+        0 0 30px rgba(200,170,80,0.5),
+        0 0 60px rgba(200,170,80,0.25),
+        inset 0 1px 0 rgba(255,240,180,0.15);
+    animation: undeadLegendaryStrong 3s ease-in-out infinite;
+}
+@keyframes undeadLegendaryStrong {
+    0%, 100% { 
+        box-shadow: 
+            0 2px 10px rgba(0,0,0,0.4),
+            0 0 30px rgba(200,170,80,0.5),
+            0 0 60px rgba(200,170,80,0.25);
+    }
+    50% { 
+        box-shadow: 
+            0 2px 10px rgba(0,0,0,0.4),
+            0 0 50px rgba(200,170,80,0.8),
+            0 0 90px rgba(200,170,80,0.45);
+    }
+}
+.fish-item.undead.rarity-legendary .fish-item-inner {
+    background: linear-gradient(
+        115deg,
+        transparent 25%,
+        rgba(200, 160, 60, 0.2) 35%,
+        rgba(255, 230, 150, 0.3) 50%,
+        rgba(200, 160, 60, 0.2) 65%,
+        transparent 75%
+    );
+    background-size: 300% 300%;
+    animation: holoSweepCard 5s ease-in-out infinite;
+    mix-blend-mode: screen;
+}
+
+/* Череп вместо короны для нежити-легендарки */
+.fish-item.undead.rarity-legendary::before {
+    content: '💀';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 22px;
+    width: auto; height: auto;
+    border: none;
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(200, 170, 80, 0.9));
+    z-index: 5;
+    animation: crownFloat 3s ease-in-out infinite;
+}
+.fish-item.undead.rarity-legendary:hover {
+    border-color: rgba(240, 220, 150, 1);
+    background: 
+        radial-gradient(circle at 15% 15%, rgba(220, 200, 130, 0.5) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(180, 140, 50, 0.5) 0%, transparent 45%),
+        linear-gradient(135deg, rgba(160, 130, 60, 0.65) 0%, rgba(110, 85, 35, 0.4) 50%, rgba(160, 130, 60, 0.55) 100%);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+        0 10px 40px rgba(200,170,80,0.7),
+        0 0 70px rgba(200,170,80,0.5),
+        inset 0 1px 0 rgba(255,240,180,0.25);
+}
+
+/* Иконка рыбы */
 .fish-icon {
     width: 56px; height: 56px;
     image-rendering: pixelated;
@@ -330,26 +532,17 @@ body::before {
     filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
     transition: transform 0.3s;
 }
-.fish-item:hover .fish-icon { transform: scale(1.08); }
+.fish-item:hover .fish-icon { transform: scale(1.1); }
 
+/* Имя рыбы */
 .fish-name {
-    font-size: 0.9rem; font-weight: 700; flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 0.95rem; font-weight: 700; flex: 1;
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-    letter-spacing: 0.2px;
-}
-    /* Для длинных названий */
-.fish-item .fish-name[data-long="true"] {
-    font-size: 0.8rem;
+    letter-spacing: 0.3px;
 }
 
-/* Сетка — чуть шире плитки */
-.fish-grid {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-}
+/* Счётчик */
 .fish-count {
     background: rgba(0,212,255,0.3); color: #ffffff;
     font-weight: 900; font-size: 0.95rem; padding: 5px 11px;
@@ -362,8 +555,18 @@ body::before {
 .fish-item.rarity-common .fish-count { background: rgba(120,160,200,0.4); }
 .fish-item.rarity-rare .fish-count { background: rgba(0,212,255,0.45); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 12px rgba(0,212,255,0.5); }
 .fish-item.rarity-epic .fish-count { background: rgba(167,139,250,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 14px rgba(167,139,250,0.5); }
-.fish-item.rarity-legendary .fish-count { background: rgba(255,215,0,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 16px rgba(255,215,0,0.6); color: #fff8d0; }
-.fish-item.undead .fish-count { background: rgba(120,130,90,0.5); }
+.fish-item.rarity-legendary .fish-count { 
+    background: linear-gradient(135deg, #ffd700, #ffed4e); 
+    color: #3a2500;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 0 20px rgba(255,215,0,0.7);
+    border-color: rgba(255, 240, 150, 0.8);
+}
+.fish-item.undead .fish-count { background: rgba(120,130,90,0.5); color: #e8f0d0; }
+.fish-item.undead.rarity-legendary .fish-count {
+    background: linear-gradient(135deg, #c8b878, #e8d8a0);
+    color: #2a1f00;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 0 20px rgba(200,170,80,0.7);
+}
 
 /* === МОДАЛЬНОЕ ОКНО === */
 .modal-overlay {
