@@ -524,6 +524,9 @@ function loadAndRender(silent) {
                 renderStatsMini(data._stats);
                 renderTopPlayers(data._stats);
             }
+            if (data._lifetimeCatches) {
+    window._lifetimeCatches = data._lifetimeCatches;
+}
             if (data._records) {
                 renderRecords(data._records);
             }
@@ -630,14 +633,19 @@ function renderRecords(records) {
     for (const fish of ALL_FISH) {
         if (records[fish]) {
             const r = records[fish];
-            const info = FISH_DATA[fish] || { rarity: 'common' };
+            const info = FISH_DATA[fish] || { rarity: 'common', max: 0 };
             const rarity = info.rarity || 'common';
+            const maxSize = info.max || 0;
+            const isTrophy = maxSize > 0 && r.size >= maxSize;
             const icon = getFishIcon(fish);
 
+            // Счётчик "поймано за всё время"
+            const lifetimeCount = getLifetimeCount(fish);
+
             regularRows.push(`
-                <div class="record-card rarity-${rarity}">
+                <div class="record-card rarity-${rarity}" title="Поймано за всё время: ${lifetimeCount}">
                     <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
-                    <div class="record-fish">${escapeHtml(fish)}</div>
+                    <div class="record-fish">${escapeHtml(fish)}${isTrophy ? ' 🏆' : ''}</div>
                     <div class="record-size-block">
                         <div class="record-size">${r.size} см</div>
                         <div class="record-holder">@${escapeHtml(r.holder)}</div>
@@ -652,14 +660,18 @@ function renderRecords(records) {
         const undeadFish = 'Нежить ' + fish.toLowerCase();
         if (records[undeadFish]) {
             const r = records[undeadFish];
-            const info = FISH_DATA[fish] || { rarity: 'common' };
+            const info = FISH_DATA[fish] || { rarity: 'common', max: 0 };
             const rarity = info.rarity || 'common';
+            const maxSize = info.max || 0;
+            const isTrophy = maxSize > 0 && r.size >= maxSize;
             const icon = getFishIcon(undeadFish);
 
+            const lifetimeCount = getLifetimeCount(undeadFish);
+
             undeadRows.push(`
-                <div class="record-card undead rarity-${rarity}">
+                <div class="record-card undead rarity-${rarity}" title="Поймано за всё время: ${lifetimeCount}">
                     <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
-                    <div class="record-fish">${escapeHtml(fish)}</div>
+                    <div class="record-fish">${escapeHtml(fish)}${isTrophy ? ' 🏆' : ''}</div>
                     <div class="record-size-block">
                         <div class="record-size">${r.size} см</div>
                         <div class="record-holder">@${escapeHtml(r.holder)}</div>
@@ -682,6 +694,23 @@ function renderRecords(records) {
     } else {
         undeadEl.innerHTML = undeadRows.join('');
     }
+}
+
+// === СЧЁТЧИК ПОЙМАНО ЗА ВСЁ ВРЕМЯ ===
+function getLifetimeCount(fishName) {
+    if (!window._lifetimeCatches) return 0;
+
+    const fishKey = fishName.toLowerCase();
+    let total = 0;
+
+    for (const player in window._lifetimeCatches) {
+        const playerCatches = window._lifetimeCatches[player];
+        if (playerCatches && playerCatches[fishKey] !== undefined) {
+            total += playerCatches[fishKey];
+        }
+    }
+
+    return total;
 }
 
 // === БЕЗОПАСНОСТЬ ===
