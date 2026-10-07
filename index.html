@@ -34,7 +34,6 @@ body::before {
 }
 .header .subtitle { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
 
-/* === СТАТИСТИКА СЕРВЕРА === */
 .server-stats {
     background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
@@ -58,7 +57,6 @@ body::before {
     text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
 }
 
-/* === КАРТОЧКА ИГРОКА === */
 .player-card {
     background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.1); border-radius: 18px;
@@ -90,7 +88,6 @@ body::before {
 }
 .twitch-link:hover { background: #7a2ee0; }
 
-/* === ПРОГРЕСС === */
 .collection-progress {
     display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
 }
@@ -119,7 +116,6 @@ body::before {
     background: linear-gradient(90deg, #6a7a4a, #a8b878);
 }
 
-/* === МИНИ-СТАТИСТИКА === */
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
 .stat-box {
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
@@ -133,7 +129,6 @@ body::before {
 }
 .stat-box.undead .stat-value { color: #a8b878; }
 
-/* === ЗАГОЛОВОК РАЗДЕЛА === */
 .fish-section h3 {
     font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;
     display: flex; align-items: center; gap: 8px;
@@ -146,27 +141,23 @@ body::before {
     background: linear-gradient(135deg, #6a7a4a, #a8b878);
 }
 
-/* === СЕТКА РЫБ — КРУПНЫЕ ПЛИТКИ === */
 .fish-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 10px;
 }
 
-/* === ГРАНДИОЗНЫЕ КАРТОЧКИ === */
 .fish-item {
-    border-radius: 16px;
-    padding: 14px 16px;
-    display: flex; align-items: center; gap: 14px;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px;
+    transition: all 0.25s ease;
     cursor: pointer;
     position: relative; user-select: none;
     border: 2px solid transparent;
     overflow: hidden;
-    background-clip: padding-box;
 }
 
-/* Декоративные уголки (псевдо-элементы) */
 .fish-item::before,
 .fish-item::after {
     content: '';
@@ -190,7 +181,6 @@ body::before {
     border-top: none;
     border-bottom-right-radius: 8px;
 }
-
 .fish-item:hover::before,
 .fish-item:hover::after {
     width: 24px;
@@ -198,7 +188,6 @@ body::before {
     opacity: 1;
 }
 
-/* Внутренний узорный слой */
 .fish-item .fish-item-inner {
     position: absolute;
     top: 0; left: 0;
@@ -206,8 +195,6 @@ body::before {
     pointer-events: none;
     z-index: 0;
 }
-
-/* Узорная полоска сверху */
 .fish-item .fish-item-inner::before {
     content: '';
     position: absolute;
@@ -217,8 +204,6 @@ body::before {
     opacity: 0.5;
     border-radius: 2px;
 }
-
-/* Узорная полоска снизу */
 .fish-item .fish-item-inner::after {
     content: '';
     position: absolute;
@@ -228,187 +213,115 @@ body::before {
     opacity: 0.5;
     border-radius: 2px;
 }
-
-/* Содержимое карточки поверх узоров */
 .fish-item > * { position: relative; z-index: 1; }
 
-/* === ОБЫЧНАЯ — синевато-серая рамка === */
 .fish-item.rarity-common {
     color: rgba(140, 180, 220, 0.7);
     border-color: rgba(120, 160, 200, 0.45);
     background: linear-gradient(135deg, rgba(70, 110, 150, 0.28) 0%, rgba(40, 70, 100, 0.15) 50%, rgba(70, 110, 150, 0.22) 100%);
-    box-shadow: 
-        0 2px 8px rgba(0,0,0,0.25),
-        inset 0 1px 0 rgba(255,255,255,0.06),
-        inset 0 -1px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.15);
 }
 .fish-item.rarity-common:hover {
     border-color: rgba(170, 210, 250, 0.85);
     background: linear-gradient(135deg, rgba(100, 150, 200, 0.4) 0%, rgba(60, 100, 140, 0.22) 50%, rgba(100, 150, 200, 0.32) 100%);
     transform: translateY(-3px);
-    box-shadow: 
-        0 8px 24px rgba(120, 180, 230, 0.3),
-        0 0 20px rgba(120, 180, 230, 0.15),
-        inset 0 1px 0 rgba(255,255,255,0.12);
+    box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3), 0 0 20px rgba(120, 180, 230, 0.15), inset 0 1px 0 rgba(255,255,255,0.12);
 }
 
-/* === РЕДКАЯ — голубая с усиленным свечением === */
 .fish-item.rarity-rare {
     color: rgba(0, 212, 255, 0.8);
     border-color: rgba(0, 212, 255, 0.55);
     background: linear-gradient(135deg, rgba(0, 180, 255, 0.28) 0%, rgba(0, 120, 180, 0.15) 50%, rgba(0, 180, 255, 0.22) 100%);
-    box-shadow: 
-        0 2px 8px rgba(0,0,0,0.25),
-        0 0 14px rgba(0,212,255,0.2),
-        inset 0 1px 0 rgba(255,255,255,0.1),
-        inset 0 -1px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 14px rgba(0,212,255,0.2), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.15);
 }
 .fish-item.rarity-rare:hover {
     border-color: rgba(100, 235, 255, 1);
     background: linear-gradient(135deg, rgba(0, 212, 255, 0.45) 0%, rgba(0, 150, 220, 0.25) 50%, rgba(0, 212, 255, 0.35) 100%);
     transform: translateY(-3px);
-    box-shadow: 
-        0 8px 28px rgba(0, 212, 255, 0.45),
-        0 0 30px rgba(0, 212, 255, 0.3),
-        inset 0 1px 0 rgba(255,255,255,0.15);
+    box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45), 0 0 30px rgba(0, 212, 255, 0.3), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
-/* === ЭПИЧЕСКАЯ — фиолетовая с аурой === */
 .fish-item.rarity-epic {
     color: rgba(200, 180, 255, 0.85);
     border-color: rgba(167, 139, 250, 0.6);
     background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(120, 90, 200, 0.15) 50%, rgba(167, 139, 250, 0.24) 100%);
-    box-shadow: 
-        0 2px 8px rgba(0,0,0,0.25),
-        0 0 18px rgba(167,139,250,0.25),
-        inset 0 1px 0 rgba(255,255,255,0.1),
-        inset 0 -1px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 18px rgba(167,139,250,0.25), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.15);
 }
 .fish-item.rarity-epic:hover {
     border-color: rgba(220, 205, 255, 1);
     background: linear-gradient(135deg, rgba(167, 139, 250, 0.48) 0%, rgba(140, 110, 220, 0.28) 50%, rgba(167, 139, 250, 0.38) 100%);
     transform: translateY(-3px);
-    box-shadow: 
-        0 8px 32px rgba(167, 139, 250, 0.5),
-        0 0 36px rgba(167, 139, 250, 0.35),
-        inset 0 1px 0 rgba(255,255,255,0.15);
+    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5), 0 0 36px rgba(167, 139, 250, 0.35), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
-/* === ЛЕГЕНДАРНАЯ — золотая, пульсирующая === */
 .fish-item.rarity-legendary {
     color: rgba(255, 230, 130, 0.9);
     border-color: rgba(255, 215, 0, 0.75);
     background: linear-gradient(135deg, rgba(255, 200, 50, 0.35) 0%, rgba(200, 140, 0, 0.18) 50%, rgba(255, 200, 50, 0.28) 100%);
-    box-shadow: 
-        0 2px 8px rgba(0,0,0,0.25),
-        0 0 24px rgba(255,215,0,0.3),
-        inset 0 1px 0 rgba(255,255,255,0.15),
-        inset 0 -1px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.2);
     animation: legendaryPulse 3s ease-in-out infinite;
 }
 @keyframes legendaryPulse {
-    0%, 100% { 
-        box-shadow: 
-            0 2px 8px rgba(0,0,0,0.25),
-            0 0 24px rgba(255,215,0,0.3),
-            inset 0 1px 0 rgba(255,255,255,0.15),
-            inset 0 -1px 0 rgba(0,0,0,0.2);
-    }
-    50% { 
-        box-shadow: 
-            0 2px 8px rgba(0,0,0,0.25),
-            0 0 40px rgba(255,215,0,0.55),
-            inset 0 1px 0 rgba(255,255,255,0.2),
-            inset 0 -1px 0 rgba(0,0,0,0.2);
-    }
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.2); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 40px rgba(255,215,0,0.55), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.2); }
 }
 .fish-item.rarity-legendary:hover {
     border-color: rgba(255, 245, 150, 1);
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.5) 0%, rgba(220, 160, 20, 0.3) 50%, rgba(255, 215, 0, 0.4) 100%);
     transform: translateY(-3px);
-    box-shadow: 
-        0 8px 40px rgba(255, 215, 0, 0.6),
-        0 0 50px rgba(255, 215, 0, 0.45),
-        inset 0 1px 0 rgba(255,255,255,0.2);
+    box-shadow: 0 8px 40px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.2);
 }
 
-/* === НЕЖИТЬ — мрачная зелёно-серая === */
 .fish-item.undead.rarity-common {
     color: rgba(150, 170, 120, 0.8);
     border-color: rgba(120, 130, 90, 0.55);
     background: linear-gradient(135deg, rgba(70, 80, 60, 0.4) 0%, rgba(40, 50, 35, 0.2) 50%, rgba(70, 80, 60, 0.3) 100%);
-    box-shadow: 
-        0 2px 8px rgba(0,0,0,0.3),
-        0 0 12px rgba(120,140,90,0.15),
-        inset 0 1px 0 rgba(255,255,255,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(120,140,90,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 .fish-item.undead.rarity-common:hover {
     border-color: rgba(180, 200, 140, 0.9);
     background: linear-gradient(135deg, rgba(100, 120, 80, 0.55) 0%, rgba(60, 75, 50, 0.3) 50%, rgba(100, 120, 80, 0.4) 100%);
-    box-shadow: 
-        0 8px 24px rgba(140, 160, 100, 0.4),
-        0 0 24px rgba(140, 160, 100, 0.25);
+    box-shadow: 0 8px 24px rgba(140, 160, 100, 0.4), 0 0 24px rgba(140, 160, 100, 0.25);
 }
 .fish-item.undead.rarity-rare {
     color: rgba(130, 180, 200, 0.85);
     border-color: rgba(100, 140, 160, 0.65);
     background: linear-gradient(135deg, rgba(60, 90, 110, 0.4) 0%, rgba(40, 60, 80, 0.2) 50%, rgba(60, 90, 110, 0.32) 100%);
-    box-shadow: 
-        0 2px 8px rgba(0,0,0,0.3),
-        0 0 16px rgba(100,150,180,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 16px rgba(100,150,180,0.2);
 }
 .fish-item.undead.rarity-rare:hover {
     border-color: rgba(160, 210, 240, 0.95);
     background: linear-gradient(135deg, rgba(90, 130, 160, 0.55) 0%, rgba(60, 90, 110, 0.3) 50%, rgba(90, 130, 160, 0.42) 100%);
-    box-shadow: 
-        0 8px 28px rgba(110, 160, 190, 0.45),
-        0 0 30px rgba(110, 160, 190, 0.3);
+    box-shadow: 0 8px 28px rgba(110, 160, 190, 0.45), 0 0 30px rgba(110, 160, 190, 0.3);
 }
 .fish-item.undead.rarity-epic {
     color: rgba(160, 140, 190, 0.85);
     border-color: rgba(120, 100, 140, 0.7);
     background: linear-gradient(135deg, rgba(80, 60, 100, 0.4) 0%, rgba(50, 40, 70, 0.2) 50%, rgba(80, 60, 100, 0.32) 100%);
-    box-shadow: 
-        0 2px 8px rgba(0,0,0,0.3),
-        0 0 18px rgba(140,110,170,0.22);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 18px rgba(140,110,170,0.22);
 }
 .fish-item.undead.rarity-epic:hover {
     border-color: rgba(200, 180, 230, 0.95);
     background: linear-gradient(135deg, rgba(120, 95, 150, 0.55) 0%, rgba(80, 65, 110, 0.3) 50%, rgba(120, 95, 150, 0.42) 100%);
-    box-shadow: 
-        0 8px 30px rgba(150, 120, 180, 0.45),
-        0 0 32px rgba(150, 120, 180, 0.3);
+    box-shadow: 0 8px 30px rgba(150, 120, 180, 0.45), 0 0 32px rgba(150, 120, 180, 0.3);
 }
 .fish-item.undead.rarity-legendary {
     color: rgba(200, 180, 120, 0.9);
     border-color: rgba(160, 140, 70, 0.8);
     background: linear-gradient(135deg, rgba(110, 90, 50, 0.42) 0%, rgba(70, 55, 30, 0.22) 50%, rgba(110, 90, 50, 0.34) 100%);
-    box-shadow: 
-        0 2px 8px rgba(0,0,0,0.3),
-        0 0 26px rgba(160,140,70,0.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(160,140,70,0.3);
     animation: undeadLegendaryPulse 3s ease-in-out infinite;
 }
 @keyframes undeadLegendaryPulse {
-    0%, 100% { 
-        box-shadow: 
-            0 2px 8px rgba(0,0,0,0.3),
-            0 0 26px rgba(160,140,70,0.3);
-    }
-    50% { 
-        box-shadow: 
-            0 2px 8px rgba(0,0,0,0.3),
-            0 0 42px rgba(160,140,70,0.55);
-    }
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(160,140,70,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 42px rgba(160,140,70,0.55); }
 }
 .fish-item.undead.rarity-legendary:hover {
     border-color: rgba(230, 210, 120, 1);
     background: linear-gradient(135deg, rgba(140, 120, 70, 0.58) 0%, rgba(95, 80, 45, 0.32) 50%, rgba(140, 120, 70, 0.45) 100%);
-    box-shadow: 
-        0 8px 40px rgba(170, 150, 80, 0.6),
-        0 0 50px rgba(170, 150, 80, 0.45);
+    box-shadow: 0 8px 40px rgba(170, 150, 80, 0.6), 0 0 50px rgba(170, 150, 80, 0.45);
 }
 
-/* === ИКОНКА РЫБЫ === */
 .fish-icon {
     width: 56px; height: 56px;
     image-rendering: pixelated;
@@ -417,9 +330,7 @@ body::before {
     filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
     transition: transform 0.3s;
 }
-.fish-item:hover .fish-icon {
-    transform: scale(1.08);
-}
+.fish-item:hover .fish-icon { transform: scale(1.08); }
 
 .fish-name {
     font-size: 0.95rem; font-weight: 700; flex: 1;
@@ -436,47 +347,10 @@ body::before {
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.3);
 }
 .fish-item.rarity-common .fish-count { background: rgba(120,160,200,0.4); }
-.fish-item.rarity-rare .fish-count { 
-    background: rgba(0,212,255,0.45); 
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 12px rgba(0,212,255,0.5);
-}
-.fish-item.rarity-epic .fish-count { 
-    background: rgba(167,139,250,0.5); 
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 14px rgba(167,139,250,0.5);
-}
-.fish-item.rarity-legendary .fish-count { 
-    background: rgba(255,215,0,0.5); 
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 16px rgba(255,215,0,0.6);
-    color: #fff8d0;
-}
+.fish-item.rarity-rare .fish-count { background: rgba(0,212,255,0.45); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 12px rgba(0,212,255,0.5); }
+.fish-item.rarity-epic .fish-count { background: rgba(167,139,250,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 14px rgba(167,139,250,0.5); }
+.fish-item.rarity-legendary .fish-count { background: rgba(255,215,0,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 16px rgba(255,215,0,0.6); color: #fff8d0; }
 .fish-item.undead .fish-count { background: rgba(120,130,90,0.5); }
-/* === ИКОНКА РЫБЫ — КРУПНАЯ === */
-.fish-icon {
-    width: 56px; height: 56px;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    flex-shrink: 0;
-    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
-}
-
-.fish-name {
-    font-size: 0.9rem; font-weight: 700; flex: 1;
-    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-}
-.fish-count {
-    background: rgba(0,212,255,0.25); color: #ffffff;
-    font-weight: 900; font-size: 0.9rem; padding: 4px 10px;
-    border-radius: 8px; flex-shrink: 0;
-    min-width: 36px; text-align: center;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.15);
-}
-.fish-item.rarity-common .fish-count { background: rgba(120,160,200,0.35); }
-.fish-item.rarity-rare .fish-count { background: rgba(0,212,255,0.35); box-shadow: 0 0 8px rgba(0,212,255,0.4); }
-.fish-item.rarity-epic .fish-count { background: rgba(167,139,250,0.4); box-shadow: 0 0 10px rgba(167,139,250,0.4); }
-.fish-item.rarity-legendary .fish-count { background: rgba(255,215,0,0.4); box-shadow: 0 0 12px rgba(255,215,0,0.5); color: #fff5c0; }
-.fish-item.undead .fish-count { background: rgba(120,130,90,0.4); }
 
 /* === МОДАЛЬНОЕ ОКНО === */
 .modal-overlay {
@@ -488,34 +362,24 @@ body::before {
     opacity: 0; pointer-events: none;
     transition: opacity 0.3s ease;
     padding: 20px;
-    perspective: 1200px;
 }
 .modal-overlay.show { opacity: 1; pointer-events: auto; }
 
 .fish-modal {
-    background: 
-        radial-gradient(ellipse at top, rgba(50, 70, 95, 0.98) 0%, rgba(20, 35, 50, 0.99) 100%);
+    background: radial-gradient(ellipse at top, rgba(50, 70, 95, 0.98) 0%, rgba(20, 35, 50, 0.99) 100%);
     border-radius: 24px;
     padding: 32px 28px 24px;
     max-width: 500px;
     width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 
-        0 30px 80px rgba(0, 0, 0, 0.7),
-        0 0 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
-    transform: scale(0.85) translateY(30px) rotateX(10deg);
+    transform: scale(0.85) translateY(30px);
     transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     overflow: hidden;
-    transform-style: preserve-3d;
-    isolation: isolate;
 }
-.modal-overlay.show .fish-modal { 
-    transform: scale(1) translateY(0) rotateX(0deg);
-}
+.modal-overlay.show .fish-modal { transform: scale(1) translateY(0); }
 
-/* === ГОЛОГРАФИЧЕСКИЙ ЭФФЕКТ (для epic / legendary) === */
 .fish-modal.rarity-epic::before,
 .fish-modal.rarity-legendary::before {
     content: '';
@@ -543,19 +407,13 @@ body::before {
     100% { background-position: 0% 50%; }
 }
 
-/* Голографический блик по верхнему краю */
 .fish-modal.rarity-legendary::after {
     content: '';
     position: absolute;
     top: 0; left: -100%;
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(255, 255, 100, 0.9) 30%,
-        rgba(255, 255, 255, 1) 50%,
-        rgba(255, 255, 100, 0.9) 70%,
-        transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 100, 0.9) 30%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 100, 0.9) 70%, transparent 100%);
     animation: shineTop 3s ease-in-out infinite;
     z-index: 3;
 }
@@ -563,11 +421,6 @@ body::before {
     0% { left: -100%; }
     50% { left: 100%; }
     100% { left: 100%; }
-}
-
-/* Двойная рамка — внутренняя */
-.fish-modal::before {
-    /* перезаписывается выше для epic/legendary */
 }
 
 .fish-modal:not(.rarity-epic):not(.rarity-legendary)::before {
@@ -580,7 +433,6 @@ body::before {
     z-index: 0;
 }
 
-/* Цвет рамки по редкости */
 .fish-modal.rarity-common { color: rgba(140, 180, 220, 0.8); border-color: rgba(120, 160, 200, 0.5); }
 .fish-modal.rarity-rare { color: #00d4ff; border-color: rgba(0, 212, 255, 0.6); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(0,212,255,0.3), inset 0 1px 0 rgba(255,255,255,0.1); }
 .fish-modal.rarity-epic { color: #a78bfa; border-color: rgba(167, 139, 250, 0.6); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(167,139,250,0.3), inset 0 1px 0 rgba(255,255,255,0.1); }
@@ -591,7 +443,6 @@ body::before {
 .fish-modal.undead.rarity-epic { color: #a890c8; border-color: rgba(120, 100, 140, 0.7); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 50px rgba(140,110,170,0.3); }
 .fish-modal.undead.rarity-legendary { color: #c8b078; border-color: rgba(160, 140, 70, 0.8); box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(160,140,70,0.4); }
 
-/* === УГЛОВЫЕ ВЕНЗЕЛЯ === */
 .modal-corner {
     position: absolute;
     width: 40px; height: 40px;
@@ -607,7 +458,6 @@ body::before {
 .modal-corner.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
 .modal-corner.br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
 
-/* === ЧАСТИЦЫ-ИСКРЫ (для legendary) === */
 .modal-particles {
     position: absolute;
     inset: 0;
@@ -626,28 +476,17 @@ body::before {
     opacity: 0;
 }
 @keyframes particleFloat {
-    0% { 
-        transform: translateY(0) scale(0); 
-        opacity: 0; 
-    }
+    0% { transform: translateY(0) scale(0); opacity: 0; }
     15% { opacity: 1; }
-    50% { 
-        transform: translateY(-60px) scale(1); 
-        opacity: 1; 
-    }
+    50% { transform: translateY(-60px) scale(1); opacity: 1; }
     85% { opacity: 0.6; }
-    100% { 
-        transform: translateY(-120px) scale(0.3); 
-        opacity: 0; 
-    }
+    100% { transform: translateY(-120px) scale(0.3); opacity: 0; }
 }
-/* Фиолетовые частицы для epic */
 .fish-modal.rarity-epic .particle {
     background: radial-gradient(circle, #fff 0%, #a78bfa 60%, transparent 100%);
     box-shadow: 0 0 8px #a78bfa, 0 0 16px #a78bfa;
 }
 
-/* Кнопка закрытия */
 .modal-close {
     position: absolute; top: 16px; right: 16px;
     width: 36px; height: 36px; border-radius: 50%;
@@ -660,13 +499,8 @@ body::before {
     z-index: 10;
     backdrop-filter: blur(4px);
 }
-.modal-close:hover { 
-    background: rgba(255, 80, 80, 0.5); 
-    transform: rotate(90deg) scale(1.1);
-    border-color: rgba(255, 100, 100, 0.6);
-}
+.modal-close:hover { background: rgba(255, 80, 80, 0.5); transform: rotate(90deg) scale(1.1); border-color: rgba(255, 100, 100, 0.6); }
 
-/* === ИКОНКА С ОРЕОЛОМ === */
 .modal-fish-icon-wrap {
     display: flex; justify-content: center; align-items: center;
     margin-bottom: 18px;
@@ -721,7 +555,6 @@ body::before {
     50% { transform: translateY(-10px); }
 }
 
-/* === КАСКАДНОЕ ПОЯВЛЕНИЕ ЭЛЕМЕНТОВ === */
 .fish-modal .modal-fish-icon-wrap,
 .fish-modal .modal-fish-name,
 .fish-modal .modal-rarity,
@@ -741,7 +574,6 @@ body::before {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* === ИМЯ === */
 .modal-fish-name {
     text-align: center;
     font-size: 1.55rem;
@@ -778,7 +610,6 @@ body::before {
 .modal-fish-name::before { left: 10%; }
 .modal-fish-name::after { right: 10%; }
 
-/* === РЕДКОСТЬ === */
 .modal-rarity {
     text-align: center;
     font-size: 0.9rem;
@@ -793,8 +624,8 @@ body::before {
 .modal-rarity.rarity-common { color: #8ab4d6; text-shadow: 0 0 10px rgba(138, 180, 214, 0.5); }
 .modal-rarity.rarity-rare { color: #00d4ff; text-shadow: 0 0 14px rgba(0,212,255,0.6); }
 .modal-rarity.rarity-epic { color: #c4b5fd; text-shadow: 0 0 14px rgba(167,139,250,0.6); }
-.modal-rarity.rarity-legendary { 
-    color: #ffd700; 
+.modal-rarity.rarity-legendary {
+    color: #ffd700;
     text-shadow: 0 0 20px rgba(255,215,0,0.7);
     animation: legendaryGlow 2s ease-in-out infinite;
 }
@@ -812,7 +643,6 @@ body::before {
     opacity: 0.5;
 }
 
-/* === БЛОКИ ИНФОРМАЦИИ === */
 .modal-info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -868,18 +698,17 @@ body::before {
     color: #00d4ff;
     text-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
 }
-.modal-info-block .info-value.record { 
-    color: #ffd700; 
+.modal-info-block .info-value.record {
+    color: #ffd700;
     text-shadow: 0 0 14px rgba(255,215,0,0.5);
 }
-.modal-info-block .info-value.no-record { 
-    color: rgba(255,255,255,0.35); 
-    font-size: 0.85rem; 
+.modal-info-block .info-value.no-record {
+    color: rgba(255,255,255,0.35);
+    font-size: 0.85rem;
     font-weight: 600;
     text-shadow: none;
 }
 
-/* === ПОДВАЛ === */
 .modal-count {
     text-align: center;
     padding: 14px;
@@ -907,8 +736,8 @@ body::before {
     height: 1px;
     background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.8) 50%, transparent 100%);
 }
-.modal-count span { 
-    font-size: 1.4rem; 
+.modal-count span {
+    font-size: 1.4rem;
     font-weight: 900;
     text-shadow: 0 0 12px rgba(0, 212, 255, 0.6);
 }
@@ -923,15 +752,6 @@ body::before {
 }
 .modal-count.undead span { text-shadow: 0 0 12px rgba(160, 180, 120, 0.6); }
 
-/* === АДАПТИВ === */
-@media (max-width: 600px) {
-    .fish-modal { padding: 24px 20px 20px; }
-    .modal-fish-icon { width: 130px; height: 130px; }
-    .modal-fish-name { font-size: 1.3rem; }
-    .modal-rarity { font-size: 0.8rem; letter-spacing: 2px; padding: 0 20px; }
-    .modal-fish-icon-wrap::before { width: 180px; height: 180px; }
-    .modal-fish-icon-wrap::after { width: 140px; height: 140px; }
-}
 .last-update {
     text-align: center; margin-top: 12px;
     font-size: 0.7rem; color: rgba(255,255,255,0.4);
@@ -958,6 +778,11 @@ body::before {
     .fish-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
     .fish-icon { width: 44px; height: 44px; }
     .modal-fish-icon { width: 120px; height: 120px; }
+    .fish-modal { padding: 24px 20px 20px; }
+    .modal-fish-name { font-size: 1.3rem; }
+    .modal-rarity { font-size: 0.8rem; letter-spacing: 2px; padding: 0 20px; }
+    .modal-fish-icon-wrap::before { width: 180px; height: 180px; }
+    .modal-fish-icon-wrap::after { width: 140px; height: 140px; }
 }
 </style>
 </head>
@@ -996,7 +821,6 @@ body::before {
 // ========================================================
 
 const PALETTES = {
-    // === ХИЩНИКИ ===
     pike:      { main: '#4a6b2a', dark: '#2a3f1a', light: '#6b8a4a', belly: '#8fa860', fin: '#3a5020', eye: '#ffd700', pupil: '#000', gill: '#2a3f1a', spot: '#1a2810', stripe: '#2a3f1a' },
     zander:    { main: '#707880', dark: '#404850', light: '#98a0a8', belly: '#c0c8d0', fin: '#586068', eye: '#ffd700', pupil: '#000', gill: '#404850', spot: '#3a4048', stripe: '#3a4048' },
     perch:     { main: '#5a7a3a', dark: '#2a3f1a', light: '#7a9a5a', belly: '#9ab070', fin: '#4a6b2a', eye: '#ffd700', pupil: '#000', gill: '#3a5020', spot: '#1a2810', stripe: '#1a2810' },
@@ -1005,8 +829,6 @@ const PALETTES = {
     burbot:    { main: '#5a5a4a', dark: '#3a3a2a', light: '#7a7a6a', belly: '#a0a090', fin: '#4a4a3a', eye: '#ffd700', pupil: '#000', gill: '#3a3a2a', spot: '#2a2a1a', stripe: '#2a2a1a' },
     piranha:   { main: '#a01818', dark: '#6a0808', light: '#c04040', belly: '#d88080', fin: '#800000', eye: '#ffd700', pupil: '#000', gill: '#6a0808', spot: '#4a0808', stripe: '#4a0808' },
     snakehead: { main: '#5a5a3a', dark: '#3a3a1a', light: '#7a7a5a', belly: '#a0a080', fin: '#4a4a2a', eye: '#ffd700', pupil: '#000', gill: '#3a3a1a', spot: '#2a2a0a', stripe: '#2a2a0a' },
-
-    // === КАРПОВЫЕ ===
     carp:      { main: '#8b6f3a', dark: '#5a4520', light: '#a88a50', belly: '#c4a870', fin: '#6b5028', eye: '#ffd700', pupil: '#000', gill: '#5a4520', spot: '#6b5028', stripe: '#5a4520' },
     carp_big:  { main: '#8a6a3a', dark: '#5a4020', light: '#b08a5a', belly: '#d0b080', fin: '#6a5028', eye: '#ffd700', pupil: '#000', gill: '#5a4020', spot: '#5a4020', stripe: '#5a4020' },
     crucian:   { main: '#c8a830', dark: '#8a7020', light: '#e0c050', belly: '#f0d878', fin: '#a08830', eye: '#ffd700', pupil: '#000', gill: '#8a7020', spot: '#8a7020', stripe: '#8a7020' },
@@ -1014,397 +836,66 @@ const PALETTES = {
     silvercarp:{ main: '#b8c0c8', dark: '#8890a0', light: '#e0e8f0', belly: '#ffffff', fin: '#98a0b0', eye: '#ffd700', pupil: '#000', gill: '#8890a0', spot: '#8890a0', stripe: '#8890a0' },
     tench:     { main: '#5a7a4a', dark: '#3a5a2a', light: '#8aa07a', belly: '#a8b898', fin: '#4a6a3a', eye: '#ffd700', pupil: '#000', gill: '#3a5a2a', spot: '#3a5a2a', stripe: '#3a5a2a' },
     ide:       { main: '#a08858', dark: '#6a5830', light: '#c8a878', belly: '#e0c898', fin: '#8a7040', eye: '#ffd700', pupil: '#000', gill: '#6a5830', spot: '#6a5830', stripe: '#6a5830' },
-
-    // === ЛОСОСЁВЫЕ ===
     trout:     { main: '#d97645', dark: '#8a4a28', light: '#e89a6a', belly: '#f0b890', fin: '#b05530', eye: '#ffd700', pupil: '#000', gill: '#8a4a28', spot: '#c0392b', stripe: '#8a4a28' },
     salmon:    { main: '#e07050', dark: '#a04830', light: '#f0a080', belly: '#f8c8a8', fin: '#c05838', eye: '#ffd700', pupil: '#000', gill: '#a04830', spot: '#d06040', stripe: '#a04830' },
     char:      { main: '#7a8090', dark: '#4a5060', light: '#a0a8b8', belly: '#d0d8e0', fin: '#606878', eye: '#ffd700', pupil: '#000', gill: '#4a5060', spot: '#c0392b', stripe: '#4a5060' },
     whitefish: { main: '#a8b0b8', dark: '#708088', light: '#d0d8e0', belly: '#f0f8ff', fin: '#8890a0', eye: '#ffd700', pupil: '#000', gill: '#708088', spot: '#708088', stripe: '#708088' },
     grayling:  { main: '#9098a8', dark: '#606878', light: '#b8c0d0', belly: '#e0e8f0', fin: '#7880a0', eye: '#ffd700', pupil: '#000', gill: '#606878', spot: '#4a5a6a', stripe: '#4a5a6a' },
-
-    // === МЕЛКИЕ ===
     bleak:     { main: '#c0d0e0', dark: '#8090a0', light: '#e0f0ff', belly: '#ffffff', fin: '#a0b0c0', eye: '#000', pupil: '#000', gill: '#8090a0', spot: '#a0b0c0', stripe: '#a0b0c0' },
     roach:     { main: '#a0a8b0', dark: '#707880', light: '#c8d0d8', belly: '#e8f0f8', fin: '#8a9298', eye: '#ffd700', pupil: '#000', gill: '#707880', spot: '#c0392b', stripe: '#707880' },
     chub:      { main: '#9098a0', dark: '#606870', light: '#b8c0c8', belly: '#e0e8f0', fin: '#788088', eye: '#ffd700', pupil: '#000', gill: '#606870', spot: '#606870', stripe: '#606870' },
     rudd:      { main: '#b09070', dark: '#806040', light: '#d8b898', belly: '#f0d8b8', fin: '#c03028', eye: '#ffd700', pupil: '#000', gill: '#806040', spot: '#806040', stripe: '#806040' },
     sabrefish: { main: '#b0b8c0', dark: '#808890', light: '#d8e0e8', belly: '#f0f8ff', fin: '#9098a0', eye: '#ffd700', pupil: '#000', gill: '#808890', spot: '#808890', stripe: '#808890' },
     gudgeon:   { main: '#8a7a5a', dark: '#5a4a30', light: '#b0a080', belly: '#c8b8a0', fin: '#6a5a40', eye: '#ffd700', pupil: '#000', gill: '#5a4a30', spot: '#3a2a18', stripe: '#3a2a18' },
-
-    // === ЭКЗОТИКА ===
     sturgeon:  { main: '#5a6a7a', dark: '#3a4a5a', light: '#7a8a9a', belly: '#a0b0c0', fin: '#4a5a6a', eye: '#ffd700', pupil: '#000', gill: '#3a4a5a', spot: '#3a4a5a', stripe: '#3a4a5a' },
     eel:       { main: '#3a5a3a', dark: '#1a3a1a', light: '#5a7a5a', belly: '#8aa08a', fin: '#2a4a2a', eye: '#ffd700', pupil: '#000', gill: '#1a3a1a', spot: '#1a3a1a', stripe: '#1a3a1a' },
     lamprey:   { main: '#6a6a7a', dark: '#3a3a4a', light: '#9a9aaa', belly: '#c0c0d0', fin: '#4a4a5a', eye: '#ffd700', pupil: '#000', gill: '#3a3a4a', spot: '#3a3a4a', stripe: '#3a3a4a' }
 };
 
-// === МРАЧНАЯ ПАЛИТРА ДЛЯ НЕЖИТИ (как 🧟) ===
 const UNDEAD_PALETTE = {
-    main: '#5a6a4a',      // болотно-зелёный
-    dark: '#2a3a20',      // тёмный
-    light: '#8a9a6a',     // тусклый светлый
-    belly: '#a0a888',     // серо-бежевый
-    fin: '#3a4a2a',       // тёмно-зелёный
-    eye: '#c0ff00',       // ядовито-зелёный глаз
-    pupil: '#000',        // чёрный зрачок
-    gill: '#2a3a20',
-    spot: '#4a5a3a',      // гнилые пятна
-    stripe: '#2a3a20'
+    main: '#5a6a4a', dark: '#2a3a20', light: '#8a9a6a', belly: '#a0a888', fin: '#3a4a2a',
+    eye: '#c0ff00', pupil: '#000', gill: '#2a3a20', spot: '#4a5a3a', stripe: '#2a3a20'
 };
 
 // ========================================================
-// УНИКАЛЬНЫЕ ФОРМЫ РЫБ
-// Каждая рыба имеет свои параметры: длина, высота, хвост, голова, усы, шипы
+// ФОРМЫ РЫБ
 // ========================================================
 
 const FISH_FORMS = {
-    // === ХИЩНИКИ ===
-
-    // Щука — очень длинная, узкая, плоская голова, пятна, вилкообразный хвост
-    'Щука': {
-        bodyLen: 26, bodyH: 10, bodyY: 11,
-        headShape: 'pointed', headLen: 7,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'small-back', topFinSize: 4,
-        bottomFin: 'small',
-        spots: [[10,2],[15,4],[19,3],[12,5],[17,2]],
-        stripes: null, whiskers: false, spikes: false,
-        palette: 'pike'
-    },
-
-    // Судак — длинный, тёмные полосы, острые плавники
-    'Судак': {
-        bodyLen: 24, bodyH: 10, bodyY: 11,
-        headShape: 'pointed', headLen: 6,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'spiky', topFinSize: 6,
-        bottomFin: 'small',
-        spots: null,
-        stripes: [[8,2],[12,2],[16,2],[20,2]], whiskers: false, spikes: false,
-        palette: 'zander'
-    },
-
-    // Окунь — полосатый, высокий спинной плавник
-    'Окунь': {
-        bodyLen: 18, bodyH: 14, bodyY: 9,
-        headShape: 'round', headLen: 5,
-        tailType: 'fork', tailSize: 5,
-        topFin: 'high-spiky', topFinSize: 8,
-        bottomFin: 'medium',
-        spots: null,
-        stripes: [[7,0],[10,0],[13,0],[16,0],[19,0]], whiskers: false, spikes: true,
-        palette: 'perch'
-    },
-
-    // Ёрш — колючий, с шипами
-    'Ёрш': {
-        bodyLen: 18, bodyH: 12, bodyY: 10,
-        headShape: 'round', headLen: 5,
-        tailType: 'fan', tailSize: 5,
-        topFin: 'very-spiky', topFinSize: 7,
-        bottomFin: 'small',
-        spots: [[8,3],[12,5],[15,3]], stripes: null, whiskers: false, spikes: true,
-        palette: 'ruffe'
-    },
-
-    // Сом — огромный, плоская голова, усы
-    'Сом': {
-        bodyLen: 26, bodyH: 15, bodyY: 8,
-        headShape: 'flat', headLen: 8,
-        tailType: 'fan', tailSize: 6,
-        topFin: 'tiny', topFinSize: 2,
-        bottomFin: 'long-anal',
-        spots: null, stripes: null, whiskers: true, spikes: false,
-        palette: 'catfish'
-    },
-
-    // Налим — длинный, с усами, коричневый
-    'Налим': {
-        bodyLen: 24, bodyH: 12, bodyY: 10,
-        headShape: 'round', headLen: 6,
-        tailType: 'fan', tailSize: 5,
-        topFin: 'small-back', topFinSize: 4,
-        bottomFin: 'long-anal',
-        spots: [[10,3],[14,5],[18,3],[12,7]], stripes: null, whiskers: true, spikes: false,
-        palette: 'burbot'
-    },
-
-    // Пиранья — низкое тело, зубы, красная
-    'Пиранья': {
-        bodyLen: 18, bodyH: 14, bodyY: 9,
-        headShape: 'blunt', headLen: 5,
-        tailType: 'fork', tailSize: 5,
-        topFin: 'medium', topFinSize: 4,
-        bottomFin: 'medium',
-        spots: null, stripes: null, whiskers: false, spikes: false, teeth: true,
-        palette: 'piranha'
-    },
-
-    // Змееголов — очень длинный, змеиная голова
-    'Змееголов': {
-        bodyLen: 28, bodyH: 9, bodyY: 11,
-        headShape: 'snake', headLen: 7,
-        tailType: 'fan', tailSize: 6,
-        topFin: 'long-back', topFinSize: 12,
-        bottomFin: 'long-anal',
-        spots: null,
-        stripes: [[10,0],[15,0],[20,0]], whiskers: false, spikes: false,
-        palette: 'snakehead'
-    },
-
-    // === КАРПОВЫЕ ===
-
-    // Карп — высокий, золотистый, крупная чешуя
-    'Карп': {
-        bodyLen: 20, bodyH: 16, bodyY: 8,
-        headShape: 'round', headLen: 5,
-        tailType: 'fork', tailSize: 5,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'medium',
-        spots: null, stripes: null, whiskers: true, spikes: false,
-        palette: 'carp', bigScales: true
-    },
-
-    // Сазан — длинный карп с усами
-    'Сазан': {
-        bodyLen: 22, bodyH: 14, bodyY: 9,
-        headShape: 'round', headLen: 6,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'medium',
-        spots: null, stripes: null, whiskers: true, spikes: false,
-        palette: 'carp_big'
-    },
-
-    // Карась — очень высокий, золотой
-    'Карась': {
-        bodyLen: 16, bodyH: 17, bodyY: 7,
-        headShape: 'round', headLen: 4,
-        tailType: 'fork', tailSize: 5,
-        topFin: 'long-back', topFinSize: 8,
-        bottomFin: 'medium',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'crucian'
-    },
-
-    // Лещ — высокий, серебристый, сжатый с боков
-    'Лещ': {
-        bodyLen: 18, bodyH: 18, bodyY: 7,
-        headShape: 'small', headLen: 4,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'small-back', topFinSize: 4,
-        bottomFin: 'long-anal',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'bream'
-    },
-
-    // Толстолобик — высокий, серебристый, крупная голова
-    'Толстолобик': {
-        bodyLen: 20, bodyH: 15, bodyY: 8,
-        headShape: 'big-head', headLen: 8,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'small-back', topFinSize: 4,
-        bottomFin: 'long-anal',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'silvercarp'
-    },
-
-    // Белый амур — длинный, серебристый
-    'Белый амур': {
-        bodyLen: 24, bodyH: 13, bodyY: 9,
-        headShape: 'pointed', headLen: 5,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'medium',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'silvercarp'
-    },
-
-    // Линь — высокий, зеленовато-золотистый
-    'Линь': {
-        bodyLen: 19, bodyH: 14, bodyY: 9,
-        headShape: 'small', headLen: 5,
-        tailType: 'round', tailSize: 5,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'medium',
-        spots: null, stripes: null, whiskers: true, spikes: false,
-        palette: 'tench', slime: true
-    },
-
-    // Язь — золотистый, средний
-    'Язь': {
-        bodyLen: 20, bodyH: 13, bodyY: 9,
-        headShape: 'round', headLen: 5,
-        tailType: 'fork', tailSize: 5,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'medium',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'ide'
-    },
-
-    // === ЛОСОСЁВЫЕ ===
-
-    // Форель — с красными точками
-    'Форель': {
-        bodyLen: 20, bodyH: 13, bodyY: 9,
-        headShape: 'pointed', headLen: 5,
-        tailType: 'fan', tailSize: 6,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'small-adipose',
-        spots: [[7,3],[11,5],[15,3],[9,6],[13,7],[17,5]],
-        stripes: null, whiskers: false, spikes: false,
-        palette: 'trout'
-    },
-
-    // Лосось — розовый, с горбом
-    'Лосось': {
-        bodyLen: 22, bodyH: 14, bodyY: 8,
-        headShape: 'pointed', headLen: 6,
-        tailType: 'fork', tailSize: 7,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'small-adipose',
-        spots: [[8,4],[12,6],[16,4]], stripes: null, whiskers: false, spikes: false,
-        palette: 'salmon', hump: true
-    },
-
-    // Голец — серый с красными точками
-    'Голец': {
-        bodyLen: 22, bodyH: 12, bodyY: 10,
-        headShape: 'pointed', headLen: 5,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'small-adipose',
-        spots: [[8,3],[12,5],[16,3],[10,7],[14,4]],
-        stripes: null, whiskers: false, spikes: false,
-        palette: 'char'
-    },
-
-    // Сиг — серебристый, средний
-    'Сиг': {
-        bodyLen: 22, bodyH: 12, bodyY: 10,
-        headShape: 'small', headLen: 4,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'small-adipose',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'whitefish'
-    },
-
-    // Хариус — большой спинной плавник
-    'Хариус': {
-        bodyLen: 20, bodyH: 13, bodyY: 9,
-        headShape: 'pointed', headLen: 5,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'sail', topFinSize: 12,
-        bottomFin: 'small-adipose',
-        spots: [[9,4],[13,6],[17,4]], stripes: null, whiskers: false, spikes: false,
-        palette: 'grayling'
-    },
-
-    // === МЕЛКИЕ ===
-
-    // Уклейка — очень мелкая, серебристая
-    'Уклейка': {
-        bodyLen: 16, bodyH: 8, bodyY: 12,
-        headShape: 'pointed', headLen: 4,
-        tailType: 'fork', tailSize: 5,
-        topFin: 'small', topFinSize: 3,
-        bottomFin: 'small',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'bleak'
-    },
-
-    // Плотва — маленькая, красный глаз
-    'Плотва': {
-        bodyLen: 18, bodyH: 11, bodyY: 10,
-        headShape: 'round', headLen: 4,
-        tailType: 'fork', tailSize: 5,
-        topFin: 'small', topFinSize: 4,
-        bottomFin: 'small',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'roach'
-    },
-
-    // Голавль — серебристый, средний
-    'Голавль': {
-        bodyLen: 20, bodyH: 12, bodyY: 10,
-        headShape: 'big-head', headLen: 7,
-        tailType: 'fork', tailSize: 6,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'medium',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'chub'
-    },
-
-    // Краснопёрка — красные плавники
-    'Краснопёрка': {
-        bodyLen: 18, bodyH: 12, bodyY: 10,
-        headShape: 'round', headLen: 4,
-        tailType: 'fork', tailSize: 5,
-        topFin: 'small', topFinSize: 4,
-        bottomFin: 'red-fins',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'rudd'
-    },
-
-    // Чоп — мелкий, длинный
-    'Чоп': {
-        bodyLen: 22, bodyH: 10, bodyY: 11,
-        headShape: 'pointed', headLen: 5,
-        tailType: 'fork', tailSize: 5,
-        topFin: 'medium', topFinSize: 5,
-        bottomFin: 'medium',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'sabrefish'
-    },
-
-    // Пескарь — маленький, с усами
-    'Пескарь': {
-        bodyLen: 16, bodyH: 9, bodyY: 11,
-        headShape: 'round', headLen: 4,
-        tailType: 'fork', tailSize: 4,
-        topFin: 'small', topFinSize: 3,
-        bottomFin: 'small',
-        spots: [[7,3],[10,5],[13,3]], stripes: null, whiskers: true, spikes: false,
-        palette: 'gudgeon'
-    },
-
-    // === ЭКЗОТИКА ===
-
-    // Осётр — с шипами, вытянутый нос
-    'Осётр': {
-        bodyLen: 26, bodyH: 11, bodyY: 10,
-        headShape: 'long-snout', headLen: 9,
-        tailType: 'asymmetric-fork', tailSize: 7,
-        topFin: 'small-back', topFinSize: 4,
-        bottomFin: 'small',
-        spots: null, stripes: null, whiskers: true, spikes: true, scutes: true,
-        palette: 'sturgeon'
-    },
-
-    // Угорь — змеевидный
-    'Угорь': {
-        bodyLen: 28, bodyH: 7, bodyY: 12,
-        headShape: 'small', headLen: 4,
-        tailType: 'long', tailSize: 6,
-        topFin: 'long-back-merged', topFinSize: 14,
-        bottomFin: 'long-anal-merged',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'eel', snakeLike: true
-    },
-
-    // Минога — червеобразная, без челюсти
-    'Минога': {
-        bodyLen: 28, bodyH: 6, bodyY: 13,
-        headShape: 'trumpet', headLen: 3,
-        tailType: 'leaf', tailSize: 5,
-        topFin: 'dorsal-long', topFinSize: 10,
-        bottomFin: 'none',
-        spots: null, stripes: null, whiskers: false, spikes: false,
-        palette: 'lamprey', snakeLike: true
-    }
+    'Щука':       { bodyLen: 26, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 7, tailType: 'fork', tailSize: 6, topFin: 'small-back', topFinSize: 4, bottomFin: 'small', spots: [[10,2],[15,4],[19,3],[12,5],[17,2]], stripes: null, whiskers: false, spikes: false, palette: 'pike' },
+    'Судак':      { bodyLen: 24, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 6, tailType: 'fork', tailSize: 6, topFin: 'spiky', topFinSize: 6, bottomFin: 'small', spots: null, stripes: [[8,2],[12,2],[16,2],[20,2]], whiskers: false, spikes: false, palette: 'zander' },
+    'Окунь':      { bodyLen: 18, bodyH: 14, bodyY: 9, headShape: 'round', headLen: 5, tailType: 'fork', tailSize: 5, topFin: 'high-spiky', topFinSize: 8, bottomFin: 'medium', spots: null, stripes: [[7,0],[10,0],[13,0],[16,0],[19,0]], whiskers: false, spikes: true, palette: 'perch' },
+    'Ёрш':        { bodyLen: 18, bodyH: 12, bodyY: 10, headShape: 'round', headLen: 5, tailType: 'fan', tailSize: 5, topFin: 'very-spiky', topFinSize: 7, bottomFin: 'small', spots: [[8,3],[12,5],[15,3]], stripes: null, whiskers: false, spikes: true, palette: 'ruffe' },
+    'Сом':        { bodyLen: 26, bodyH: 15, bodyY: 8, headShape: 'flat', headLen: 8, tailType: 'fan', tailSize: 6, topFin: 'tiny', topFinSize: 2, bottomFin: 'long-anal', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'catfish' },
+    'Налим':      { bodyLen: 24, bodyH: 12, bodyY: 10, headShape: 'round', headLen: 6, tailType: 'fan', tailSize: 5, topFin: 'small-back', topFinSize: 4, bottomFin: 'long-anal', spots: [[10,3],[14,5],[18,3],[12,7]], stripes: null, whiskers: true, spikes: false, palette: 'burbot' },
+    'Пиранья':    { bodyLen: 18, bodyH: 14, bodyY: 9, headShape: 'blunt', headLen: 5, tailType: 'fork', tailSize: 5, topFin: 'medium', topFinSize: 4, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, teeth: true, palette: 'piranha' },
+    'Змееголов':  { bodyLen: 28, bodyH: 9, bodyY: 11, headShape: 'snake', headLen: 7, tailType: 'fan', tailSize: 6, topFin: 'long-back', topFinSize: 12, bottomFin: 'long-anal', spots: null, stripes: [[10,0],[15,0],[20,0]], whiskers: false, spikes: false, palette: 'snakehead' },
+    'Карп':       { bodyLen: 20, bodyH: 16, bodyY: 8, headShape: 'round', headLen: 5, tailType: 'fork', tailSize: 5, topFin: 'medium', topFinSize: 5, bottomFin: 'medium', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'carp', bigScales: true },
+    'Сазан':      { bodyLen: 22, bodyH: 14, bodyY: 9, headShape: 'round', headLen: 6, tailType: 'fork', tailSize: 6, topFin: 'medium', topFinSize: 5, bottomFin: 'medium', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'carp_big' },
+    'Карась':     { bodyLen: 16, bodyH: 17, bodyY: 7, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 5, topFin: 'long-back', topFinSize: 8, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'crucian' },
+    'Лещ':        { bodyLen: 18, bodyH: 18, bodyY: 7, headShape: 'small', headLen: 4, tailType: 'fork', tailSize: 6, topFin: 'small-back', topFinSize: 4, bottomFin: 'long-anal', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'bream' },
+    'Толстолобик':{ bodyLen: 20, bodyH: 15, bodyY: 8, headShape: 'big-head', headLen: 8, tailType: 'fork', tailSize: 6, topFin: 'small-back', topFinSize: 4, bottomFin: 'long-anal', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'silvercarp' },
+    'Белый амур': { bodyLen: 24, bodyH: 13, bodyY: 9, headShape: 'pointed', headLen: 5, tailType: 'fork', tailSize: 6, topFin: 'medium', topFinSize: 5, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'silvercarp' },
+    'Линь':       { bodyLen: 19, bodyH: 14, bodyY: 9, headShape: 'small', headLen: 5, tailType: 'round', tailSize: 5, topFin: 'medium', topFinSize: 5, bottomFin: 'medium', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'tench', slime: true },
+    'Язь':        { bodyLen: 20, bodyH: 13, bodyY: 9, headShape: 'round', headLen: 5, tailType: 'fork', tailSize: 5, topFin: 'medium', topFinSize: 5, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'ide' },
+    'Форель':     { bodyLen: 20, bodyH: 13, bodyY: 9, headShape: 'pointed', headLen: 5, tailType: 'fan', tailSize: 6, topFin: 'medium', topFinSize: 5, bottomFin: 'small-adipose', spots: [[7,3],[11,5],[15,3],[9,6],[13,7],[17,5]], stripes: null, whiskers: false, spikes: false, palette: 'trout' },
+    'Лосось':     { bodyLen: 22, bodyH: 14, bodyY: 8, headShape: 'pointed', headLen: 6, tailType: 'fork', tailSize: 7, topFin: 'medium', topFinSize: 5, bottomFin: 'small-adipose', spots: [[8,4],[12,6],[16,4]], stripes: null, whiskers: false, spikes: false, palette: 'salmon', hump: true },
+    'Голец':      { bodyLen: 22, bodyH: 12, bodyY: 10, headShape: 'pointed', headLen: 5, tailType: 'fork', tailSize: 6, topFin: 'medium', topFinSize: 5, bottomFin: 'small-adipose', spots: [[8,3],[12,5],[16,3],[10,7],[14,4]], stripes: null, whiskers: false, spikes: false, palette: 'char' },
+    'Сиг':        { bodyLen: 22, bodyH: 12, bodyY: 10, headShape: 'small', headLen: 4, tailType: 'fork', tailSize: 6, topFin: 'medium', topFinSize: 5, bottomFin: 'small-adipose', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'whitefish' },
+    'Хариус':     { bodyLen: 20, bodyH: 13, bodyY: 9, headShape: 'pointed', headLen: 5, tailType: 'fork', tailSize: 6, topFin: 'sail', topFinSize: 12, bottomFin: 'small-adipose', spots: [[9,4],[13,6],[17,4]], stripes: null, whiskers: false, spikes: false, palette: 'grayling' },
+    'Уклейка':    { bodyLen: 16, bodyH: 8, bodyY: 12, headShape: 'pointed', headLen: 4, tailType: 'fork', tailSize: 5, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'bleak' },
+    'Плотва':     { bodyLen: 18, bodyH: 11, bodyY: 10, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 5, topFin: 'small', topFinSize: 4, bottomFin: 'small', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'roach' },
+    'Голавль':    { bodyLen: 20, bodyH: 12, bodyY: 10, headShape: 'big-head', headLen: 7, tailType: 'fork', tailSize: 6, topFin: 'medium', topFinSize: 5, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'chub' },
+    'Краснопёрка':{ bodyLen: 18, bodyH: 12, bodyY: 10, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 5, topFin: 'small', topFinSize: 4, bottomFin: 'red-fins', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'rudd' },
+    'Чоп':        { bodyLen: 22, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 5, tailType: 'fork', tailSize: 5, topFin: 'medium', topFinSize: 5, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'sabrefish' },
+    'Пескарь':    { bodyLen: 16, bodyH: 9, bodyY: 11, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 4, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: [[7,3],[10,5],[13,3]], stripes: null, whiskers: true, spikes: false, palette: 'gudgeon' },
+    'Осётр':      { bodyLen: 26, bodyH: 11, bodyY: 10, headShape: 'long-snout', headLen: 9, tailType: 'asymmetric-fork', tailSize: 7, topFin: 'small-back', topFinSize: 4, bottomFin: 'small', spots: null, stripes: null, whiskers: true, spikes: true, scutes: true, palette: 'sturgeon' },
+    'Угорь':      { bodyLen: 28, bodyH: 7, bodyY: 12, headShape: 'small', headLen: 4, tailType: 'long', tailSize: 6, topFin: 'long-back-merged', topFinSize: 14, bottomFin: 'long-anal-merged', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'eel', snakeLike: true },
+    'Минога':     { bodyLen: 28, bodyH: 6, bodyY: 13, headShape: 'trumpet', headLen: 3, tailType: 'leaf', tailSize: 5, topFin: 'dorsal-long', topFinSize: 10, bottomFin: 'none', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'lamprey', snakeLike: true }
 };
 
 // ========================================================
-// ДВИЖОК ОТРИСОВКИ РЫБ
+// ДВИЖОК ОТРИСОВКИ
 // ========================================================
 
 function makeFishSVG(paletteKey, form, scale) {
@@ -1421,28 +912,20 @@ function makeFishSVG(paletteKey, form, scale) {
     const x1 = headX, x2 = headX + bodyLen;
     let s = '';
 
-    // === ТЕЛО ===
-    if (f.snakeLike) {
-        // Змеевидное тело (угорь, минога)
-        s += `<rect x="${x1}" y="${bodyY+2}" width="${bodyLen}" height="${bodyH-4}" fill="${p.main}"/>`;
-        s += `<rect x="${x1+1}" y="${bodyY+1}" width="${bodyLen-2}" height="${bodyH-2}" fill="${p.main}"/>`;
-        s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="${bodyH}" fill="${p.main}"/>`;
-    } else {
-        // Обычное тело
-        s += `<rect x="${x1}" y="${bodyY+2}" width="${bodyLen}" height="${bodyH-4}" fill="${p.main}"/>`;
-        s += `<rect x="${x1+1}" y="${bodyY+1}" width="${bodyLen-2}" height="${bodyH-2}" fill="${p.main}"/>`;
-        s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="${bodyH}" fill="${p.main}"/>`;
-    }
+    // Тело
+    s += `<rect x="${x1}" y="${bodyY+2}" width="${bodyLen}" height="${bodyH-4}" fill="${p.main}"/>`;
+    s += `<rect x="${x1+1}" y="${bodyY+1}" width="${bodyLen-2}" height="${bodyH-2}" fill="${p.main}"/>`;
+    s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="${bodyH}" fill="${p.main}"/>`;
 
-    // === БРЮХО (светлое снизу) ===
+    // Брюхо
     const bellyH = Math.max(2, Math.floor(bodyH * 0.25));
     s += `<rect x="${x1+2}" y="${bodyY+bodyH-bellyH}" width="${bodyLen-4}" height="${bellyH}" fill="${p.belly}" opacity="0.9"/>`;
 
-    // === ВЕРХНЯЯ ТЁМНАЯ ПОЛОСА ===
+    // Верхняя тёмная полоса
     s += `<rect x="${x1+2}" y="${bodyY}" width="${bodyLen-4}" height="1" fill="${p.dark}"/>`;
     s += `<rect x="${x1+3}" y="${bodyY+1}" width="${bodyLen-6}" height="1" fill="${p.dark}" opacity="0.6"/>`;
 
-    // === ЧЕШУЯ ===
+    // Чешуя
     if (f.bigScales) {
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 3; j++) {
@@ -1465,7 +948,7 @@ function makeFishSVG(paletteKey, form, scale) {
         }
     }
 
-    // === ПОЛОСЫ (окуневидные) ===
+    // Полосы
     if (f.stripes) {
         for (const [sx, syOff] of f.stripes) {
             const sxAbs = x1 + sx;
@@ -1475,7 +958,7 @@ function makeFishSVG(paletteKey, form, scale) {
         }
     }
 
-    // === ПЯТНА ===
+    // Пятна
     if (f.spots) {
         for (const [sx, sy] of f.spots) {
             const sxAbs = x1 + sx;
@@ -1487,69 +970,55 @@ function makeFishSVG(paletteKey, form, scale) {
         }
     }
 
-    // === ГОЛОВА ===
+    // Голова
     const headLen = f.headLen || 5;
-
-    // Форма головы
     if (f.headShape === 'pointed') {
-        // Заострённая голова (щука)
         s += `<rect x="${x1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.main}"/>`;
         s += `<rect x="${x1+1}" y="${bodyY+2}" width="1" height="${bodyH-4}" fill="${p.main}"/>`;
     } else if (f.headShape === 'snake') {
-        // Змеиная голова
         s += `<rect x="${x1-1}" y="${bodyY+3}" width="3" height="${bodyH-6}" fill="${p.main}"/>`;
         s += `<rect x="${x1}" y="${bodyY+2}" width="2" height="${bodyH-4}" fill="${p.main}"/>`;
     } else if (f.headShape === 'flat') {
-        // Плоская голова (сом)
         s += `<rect x="${x1-1}" y="${bodyY+4}" width="3" height="${bodyH-8}" fill="${p.main}"/>`;
         s += `<rect x="${x1}" y="${bodyY+2}" width="2" height="${bodyH-4}" fill="${p.main}"/>`;
     } else if (f.headShape === 'long-snout') {
-        // Длинный нос (осётр)
         s += `<rect x="${x1-3}" y="${cy-1}" width="4" height="2" fill="${p.main}"/>`;
         s += `<rect x="${x1-3}" y="${cy-2}" width="3" height="1" fill="${p.dark}"/>`;
     } else if (f.headShape === 'trumpet') {
-        // Раструб (минога)
         s += `<rect x="${x1-3}" y="${cy-2}" width="3" height="4" fill="${p.dark}"/>`;
         s += `<rect x="${x1-3}" y="${cy-1}" width="2" height="2" fill="${p.spot}"/>`;
     } else if (f.headShape === 'big-head') {
-        // Большая голова (толстолобик)
         s += `<rect x="${x1-1}" y="${bodyY+2}" width="3" height="${bodyH-4}" fill="${p.main}"/>`;
     } else if (f.headShape === 'blunt') {
-        // Тупая голова (пиранья)
         s += `<rect x="${x1}" y="${bodyY+2}" width="3" height="${bodyH-4}" fill="${p.main}"/>`;
     } else if (f.headShape === 'small') {
-        // Маленькая голова
         s += `<rect x="${x1}" y="${bodyY+3}" width="2" height="${bodyH-6}" fill="${p.main}"/>`;
     }
-    // 'round' — оставляем как есть (стандартная скруглённая)
 
-    // Затемнение у рта
     s += `<rect x="${x1}" y="${bodyY+3}" width="1" height="${bodyH-6}" fill="${p.dark}" opacity="0.4"/>`;
 
-    // === ЖАБРЫ ===
+    // Жабры
     const gillX = x1 + headLen;
     s += `<rect x="${gillX}" y="${bodyY+2}" width="1" height="2" fill="${p.gill}" opacity="0.8"/>`;
     s += `<rect x="${gillX+1}" y="${bodyY+3}" width="1" height="${bodyH-6}" fill="${p.gill}" opacity="0.8"/>`;
     s += `<rect x="${gillX}" y="${bodyY+bodyH-4}" width="1" height="2" fill="${p.gill}" opacity="0.8"/>`;
 
-    // === ГЛАЗ ===
+    // Глаз
     const eyeX = x1 + 2;
     const eyeY = bodyY + Math.floor(bodyH / 3);
     s += `<rect x="${eyeX}" y="${eyeY}" width="3" height="3" fill="${p.eye}"/>`;
     s += `<rect x="${eyeX+1}" y="${eyeY+1}" width="2" height="2" fill="${p.pupil}"/>`;
-    // Блик в глазу
     s += `<rect x="${eyeX}" y="${eyeY}" width="1" height="1" fill="#ffffff" opacity="0.8"/>`;
 
-    // === РОТ ===
+    // Рот
     s += `<rect x="${x1-1}" y="${cy}" width="2" height="1" fill="${p.dark}"/>`;
 
-    // Зубы (пиранья)
     if (f.teeth) {
         s += `<rect x="${x1}" y="${cy+1}" width="1" height="1" fill="#ffffff"/>`;
         s += `<rect x="${x1+1}" y="${cy+1}" width="1" height="1" fill="#ffffff"/>`;
     }
 
-    // === УСЫ ===
+    // Усы
     if (f.whiskers) {
         s += `<rect x="${x1-2}" y="${cy-2}" width="2" height="1" fill="${p.dark}"/>`;
         s += `<rect x="${x1-3}" y="${cy-3}" width="1" height="1" fill="${p.dark}"/>`;
@@ -1557,64 +1026,56 @@ function makeFishSVG(paletteKey, form, scale) {
         s += `<rect x="${x1-3}" y="${cy+3}" width="1" height="1" fill="${p.dark}"/>`;
     }
 
-    // === ВЕРХНИЙ ПЛАВНИК ===
+    // Верхний плавник
     const topFinSize = f.topFinSize || 4;
     const topFinType = f.topFin || 'medium';
     const finStart = x1 + headLen + 2;
 
     if (topFinType === 'high-spiky') {
-        // Высокий колючий (окунь)
         for (let i = 0; i < topFinSize; i++) {
             const fx = finStart + i;
             const fh = 3 + (i % 2 === 0 ? 2 : 0);
             s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
         }
     } else if (topFinType === 'very-spiky') {
-        // Очень колючий (ёрш)
         for (let i = 0; i < topFinSize; i++) {
             const fx = finStart + i;
             const fh = 2 + (i % 2 === 0 ? 3 : 1);
             s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
         }
     } else if (topFinType === 'sail') {
-        // Парус (хариус)
         for (let i = 0; i < topFinSize; i++) {
             const fx = finStart + i;
             const fh = Math.min(topFinSize - i, 8);
             if (fh > 0) s += `<rect x="${fx}" y="${bodyY-fh}" width="1" height="${fh}" fill="${p.fin}"/>`;
         }
     } else if (topFinType === 'spiky') {
-        // Острые (судак)
         s += `<rect x="${finStart}" y="${bodyY-3}" width="1" height="3" fill="${p.fin}"/>`;
         s += `<rect x="${finStart+1}" y="${bodyY-4}" width="1" height="4" fill="${p.fin}"/>`;
         s += `<rect x="${finStart+2}" y="${bodyY-4}" width="1" height="4" fill="${p.fin}"/>`;
         s += `<rect x="${finStart+3}" y="${bodyY-3}" width="1" height="3" fill="${p.fin}"/>`;
         s += `<rect x="${finStart+4}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
     } else if (topFinType === 'long-back' || topFinType === 'long-back-merged') {
-        // Длинный по спине
         for (let i = 0; i < topFinSize; i++) {
             const fx = finStart + i;
             s += `<rect x="${fx}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
         }
     } else if (topFinType === 'small-back') {
-        // Маленький сзади
         s += `<rect x="${finStart+2}" y="${bodyY-2}" width="3" height="2" fill="${p.fin}"/>`;
     } else if (topFinType === 'dorsal-long') {
-        // Длинный спинной (минога)
         s += `<rect x="${finStart}" y="${bodyY-2}" width="${topFinSize}" height="2" fill="${p.fin}"/>`;
     } else if (topFinType === 'tiny') {
         s += `<rect x="${finStart}" y="${bodyY-2}" width="1" height="2" fill="${p.fin}"/>`;
     } else if (topFinType === 'small') {
         s += `<rect x="${finStart+1}" y="${bodyY-2}" width="2" height="2" fill="${p.fin}"/>`;
     } else {
-        // medium
         s += `<rect x="${finStart}" y="${bodyY-3}" width="1" height="3" fill="${p.fin}"/>`;
         s += `<rect x="${finStart+1}" y="${bodyY-4}" width="4" height="4" fill="${p.fin}"/>`;
         s += `<rect x="${finStart+5}" y="${bodyY-3}" width="2" height="3" fill="${p.fin}"/>`;
         s += `<rect x="${finStart+1}" y="${bodyY-4}" width="3" height="1" fill="${p.light}" opacity="0.6"/>`;
     }
 
-    // === БОКОВОЙ / БРЮШНОЙ ПЛАВНИК ===
+    // Брюшной плавник
     const bottomFinStart = x1 + headLen + 2;
     if (f.bottomFin === 'long-anal' || f.bottomFin === 'long-anal-merged') {
         for (let i = 0; i < 8; i++) {
@@ -1633,52 +1094,46 @@ function makeFishSVG(paletteKey, form, scale) {
         s += `<rect x="${bottomFinStart+1}" y="${bodyY+bodyH}" width="3" height="2" fill="${p.fin}"/>`;
     }
 
-    // === БОКОВОЙ ПЛАВНИК (грудной) ===
+    // Грудной плавник
     s += `<rect x="${x1+headLen+1}" y="${cy+1}" width="3" height="3" fill="${p.fin}" opacity="0.85"/>`;
     s += `<rect x="${x1+headLen+4}" y="${cy+2}" width="2" height="2" fill="${p.fin}" opacity="0.7"/>`;
 
-    // === ХВОСТ === (плавные формы через path)
-const tailX = x2;
-const tailSize = f.tailSize || 6;
-const midY = cy; // ← ЭТА СТРОКА БЫЛА ПРОПУЩЕНА
+    // === ХВОСТ ===
+    const tailX = x2;
+    const tailSize = f.tailSize || 6;
+    const midY = cy;
 
-if (f.tailType === 'fork') {
-    // Плавная вилка — две дуги
-    s += `<path d="M ${tailX} ${midY-1} L ${tailX+2} ${midY-1} L ${tailX+tailSize} ${midY-tailSize-1} Q ${tailX+tailSize+1} ${midY-tailSize-2} ${tailX+tailSize-1} ${midY-tailSize-3} L ${tailX+2} ${midY-1} Z" fill="${p.fin}"/>`;
-    s += `<path d="M ${tailX} ${midY+1} L ${tailX+2} ${midY+1} L ${tailX+tailSize} ${midY+tailSize+1} Q ${tailX+tailSize+1} ${midY+tailSize+2} ${tailX+tailSize-1} ${midY+tailSize+3} L ${tailX+2} ${midY+1} Z" fill="${p.fin}"/>`;
-    s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
-    s += `<rect x="${tailX+3}" y="${midY-2}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
-    s += `<rect x="${tailX+3}" y="${midY+1}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
-} else if (f.tailType === 'fan') {
-    // Плавный веер — полукруг
-    s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
-    s += `<path d="M ${tailX+2} ${midY-5} Q ${tailX+tailSize-1} ${midY-tailSize-3} ${tailX+tailSize+1} ${midY} Q ${tailX+tailSize-1} ${midY+tailSize+3} ${tailX+2} ${midY+5} Z" fill="${p.fin}"/>`;
-    for (let i = -2; i <= 2; i++) {
-        s += `<rect x="${tailX+4+i}" y="${midY + i*3 - 1}" width="1" height="2" fill="${p.dark}" opacity="0.5"/>`;
+    if (f.tailType === 'fork') {
+        s += `<path d="M ${tailX} ${midY-1} L ${tailX+2} ${midY-1} L ${tailX+tailSize} ${midY-tailSize-1} Q ${tailX+tailSize+1} ${midY-tailSize-2} ${tailX+tailSize-1} ${midY-tailSize-3} L ${tailX+2} ${midY-1} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${tailX} ${midY+1} L ${tailX+2} ${midY+1} L ${tailX+tailSize} ${midY+tailSize+1} Q ${tailX+tailSize+1} ${midY+tailSize+2} ${tailX+tailSize-1} ${midY+tailSize+3} L ${tailX+2} ${midY+1} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
+        s += `<rect x="${tailX+3}" y="${midY-2}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
+        s += `<rect x="${tailX+3}" y="${midY+1}" width="1" height="1" fill="${p.light}" opacity="0.5"/>`;
+    } else if (f.tailType === 'fan') {
+        s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+2} ${midY-5} Q ${tailX+tailSize-1} ${midY-tailSize-3} ${tailX+tailSize+1} ${midY} Q ${tailX+tailSize-1} ${midY+tailSize+3} ${tailX+2} ${midY+5} Z" fill="${p.fin}"/>`;
+        for (let i = -2; i <= 2; i++) {
+            s += `<rect x="${tailX+4+i}" y="${midY + i*3 - 1}" width="1" height="2" fill="${p.dark}" opacity="0.5"/>`;
+        }
+    } else if (f.tailType === 'long') {
+        s += `<rect x="${tailX}" y="${midY-1}" width="5" height="3" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+4} ${midY-2} Q ${tailX+9} ${midY-4} ${tailX+11} ${midY-1} Q ${tailX+11} ${midY+1} ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+9}" y="${midY-3}" width="2" height="6" fill="${p.dark}" opacity="0.5"/>`;
+    } else if (f.tailType === 'round') {
+        s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
+        s += `<ellipse cx="${tailX+4}" cy="${midY}" rx="3" ry="4" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+3}" y="${midY-4}" width="1" height="8" fill="${p.dark}" opacity="0.4"/>`;
+    } else if (f.tailType === 'asymmetric-fork') {
+        s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+3} ${midY-1} L ${tailX+7} ${midY-7} Q ${tailX+8} ${midY-7} ${tailX+8} ${midY-5} L ${tailX+4} ${midY-1} Z" fill="${p.fin}"/>`;
+        s += `<path d="M ${tailX+3} ${midY+1} L ${tailX+6} ${midY+4} Q ${tailX+7} ${midY+4} ${tailX+7} ${midY+3} L ${tailX+4} ${midY+1} Z" fill="${p.fin}"/>`;
+    } else if (f.tailType === 'leaf') {
+        s += `<rect x="${tailX}" y="${midY-1}" width="2" height="2" fill="${p.main}"/>`;
+        s += `<path d="M ${tailX+2} ${midY} Q ${tailX+5} ${midY-5} ${tailX+9} ${midY} Q ${tailX+5} ${midY+5} ${tailX+2} ${midY} Z" fill="${p.fin}"/>`;
+        s += `<rect x="${tailX+5}" y="${midY-2}" width="1" height="4" fill="${p.dark}" opacity="0.4"/>`;
     }
-} else if (f.tailType === 'long') {
-    // Длинный плавный
-    s += `<rect x="${tailX}" y="${midY-1}" width="5" height="3" fill="${p.main}"/>`;
-    s += `<path d="M ${tailX+4} ${midY-2} Q ${tailX+9} ${midY-4} ${tailX+11} ${midY-1} Q ${tailX+11} ${midY+1} ${tailX+4} ${midY+2} Z" fill="${p.fin}"/>`;
-    s += `<rect x="${tailX+9}" y="${midY-3}" width="2" height="6" fill="${p.dark}" opacity="0.5"/>`;
-} else if (f.tailType === 'round') {
-    // Круглый (линь)
-    s += `<rect x="${tailX}" y="${midY-2}" width="2" height="4" fill="${p.main}"/>`;
-    s += `<ellipse cx="${tailX+4}" cy="${midY}" rx="3" ry="4" fill="${p.fin}"/>`;
-    s += `<rect x="${tailX+3}" y="${midY-4}" width="1" height="8" fill="${p.dark}" opacity="0.4"/>`;
-} else if (f.tailType === 'asymmetric-fork') {
-    // Асимметричный (осётр) — верхняя лопасть длиннее
-    s += `<rect x="${tailX}" y="${midY-1}" width="3" height="2" fill="${p.main}"/>`;
-    s += `<path d="M ${tailX+3} ${midY-1} L ${tailX+7} ${midY-7} Q ${tailX+8} ${midY-7} ${tailX+8} ${midY-5} L ${tailX+4} ${midY-1} Z" fill="${p.fin}"/>`;
-    s += `<path d="M ${tailX+3} ${midY+1} L ${tailX+6} ${midY+4} Q ${tailX+7} ${midY+4} ${tailX+7} ${midY+3} L ${tailX+4} ${midY+1} Z" fill="${p.fin}"/>`;
-} else if (f.tailType === 'leaf') {
-    // Листовидный (минога)
-    s += `<rect x="${tailX}" y="${midY-1}" width="2" height="2" fill="${p.main}"/>`;
-    s += `<path d="M ${tailX+2} ${midY} Q ${tailX+5} ${midY-5} ${tailX+9} ${midY} Q ${tailX+5} ${midY+5} ${tailX+2} ${midY} Z" fill="${p.fin}"/>`;
-    s += `<rect x="${tailX+5}" y="${midY-2}" width="1" height="4" fill="${p.dark}" opacity="0.4"/>`;
-}
 
-    // === ШИПЫ НА СПИНЕ ===
+    // Шипы
     if (f.spikes) {
         for (let i = 0; i < 4; i++) {
             const sx = x1 + headLen + 1 + i * 3;
@@ -1686,7 +1141,7 @@ if (f.tailType === 'fork') {
         }
     }
 
-    // === КОСТНЫЕ ПЛАСТИНЫ (осётр) ===
+    // Костные пластины
     if (f.scutes) {
         for (let i = 0; i < 5; i++) {
             const sx = x1 + headLen + 3 + i * 4;
@@ -1695,13 +1150,13 @@ if (f.tailType === 'fork') {
         }
     }
 
-    // === ГОРБ (лосось) ===
+    // Горб
     if (f.hump) {
         s += `<rect x="${x1+8}" y="${bodyY-2}" width="6" height="2" fill="${p.main}"/>`;
         s += `<rect x="${x1+9}" y="${bodyY-3}" width="4" height="1" fill="${p.main}"/>`;
     }
 
-    // === СЛИЗЬ (линь) ===
+    // Слизь
     if (f.slime) {
         for (let i = 0; i < 6; i++) {
             const sx = x1 + 5 + i * 3;
@@ -1716,7 +1171,7 @@ if (f.tailType === 'fork') {
 }
 
 // ========================================================
-// ДАННЫЕ РЫБ: диапазон размеров, редкость
+// ДАННЫЕ
 // ========================================================
 
 const FISH_DATA = {
@@ -1769,14 +1224,13 @@ const ALL_FISH = [
 ];
 
 // ========================================================
-// ПОЛУЧЕНИЕ ИКОНКИ И ИНФОРМАЦИИ О РЫБЕ
+// ВСПОМОГАТЕЛЬНЫЕ
 // ========================================================
 
 function getFishForm(fishName) {
     const isUndead = fishName.toLowerCase().startsWith('нежить ');
     const baseName = isUndead ? fishName.substring(7).trim() : fishName;
 
-    // Ищем форму
     let form = null;
     for (const key in FISH_FORMS) {
         if (key.toLowerCase().replace('ё', 'е') === baseName.toLowerCase().replace('ё', 'е')) {
@@ -1784,7 +1238,6 @@ function getFishForm(fishName) {
             break;
         }
     }
-    // Fallback
     if (!form) form = FISH_FORMS['Плотва'];
 
     return { isUndead, baseName, form };
@@ -1816,8 +1269,17 @@ function getFishInfo(fishName) {
     };
 }
 
+function capitalizeName(name) {
+    if (!name) return '';
+    if (name.toLowerCase().startsWith('нежить ')) {
+        const base = name.substring(7);
+        return base.charAt(0).toUpperCase() + base.slice(1);
+    }
+    return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
 // ========================================================
-// ЗАГРУЗКА ДАННЫХ
+// ЗАГРУЗКА
 // ========================================================
 
 const DATA_URL = '/data.json';
@@ -1902,15 +1364,6 @@ function renderServerStats(stats) {
         </div>
     `;
     document.getElementById('serverStats').style.display = 'block';
-}
-
-function capitalizeName(name) {
-    if (!name) return '';
-    if (name.toLowerCase().startsWith('нежить ')) {
-        const base = name.substring(7);
-        return base.charAt(0).toUpperCase() + base.slice(1);
-    }
-    return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 function renderInventory(playerName, inventory) {
@@ -2001,16 +1454,16 @@ function renderInventory(playerName, inventory) {
                 <h3>🐟 Обычные рыбы</h3>
                 <div class="fish-grid">
                     ${regularFish.map(fish => {
-    const info = getFishInfo(fish.name);
-    return `
-        <div class="fish-item rarity-${info.rarity}" data-fish="${fish.name}">
-            <div class="fish-item-inner"></div>
-            <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
-            <span class="fish-name">${fish.displayName}</span>
-            <span class="fish-count">×${fish.count}</span>
-        </div>
-    `;
-}).join('')}
+                        const info = getFishInfo(fish.name);
+                        return `
+                            <div class="fish-item rarity-${info.rarity}" data-fish="${fish.name}">
+                                <div class="fish-item-inner"></div>
+                                <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
+                                <span class="fish-name">${fish.displayName}</span>
+                                <span class="fish-count">×${fish.count}</span>
+                            </div>
+                        `;
+                    }).join('')}
                 </div>
             </div>
         `;
@@ -2022,16 +1475,16 @@ function renderInventory(playerName, inventory) {
                 <h3>🧟 Нежить</h3>
                 <div class="fish-grid">
                     ${undeadFish.map(fish => {
-    const info = getFishInfo(fish.name);
-    return `
-        <div class="fish-item undead rarity-${info.rarity}" data-fish="${fish.name}">
-            <div class="fish-item-inner"></div>
-            <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
-            <span class="fish-name">${fish.displayName}</span>
-            <span class="fish-count">×${fish.count}</span>
-        </div>
-    `;
-}).join('')}
+                        const info = getFishInfo(fish.name);
+                        return `
+                            <div class="fish-item undead rarity-${info.rarity}" data-fish="${fish.name}">
+                                <div class="fish-item-inner"></div>
+                                <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
+                                <span class="fish-name">${fish.displayName}</span>
+                                <span class="fish-count">×${fish.count}</span>
+                            </div>
+                        `;
+                    }).join('')}
                 </div>
             </div>
         `;
@@ -2061,7 +1514,6 @@ function showFishModal(fishName, count) {
     const info = getFishInfo(fishName);
     const rarity = RARITY_INFO[info.rarity];
 
-    // Личный рекорд
     const recordKey = (playerName.toLowerCase() + '|' + fishName.toLowerCase());
     let recordHtml = '';
     if (window._personalRecords && window._personalRecords[recordKey]) {
@@ -2073,14 +1525,8 @@ function showFishModal(fishName, count) {
     const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
     const bigIcon = getFishIcon(fishName, 5);
 
-    // SVG-вензеля в углах
-    const cornerSVG = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <path d="M 3 3 Q 3 15 10 15 Q 18 15 18 8 Q 18 3 12 3 Q 8 3 8 7"/>
-        <path d="M 6 6 Q 6 12 12 12"/>
-        <circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/>
-    </svg>`;
+    const cornerSVG = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M 3 3 Q 3 15 10 15 Q 18 15 18 8 Q 18 3 12 3 Q 8 3 8 7"/><path d="M 6 6 Q 6 12 12 12"/><circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/></svg>`;
 
-    // === ЧАСТИЦЫ ДЛЯ ЛЕГЕНДАРНЫХ И ЭПИЧЕСКИХ ===
     let particlesHtml = '';
     if (info.rarity === 'legendary' || info.rarity === 'epic') {
         particlesHtml = '<div class="modal-particles">';
@@ -2101,18 +1547,13 @@ function showFishModal(fishName, count) {
         <div class="modal-corner tr">${cornerSVG}</div>
         <div class="modal-corner bl">${cornerSVG}</div>
         <div class="modal-corner br">${cornerSVG}</div>
-        
         ${particlesHtml}
-        
         <button class="modal-close" onclick="closeFishModal()">✕</button>
-        
         <div class="modal-fish-icon-wrap">
             <img src="${bigIcon}" alt="${info.baseName}" class="modal-fish-icon">
         </div>
-        
         <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
         <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label}</div>
-        
         <div class="modal-info-grid">
             <div class="modal-info-block">
                 <div class="info-label">Размер</div>
@@ -2123,57 +1564,11 @@ function showFishModal(fishName, count) {
                 ${recordHtml}
             </div>
         </div>
-        
         <div class="modal-count ${info.isUndead ? 'undead' : ''}">Поймано: <span>${count}</span> шт.</div>
     `;
 
     document.getElementById('fishModal').classList.add('show');
 }
-
-    const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
-    const bigIcon = getFishIcon(fishName, 5);
-
-    // SVG-вензеля в углах (стилизованные завитки)
-    const cornerSVG = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <path d="M 3 3 Q 3 15 10 15 Q 18 15 18 8 Q 18 3 12 3 Q 8 3 8 7"/>
-        <path d="M 6 6 Q 6 12 12 12"/>
-        <circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/>
-    </svg>`;
-
-    const modal = document.getElementById('fishModalContent');
-    modal.className = 'fish-modal rarity-' + info.rarity + (info.isUndead ? ' undead' : '');
-    modal.innerHTML = `
-        <div class="modal-corner tl">${cornerSVG}</div>
-        <div class="modal-corner tr">${cornerSVG}</div>
-        <div class="modal-corner bl">${cornerSVG}</div>
-        <div class="modal-corner br">${cornerSVG}</div>
-        
-        <button class="modal-close" onclick="closeFishModal()">✕</button>
-        
-        <div class="modal-fish-icon-wrap">
-            <img src="${bigIcon}" alt="${info.baseName}" class="modal-fish-icon">
-        </div>
-        
-        <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
-        <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label}</div>
-        
-        <div class="modal-info-grid">
-            <div class="modal-info-block">
-                <div class="info-label">Размер</div>
-                <div class="info-value">${info.min}–${info.max} см</div>
-            </div>
-            <div class="modal-info-block">
-                <div class="info-label">Твой рекорд</div>
-                ${recordHtml}
-            </div>
-        </div>
-        
-        <div class="modal-count ${info.isUndead ? 'undead' : ''}">Поймано: <span>${count}</span> шт.</div>
-    `;
-
-    document.getElementById('fishModal').classList.add('show');
-}
-
 
 function closeFishModal() {
     document.getElementById('fishModal').classList.remove('show');
