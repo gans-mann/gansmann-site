@@ -436,6 +436,24 @@ body::before {
     background: linear-gradient(135deg, rgba(140, 120, 70, 0.58) 0%, rgba(95, 80, 45, 0.32) 100%);
     box-shadow: 0 8px 40px rgba(170, 150, 80, 0.6);
 }
+.record-card.empty {
+    opacity: 0.5;
+    filter: grayscale(0.7);
+}
+.record-card.empty:hover {
+    opacity: 0.8;
+    filter: grayscale(0.3);
+}
+.record-icon.faded {
+    opacity: 0.6;
+}
+.record-size.empty-size {
+    color: rgba(255,255,255,0.3);
+    text-shadow: none;
+}
+.record-card.empty .record-holder {
+    color: rgba(255,255,255,0.3);
+}
     
 /* === ЗАГЛУШКА === */
 .loading {
@@ -688,18 +706,18 @@ function renderRecords(records) {
     const regularRows = [];
     const undeadRows = [];
 
-    // === ОБЫЧНЫЕ РЫБЫ ===
+    // === ОБЫЧНЫЕ РЫБЫ (ВСЕ 30) ===
     for (const fish of ALL_FISH) {
-        if (records[fish]) {
-            const r = records[fish];
-            const info = FISH_DATA[fish] || { rarity: 'common', max: 0 };
-            const rarity = info.rarity || 'common';
-            const maxSize = info.max || 0;
+        const r = records[fish] || null;
+        const info = FISH_DATA[fish] || { rarity: 'common', max: 0 };
+        const rarity = info.rarity || 'common';
+        const maxSize = info.max || 0;
+        const icon = getFishIcon(fish);
+        const lifetimeCount = getLifetimeCount(fish);
+
+        if (r) {
+            // Есть рекорд
             const isTrophy = maxSize > 0 && r.size >= maxSize;
-            const icon = getFishIcon(fish);
-
-            const lifetimeCount = getLifetimeCount(fish);
-
             regularRows.push(`
                 <div class="record-card rarity-${rarity}" data-tooltip="🎣 Поймано за всё время: ${lifetimeCount}">
                     <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
@@ -710,23 +728,33 @@ function renderRecords(records) {
                     </div>
                 </div>
             `);
+        } else {
+            // Рекорда нет — показываем пустую плашку
+            regularRows.push(`
+                <div class="record-card rarity-${rarity} empty" data-tooltip="🎣 Ещё не поймана">
+                    <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon faded">
+                    <div class="record-fish">${escapeHtml(fish)}</div>
+                    <div class="record-size-block">
+                        <div class="record-size empty-size">— см</div>
+                        <div class="record-holder">нет рекорда</div>
+                    </div>
+                </div>
+            `);
         }
     }
 
     // === НЕЖИТЬ ===
     for (const fish of ALL_FISH) {
         const undeadFish = 'Нежить ' + fish.toLowerCase();
-        if (records[undeadFish]) {
-            const r = records[undeadFish];
-            const info = FISH_DATA[fish] || { rarity: 'common', max: 0 };
-            const rarity = info.rarity || 'common';
-            const maxSize = info.max || 0;
+        const r = records[undeadFish] || null;
+        const info = FISH_DATA[fish] || { rarity: 'common', max: 0 };
+        const rarity = info.rarity || 'common';
+        const maxSize = info.max || 0;
+        const icon = getFishIcon(undeadFish);
+        const lifetimeCount = getLifetimeCount(undeadFish);
+
+        if (r) {
             const isTrophy = maxSize > 0 && r.size >= maxSize;
-            const icon = getFishIcon(undeadFish);
-
-            // КЛЮЧ: "Нежить белый амур" — тот же, что в _lifetimeCatches
-            const lifetimeCount = getLifetimeCount(undeadFish);
-
             undeadRows.push(`
                 <div class="record-card undead rarity-${rarity}" data-tooltip="🧟 Поймано за всё время: ${lifetimeCount}">
                     <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
@@ -737,20 +765,22 @@ function renderRecords(records) {
                     </div>
                 </div>
             `);
+        } else {
+            undeadRows.push(`
+                <div class="record-card undead rarity-${rarity} empty" data-tooltip="🧟 Ещё не поймана">
+                    <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon faded">
+                    <div class="record-fish">${escapeHtml(fish)}</div>
+                    <div class="record-size-block">
+                        <div class="record-size empty-size">— см</div>
+                        <div class="record-holder">нет рекорда</div>
+                    </div>
+                </div>
+            `);
         }
     }
 
-    // Рендер
-    if (regularRows.length === 0) {
-        regularEl.innerHTML = '<div style="color:rgba(255,255,255,0.5);text-align:center;grid-column:1/-1;">Пока нет рекордов</div>';
-    } else {
-        regularEl.innerHTML = regularRows.join('');
-    }
-    if (undeadRows.length === 0) {
-        undeadEl.innerHTML = '<div style="color:rgba(255,255,255,0.5);text-align:center;grid-column:1/-1;">Пока нет рекордов</div>';
-    } else {
-        undeadEl.innerHTML = undeadRows.join('');
-    }
+    regularEl.innerHTML = regularRows.join('');
+    undeadEl.innerHTML = undeadRows.join('');
 }
 
 // === СЧЁТЧИК ПОЙМАНО ЗА ВСЁ ВРЕМЯ ===
