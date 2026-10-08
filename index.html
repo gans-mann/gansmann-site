@@ -217,7 +217,8 @@ body::before {
     align-items: center;
     gap: 10px;
     transition: all 0.3s ease;
-    overflow: hidden;
+    overflow: visible;       /* ← было hidden */
+    background-clip: padding-box;   /* ← чтобы градиент не выходил за углы */
     border: 2px solid transparent;
     background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
 }
