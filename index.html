@@ -200,13 +200,7 @@ body::before {
 }
 .top-player-card.rank-3 .player-count { color: #cd7f32; }
 
-/* === РЕКОРДЫ РАЗМЕРОВ === */
-.records-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 8px;
-}
-/* === РЕКОРДЫ РАЗМЕРОВ === */
+/* === РЕКОРДЫ: СЕТКА === */
 .records-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -436,6 +430,8 @@ body::before {
     background: linear-gradient(135deg, rgba(140, 120, 70, 0.58) 0%, rgba(95, 80, 45, 0.32) 100%);
     box-shadow: 0 8px 40px rgba(170, 150, 80, 0.6);
 }
+
+/* === ПУСТЫЕ ПЛАШКИ (без рекорда) === */
 .record-card.empty {
     opacity: 0.5;
     filter: grayscale(0.7);
@@ -443,6 +439,7 @@ body::before {
 .record-card.empty:hover {
     opacity: 0.8;
     filter: grayscale(0.3);
+    transform: translateY(-2px);
 }
 .record-icon.faded {
     opacity: 0.6;
@@ -454,7 +451,7 @@ body::before {
 .record-card.empty .record-holder {
     color: rgba(255,255,255,0.3);
 }
-    
+
 /* === ЗАГЛУШКА === */
 .loading {
     text-align: center;
@@ -510,13 +507,11 @@ body::before {
 </head>
 <body>
 <div class="container">
-    <!-- Шапка -->
     <div class="header">
         <h1>🎣 Рыбалка gans_mann</h1>
         <p class="subtitle">Общая статистика игры</p>
     </div>
 
-    <!-- Форма поиска -->
     <div class="search-form">
         <h2>🔍 Найти свой инвентарь</h2>
         <div class="search-input-wrap">
@@ -526,7 +521,6 @@ body::before {
         <p class="search-hint">Например: <b>gans_mann</b></p>
     </div>
 
-    <!-- Общая статистика + топ-3 + рекорды -->
     <div class="section" id="statsSection" style="display: none;">
         <h2>📊 Общая статистика</h2>
         <div class="stats-mini" id="statsMini"></div>
@@ -535,20 +529,19 @@ body::before {
         <div class="top-players" id="topPlayers"></div>
 
         <h2 style="margin-top: 25px;">🏅 Рекорды размеров · Обычные рыбы</h2>
-<div class="records-grid" id="recordsRegular"></div>
+        <div class="records-grid" id="recordsRegular"></div>
 
-<h2 style="margin-top: 25px;">🧟 Рекорды размеров · Нежить</h2>
-<div class="records-grid" id="recordsUndead"></div>
+        <h2 style="margin-top: 25px;">🧟 Рекорды размеров · Нежить</h2>
+        <div class="records-grid" id="recordsUndead"></div>
     </div>
 
-    <!-- Заглушка -->
     <div class="loading" id="loading">Загрузка данных...</div>
 
-    <!-- Подвал -->
     <div class="footer">
         <p>Сайт создан для стрима <a href="https://twitch.tv/gans_mann" target="_blank">gans_mann</a></p>
     </div>
 </div>
+
 <script src="/fish-icons.js"></script>
 <script>
 const DATA_URL = '/data.json';
@@ -567,7 +560,6 @@ function goToPlayer() {
     }
     window.location.href = '/inventory.html?player=' + encodeURIComponent(nick);
 }
-
 searchBtn.addEventListener('click', goToPlayer);
 nickInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') goToPlayer(); });
 
@@ -581,89 +573,6 @@ const ALL_FISH = [
     "Чоп", "Пиранья", "Плотва", "Язь", "Голавль"
 ];
 
-// === ЗАГРУЗКА И РЕНДЕР ===
-let lastDataHash = '';
-
-function loadAndRender(silent) {
-    fetch(DATA_URL + '?t=' + Date.now())
-        .then(response => {
-            if (!response.ok) throw new Error('HTTP ' + response.status);
-            return response.json();
-        })
-        .then(data => {
-            const newHash = JSON.stringify(data);
-            if (silent && lastDataHash === newHash) return;
-            lastDataHash = newHash;
-
-            document.getElementById('loading').style.display = 'none';
-
-            if (data._stats) {
-                renderStatsMini(data._stats);
-                renderTopPlayers(data._stats);
-            }
-            if (data._lifetimeCatches) {
-    window._lifetimeCatches = data._lifetimeCatches;
-}
-            if (data._records) {
-                renderRecords(data._records);
-            }
-
-            document.getElementById('statsSection').style.display = 'block';
-        })
-        .catch(err => {
-            if (!silent) {
-                console.error(err);
-                document.getElementById('loading').innerHTML =
-                    '<span style="color:#ff6b6b">Не удалось загрузить данные</span>';
-            }
-        });
-}
-
-// === ОБЩАЯ СТАТИСТИКА (2 карточки) ===
-function renderStatsMini(stats) {
-    const el = document.getElementById('statsMini');
-    el.innerHTML = `
-        <div class="stat-mini">
-            <div class="stat-icon">🐟</div>
-            <div class="stat-value">${stats.totalFish || 0}</div>
-            <div class="stat-label">Рыб поймано</div>
-        </div>
-        <div class="stat-mini">
-            <div class="stat-icon">👥</div>
-            <div class="stat-value">${stats.totalPlayers || 0}</div>
-            <div class="stat-label">Рыбаков</div>
-        </div>
-    `;
-}
-
-// === ТОП-3 ИГРОКОВ (за месяц, из Streamer.bot) ===
-function renderTopPlayers(stats) {
-    const el = document.getElementById('topPlayers');
-    const top3 = (stats && stats.topPlayers) ? stats.topPlayers : [];
-
-    if (top3.length === 0) {
-        el.innerHTML = '<div style="color:rgba(255,255,255,0.5);grid-column:1/-1;text-align:center;padding:20px;">Пока нет рыбаков в этом месяце</div>';
-        return;
-    }
-
-    const ranks = [
-        { icon: '🥇', cls: 'rank-1' },
-        { icon: '🥈', cls: 'rank-2' },
-        { icon: '🥉', cls: 'rank-3' }
-    ];
-
-    el.innerHTML = top3.map((p, i) => {
-        const rank = ranks[i] || ranks[2];
-        return `
-            <div class="top-player-card ${rank.cls}">
-                <div class="rank">${rank.icon}</div>
-                <div class="player-name">@${escapeHtml(p.name)}</div>
-                <div class="player-count">${p.count}</div>
-                <div class="player-count-label">рыб за месяц</div>
-            </div>
-        `;
-    }).join('');
-}
 // === ДАННЫЕ РЫБ (редкость, размеры) ===
 const FISH_DATA = {
     'Щука':       { min: 10, max: 120, rarity: 'rare' },
@@ -697,8 +606,98 @@ const FISH_DATA = {
     'Краснопёрка':{ min: 5,  max: 35,  rarity: 'common' },
     'Пескарь':    { min: 5,  max: 15,  rarity: 'common' }
 };
-    
-// === РЕКОРДЫ РАЗМЕРОВ (отдельно обычные и нежить) ===
+
+// === ЗАГРУЗКА ===
+let lastDataHash = '';
+
+function loadAndRender(silent) {
+    fetch(DATA_URL + '?t=' + Date.now())
+        .then(response => {
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            return response.json();
+        })
+        .then(data => {
+            const newHash = JSON.stringify(data);
+            if (silent && lastDataHash === newHash) return;
+            lastDataHash = newHash;
+
+            document.getElementById('loading').style.display = 'none';
+
+            // СНАЧАЛА lifetime
+            if (data._lifetimeCatches) {
+                window._lifetimeCatches = data._lifetimeCatches;
+            }
+            if (data._personalRecords) {
+                window._personalRecords = data._personalRecords;
+            }
+
+            // ПОТОМ рендер
+            if (data._stats) {
+                renderStatsMini(data._stats);
+                renderTopPlayers(data._stats);
+            }
+            if (data._records) {
+                renderRecords(data._records);
+            }
+
+            document.getElementById('statsSection').style.display = 'block';
+        })
+        .catch(err => {
+            if (!silent) {
+                console.error(err);
+                document.getElementById('loading').innerHTML =
+                    '<span style="color:#ff6b6b">Не удалось загрузить данные</span>';
+            }
+        });
+}
+
+// === ОБЩАЯ СТАТИСТИКА ===
+function renderStatsMini(stats) {
+    const el = document.getElementById('statsMini');
+    el.innerHTML = `
+        <div class="stat-mini">
+            <div class="stat-icon">🐟</div>
+            <div class="stat-value">${stats.totalFish || 0}</div>
+            <div class="stat-label">Рыб поймано</div>
+        </div>
+        <div class="stat-mini">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value">${stats.totalPlayers || 0}</div>
+            <div class="stat-label">Рыбаков</div>
+        </div>
+    `;
+}
+
+// === ТОП-3 ЗА МЕСЯЦ ===
+function renderTopPlayers(stats) {
+    const el = document.getElementById('topPlayers');
+    const top3 = (stats && stats.topPlayers) ? stats.topPlayers : [];
+
+    if (top3.length === 0) {
+        el.innerHTML = '<div style="color:rgba(255,255,255,0.5);grid-column:1/-1;text-align:center;padding:20px;">Пока нет рыбаков в этом месяце</div>';
+        return;
+    }
+
+    const ranks = [
+        { icon: '🥇', cls: 'rank-1' },
+        { icon: '🥈', cls: 'rank-2' },
+        { icon: '🥉', cls: 'rank-3' }
+    ];
+
+    el.innerHTML = top3.map((p, i) => {
+        const rank = ranks[i] || ranks[2];
+        return `
+            <div class="top-player-card ${rank.cls}">
+                <div class="rank">${rank.icon}</div>
+                <div class="player-name">@${escapeHtml(p.name)}</div>
+                <div class="player-count">${p.count}</div>
+                <div class="player-count-label">рыб за месяц</div>
+            </div>
+        `;
+    }).join('');
+}
+
+// === РЕКОРДЫ РАЗМЕРОВ (все рыбы) ===
 function renderRecords(records) {
     const regularEl = document.getElementById('recordsRegular');
     const undeadEl = document.getElementById('recordsUndead');
@@ -706,7 +705,7 @@ function renderRecords(records) {
     const regularRows = [];
     const undeadRows = [];
 
-    // === ОБЫЧНЫЕ РЫБЫ (ВСЕ 30) ===
+    // === ОБЫЧНЫЕ РЫБЫ ===
     for (const fish of ALL_FISH) {
         const r = records[fish] || null;
         const info = FISH_DATA[fish] || { rarity: 'common', max: 0 };
@@ -716,7 +715,6 @@ function renderRecords(records) {
         const lifetimeCount = getLifetimeCount(fish);
 
         if (r) {
-            // Есть рекорд
             const isTrophy = maxSize > 0 && r.size >= maxSize;
             regularRows.push(`
                 <div class="record-card rarity-${rarity}" data-tooltip="🎣 Поймано за всё время: ${lifetimeCount}">
@@ -729,7 +727,6 @@ function renderRecords(records) {
                 </div>
             `);
         } else {
-            // Рекорда нет — показываем пустую плашку
             regularRows.push(`
                 <div class="record-card rarity-${rarity} empty" data-tooltip="🎣 Ещё не поймана">
                     <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon faded">
@@ -784,11 +781,9 @@ function renderRecords(records) {
 }
 
 // === СЧЁТЧИК ПОЙМАНО ЗА ВСЁ ВРЕМЯ ===
-// === СЧЁТЧИК ПОЙМАНО ЗА ВСЁ ВРЕМЯ (учитывает регистр и ё/е) ===
 function getLifetimeCount(fishName) {
     if (!window._lifetimeCatches) return 0;
 
-    // Нормализация: нижний регистр + ё → е + trim
     const normalize = (s) => String(s).toLowerCase().replace('ё', 'е').trim();
     const targetKey = normalize(fishName);
 
@@ -798,7 +793,6 @@ function getLifetimeCount(fishName) {
         const playerCatches = window._lifetimeCatches[player];
         if (!playerCatches || typeof playerCatches !== 'object') continue;
 
-        // Пробегаем все ключи игрока — сравниваем нормализованно
         for (const storedFish in playerCatches) {
             if (normalize(storedFish) === targetKey) {
                 total += playerCatches[storedFish] || 0;
