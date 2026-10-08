@@ -689,7 +689,6 @@ function renderRecords(records) {
             const isTrophy = maxSize > 0 && r.size >= maxSize;
             const icon = getFishIcon(fish);
 
-            // Счётчик "поймано за всё время"
             const lifetimeCount = getLifetimeCount(fish);
 
             regularRows.push(`
@@ -716,6 +715,7 @@ function renderRecords(records) {
             const isTrophy = maxSize > 0 && r.size >= maxSize;
             const icon = getFishIcon(undeadFish);
 
+            // КЛЮЧ: "Нежить белый амур" — тот же, что в _lifetimeCatches
             const lifetimeCount = getLifetimeCount(undeadFish);
 
             undeadRows.push(`
@@ -731,14 +731,12 @@ function renderRecords(records) {
         }
     }
 
-    // Рендер обычных
+    // Рендер
     if (regularRows.length === 0) {
         regularEl.innerHTML = '<div style="color:rgba(255,255,255,0.5);text-align:center;grid-column:1/-1;">Пока нет рекордов</div>';
     } else {
         regularEl.innerHTML = regularRows.join('');
     }
-
-    // Рендер нежити
     if (undeadRows.length === 0) {
         undeadEl.innerHTML = '<div style="color:rgba(255,255,255,0.5);text-align:center;grid-column:1/-1;">Пока нет рекордов</div>';
     } else {
