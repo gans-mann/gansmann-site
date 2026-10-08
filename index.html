@@ -213,17 +213,120 @@ body::before {
     gap: 8px;
 }
 
+/* === КАРТОЧКА РЕКОРДА === */
 .record-card {
+    position: relative;
+    cursor: pointer;
     border-radius: 14px;
     padding: 10px 14px;
     display: flex;
     align-items: center;
     gap: 10px;
     transition: all 0.3s ease;
-    position: relative;
     overflow: hidden;
     border: 2px solid transparent;
     background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+}
+
+/* === ИКОНКА === */
+.record-icon {
+    width: 36px;
+    height: 36px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+    transition: transform 0.3s;
+    position: relative;
+    z-index: 2;
+}
+.record-card:hover .record-icon {
+    transform: scale(1.15);
+}
+
+/* === ТЕКСТ: НАЗВАНИЕ === */
+.record-fish {
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    z-index: 2;
+}
+
+/* === БЛОК С РАЗМЕРОМ === */
+.record-size-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+}
+.record-size {
+    font-size: 1rem;
+    font-weight: 900;
+    color: #ffd700;
+    line-height: 1;
+    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+}
+.record-holder {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 600;
+    margin-top: 2px;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* === ПОДСКАЗКА ПРИ НАВЕДЕНИИ === */
+.record-card::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: linear-gradient(135deg, rgba(20, 40, 60, 0.98) 0%, rgba(15, 30, 45, 0.98) 100%);
+    border: 1.5px solid rgba(0, 212, 255, 0.6);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    color: #00d4ff;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 100;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0,212,255,0.3);
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+}
+.record-card::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 212, 255, 0.6);
+    opacity: 0;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 100;
+    pointer-events: none;
+}
+.record-card:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.record-card:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 /* === ОБЫЧНАЯ — серая === */
@@ -287,7 +390,7 @@ body::before {
     box-shadow: 0 8px 40px rgba(255, 215, 0, 0.6);
 }
 
-/* === НЕЖИТЬ — мрачная зелёная === */
+/* === НЕЖИТЬ — свои палитры === */
 .record-card.undead.rarity-common {
     color: rgba(150, 170, 120, 0.8);
     border-color: rgba(120, 130, 90, 0.55);
@@ -296,6 +399,7 @@ body::before {
 .record-card.undead.rarity-common:hover {
     border-color: rgba(180, 200, 140, 0.9);
     background: linear-gradient(135deg, rgba(100, 120, 80, 0.55) 0%, rgba(60, 75, 50, 0.3) 100%);
+    box-shadow: 0 8px 24px rgba(140, 160, 100, 0.4);
 }
 .record-card.undead.rarity-rare {
     color: rgba(130, 180, 200, 0.85);
@@ -305,6 +409,7 @@ body::before {
 .record-card.undead.rarity-rare:hover {
     border-color: rgba(160, 210, 240, 0.95);
     background: linear-gradient(135deg, rgba(90, 130, 160, 0.55) 0%, rgba(60, 90, 110, 0.3) 100%);
+    box-shadow: 0 8px 28px rgba(110, 160, 190, 0.45);
 }
 .record-card.undead.rarity-epic {
     color: rgba(160, 140, 190, 0.85);
@@ -314,6 +419,7 @@ body::before {
 .record-card.undead.rarity-epic:hover {
     border-color: rgba(200, 180, 230, 0.95);
     background: linear-gradient(135deg, rgba(120, 95, 150, 0.55) 0%, rgba(80, 65, 110, 0.3) 100%);
+    box-shadow: 0 8px 30px rgba(150, 120, 180, 0.45);
 }
 .record-card.undead.rarity-legendary {
     color: rgba(200, 180, 120, 0.9);
@@ -328,104 +434,7 @@ body::before {
 .record-card.undead.rarity-legendary:hover {
     border-color: rgba(230, 210, 120, 1);
     background: linear-gradient(135deg, rgba(140, 120, 70, 0.58) 0%, rgba(95, 80, 45, 0.32) 100%);
-}
-
-/* === ИКОНКА РЫБЫ === */
-.record-icon {
-    width: 36px;
-    height: 36px;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    flex-shrink: 0;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
-    transition: transform 0.3s;
-}
-.record-card:hover .record-icon {
-    transform: scale(1.15);
-}
-
-/* === ТЕКСТ === */
-.record-fish {
-    font-size: 0.85rem;
-    font-weight: 700;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.record-size-block {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    flex-shrink: 0;
-}
-.record-size {
-    font-size: 1rem;
-    font-weight: 900;
-    color: #ffd700;
-    line-height: 1;
-    text-shadow: 0 0 10px rgba(255,215,0,0.5);
-}
-.record-holder {
-    font-size: 0.65rem;
-    color: rgba(255,255,255,0.55);
-    font-weight: 600;
-    margin-top: 2px;
-    max-width: 160px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
- /* === КРАСИВАЯ ПОДСКАЗКА ПРИ НАВЕДЕНИИ === */
-.record-card {
-    position: relative;
-    cursor: help;
-}
-
-.record-card::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-8px);
-    background: linear-gradient(135deg, rgba(20, 40, 60, 0.98) 0%, rgba(15, 30, 45, 0.98) 100%);
-    border: 1.5px solid rgba(0, 212, 255, 0.6);
-    border-radius: 10px;
-    padding: 8px 14px;
-    font-size: 0.75rem;
-    color: #00d4ff;
-    font-weight: 700;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s, transform 0.25s;
-    z-index: 100;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0,212,255,0.3);
-    letter-spacing: 0.3px;
-}
-
-.record-card::before {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(0);
-    border: 6px solid transparent;
-    border-top-color: rgba(0, 212, 255, 0.6);
-    opacity: 0;
-    transition: opacity 0.25s;
-    z-index: 100;
-    pointer-events: none;
-}
-
-.record-card:hover::after {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-12px);
-}
-
-.record-card:hover::before {
-    opacity: 1;
+    box-shadow: 0 8px 40px rgba(170, 150, 80, 0.6);
 }
     
 /* === ЗАГЛУШКА === */
