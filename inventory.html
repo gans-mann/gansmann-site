@@ -671,8 +671,18 @@ function loadAndRender(silent) {
         });
 }
 
+// Определяем ник из URL (поддерживаем и старый, и новый формат)
+let playerName = null;
 const urlParams = new URLSearchParams(window.location.search);
-const playerName = urlParams.get('player');
+playerName = urlParams.get('player');
+
+if (!playerName) {
+    const pathParts = window.location.pathname.split('/');
+    if (pathParts[1] === 'inventory' && pathParts[2]) {
+        playerName = decodeURIComponent(pathParts[2]);
+    }
+}
+
 const playerCard = document.getElementById('playerCard');
 
 if (!playerName) {
