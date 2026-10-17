@@ -322,9 +322,18 @@ body::before {
 }
 .fish-item:hover .fish-icon { transform: scale(1.1); }
 
+/* ИСПРАВЛЕНИЕ: Перенос строк для длинных названий */
 .fish-name {
     font-size: 0.95rem; font-weight: 700; flex: 1;
-    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    min-width: 0; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: normal; /* Разрешаем перенос строк */
+    word-break: break-word; /* Разрываем длинные слова */
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Максимум 3 строки */
+    -webkit-box-orient: vertical;
     text-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 .fish-item.not-caught .fish-name { text-shadow: none; }
