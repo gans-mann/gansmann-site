@@ -557,7 +557,7 @@ const ALL_FISH = [
 ];
 
 const HALLOWEEN_FISH = [
-    "Назойливая тыковка", "Щука падлюка", "Краб шкраб", "Осётр Пётр", "Удильщик", 
+    "Мразь карась", "Назойливая тыковка", "Щука падлюка", "Краб шкраб", "Осётр Пётр", "Удильщик", 
     "Луна в костюме луны", "Клоун в костюме клоуна", "Судак дурак", "Писклявый пескарь"
 ];
 
@@ -578,6 +578,7 @@ const FISH_DATA = {
     'Сазан': { min: 20, max: 100, rarity: 'epic' }, 'Карась': { min: 10, max: 40, rarity: 'common' },
     'Краснопёрка': { min: 5, max: 35, rarity: 'common' }, 'Пескарь': { min: 5, max: 15, rarity: 'common' },
     // ХЭЛЛОУИН
+    'Мразь карась': { min: 10, max: 40, rarity: 'rare' },
     'Назойливая тыковка': { min: 10, max: 30, rarity: 'common' },
     'Щука падлюка': { min: 30, max: 100, rarity: 'rare' },
     'Краб шкраб': { min: 10, max: 40, rarity: 'epic' },
@@ -733,8 +734,8 @@ function renderInventory(playerName, inventory) {
                 <div class="progress-bar"><div class="progress-fill" style="width: ${Math.round(undCaught/30*100)}%"></div></div>
             </div>
             <div class="progress-block halloween" style="background: rgba(255, 100, 0, 0.1); border-color: rgba(255, 100, 0, 0.4);">
-                <div class="progress-header"><span class="label">🎃 Хэллоуин</span><span class="count" style="color: #ff8c00;">${halCaught} / 9</span></div>
-                <div class="progress-bar"><div class="progress-fill" style="width: ${Math.round(halCaught/9*100)}%; background: linear-gradient(90deg, #ff8c00, #ffd700);"></div></div>
+                <div class="progress-header"><span class="label">🎃 Хэллоуин</span><span class="count" style="color: #ff8c00;">${halCaught} / 10</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: ${Math.round(halCaught/10*100)}%; background: linear-gradient(90deg, #ff8c00, #ffd700);"></div></div>
             </div>
         </div>
 
