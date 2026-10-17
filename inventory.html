@@ -322,17 +322,17 @@ body::before {
 }
 .fish-item:hover .fish-icon { transform: scale(1.1); }
 
-/* ИСПРАВЛЕНИЕ: Перенос строк для длинных названий */
+/* Перенос строк для длинных названий */
 .fish-name {
     font-size: 0.95rem; font-weight: 700; flex: 1;
     min-width: 0; 
     overflow: hidden; 
     text-overflow: ellipsis; 
-    white-space: normal; /* Разрешаем перенос строк */
-    word-break: break-word; /* Разрываем длинные слова */
+    white-space: normal; 
+    word-break: break-word; 
     line-height: 1.2;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Максимум 3 строки */
+    -webkit-line-clamp: 3; 
     -webkit-box-orient: vertical;
     text-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
@@ -671,25 +671,9 @@ function loadAndRender(silent) {
         });
 }
 
-// Определяем ник из URL (поддерживаем и старый, и новый формат)
-let playerName = null;
-let playerName = null;
+// === ИНИЦИАЛИЗАЦИЯ ПЕРЕМЕННЫХ ===
 const urlParams = new URLSearchParams(window.location.search);
-playerName = urlParams.get('player');
-
-if (!playerName) {
-    // Если Cloudflare обрезал адрес до /inventory, берем последний сегмент пути
-    const pathParts = window.location.pathname.split('/').filter(p => p !== '');
-    // Если зашли как /inventory/gans_mann, берем второй элемент
-    if (pathParts[0] === 'inventory' && pathParts[1]) {
-        playerName = decodeURIComponent(pathParts[1]);
-    } 
-    // Если Cloudflare срезал всё до /inventory, ник потерян, но мы предотвратим ошибку
-    else if (pathParts[0] === 'inventory' && !pathParts[1]) {
-        playerName = null; // Покажем сообщение "Укажите ник"
-    }
-}
-
+const playerName = urlParams.get('player');
 const playerCard = document.getElementById('playerCard');
 
 if (!playerName) {
