@@ -34,11 +34,124 @@ body::before {
 }
 .header .subtitle { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
 
-/* === УКРАШЕННЫЕ ПЛАШКИ РЫБ === */
+.server-stats {
+    background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
+    padding: 12px; margin-bottom: 12px;
+}
+.server-stats h2 { font-size: 1rem; margin-bottom: 10px; color: #00d4ff; }
+.stats-grid-4 {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px;
+}
+.server-stat {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 10px; text-align: center; transition: all 0.3s;
+}
+.server-stat .stat-icon { font-size: 1.2rem; margin-bottom: 3px; }
+.server-stat .stat-value {
+    font-size: 1.1rem; font-weight: 900; color: #00d4ff;
+    line-height: 1.2; margin-bottom: 2px; word-break: break-word;
+}
+.server-stat .stat-label {
+    font-size: 0.65rem; color: rgba(255,255,255,0.5);
+    text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+}
+
+.player-card {
+    background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 18px;
+    padding: 15px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.player-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.player-avatar {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: linear-gradient(135deg, #00d4ff, #00ffa3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; font-weight: 900; color: #0f2027;
+    box-shadow: 0 8px 24px rgba(0,212,255,0.3); flex-shrink: 0;
+}
+.player-info { flex: 1; }
+.player-info h2 { font-size: 1.2rem; margin-bottom: 2px; }
+.player-info .player-stats { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+.player-info .player-stats span { color: #00ffa3; font-weight: 600; }
+
+.twitch-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 6px 10px; background: #9146ff; color: white;
+    text-decoration: none; border-radius: 8px;
+    font-size: 0.75rem; font-weight: 600; transition: all 0.3s;
+}
+.twitch-link:hover { background: #7a2ee0; }
+
+.collection-progress {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
+}
+.progress-block {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 10px;
+}
+.progress-block.undead {
+    background: rgba(120,90,60,0.08); border-color: rgba(120,90,60,0.3);
+}
+.progress-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px; font-size: 0.8rem; font-weight: 600;
+}
+.progress-header .label { color: rgba(255,255,255,0.7); }
+.progress-header .count { color: #00d4ff; font-weight: 700; }
+.progress-block.undead .progress-header .count { color: #a8b878; }
+.progress-bar {
+    height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;
+}
+.progress-fill {
+    height: 100%; background: linear-gradient(90deg, #00d4ff, #00ffa3);
+    border-radius: 3px; transition: width 0.8s ease;
+}
+.progress-block.undead .progress-fill {
+    background: linear-gradient(90deg, #6a7a4a, #a8b878);
+}
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.stat-box {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 10px; text-align: center;
+}
+.stat-box .stat-icon { font-size: 1.2rem; margin-bottom: 3px; }
+.stat-box .stat-value { font-size: 1.3rem; font-weight: 900; color: #00d4ff; line-height: 1; margin-bottom: 3px; }
+.stat-box .stat-label {
+    font-size: 0.7rem; color: rgba(255,255,255,0.6);
+    text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+}
+.stat-box.undead .stat-value { color: #a8b878; }
+
+.fish-section h3 {
+    font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+}
+.fish-section h3::before {
+    content: ''; width: 3px; height: 14px;
+    background: linear-gradient(135deg, #00d4ff, #00ffa3); border-radius: 2px;
+}
+.fish-section.undead-section h3::before {
+    background: linear-gradient(135deg, #6a7a4a, #a8b878);
+}
+
+.fish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+}
+
+/* === ПЛАШКИ РЫБ === */
 .fish-item {
     border-radius: 14px;
     padding: 12px 14px;
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 12px;
     transition: all 0.25s ease;
     cursor: pointer;
     position: relative; user-select: none;
@@ -46,56 +159,30 @@ body::before {
     overflow: hidden;
 }
 
-/* Уголки */
-.fish-item::before,
-.fish-item::after {
-    content: '';
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    border: 2px solid currentColor;
-    opacity: 0.7;
-    transition: all 0.35s;
-    pointer-events: none;
-}
-.fish-item::before {
-    top: 4px; left: 4px;
-    border-right: none;
-    border-bottom: none;
-    border-top-left-radius: 8px;
-}
-.fish-item::after {
-    bottom: 4px; right: 4px;
-    border-left: none;
-    border-top: none;
-    border-bottom-right-radius: 8px;
-}
-.fish-item:hover::before,
-.fish-item:hover::after {
-    width: 24px;
-    height: 24px;
-    opacity: 1;
-}
-
-/* Внутренние линии */
 .fish-item .fish-item-inner {
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     pointer-events: none; z-index: 0;
 }
-.fish-item .fish-item-inner::before,
+.fish-item .fish-item-inner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
+    opacity: 0.5;
+    border-radius: 2px;
+}
 .fish-item .fish-item-inner::after {
     content: '';
     position: absolute;
-    left: 12%; right: 12%;
+    bottom: 0; left: 10%; right: 10%;
     height: 2px;
     background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
-    opacity: 0.6;
+    opacity: 0.5;
+    border-radius: 2px;
 }
-.fish-item .fish-item-inner::before { top: 0; }
-.fish-item .fish-item-inner::after { bottom: 0; }
 .fish-item > * { position: relative; z-index: 1; }
 
-/* === РЕДКОСТИ === */
 .fish-item.rarity-common {
     color: rgba(140, 180, 220, 0.7);
     border-color: rgba(120, 160, 200, 0.45);
@@ -204,9 +291,8 @@ body::before {
     box-shadow: 0 8px 40px rgba(170, 150, 80, 0.6), 0 0 50px rgba(170, 150, 80, 0.45);
 }
 
-/* Иконка */
 .fish-icon {
-    width: 48px; height: 48px;
+    width: 56px; height: 56px;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     flex-shrink: 0;
@@ -215,28 +301,16 @@ body::before {
 }
 .fish-item:hover .fish-icon { transform: scale(1.1); }
 
-/* Название (гибкое) */
 .fish-name {
-    font-size: 0.9rem; font-weight: 700; flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    white-space: normal;
-    line-height: 1.15;
+    font-size: 0.95rem; font-weight: 700; flex: 1;
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-    word-break: break-word;
-    padding-right: 4px;
 }
-
-/* Счётчик */
 .fish-count {
     background: rgba(0,212,255,0.3); color: #ffffff;
-    font-weight: 900; font-size: 0.9rem; padding: 4px 8px;
-    border-radius: 8px; flex-shrink: 0;
-    min-width: 34px; text-align: center;
+    font-weight: 900; font-size: 0.95rem; padding: 5px 11px;
+    border-radius: 9px; flex-shrink: 0;
+    min-width: 40px; text-align: center;
     text-shadow: 0 1px 3px rgba(0,0,0,0.6);
     border: 1px solid rgba(255,255,255,0.2);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.3);
@@ -247,217 +321,746 @@ body::before {
 .fish-item.rarity-legendary .fish-count { background: rgba(255,215,0,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 16px rgba(255,215,0,0.6); color: #fff8d0; }
 .fish-item.undead .fish-count { background: rgba(120,130,90,0.5); }
 
-/* === ПРОГРЕСС === */
-.collection-progress {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
+/* === КОЛЛЕКЦИЯ === */
+.collection-block {
+    margin-top: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 15px;
 }
-.progress-block {
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px; padding: 10px; transition: all 0.3s;
+.collection-block h3 {
+    font-size: 0.9rem; font-weight: 700; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.9);
 }
-.progress-block.undead {
-    background: rgba(120,90,60,0.08); border-color: rgba(120,90,60,0.3);
+.collection-block.undead h3 {
+    color: #a8b878;
 }
-.progress-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 6px; font-size: 0.8rem; font-weight: 600;
-}
-.progress-header .label { color: rgba(255,255,255,0.7); }
-.progress-header .count { color: #00d4ff; font-weight: 700; }
-.progress-block.undead .progress-header .count { color: #a8b878; }
-.progress-bar {
-    height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;
-}
-.progress-fill {
-    height: 100%; background: linear-gradient(90deg, #00d4ff, #00ffa3);
-    border-radius: 3px; transition: width 0.8s ease;
-}
-.progress-block.undead .progress-fill {
-    background: linear-gradient(90deg, #6a7a4a, #a8b878);
-}
-
-/* Всегда открытый список */
-.progress-block .missed-list {
+.collection-grid {
     display: grid;
-    margin-top: 10px; padding-top: 10px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 6px;
 }
-.missed-item {
-    font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.7);
-    display: flex; align-items: center; gap: 4px;
+.collection-item {
     background: rgba(255,255,255,0.05);
-    padding: 4px 6px; border-radius: 6px;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.missed-item img { width: 20px; height: 20px; image-rendering: pixelated; flex-shrink: 0; }
-
-/* Статистика */
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-.stat-box {
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px; padding: 10px; text-align: center;
+.collection-item img {
+    width: 24px;
+    height: 24px;
+    image-rendering: pixelated;
+    flex-shrink: 0;
 }
-.stat-box .stat-icon { font-size: 1.2rem; margin-bottom: 3px; }
-.stat-box .stat-value { font-size: 1.3rem; font-weight: 900; color: #00d4ff; line-height: 1; margin-bottom: 3px; }
-.stat-box .stat-label {
-    font-size: 0.7rem; color: rgba(255,255,255,0.6);
-    text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
-}
-.stat-box.undead .stat-value { color: #a8b878; }
-
-.fish-section h3 {
-    font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;
-    display: flex; align-items: center; gap: 8px;
-}
-.fish-section h3::before {
-    content: ''; width: 3px; height: 14px;
-    background: linear-gradient(135deg, #00d4ff, #00ffa3); border-radius: 2px;
-}
-.fish-section.undead-section h3::before {
-    background: linear-gradient(135deg, #6a7a4a, #a8b878);
+.collection-item.caught {
+    border-color: rgba(0,212,255,0.4);
+    background: rgba(0,212,255,0.1);
+    color: #fff;
 }
 
-.fish-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 10px;
-}
-
-/* === МОДАЛКА === */
+/* === МОДАЛЬНОЕ ОКНО (КАРТОЧКА РЫБЫ) === */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px);
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(14px);
     display: flex; align-items: center; justify-content: center;
-    z-index: 1000; opacity: 0; pointer-events: none;
-    transition: opacity 0.3s ease; padding: 20px;
+    z-index: 1000;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+    perspective: 1200px;
 }
 .modal-overlay.show { opacity: 1; pointer-events: auto; }
+
 .fish-modal {
-    background: radial-gradient(ellipse at top, rgba(50, 70, 95, 0.98) 0%, rgba(20, 35, 50, 0.99) 100%);
-    border-radius: 24px; padding: 32px 28px 24px;
-    max-width: 500px; width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: 
+        radial-gradient(ellipse at 30% 20%, rgba(80, 100, 130, 0.95) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(40, 60, 85, 0.98) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(35, 55, 80, 0.98) 0%, rgba(15, 28, 42, 0.99) 100%);
+    border-radius: 28px;
+    padding: 40px 32px 28px;
+    max-width: 540px;
+    width: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.8),
+        0 0 80px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
     position: relative;
-    transform: scale(0.85) translateY(30px);
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    overflow: visible;
+    transform: scale(0.85) translateY(30px) rotateX(8deg);
+    transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    isolation: isolate;
 }
-.modal-overlay.show .fish-modal { transform: scale(1) translateY(0); }
+.modal-overlay.show .fish-modal { 
+    transform: scale(1) translateY(0) rotateX(0deg);
+}
+
+/* === ВРАЩАЮЩИЕСЯ ВЕНЗЕЛЯ В УГЛАХ === */
+.modal-corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    color: currentColor;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 6;
+    transition: all 0.4s;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+.fish-modal:hover .modal-corner {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 14px currentColor);
+}
+.modal-corner.tl { top: 12px; left: 12px; }
+.modal-corner.tr { top: 12px; right: 12px; transform: scaleX(-1); }
+.modal-corner.bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+.modal-corner.br { bottom: 12px; right: 12px; transform: scale(-1, -1); }
+.fish-modal:hover .modal-corner.tr { transform: scaleX(-1) scale(1.05); }
+.fish-modal:hover .modal-corner.bl { transform: scaleY(-1) scale(1.05); }
+.fish-modal:hover .modal-corner.br { transform: scale(-1, -1) scale(1.05); }
+
+/* Внутренняя тонкая рамка */
+.fish-modal::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* === ВЕРХНЯЯ ДЕКОРАТИВНАЯ ЛИНИЯ С ЗАВИТКАМИ === */
+.fish-modal::after {
+    content: '❦ ═══ ❦ ═══ ❦';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    color: currentColor;
+    opacity: 0.7;
+    letter-spacing: 4px;
+    z-index: 6;
+    white-space: nowrap;
+    text-shadow: 0 0 10px currentColor;
+}
+
+/* === РАМКА ПО РЕДКОСТИ === */
+.fish-modal.rarity-common { 
+    color: rgba(160, 200, 240, 0.9); 
+    border-color: rgba(140, 180, 220, 0.6);
+    box-shadow: 
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 60px rgba(140, 180, 220, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.fish-modal.rarity-rare { 
+    color: #00d4ff; 
+    border-color: rgba(0, 212, 255, 0.75);
+    box-shadow: 
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 80px rgba(0,212,255,0.4),
+        0 0 120px rgba(0,212,255,0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.fish-modal.rarity-epic { 
+    color: #c4b5fd; 
+    border-color: rgba(167, 139, 250, 0.8);
+    box-shadow: 
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 80px rgba(167,139,250,0.45),
+        0 0 120px rgba(167,139,250,0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    animation: epicAura 4s ease-in-out infinite;
+}
+@keyframes epicAura {
+    0%, 100% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(167,139,250,0.45), 0 0 120px rgba(167,139,250,0.25), inset 0 1px 0 rgba(255,255,255,0.15); }
+    50% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(167,139,250,0.6), 0 0 150px rgba(167,139,250,0.35), inset 0 1px 0 rgba(255,255,255,0.2); }
+}
+.fish-modal.rarity-legendary { 
+    color: #ffd700; 
+    border-color: rgba(255, 215, 0, 0.9);
+    box-shadow: 
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 100px rgba(255,215,0,0.5),
+        0 0 180px rgba(255,215,0,0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    animation: legendaryAura 3s ease-in-out infinite;
+}
+@keyframes legendaryAura {
+    0%, 100% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(255,215,0,0.5), 0 0 180px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2); }
+    50% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 140px rgba(255,215,0,0.75), 0 0 240px rgba(255,215,0,0.5), inset 0 1px 0 rgba(255,255,255,0.25); }
+}
+
+/* Нежить */
+.fish-modal.undead.rarity-common { 
+    color: rgba(150, 170, 120, 0.9); 
+    border-color: rgba(120, 140, 90, 0.7);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(120,140,90,0.3);
+}
+.fish-modal.undead.rarity-rare { 
+    color: #8ab4c8; 
+    border-color: rgba(100, 140, 160, 0.75);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 70px rgba(100,150,180,0.35);
+}
+.fish-modal.undead.rarity-epic { 
+    color: #a890c8; 
+    border-color: rgba(130, 100, 150, 0.8);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(140,110,170,0.4);
+    animation: epicAura 4s ease-in-out infinite;
+}
+.fish-modal.undead.rarity-legendary { 
+    color: #c8b078; 
+    border-color: rgba(200, 170, 80, 0.9);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(200,170,80,0.5);
+    animation: undeadLegendaryAura 3s ease-in-out infinite;
+}
+@keyframes undeadLegendaryAura {
+    0%, 100% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(200,170,80,0.5); }
+    50% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 140px rgba(200,170,80,0.75); }
+}
+
+/* === ГОЛОГРАФИЧЕСКИЙ ПЕРЕЛИВ (для epic/legendary) === */
+.fish-modal.rarity-epic .modal-holo,
+.fish-modal.rarity-legendary .modal-holo {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        115deg,
+        transparent 15%,
+        rgba(255, 100, 200, 0.18) 30%,
+        rgba(140, 100, 255, 0.22) 45%,
+        rgba(100, 200, 255, 0.18) 55%,
+        rgba(255, 200, 100, 0.22) 70%,
+        transparent 85%
+    );
+    background-size: 300% 300%;
+    animation: holoSweep 6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: screen;
+    border-radius: 26px;
+}
+@keyframes holoSweep {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* === КОРОНА (для легендарных карточек) === */
+.modal-crown {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 42px;
+    filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+    z-index: 10;
+    animation: crownBob 3s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes crownBob {
+    0%, 100% { transform: translateX(-50%) translateY(0) rotate(-3deg); }
+    50% { transform: translateX(-50%) translateY(-6px) rotate(3deg); }
+}
+
+/* === КАМНИ ПО УГЛАМ (для epic/legendary) === */
+.modal-gem {
+    position: absolute;
+    font-size: 18px;
+    opacity: 0.9;
+    z-index: 7;
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px currentColor);
+    animation: gemTwinkle 2.5s ease-in-out infinite;
+}
+@keyframes gemTwinkle {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+.modal-gem.g1 { top: 40px; left: 20px; animation-delay: 0s; }
+.modal-gem.g2 { top: 40px; right: 20px; animation-delay: 0.6s; }
+.modal-gem.g3 { bottom: 40px; left: 20px; animation-delay: 1.2s; }
+.modal-gem.g4 { bottom: 40px; right: 20px; animation-delay: 1.8s; }
+
+/* === ЧАСТИЦЫ === */
+.modal-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 5;
+    border-radius: 26px;
+}
+.particle {
+    position: absolute;
+    width: 5px; height: 5px;
+    background: radial-gradient(circle, #fff 0%, #ffd700 60%, transparent 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
+    animation: particleFloat 4s ease-in-out infinite;
+    opacity: 0;
+}
+@keyframes particleFloat {
+    0% { transform: translateY(0) scale(0); opacity: 0; }
+    15% { opacity: 1; }
+    50% { transform: translateY(-70px) scale(1.2); opacity: 1; }
+    85% { opacity: 0.6; }
+    100% { transform: translateY(-140px) scale(0.3); opacity: 0; }
+}
+.fish-modal.rarity-epic .particle {
+    background: radial-gradient(circle, #fff 0%, #a78bfa 60%, transparent 100%);
+    box-shadow: 0 0 10px #a78bfa, 0 0 20px #a78bfa;
+}
+
+/* Кнопка закрытия */
 .modal-close {
-    position: absolute; top: 16px; right: 16px;
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #fff; font-size: 1.2rem; cursor: pointer;
+    position: absolute; top: 10px; right: 10px;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1.1rem; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.25s; z-index: 10;
+    transition: all 0.25s;
+    z-index: 20;
+    backdrop-filter: blur(6px);
 }
-.modal-close:hover { background: rgba(255, 80, 80, 0.5); transform: rotate(90deg) scale(1.1); }
+.modal-close:hover { 
+    background: rgba(255, 80, 80, 0.6); 
+    transform: rotate(90deg) scale(1.15);
+    border-color: rgba(255, 100, 100, 0.8);
+    box-shadow: 0 0 20px rgba(255, 80, 80, 0.6);
+}
+    
+/* === ИКОНКА РЫБЫ С ОРЕОЛОМ === */
 .modal-fish-icon-wrap {
     display: flex; justify-content: center; align-items: center;
-    margin-bottom: 18px; padding: 28px 20px; position: relative; z-index: 2;
+    margin-bottom: 20px;
+    padding: 30px 20px 20px;
+    position: relative;
+    z-index: 2;
 }
 .modal-fish-icon-wrap::before {
-    content: ''; position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%); width: 220px; height: 220px; border-radius: 50%;
-    background: radial-gradient(circle, currentColor 0%, transparent 65%);
-    opacity: 0.18; animation: haloPulse 3s ease-in-out infinite; z-index: -1;
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, currentColor 0%, transparent 60%);
+    opacity: 0.25;
+    animation: haloPulse 3s ease-in-out infinite;
+    z-index: -1;
 }
 @keyframes haloPulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.18; }
-    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.3; }
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.25; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.4; }
 }
 .modal-fish-icon-wrap::after {
-    content: ''; position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%); width: 180px; height: 180px; border-radius: 50%;
-    border: 1px dashed currentColor; opacity: 0.25;
-    animation: rotateRing 20s linear infinite; z-index: -1;
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    border: 2px dashed currentColor;
+    opacity: 0.35;
+    animation: rotateRing 25s linear infinite;
+    z-index: -1;
 }
 @keyframes rotateRing {
     from { transform: translate(-50%, -50%) rotate(0deg); }
     to { transform: translate(-50%, -50%) rotate(360deg); }
 }
+
 .modal-fish-icon {
-    width: 170px; height: 170px; image-rendering: pixelated; image-rendering: crisp-edges;
-    filter: drop-shadow(0 10px 24px rgba(0,0,0,0.7));
-    animation: fishSwim 3s ease-in-out infinite; position: relative; z-index: 2;
+    width: 190px; height: 190px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 12px 30px rgba(0,0,0,0.8));
+    animation: fishSwim 3s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
 }
 @keyframes fishSwim {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-12px); }
 }
+
+/* === КАСКАДНОЕ ПОЯВЛЕНИЕ === */
+.fish-modal .modal-fish-icon-wrap,
+.fish-modal .modal-fish-name,
+.fish-modal .modal-info-grid,
+.fish-modal .modal-count {
+    opacity: 0;
+    transform: translateY(15px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+.fish-modal .modal-fish-icon-wrap { animation-delay: 0.15s; }
+.fish-modal .modal-fish-name { animation-delay: 0.25s; }
+.fish-modal .modal-info-grid { animation-delay: 0.45s; }
+.fish-modal .modal-count { animation-delay: 0.55s; }
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === ИМЯ РЫБЫ === */
 .modal-fish-name {
-    text-align: center; font-size: 1.55rem; font-weight: 900; margin-bottom: 6px;
+    text-align: center;
+    font-size: 1.7rem;
+    font-weight: 900;
+    margin-bottom: 8px;
     background: linear-gradient(135deg, #00d4ff, #00ffa3);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; position: relative; z-index: 2; letter-spacing: 1px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
 }
 .modal-fish-name.undead {
     background: linear-gradient(135deg, #8a9a6a, #c8b878);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-shadow: 0 0 25px rgba(140, 160, 100, 0.4);
 }
-.modal-rarity {
-    text-align: center; font-size: 0.9rem; font-weight: 800; margin-bottom: 22px;
-    text-transform: uppercase; letter-spacing: 4px; position: relative; z-index: 2; padding: 0 40px;
+.modal-fish-name::before,
+.modal-fish-name::after {
+    content: '❦';
+    font-size: 1.2rem;
+    color: currentColor;
+    opacity: 0.8;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-text-fill-color: currentColor;
+    text-shadow: 0 0 10px currentColor;
 }
-.modal-rarity.rarity-common { color: #8ab4d6; }
-.modal-rarity.rarity-rare { color: #00d4ff; }
-.modal-rarity.rarity-epic { color: #c4b5fd; }
-.modal-rarity.rarity-legendary { color: #ffd700; animation: legendaryGlow 2s ease-in-out infinite; }
-@keyframes legendaryGlow {
-    0%, 100% { text-shadow: 0 0 20px rgba(255,215,0,0.7); }
-    50% { text-shadow: 0 0 30px rgba(255,215,0,1), 0 0 40px rgba(255,215,0,0.6); }
-}
-.modal-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; position: relative; z-index: 2; }
-.modal-info-block {
-    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
-    border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 16px 12px; text-align: center;
-}
-.modal-info-block .info-label { font-size: 0.68rem; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 8px; }
-.modal-info-block .info-value { font-size: 1.25rem; font-weight: 900; color: #00d4ff; }
-.modal-info-block .info-value.record { color: #ffd700; }
-.modal-info-block .info-value.no-record { color: rgba(255,255,255,0.35); font-size: 0.85rem; font-weight: 600; }
-.modal-count { text-align: center; padding: 14px; background: linear-gradient(135deg, rgba(0,212,255,0.15) 0%, rgba(0,212,255,0.05) 100%); border: 1px solid rgba(0,212,255,0.35); border-radius: 14px; font-size: 0.95rem; font-weight: 600; color: #00d4ff; position: relative; z-index: 2; }
-.modal-count span { font-size: 1.4rem; font-weight: 900; }
-.modal-count.undead { background: linear-gradient(135deg, rgba(140,160,100,0.18) 0%, rgba(120,130,90,0.06) 100%); border-color: rgba(140,160,100,0.4); color: #a8b878; }
+.modal-fish-name::before { left: 8%; }
+.modal-fish-name::after { right: 8%; }
 
-.footer {
-    text-align: center; margin-top: 20px; padding: 15px;
-    font-size: 0.85rem; color: rgba(255,255,255,0.4);
+/* === РЕДКОСТЬ === */
+.modal-rarity {
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    position: relative;
+    z-index: 2;
+    padding: 0 40px;
 }
-.footer a { color: #00d4ff; text-decoration: none; }
-.last-update { text-align: center; margin-top: 12px; font-size: 0.7rem; color: rgba(255,255,255,0.4); }
-.last-update .update-time { color: #00d4ff; font-weight: 600; }
-.loading, .error { text-align: center; padding: 30px 15px; font-size: 0.95rem; }
-.loading { color: rgba(255,255,255,0.6); }
-.error { color: #ff6b6b; }
+.modal-rarity.rarity-common { color: #8ab4d6; text-shadow: 0 0 12px rgba(138, 180, 214, 0.6); }
+.modal-rarity.rarity-rare { color: #00d4ff; text-shadow: 0 0 16px rgba(0,212,255,0.7); }
+.modal-rarity.rarity-epic { color: #c4b5fd; text-shadow: 0 0 16px rgba(167,139,250,0.7); }
+.modal-rarity.rarity-legendary {
+    color: #ffd700;
+    font-size: 1.05rem;
+    letter-spacing: 7px;
+    text-shadow: 0 0 22px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.5);
+    animation: legendaryGlow 2s ease-in-out infinite;
+}
+@keyframes legendaryGlow {
+    0%, 100% { text-shadow: 0 0 22px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.5); }
+    50% { text-shadow: 0 0 32px rgba(255,215,0,1), 0 0 60px rgba(255,215,0,0.7); }
+}
+.modal-rarity::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 1px;
+    margin: 10px auto 0;
+    background: linear-gradient(90deg, transparent 0%, currentColor 50%, transparent 100%);
+    opacity: 0.6;
+}
+
+/* === БЛОКИ ИНФОРМАЦИИ === */
+.modal-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+}
+.modal-info-block {
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 18px;
+    padding: 18px 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+.modal-info-block:hover {
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%);
+    border-color: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+}
+.modal-info-block::before,
+.modal-info-block::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    border: 1px solid currentColor;
+    opacity: 0.5;
+}
+.modal-info-block::before {
+    top: 6px; left: 6px;
+    border-right: none; border-bottom: none;
+    border-top-left-radius: 8px;
+}
+.modal-info-block::after {
+    bottom: 6px; right: 6px;
+    border-left: none; border-top: none;
+    border-bottom-right-radius: 8px;
+}
+.modal-info-block .info-label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.modal-info-block .info-value {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: #00d4ff;
+    text-shadow: 0 0 14px rgba(0, 212, 255, 0.5);
+}
+.modal-info-block .info-value.record {
+    color: #ffd700;
+    text-shadow: 0 0 18px rgba(255,215,0,0.6);
+}
+.modal-info-block .info-value.no-record {
+    color: rgba(255,255,255,0.35);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-shadow: none;
+}
+
+/* === ПЛАШКА «ПОЙМАНО» === */
+.modal-count {
+    text-align: center;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(0,212,255,0.06) 100%);
+    border: 1px solid rgba(0,212,255,0.45);
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #00d4ff;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(0,212,255,0.2);
+}
+.modal-count::before,
+.modal-count::after {
+    content: '';
+    position: absolute;
+    left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.9) 50%, transparent 100%);
+}
+.modal-count::before { top: 0; }
+.modal-count::after { bottom: 0; }
+.modal-count span {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-shadow: 0 0 16px rgba(0, 212, 255, 0.7);
+}
+.modal-count.undead {
+    background: linear-gradient(135deg, rgba(140,160,100,0.22) 0%, rgba(120,130,90,0.08) 100%);
+    border-color: rgba(140,160,100,0.5);
+    color: #a8b878;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(140,160,100,0.2);
+}
+.modal-count.undead::before,
+.modal-count.undead::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(160, 180, 120, 0.8) 50%, transparent 100%);
+}
+.modal-count.undead span { text-shadow: 0 0 16px rgba(160, 180, 120, 0.7); }
+/* === ДВА СЧЁТЧИКА В КАРТОЧКЕ === */
+.modal-counts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+.modal-count-item {
+    text-align: center;
+    padding: 14px 10px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.18) 0%, rgba(0,212,255,0.05) 100%);
+    border: 1px solid rgba(0,212,255,0.4);
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(0,212,255,0.15);
+}
+.modal-count-item::before,
+.modal-count-item::after {
+    content: '';
+    position: absolute;
+    left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.8) 50%, transparent 100%);
+}
+.modal-count-item::before { top: 0; }
+.modal-count-item::after { bottom: 0; }
+.modal-count-item .count-label {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+.modal-count-item .count-value {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #00d4ff;
+    text-shadow: 0 0 16px rgba(0, 212, 255, 0.7);
+    line-height: 1;
+}
+/* Второй счётчик — золотой (за всё время) */
+.modal-count-item.lifetime {
+    background: linear-gradient(135deg, rgba(255,215,0,0.18) 0%, rgba(255,215,0,0.05) 100%);
+    border-color: rgba(255,215,0,0.5);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(255,215,0,0.2);
+}
+.modal-count-item.lifetime::before,
+.modal-count-item.lifetime::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.9) 50%, transparent 100%);
+}
+.modal-count-item.lifetime .count-value {
+    color: #ffd700;
+    text-shadow: 0 0 18px rgba(255, 215, 0, 0.9);
+}
+/* Нежить */
+.modal-counts.undead .modal-count-item {
+    background: linear-gradient(135deg, rgba(140,160,100,0.2) 0%, rgba(140,160,100,0.06) 100%);
+    border-color: rgba(140,160,100,0.5);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(140,160,100,0.2);
+}
+.modal-counts.undead .modal-count-item::before,
+.modal-counts.undead .modal-count-item::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(160, 180, 120, 0.8) 50%, transparent 100%);
+}
+.modal-counts.undead .modal-count-item .count-value {
+    color: #a8b878;
+    text-shadow: 0 0 16px rgba(160, 180, 120, 0.7);
+}
+.modal-counts.undead .modal-count-item.lifetime {
+    background: linear-gradient(135deg, rgba(200,180,100,0.2) 0%, rgba(200,180,100,0.06) 100%);
+    border-color: rgba(200,180,100,0.6);
+}
+.modal-counts.undead .modal-count-item.lifetime .count-value {
+    color: #e0d090;
+    text-shadow: 0 0 18px rgba(200, 180, 100, 0.9);
+}
+/* === ПОДСВЕТКА ИЗМЕНЕНИЯ СЧЁТЧИКА === */
+.count-value.updated {
+    animation: countFlash 1s ease;
+}
+@keyframes countFlash {
+    0% { 
+        color: #00ff88; 
+        text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88; 
+        transform: scale(1.2); 
+    }
+    100% { 
+        transform: scale(1); 
+    }
+}
+@media (max-width: 600px) {
+    .modal-counts { grid-template-columns: 1fr; }
+}
+/* Легендарная плашка «Поймано» — золотая */
+.fish-modal.rarity-legendary .modal-count {
+    background: linear-gradient(135deg, rgba(255,215,0,0.25) 0%, rgba(200,150,0,0.08) 100%);
+    border-color: rgba(255,215,0,0.6);
+    color: #ffd700;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 25px rgba(255,215,0,0.3);
+}
+.fish-modal.rarity-legendary .modal-count::before,
+.fish-modal.rarity-legendary .modal-count::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.9) 50%, transparent 100%);
+}
+.fish-modal.rarity-legendary .modal-count span { text-shadow: 0 0 18px rgba(255, 215, 0, 0.9); }
 
 @media (max-width: 700px) {
     body { padding: 8px; padding-top: 12px; }
     .header h1 { font-size: 1.5rem; }
+    .player-card { padding: 12px; border-radius: 14px; }
+    .player-header { flex-direction: column; text-align: center; }
+    .collection-progress { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .fish-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    .fish-icon { width: 44px; height: 44px; }
+    .modal-fish-icon { width: 130px; height: 130px; }
+    .fish-modal { padding: 28px 20px 20px; }
+    .modal-fish-name { font-size: 1.4rem; }
+    .modal-rarity { font-size: 0.85rem; letter-spacing: 3px; padding: 0 20px; }
+    .modal-fish-icon-wrap::before { width: 200px; height: 200px; }
+    .modal-fish-icon-wrap::after { width: 160px; height: 160px; }
+    .modal-corner { width: 44px; height: 44px; }
+    .modal-crown { font-size: 32px; top: -22px; }
+    .modal-gem { font-size: 14px; }
+    .collection-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+}
+@media (max-width: 700px) {
+    body { padding: 8px; padding-top: 12px; }
+    .header h1 { font-size: 1.5rem; }
+    .player-card { padding: 12px; border-radius: 14px; }
+    .player-header { flex-direction: column; text-align: center; }
     .collection-progress { grid-template-columns: 1fr; }
     .stats-grid { grid-template-columns: 1fr; }
     .fish-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
     .fish-icon { width: 44px; height: 44px; }
     .modal-fish-icon { width: 120px; height: 120px; }
     .fish-modal { padding: 24px 20px 20px; }
-    .fish-name { font-size: 0.85rem; }
+    .modal-fish-name { font-size: 1.3rem; }
+    .modal-rarity { font-size: 0.8rem; letter-spacing: 2px; padding: 0 20px; }
+    .modal-fish-icon-wrap::before { width: 180px; height: 180px; }
+    .modal-fish-icon-wrap::after { width: 140px; height: 140px; }
 }
 </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <a href="/" style="text-decoration:none;">
-            <h1>🎣 Инвентарь рыбака</h1>
-        </a>
-        <p class="subtitle">Личная статистика · <a href="/" style="color:#00d4ff;text-decoration:none;">← на главную</a></p>
-    </div>
+    <a href="/" style="text-decoration:none;">
+        <h1>🎣 Инвентарь рыбака</h1>
+    </a>
+    <p class="subtitle">Личная статистика · <a href="/" style="color:#00d4ff;text-decoration:none;">← на главную</a></p>
+</div>
 
-    <div class="player-card" id="playerCard" style="background: rgba(255,255,255,0.05); border-radius: 18px; padding: 15px;">
+    <div class="player-card" id="playerCard">
         <div class="loading">Загрузка инвентаря...</div>
     </div>
 
@@ -473,49 +1076,47 @@ body::before {
 <div class="modal-overlay" id="fishModal">
     <div class="fish-modal" id="fishModalContent"></div>
 </div>
-
+    
 <script src="/fish-icons.js"></script>
 <script>
-const DATA_URL = '/data.json';
 
-// === ДАННЫЕ РЫБ ===
 const FISH_DATA = {
-    'Щука': { min: 10, max: 120, rarity: 'rare' },
-    'Форель': { min: 10, max: 70, rarity: 'rare' },
-    'Карп': { min: 20, max: 100, rarity: 'rare' },
-    'Окунь': { min: 10, max: 40, rarity: 'common' },
-    'Сом': { min: 10, max: 250, rarity: 'legendary' },
-    'Осётр': { min: 20, max: 200, rarity: 'legendary' },
-    'Пиранья': { min: 5, max: 30, rarity: 'legendary' },
-    'Лосось': { min: 20, max: 120, rarity: 'epic' },
-    'Уклейка': { min: 5, max: 15, rarity: 'common' },
-    'Плотва': { min: 7, max: 30, rarity: 'common' },
-    'Ёрш': { min: 5, max: 20, rarity: 'common' },
-    'Лещ': { min: 15, max: 60, rarity: 'common' },
-    'Голавль': { min: 10, max: 60, rarity: 'common' },
-    'Язь': { min: 10, max: 60, rarity: 'common' },
-    'Линь': { min: 20, max: 50, rarity: 'common' },
-    'Судак': { min: 10, max: 90, rarity: 'rare' },
-    'Голец': { min: 20, max: 60, rarity: 'common' },
-    'Сиг': { min: 20, max: 60, rarity: 'rare' },
-    'Хариус': { min: 20, max: 50, rarity: 'rare' },
-    'Змееголов': { min: 20, max: 100, rarity: 'rare' },
-    'Налим': { min: 20, max: 80, rarity: 'rare' },
-    'Минога': { min: 15, max: 40, rarity: 'epic' },
-    'Толстолобик': { min: 10, max: 100, rarity: 'epic' },
+    'Щука':       { min: 10, max: 120, rarity: 'rare' },
+    'Форель':     { min: 10, max: 70,  rarity: 'rare' },
+    'Карп':       { min: 20, max: 100, rarity: 'rare' },
+    'Окунь':      { min: 10, max: 40,  rarity: 'common' },
+    'Сом':        { min: 10, max: 250, rarity: 'legendary' },
+    'Осётр':      { min: 20, max: 200, rarity: 'legendary' },
+    'Пиранья':    { min: 5,  max: 30,  rarity: 'legendary' },
+    'Лосось':     { min: 20, max: 120, rarity: 'epic' },
+    'Уклейка':    { min: 5,  max: 15,  rarity: 'common' },
+    'Плотва':     { min: 7,  max: 30,  rarity: 'common' },
+    'Ёрш':        { min: 5,  max: 20,  rarity: 'common' },
+    'Лещ':        { min: 15, max: 60,  rarity: 'common' },
+    'Голавль':    { min: 10, max: 60,  rarity: 'common' },
+    'Язь':        { min: 10, max: 60,  rarity: 'common' },
+    'Линь':       { min: 20, max: 50,  rarity: 'common' },
+    'Судак':      { min: 10, max: 90,  rarity: 'rare' },
+    'Голец':      { min: 20, max: 60,  rarity: 'common' },
+    'Сиг':        { min: 20, max: 60,  rarity: 'rare' },
+    'Хариус':     { min: 20, max: 50,  rarity: 'rare' },
+    'Змееголов':  { min: 20, max: 100, rarity: 'rare' },
+    'Налим':      { min: 20, max: 80,  rarity: 'rare' },
+    'Минога':     { min: 15, max: 40,  rarity: 'epic' },
+    'Толстолобик':{ min: 10, max: 100, rarity: 'epic' },
     'Белый амур': { min: 30, max: 120, rarity: 'epic' },
-    'Угорь': { min: 20, max: 150, rarity: 'epic' },
-    'Чоп': { min: 5, max: 30, rarity: 'common' },
-    'Сазан': { min: 20, max: 100, rarity: 'epic' },
-    'Карась': { min: 10, max: 40, rarity: 'common' },
-    'Краснопёрка': { min: 5, max: 35, rarity: 'common' },
-    'Пескарь': { min: 5, max: 15, rarity: 'common' }
+    'Угорь':      { min: 20, max: 150, rarity: 'epic' },
+    'Чоп':        { min: 5,  max: 30,  rarity: 'common' },
+    'Сазан':      { min: 20, max: 100, rarity: 'epic' },
+    'Карась':     { min: 10, max: 40,  rarity: 'common' },
+    'Краснопёрка':{ min: 5,  max: 35,  rarity: 'common' },
+    'Пескарь':    { min: 5,  max: 15,  rarity: 'common' }
 };
 
 const RARITY_INFO = {
-    common: { label: 'Обычная', color: '#8ab4d6', icon: '⚪' },
-    rare: { label: 'Редкая', color: '#00d4ff', icon: '🔷' },
-    epic: { label: 'Эпическая', color: '#a78bfa', icon: '💜' },
+    common:    { label: 'Обычная',     color: '#8ab4d6', icon: '⚪' },
+    rare:      { label: 'Редкая',      color: '#00d4ff', icon: '🔷' },
+    epic:      { label: 'Эпическая',   color: '#a78bfa', icon: '💜' },
     legendary: { label: 'Легендарная', color: '#ffd700', icon: '⭐' }
 };
 
@@ -528,27 +1129,63 @@ const ALL_FISH = [
     "Чоп", "Пиранья", "Плотва", "Язь", "Голавль"
 ];
 
-let currentModalFish = null;
+// ========================================================
+// ВСПОМОГАТЕЛЬНЫЕ
+// ========================================================
+function getFishInfo(fishName) {
+    const info = getFishForm(fishName);
+    let data = null;
+    for (const key in FISH_DATA) {
+        if (key.toLowerCase().replace('ё', 'е') === info.baseName.toLowerCase().replace('ё', 'е')) {
+            data = FISH_DATA[key];
+            break;
+        }
+    }
+    if (!data) data = FISH_DATA['Плотва'];
 
-const urlParams = new URLSearchParams(window.location.search);
-const playerName = urlParams.get('player');
-const playerCard = document.getElementById('playerCard');
+    return {
+        isUndead: info.isUndead,
+        baseName: info.baseName,
+        min: data.min,
+        max: data.max,
+        rarity: (data.rarity || 'common').toLowerCase()
+    };
+}
 
+// ========================================================
+// ЗАГРУЗКА
+// ========================================================
+
+const DATA_URL = '/data.json';
+// === СОСТОЯНИЕ КАРТОЧКИ ===
+let currentModalFish = null;  // какая рыба открыта сейчас (или null)
+// === ФУНКЦИЯ ЗАГРУЗКИ И ОТРИСОВКИ ===
 function loadAndRender(silent) {
     fetch(DATA_URL + '?t=' + Date.now())
         .then(response => {
-            if (!response.ok) throw new Error('HTTP ' + response.status);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
             return response.json();
         })
         .then(data => {
+            // === Проверяем, изменились ли данные ===
+            const newJson = JSON.stringify(data);
+            if (silent && window._lastJson === newJson) {
+                return; // ничего не поменялось — не перерисовываем
+            }
+            window._lastJson = newJson;
+
+            // === Время обновления ===
             if (data._lastUpdate) {
                 document.getElementById('updateTime').textContent = data._lastUpdate;
                 document.getElementById('lastUpdate').style.display = 'block';
             }
 
+
+            // === Глобальные данные для карточки ===
             if (data._personalRecords) window._personalRecords = data._personalRecords;
             if (data._lifetimeCatches) window._lifetimeCatches = data._lifetimeCatches;
 
+            // === Игрок ===
             const playerKey = Object.keys(data).find(
                 key => !key.startsWith('_') && key.toLowerCase() === playerName.toLowerCase()
             );
@@ -563,14 +1200,16 @@ function loadAndRender(silent) {
                 return;
             }
 
-            if (silent && currentModalFish) {
-                if (data[playerKey][currentModalFish] !== undefined) {
-                    refreshOpenModal(currentModalFish, data[playerKey][currentModalFish]);
-                }
-                return;
-            }
-
             renderInventory(playerKey, data[playerKey]);
+
+// === ЕСЛИ КАРТОЧКА ОТКРЫТА — ОБНОВЛЯЕМ ЕЁ ===
+if (currentModalFish) {
+    const fishData = data[playerKey];
+    if (fishData && fishData[currentModalFish] !== undefined) {
+        // Обновляем count и lifetimeCount внутри карточки
+        refreshOpenModal(currentModalFish, fishData[currentModalFish]);
+    }
+}
         })
         .catch(err => {
             if (!silent) {
@@ -579,10 +1218,61 @@ function loadAndRender(silent) {
                     <div class="error">
                         <p style="font-size: 1.1rem; margin-bottom: 8px;">Не удалось загрузить данные</p>
                         <p style="color: rgba(255,255,255,0.5);">Попробуйте позже</p>
+                        <p style="color: rgba(255,255,255,0.3); font-size: 0.75rem; margin-top: 8px;">${err.message}</p>
                     </div>
                 `;
             }
         });
+}
+
+// === ЗАГРУЗКА ИГРОКА ===
+const urlParams = new URLSearchParams(window.location.search);
+const playerName = urlParams.get('player');
+const playerCard = document.getElementById('playerCard');
+
+if (!playerName) {
+    playerCard.innerHTML = `
+        <div class="error">
+            <p style="font-size: 1.1rem; margin-bottom: 8px;">🎣 Укажите ник игрока в адресе</p>
+            <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">
+                Пример: <code style="background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px;">?player=ваш_ник</code>
+            </p>
+        </div>
+    `;
+} else {
+    // Первая загрузка — с индикатором "Загрузка..."
+    loadAndRender(false);
+
+    // Автообновление каждые 15 секунд (silent = без индикатора)
+    setInterval(() => loadAndRender(true), 5000);
+}
+
+function renderServerStats(stats) {
+    const grid = document.getElementById('serverStatsGrid');
+    const topPlayerName = capitalizeName(stats.topPlayer || '');
+    grid.innerHTML = `
+        <div class="server-stat">
+            <div class="stat-icon">🐟</div>
+            <div class="stat-value">${stats.totalFish}</div>
+            <div class="stat-label">Рыб всего</div>
+        </div>
+        <div class="server-stat">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value">${stats.totalPlayers}</div>
+            <div class="stat-label">Рыбаков</div>
+        </div>
+        <div class="server-stat">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-value" style="font-size: 0.95rem;">@${topPlayerName}</div>
+            <div class="stat-label">Лидер (${stats.topPlayerCount})</div>
+        </div>
+        <div class="server-stat">
+            <div class="stat-icon">💎</div>
+            <div class="stat-value" style="font-size: 0.95rem;">${capitalizeName(stats.rarestFish || '—')}</div>
+            <div class="stat-label">Самая редкая</div>
+        </div>
+    `;
+    document.getElementById('serverStats').style.display = 'block';
 }
 
 function renderInventory(playerName, inventory) {
@@ -597,9 +1287,7 @@ function renderInventory(playerName, inventory) {
 
         if (isUndead) {
             totalUndead += count;
-            // ИСПРАВЛЕНИЕ: Делаем первую букву заглавной для нежити
-            const capitalized = baseFish.charAt(0).toUpperCase() + baseFish.slice(1);
-            undeadFish.push({ name: fish, displayName: capitalized, count });
+            undeadFish.push({ name: fish, displayName: baseFish.charAt(0).toUpperCase() + baseFish.slice(1), count });
             undeadSet.add(baseFish.toLowerCase().replace('ё', 'е'));
         } else {
             totalRegular += count;
@@ -624,31 +1312,37 @@ function renderInventory(playerName, inventory) {
     const regularPercent = Math.round(regularCaught / totalTypes * 100);
     const undeadPercent = Math.round(undeadCaught / totalTypes * 100);
 
+    // Генерируем списки оставшихся
     let missedRegularHtml = '';
     let missedUndeadHtml = '';
+    let caughtRegularHtml = '';
+    let caughtUndeadHtml = '';
 
     ALL_FISH.forEach(fish => {
         const normalized = fish.toLowerCase().replace('ё', 'е');
-        if (!regularSet.has(normalized)) {
-            missedRegularHtml += `<div class="missed-item"><img src="${getFishIcon(fish)}"> ${fish}</div>`;
-        }
+        const regularClass = regularSet.has(normalized) ? 'caught' : '';
+        const undeadClass = undeadSet.has(normalized) ? 'caught' : '';
         
-        const undeadName = 'Нежить ' + fish.toLowerCase();
-        if (!undeadSet.has(normalized)) {
-            // ИСПРАВЛЕНИЕ: Для нежити тоже с заглавной буквы
-            const capFish = fish.charAt(0).toUpperCase() + fish.slice(1);
-            missedUndeadHtml += `<div class="missed-item"><img src="${getFishIcon(undeadName)}"> ${capFish}</div>`;
-        }
+        // Обычные
+        caughtRegularHtml += `<div class="collection-item ${regularClass}">
+            <img src="${getFishIcon(fish)}"> ${fish}
+        </div>`;
+        
+        // Нежить
+        const capFish = fish.charAt(0).toUpperCase() + fish.slice(1);
+        caughtUndeadHtml += `<div class="collection-item ${undeadClass}">
+            <img src="${getFishIcon('Нежить ' + fish.toLowerCase())}"> ${capFish}
+        </div>`;
     });
 
     let html = `
-        <div class="player-header" style="display:flex; align-items:center; gap:12px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.1);">
-            <div class="player-avatar" style="width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg,#00d4ff,#00ffa3); display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:900; color:#0f2027;">${firstLetter}</div>
-            <div style="flex:1;">
-                <h2 style="font-size:1.2rem; margin-bottom:2px;">@${playerName}</h2>
-                <div style="font-size:0.8rem; color:rgba(255,255,255,0.6);">Всего поймано: <span style="color:#00ffa3; font-weight:600;">${total}</span> рыб</div>
+        <div class="player-header">
+            <div class="player-avatar">${firstLetter}</div>
+            <div class="player-info">
+                <h2>@${playerName}</h2>
+                <div class="player-stats">Всего поймано: <span>${total}</span> рыб</div>
             </div>
-            <a href="https://twitch.tv/${playerName}" target="_blank" style="display:inline-flex; align-items:center; gap:4px; padding:6px 10px; background:#9146ff; color:white; text-decoration:none; border-radius:8px; font-size:0.75rem; font-weight:600;">📺 Twitch</a>
+            <a href="https://twitch.tv/${playerName}" target="_blank" class="twitch-link">📺 Twitch</a>
         </div>
 
         <div class="collection-progress">
@@ -660,11 +1354,7 @@ function renderInventory(playerName, inventory) {
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: ${regularPercent}%"></div>
                 </div>
-                <div class="missed-list">
-                    ${missedRegularHtml || '<div style="color:#00ffa3; font-size:0.8rem; padding:5px;">🎉 Все обычные рыбы пойманы!</div>'}
-                </div>
             </div>
-
             <div class="progress-block undead">
                 <div class="progress-header">
                     <span class="label">🧟 Нежить</span>
@@ -672,9 +1362,6 @@ function renderInventory(playerName, inventory) {
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: ${undeadPercent}%"></div>
-                </div>
-                <div class="missed-list">
-                    ${missedUndeadHtml || '<div style="color:#a8b878; font-size:0.8rem; padding:5px;">🎉 Вся нежить поймана!</div>'}
                 </div>
             </div>
         </div>
@@ -704,7 +1391,7 @@ function renderInventory(playerName, inventory) {
                             <div class="fish-item rarity-${info.rarity}" data-fish="${fish.name}">
                                 <div class="fish-item-inner"></div>
                                 <img src="${getFishIcon(fish.name)}" alt="${fish.displayName}" class="fish-icon">
-                                <span class="fish-name">${fish.displayName}</span>
+                                <span class="fish-name" ${fish.displayName.length > 10 ? 'data-long="true"' : ''}>${fish.displayName}</span>
                                 <span class="fish-count">×${fish.count}</span>
                             </div>
                         `;
@@ -739,6 +1426,23 @@ function renderInventory(playerName, inventory) {
         html += `<div class="error" style="color: rgba(255,255,255,0.5);"><p>🎣 Инвентарь пуст</p></div>`;
     }
 
+    // Добавляем блоки коллекции
+    html += `
+        <div class="collection-block">
+            <h3>🐟 Коллекция: Обычные</h3>
+            <div class="collection-grid">
+                ${caughtRegularHtml}
+            </div>
+        </div>
+        
+        <div class="collection-block undead" style="margin-top: 10px;">
+            <h3>🧟 Коллекция: Нежить</h3>
+            <div class="collection-grid">
+                ${caughtUndeadHtml}
+            </div>
+        </div>
+    `;
+
     playerCard.innerHTML = html;
 
     document.querySelectorAll('.fish-item').forEach(item => {
@@ -751,32 +1455,23 @@ function renderInventory(playerName, inventory) {
     });
 }
 
-function getFishInfo(fishName) {
-    const info = getFishForm(fishName);
-    let data = null;
-    for (const key in FISH_DATA) {
-        if (key.toLowerCase().replace('ё', 'е') === info.baseName.toLowerCase().replace('ё', 'е')) {
-            data = FISH_DATA[key];
-            break;
-        }
-    }
-    if (!data) data = FISH_DATA['Плотва'];
-
-    return {
-        isUndead: info.isUndead,
-        baseName: info.baseName,
-        min: data.min,
-        max: data.max,
-        rarity: data.rarity.toLowerCase()
-    };
-}
+// ========================================================
+// МОДАЛЬНАЯ КАРТОЧКА
+// ========================================================
 
 function showFishModal(fishName, count) {
     currentModalFish = fishName;
-
     const info = getFishInfo(fishName);
     const rarity = RARITY_INFO[info.rarity];
-
+// Счётчик поймано за всё время
+let lifetimeCount = count; // fallback
+if (window._lifetimeCatches && window._lifetimeCatches[playerName.toLowerCase()]) {
+    const playerLT = window._lifetimeCatches[playerName.toLowerCase()];
+    const fishKey = fishName.toLowerCase();
+    if (playerLT[fishKey] !== undefined) {
+        lifetimeCount = playerLT[fishKey];
+    }
+}
     const recordKey = (playerName.toLowerCase() + '|' + fishName.toLowerCase());
     let recordHtml = '';
     if (window._personalRecords && window._personalRecords[recordKey]) {
@@ -785,56 +1480,108 @@ function showFishModal(fishName, count) {
         recordHtml = `<div class="info-value no-record">не установлен</div>`;
     }
 
-    // Для нежити делаем заглавную букву
-    const displayName = info.isUndead 
-        ? '🧟 ' + info.baseName.charAt(0).toUpperCase() + info.baseName.slice(1) 
-        : info.baseName;
-        
+    const baseCapitalized = info.baseName.charAt(0).toUpperCase() + info.baseName.slice(1);
+const displayName = info.isUndead ? '🧟 ' + baseCapitalized : baseCapitalized;
     const bigIcon = getFishIcon(fishName, 5);
+
+    // Вензеля в углах
+    const cornerSVG = `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M 5 5 Q 5 20 15 20 Q 28 20 28 10 Q 28 5 18 5 Q 12 5 12 12"/>
+        <path d="M 10 10 Q 10 18 20 18"/>
+        <circle cx="15" cy="15" r="2" fill="currentColor" stroke="none"/>
+        <path d="M 5 5 L 10 10" stroke-opacity="0.5"/>
+    </svg>`;
+
+    // Частицы для epic/legendary
+    let particlesHtml = '';
+    if (info.rarity === 'legendary' || info.rarity === 'epic') {
+        particlesHtml = '<div class="modal-particles">';
+        for (let i = 0; i < 12; i++) {
+            const left = 5 + Math.random() * 90;
+            const top = 20 + Math.random() * 70;
+            const delay = Math.random() * 4;
+            const duration = 3 + Math.random() * 2;
+            particlesHtml += `<div class="particle" style="left: ${left}%; top: ${top}%; animation-delay: ${delay}s; animation-duration: ${duration}s;"></div>`;
+        }
+        particlesHtml += '</div>';
+    }
+
+    // Голограмма
+    let holoHtml = '';
+    if (info.rarity === 'legendary' || info.rarity === 'epic') {
+        holoHtml = '<div class="modal-holo"></div>';
+    }
+
+    // Корона для легендарных
+    let crownHtml = '';
+    if (info.rarity === 'legendary') {
+        crownHtml = `<div class="modal-crown">${info.isUndead ? '💀' : '👑'}</div>`;
+    }
+
+    // Камни для epic/legendary
+    let gemsHtml = '';
+    if (info.rarity === 'legendary' || info.rarity === 'epic') {
+        const gemChar = info.isUndead ? '💠' : '💎';
+        gemsHtml = `
+            <div class="modal-gem g1">${gemChar}</div>
+            <div class="modal-gem g2">${gemChar}</div>
+            <div class="modal-gem g3">${gemChar}</div>
+            <div class="modal-gem g4">${gemChar}</div>
+        `;
+    }
 
     const modal = document.getElementById('fishModalContent');
     modal.className = 'fish-modal rarity-' + info.rarity + (info.isUndead ? ' undead' : '');
     modal.innerHTML = `
-        <button class="modal-close" onclick="closeFishModal()">✕</button>
-        <div class="modal-fish-icon-wrap">
-            <img src="${bigIcon}" alt="${info.baseName}" class="modal-fish-icon">
+    <div class="modal-corner tl">${cornerSVG}</div>
+    <div class="modal-corner tr">${cornerSVG}</div>
+    <div class="modal-corner bl">${cornerSVG}</div>
+    <div class="modal-corner br">${cornerSVG}</div>
+    ${holoHtml}
+    ${crownHtml}
+    ${gemsHtml}
+    ${particlesHtml}
+    <button class="modal-close" onclick="closeFishModal()">✕</button>
+    <div class="modal-fish-icon-wrap">
+        <img src="${bigIcon}" alt="${info.baseName}" class="modal-fish-icon">
+    </div>
+    <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
+    <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label.toUpperCase()}</div>
+    <div class="modal-info-grid">
+        <div class="modal-info-block">
+            <div class="info-label">Размер</div>
+            <div class="info-value">${info.min}–${info.max} см</div>
         </div>
-        <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
-        <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label.toUpperCase()}</div>
-        <div class="modal-info-grid">
-            <div class="modal-info-block">
-                <div class="info-label">Размер</div>
-                <div class="info-value">${info.min}–${info.max} см</div>
-            </div>
-            <div class="modal-info-block">
-                <div class="info-label">Твой рекорд</div>
-                ${recordHtml}
-            </div>
+        <div class="modal-info-block">
+            <div class="info-label">Твой рекорд</div>
+            ${recordHtml}
         </div>
-        <div class="modal-count ${info.isUndead ? 'undead' : ''}">Поймано: <span>${count}</span> шт.</div>
-    `;
-
+    </div>
+    <div class="modal-counts ${info.isUndead ? 'undead' : ''}">
+    <div class="modal-count-item">
+        <div class="count-label">📦 В инвентаре</div>
+        <div class="count-value">${count}</div>
+    </div>
+    <div class="modal-count-item lifetime">
+        <div class="count-label">🏆 Поймано за всё время</div>
+        <div class="count-value">${lifetimeCount}</div>
+    </div>
+</div>
+`;
     document.getElementById('fishModal').classList.add('show');
 }
-
+    
 function closeFishModal() {
     document.getElementById('fishModal').classList.remove('show');
-    currentModalFish = null;
+    currentModalFish = null;  // ← сбрасываем
 }
-
-document.getElementById('fishModal').addEventListener('click', function(e) {
-    if (e.target === this) closeFishModal();
-});
-
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeFishModal();
-});
-
+// === ОБНОВЛЕНИЕ ОТКРЫТОЙ КАРТОЧКИ БЕЗ ЗАКРЫТИЯ ===
 function refreshOpenModal(fishName, count) {
     const info = getFishInfo(fishName);
     const modal = document.getElementById('fishModalContent');
     if (!modal) return;
 
+    // === СЧИТАЕМ LIFETIME ===
     let lifetimeCount = count;
     if (window._lifetimeCatches && window._lifetimeCatches[playerName.toLowerCase()]) {
         const playerLT = window._lifetimeCatches[playerName.toLowerCase()];
@@ -844,18 +1591,21 @@ function refreshOpenModal(fishName, count) {
         }
     }
 
+    // === ФУНКЦИЯ ОБНОВЛЕНИЯ ЗНАЧЕНИЯ С ПОДСВЕТКОЙ ===
     function setCountValue(el, newValue) {
         if (!el) return;
         const current = el.textContent.trim();
         if (current !== String(newValue)) {
             el.textContent = newValue;
+            // Перезапуск CSS-анимации
             el.classList.remove('updated');
-            void el.offsetWidth;
+            void el.offsetWidth; // reflow — обязательно для перезапуска анимации
             el.classList.add('updated');
             setTimeout(() => el.classList.remove('updated'), 1000);
         }
     }
 
+    // === ОБНОВЛЯЕМ СЧЁТЧИКИ ===
     const countItems = modal.querySelectorAll('.modal-count-item .count-value');
     if (countItems.length >= 1) {
         setCountValue(countItems[0], count);
@@ -863,7 +1613,8 @@ function refreshOpenModal(fishName, count) {
     if (countItems.length >= 2) {
         setCountValue(countItems[1], lifetimeCount);
     }
-    
+
+    // === ОБНОВЛЯЕМ ЛИЧНЫЙ РЕКОРД ===
     const recordBlock = modal.querySelector('.modal-info-block:last-child');
     if (recordBlock) {
         const recordValueEl = recordBlock.querySelector('.info-value');
@@ -874,6 +1625,11 @@ function refreshOpenModal(fishName, count) {
                 if (recordValueEl.textContent.trim() !== newRecord) {
                     recordValueEl.className = 'info-value record';
                     recordValueEl.textContent = newRecord;
+                    // Подсветка рекорда
+                    recordValueEl.classList.remove('updated');
+                    void recordValueEl.offsetWidth;
+                    recordValueEl.classList.add('updated');
+                    setTimeout(() => recordValueEl.classList.remove('updated'), 1000);
                 }
             } else {
                 if (recordValueEl.textContent.trim() !== 'не установлен') {
@@ -884,20 +1640,13 @@ function refreshOpenModal(fishName, count) {
         }
     }
 }
+document.getElementById('fishModal').addEventListener('click', function(e) {
+    if (e.target === this) closeFishModal();
+});
 
-if (!playerName) {
-    playerCard.innerHTML = `
-        <div class="error">
-            <p style="font-size: 1.1rem; margin-bottom: 8px;">🎣 Укажите ник игрока в адресе</p>
-            <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">
-                Пример: <code style="background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 5px;">?player=ваш_ник</code>
-            </p>
-        </div>
-    `;
-} else {
-    loadAndRender(false);
-    setInterval(() => loadAndRender(true), 5000);
-}
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeFishModal();
+});
 </script>
 </body>
 </html>
