@@ -686,8 +686,67 @@ function getFishForm(fishName) {
     return { isUndead, baseName, form };
 }
 
+function makeCrabSVG(scale) {
+    scale = scale || 1;
+    let s = '';
+    const p = PALETTES['crab_square'];
+
+    // Лапки (по бокам и снизу)
+    s += `<rect x="6" y="22" width="4" height="2" fill="${p.main}"/>`;
+    s += `<rect x="22" y="22" width="4" height="2" fill="${p.main}"/>`;
+    s += `<rect x="8" y="25" width="3" height="2" fill="${p.main}"/>`;
+    s += `<rect x="21" y="25" width="3" height="2" fill="${p.main}"/>`;
+    s += `<rect x="12" y="26" width="8" height="2" fill="${p.main}"/>`;
+
+    // Клешни
+    // Левая
+    s += `<rect x="2" y="12" width="4" height="4" fill="${p.main}"/>`;
+    s += `<rect x="1" y="10" width="2" height="2" fill="${p.main}"/>`;
+    s += `<rect x="1" y="16" width="2" height="2" fill="${p.main}"/>`;
+    // Правая
+    s += `<rect x="26" y="12" width="4" height="4" fill="${p.main}"/>`;
+    s += `<rect x="29" y="10" width="2" height="2" fill="${p.main}"/>`;
+    s += `<rect x="29" y="16" width="2" height="2" fill="${p.main}"/>`;
+
+    // Глаза на стебельках
+    s += `<rect x="9" y="6" width="2" height="4" fill="${p.main}"/>`;
+    s += `<rect x="21" y="6" width="2" height="4" fill="${p.main}"/>`;
+    s += `<rect x="8" y="4" width="4" height="4" fill="${p.eye}"/>`;
+    s += `<rect x="20" y="4" width="4" height="4" fill="${p.eye}"/>`;
+    s += `<rect x="9" y="5" width="2" height="2" fill="${p.pupil}"/>`;
+    s += `<rect x="21" y="5" width="2" height="2" fill="${p.pupil}"/>`;
+
+    // Панцирь (основное тело)
+    s += `<rect x="6" y="10" width="20" height="12" fill="${p.main}"/>`;
+    s += `<rect x="8" y="8" width="16" height="16" fill="${p.main}"/>`;
+    // Закругления
+    s += `<rect x="10" y="7" width="12" height="2" fill="${p.main}"/>`;
+    s += `<rect x="10" y="23" width="12" height="2" fill="${p.main}"/>`;
+
+    // Блики на панцире
+    s += `<rect x="10" y="10" width="4" height="2" fill="${p.light}" opacity="0.6"/>`;
+    s += `<rect x="14" y="12" width="2" height="2" fill="${p.light}" opacity="0.6"/>`;
+
+    // Узор/пятна на панцире (квадратики)
+    s += `<rect x="16" y="10" width="4" height="4" fill="${p.spot}"/>`;
+    s += `<rect x="22" y="14" width="2" height="2" fill="${p.spot}"/>`;
+    s += `<rect x="10" y="16" width="2" height="2" fill="${p.spot}"/>`;
+    
+    // Нижняя часть (брюшко)
+    s += `<rect x="10" y="20" width="12" height="3" fill="${p.belly}"/>`;
+
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
+    );
+}
+
 function getFishIcon(fishName, scale) {
     const info = getFishForm(fishName);
+
+    // Кастомная отрисовка для Краба
+    if (info.baseName.toLowerCase() === 'краб шкраб') {
+        return makeCrabSVG(scale);
+    }
 
     if (info.isUndead) {
         const undeadKey = info.form.palette;
