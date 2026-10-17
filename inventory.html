@@ -8,10 +8,271 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-/* Здесь весь CSS из вашего файла inventory.html. 
-   Для экономии места я не буду дублировать 1000 строк CSS.
-   Вам нужно взять ВАШ старый CSS и добавить в конец эти 4 класса: */
-   
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    min-height: 100vh; color: #fff; padding: 10px;
+    display: flex; justify-content: center; align-items: flex-start;
+    padding-top: 20px; position: relative; overflow-x: hidden;
+}
+body::before {
+    content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(0,200,255,0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0,255,200,0.06) 0%, transparent 40%);
+    pointer-events: none; z-index: 0;
+}
+.container { width: 100%; max-width: 1300px; position: relative; z-index: 1; }
+
+.header { text-align: center; margin-bottom: 15px; }
+.header h1 {
+    font-size: 1.9rem; font-weight: 900;
+    background: linear-gradient(135deg, #00d4ff, #00ffa3);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 3px; letter-spacing: -1px;
+}
+.header .subtitle { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
+
+.player-card {
+    background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 18px;
+    padding: 15px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.player-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.player-avatar {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: linear-gradient(135deg, #00d4ff, #00ffa3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; font-weight: 900; color: #0f2027;
+    box-shadow: 0 8px 24px rgba(0,212,255,0.3); flex-shrink: 0;
+}
+.player-info { flex: 1; }
+.player-info h2 { font-size: 1.2rem; margin-bottom: 2px; }
+.player-info .player-stats { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+.player-info .player-stats span { color: #00ffa3; font-weight: 600; }
+
+.twitch-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 6px 10px; background: #9146ff; color: white;
+    text-decoration: none; border-radius: 8px;
+    font-size: 0.75rem; font-weight: 600; transition: all 0.3s;
+}
+.twitch-link:hover { background: #7a2ee0; }
+
+.collection-progress {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
+}
+.progress-block {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 10px;
+}
+.progress-block.undead {
+    background: rgba(120,90,60,0.08); border-color: rgba(120,90,60,0.3);
+}
+.progress-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px; font-size: 0.8rem; font-weight: 600;
+}
+.progress-header .label { color: rgba(255,255,255,0.7); }
+.progress-header .count { color: #00d4ff; font-weight: 700; }
+.progress-block.undead .progress-header .count { color: #a8b878; }
+.progress-bar {
+    height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;
+}
+.progress-fill {
+    height: 100%; background: linear-gradient(90deg, #00d4ff, #00ffa3);
+    border-radius: 3px; transition: width 0.8s ease;
+}
+.progress-block.undead .progress-fill {
+    background: linear-gradient(90deg, #6a7a4a, #a8b878);
+}
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.stat-box {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 10px; text-align: center;
+}
+.stat-box .stat-icon { font-size: 1.2rem; margin-bottom: 3px; }
+.stat-box .stat-value { font-size: 1.3rem; font-weight: 900; color: #00d4ff; line-height: 1; margin-bottom: 3px; }
+.stat-box .stat-label {
+    font-size: 0.7rem; color: rgba(255,255,255,0.6);
+    text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+}
+.stat-box.undead .stat-value { color: #a8b878; }
+
+.fish-section h3 {
+    font-size: 0.95rem; font-weight: 700; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+}
+.fish-section h3::before {
+    content: ''; width: 3px; height: 14px;
+    background: linear-gradient(135deg, #00d4ff, #00ffa3); border-radius: 2px;
+}
+.fish-section.undead-section h3::before {
+    background: linear-gradient(135deg, #6a7a4a, #a8b878);
+}
+.fish-section.halloween-section h3::before {
+    background: linear-gradient(135deg, #ff8c00, #ffd700);
+}
+
+.fish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+}
+
+/* === ПЛАШКИ РЫБ === */
+.fish-item {
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    position: relative; user-select: none;
+    border: 2px solid transparent;
+    overflow: hidden;
+}
+
+.fish-item .fish-item-inner {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; z-index: 0;
+}
+.fish-item .fish-item-inner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
+    opacity: 0.5;
+    border-radius: 2px;
+}
+.fish-item .fish-item-inner::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, currentColor 20%, currentColor 80%, transparent 100%);
+    opacity: 0.5;
+    border-radius: 2px;
+}
+.fish-item > * { position: relative; z-index: 1; }
+
+/* Стили для редкостей (только для цветных) */
+.fish-item:not(.not-caught).rarity-common {
+    color: rgba(140, 180, 220, 0.7);
+    border-color: rgba(120, 160, 200, 0.45);
+    background: linear-gradient(135deg, rgba(70, 110, 150, 0.28) 0%, rgba(40, 70, 100, 0.15) 50%, rgba(70, 110, 150, 0.22) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.fish-item:not(.not-caught).rarity-common:hover {
+    border-color: rgba(170, 210, 250, 0.85);
+    background: linear-gradient(135deg, rgba(100, 150, 200, 0.4) 0%, rgba(60, 100, 140, 0.22) 50%, rgba(100, 150, 200, 0.32) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3), 0 0 20px rgba(120, 180, 230, 0.15);
+}
+
+.fish-item:not(.not-caught).rarity-rare {
+    color: rgba(0, 212, 255, 0.8);
+    border-color: rgba(0, 212, 255, 0.55);
+    background: linear-gradient(135deg, rgba(0, 180, 255, 0.28) 0%, rgba(0, 120, 180, 0.15) 50%, rgba(0, 180, 255, 0.22) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 14px rgba(0,212,255,0.2);
+}
+.fish-item:not(.not-caught).rarity-rare:hover {
+    border-color: rgba(100, 235, 255, 1);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.45) 0%, rgba(0, 150, 220, 0.25) 50%, rgba(0, 212, 255, 0.35) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45), 0 0 30px rgba(0, 212, 255, 0.3);
+}
+
+.fish-item:not(.not-caught).rarity-epic {
+    color: rgba(200, 180, 255, 0.85);
+    border-color: rgba(167, 139, 250, 0.6);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(120, 90, 200, 0.15) 50%, rgba(167, 139, 250, 0.24) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 18px rgba(167,139,250,0.25);
+}
+.fish-item:not(.not-caught).rarity-epic:hover {
+    border-color: rgba(220, 205, 255, 1);
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.48) 0%, rgba(140, 110, 220, 0.28) 50%, rgba(167, 139, 250, 0.38) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5), 0 0 36px rgba(167, 139, 250, 0.35);
+}
+
+.fish-item:not(.not-caught).rarity-legendary {
+    color: rgba(255, 230, 130, 0.9);
+    border-color: rgba(255, 215, 0, 0.75);
+    background: linear-gradient(135deg, rgba(255, 200, 50, 0.35) 0%, rgba(200, 140, 0, 0.18) 50%, rgba(255, 200, 50, 0.28) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3);
+    animation: legendaryPulse 3s ease-in-out infinite;
+}
+@keyframes legendaryPulse {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 40px rgba(255,215,0,0.55); }
+}
+.fish-item:not(.not-caught).rarity-legendary:hover {
+    border-color: rgba(255, 245, 150, 1);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.5) 0%, rgba(220, 160, 20, 0.3) 50%, rgba(255, 215, 0, 0.4) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 40px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.45);
+}
+
+/* Нежить (только для цветных) */
+.fish-item:not(.not-caught).undead.rarity-common {
+    color: rgba(150, 170, 120, 0.8);
+    border-color: rgba(120, 130, 90, 0.55);
+    background: linear-gradient(135deg, rgba(70, 80, 60, 0.4) 0%, rgba(40, 50, 35, 0.2) 50%, rgba(70, 80, 60, 0.3) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px rgba(120,140,90,0.15);
+}
+.fish-item:not(.not-caught).undead.rarity-common:hover {
+    border-color: rgba(180, 200, 140, 0.9);
+    background: linear-gradient(135deg, rgba(100, 120, 80, 0.55) 0%, rgba(60, 75, 50, 0.3) 50%, rgba(100, 120, 80, 0.4) 100%);
+    box-shadow: 0 8px 24px rgba(140, 160, 100, 0.4), 0 0 24px rgba(140, 160, 100, 0.25);
+}
+.fish-item:not(.not-caught).undead.rarity-rare {
+    color: rgba(130, 180, 200, 0.85);
+    border-color: rgba(100, 140, 160, 0.65);
+    background: linear-gradient(135deg, rgba(60, 90, 110, 0.4) 0%, rgba(40, 60, 80, 0.2) 50%, rgba(60, 90, 110, 0.32) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 16px rgba(100,150,180,0.2);
+}
+.fish-item:not(.not-caught).undead.rarity-rare:hover {
+    border-color: rgba(160, 210, 240, 0.95);
+    background: linear-gradient(135deg, rgba(90, 130, 160, 0.55) 0%, rgba(60, 90, 110, 0.3) 50%, rgba(90, 130, 160, 0.42) 100%);
+    box-shadow: 0 8px 28px rgba(110, 160, 190, 0.45), 0 0 30px rgba(110, 160, 190, 0.3);
+}
+.fish-item:not(.not-caught).undead.rarity-epic {
+    color: rgba(160, 140, 190, 0.85);
+    border-color: rgba(120, 100, 140, 0.7);
+    background: linear-gradient(135deg, rgba(80, 60, 100, 0.4) 0%, rgba(50, 40, 70, 0.2) 50%, rgba(80, 60, 100, 0.32) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 18px rgba(140,110,170,0.22);
+}
+.fish-item:not(.not-caught).undead.rarity-epic:hover {
+    border-color: rgba(200, 180, 230, 0.95);
+    background: linear-gradient(135deg, rgba(120, 95, 150, 0.55) 0%, rgba(80, 65, 110, 0.3) 50%, rgba(120, 95, 150, 0.42) 100%);
+    box-shadow: 0 8px 30px rgba(150, 120, 180, 0.45), 0 0 32px rgba(150, 120, 180, 0.3);
+}
+.fish-item:not(.not-caught).undead.rarity-legendary {
+    color: rgba(200, 180, 120, 0.9);
+    border-color: rgba(160, 140, 70, 0.8);
+    background: linear-gradient(135deg, rgba(110, 90, 50, 0.42) 0%, rgba(70, 55, 30, 0.22) 50%, rgba(110, 90, 50, 0.34) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(160,140,70,0.3);
+    animation: undeadLegendaryPulse 3s ease-in-out infinite;
+}
+@keyframes undeadLegendaryPulse {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 26px rgba(160,140,70,0.3); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 42px rgba(160,140,70,0.55); }
+}
+.fish-item:not(.not-caught).undead.rarity-legendary:hover {
+    border-color: rgba(230, 210, 120, 1);
+    background: linear-gradient(135deg, rgba(140, 120, 70, 0.58) 0%, rgba(95, 80, 45, 0.32) 50%, rgba(140, 120, 70, 0.45) 100%);
+    box-shadow: 0 8px 40px rgba(170, 150, 80, 0.6), 0 0 50px rgba(170, 150, 80, 0.45);
+}
+
+/* Хэллоуин */
 .fish-item:not(.not-caught).halloween.rarity-common {
     color: rgba(255, 165, 0, 0.9); border-color: rgba(255, 140, 0, 0.6);
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.25) 0%, rgba(139, 69, 19, 0.15) 100%);
@@ -31,7 +292,215 @@
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.4) 0%, rgba(139, 0, 0, 0.3) 100%);
     box-shadow: 0 0 25px rgba(255, 140, 0, 0.5); animation: legendaryPulse 3s ease-in-out infinite;
 }
-.fish-section.halloween-section h3::before { background: linear-gradient(135deg, #ff8c00, #ffd700); }
+
+/* Чёрно-белая плашка (если рыбу никогда не ловили) */
+.fish-item.not-caught {
+    color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(20, 20, 20, 0.5);
+    box-shadow: none;
+    filter: grayscale(1);
+    opacity: 0.6;
+}
+.fish-item.not-caught:hover {
+    opacity: 0.9;
+    filter: grayscale(0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+.fish-item.not-caught .fish-icon { opacity: 0.5; }
+.fish-item.not-caught .fish-count {
+    background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.1); box-shadow: none;
+}
+
+/* Обычная иконка */
+.fish-icon {
+    width: 56px; height: 56px;
+    image-rendering: pixelated; image-rendering: crisp-edges;
+    flex-shrink: 0; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5)); transition: transform 0.3s;
+}
+.fish-item:hover .fish-icon { transform: scale(1.1); }
+
+.fish-name {
+    font-size: 0.95rem; font-weight: 700; flex: 1;
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.fish-item.not-caught .fish-name { text-shadow: none; }
+
+.fish-count {
+    background: rgba(0,212,255,0.3); color: #ffffff;
+    font-weight: 900; font-size: 0.95rem; padding: 5px 11px;
+    border-radius: 9px; flex-shrink: 0;
+    min-width: 40px; text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.3);
+}
+.fish-item:not(.not-caught).rarity-common .fish-count { background: rgba(120,160,200,0.4); }
+.fish-item:not(.not-caught).rarity-rare .fish-count { background: rgba(0,212,255,0.45); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 12px rgba(0,212,255,0.5); }
+.fish-item:not(.not-caught).rarity-epic .fish-count { background: rgba(167,139,250,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 14px rgba(167,139,250,0.5); }
+.fish-item:not(.not-caught).rarity-legendary .fish-count { background: rgba(255,215,0,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 16px rgba(255,215,0,0.6); color: #fff8d0; }
+.fish-item:not(.not-caught).undead .fish-count { background: rgba(120,130,90,0.5); }
+
+/* === МОДАЛЬНОЕ ОКНО === */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(14px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    padding: 20px; perspective: 1200px;
+}
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+.fish-modal {
+    background: radial-gradient(ellipse at 30% 20%, rgba(80, 100, 130, 0.95) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(40, 60, 85, 0.98) 0%, transparent 60%),
+                linear-gradient(135deg, rgba(35, 55, 80, 0.98) 0%, rgba(15, 28, 42, 0.99) 100%);
+    border-radius: 28px; padding: 40px 32px 28px; max-width: 540px; width: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+    position: relative; transform: scale(0.85) translateY(30px) rotateX(8deg);
+    transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden; transform-style: preserve-3d; isolation: isolate;
+}
+.modal-overlay.show .fish-modal { transform: scale(1) translateY(0) rotateX(0deg); }
+
+.modal-corner { position: absolute; width: 60px; height: 60px; color: currentColor; opacity: 0.7; pointer-events: none; z-index: 6; transition: all 0.4s; filter: drop-shadow(0 0 8px currentColor); }
+.fish-modal:hover .modal-corner { opacity: 1; transform: scale(1.05); filter: drop-shadow(0 0 14px currentColor); }
+.modal-corner.tl { top: 12px; left: 12px; }
+.modal-corner.tr { top: 12px; right: 12px; transform: scaleX(-1); }
+.modal-corner.bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+.modal-corner.br { bottom: 12px; right: 12px; transform: scale(-1, -1); }
+.fish-modal:hover .modal-corner.tr { transform: scaleX(-1) scale(1.05); }
+.fish-modal:hover .modal-corner.bl { transform: scaleY(-1) scale(1.05); }
+.fish-modal:hover .modal-corner.br { transform: scale(-1, -1) scale(1.05); }
+
+.fish-modal::before { content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.08); pointer-events: none; z-index: 0; }
+.fish-modal::after { content: '❦ ═══ ❦ ═══ ❦'; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); font-size: 0.9rem; color: currentColor; opacity: 0.7; letter-spacing: 4px; z-index: 6; white-space: nowrap; text-shadow: 0 0 10px currentColor; }
+
+/* Рамка по редкости */
+.fish-modal.rarity-common { color: rgba(160, 200, 240, 0.9); border-color: rgba(140, 180, 220, 0.6); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(140, 180, 220, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15); }
+.fish-modal.rarity-rare { color: #00d4ff; border-color: rgba(0, 212, 255, 0.75); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(0,212,255,0.4), 0 0 120px rgba(0,212,255,0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15); }
+.fish-modal.rarity-epic { color: #c4b5fd; border-color: rgba(167, 139, 250, 0.8); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(167,139,250,0.45), 0 0 120px rgba(167,139,250,0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15); animation: epicAura 4s ease-in-out infinite; }
+@keyframes epicAura { 0%, 100% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(167,139,250,0.45), 0 0 120px rgba(167,139,250,0.25), inset 0 1px 0 rgba(255,255,255,0.15); } 50% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(167,139,250,0.6), 0 0 150px rgba(167,139,250,0.35), inset 0 1px 0 rgba(255,255,255,0.2); } }
+.fish-modal.rarity-legendary { color: #ffd700; border-color: rgba(255, 215, 0, 0.9); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(255,215,0,0.5), 0 0 180px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2); animation: legendaryAura 3s ease-in-out infinite; }
+@keyframes legendaryAura { 0%, 100% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(255,215,0,0.5), 0 0 180px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2); } 50% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 140px rgba(255,215,0,0.75), 0 0 240px rgba(255,215,0,0.5), inset 0 1px 0 rgba(255,255,255,0.25); } }
+
+/* Нежить */
+.fish-modal.undead.rarity-common { color: rgba(150, 170, 120, 0.9); border-color: rgba(120, 140, 90, 0.7); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(120,140,90,0.3); }
+.fish-modal.undead.rarity-rare { color: #8ab4c8; border-color: rgba(100, 140, 160, 0.75); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 70px rgba(100,150,180,0.35); }
+.fish-modal.undead.rarity-epic { color: #a890c8; border-color: rgba(130, 100, 150, 0.8); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(140,110,170,0.4); animation: epicAura 4s ease-in-out infinite; }
+.fish-modal.undead.rarity-legendary { color: #c8b078; border-color: rgba(200, 170, 80, 0.9); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(200,170,80,0.5); animation: undeadLegendaryAura 3s ease-in-out infinite; }
+@keyframes undeadLegendaryAura { 0%, 100% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 100px rgba(200,170,80,0.5); } 50% { box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 140px rgba(200,170,80,0.75); } }
+
+/* Голограмма */
+.fish-modal.rarity-epic .modal-holo, .fish-modal.rarity-legendary .modal-holo {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(115deg, transparent 15%, rgba(255, 100, 200, 0.18) 30%, rgba(140, 100, 255, 0.22) 45%, rgba(100, 200, 255, 0.18) 55%, rgba(255, 200, 100, 0.22) 70%, transparent 85%);
+    background-size: 300% 300%; animation: holoSweep 6s ease-in-out infinite; pointer-events: none; z-index: 1; mix-blend-mode: screen; border-radius: 26px;
+}
+@keyframes holoSweep { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+/* Корона, камни, частицы */
+.modal-crown { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); font-size: 42px; filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); z-index: 10; animation: crownBob 3s ease-in-out infinite; pointer-events: none; }
+@keyframes crownBob { 0%, 100% { transform: translateX(-50%) translateY(0) rotate(-3deg); } 50% { transform: translateX(-50%) translateY(-6px) rotate(3deg); } }
+
+.modal-gem { position: absolute; font-size: 18px; opacity: 0.9; z-index: 7; pointer-events: none; filter: drop-shadow(0 0 8px currentColor); animation: gemTwinkle 2.5s ease-in-out infinite; }
+@keyframes gemTwinkle { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+.modal-gem.g1 { top: 40px; left: 20px; animation-delay: 0s; }
+.modal-gem.g2 { top: 40px; right: 20px; animation-delay: 0.6s; }
+.modal-gem.g3 { bottom: 40px; left: 20px; animation-delay: 1.2s; }
+.modal-gem.g4 { bottom: 40px; right: 20px; animation-delay: 1.8s; }
+
+.modal-particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 5; border-radius: 26px; }
+.particle { position: absolute; width: 5px; height: 5px; background: radial-gradient(circle, #fff 0%, #ffd700 60%, transparent 100%); border-radius: 50%; box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700; animation: particleFloat 4s ease-in-out infinite; opacity: 0; }
+@keyframes particleFloat { 0% { transform: translateY(0) scale(0); opacity: 0; } 15% { opacity: 1; } 50% { transform: translateY(-70px) scale(1.2); opacity: 1; } 85% { opacity: 0.6; } 100% { transform: translateY(-140px) scale(0.3); opacity: 0; } }
+.fish-modal.rarity-epic .particle { background: radial-gradient(circle, #fff 0%, #a78bfa 60%, transparent 100%); box-shadow: 0 0 10px #a78bfa, 0 0 20px #a78bfa; }
+
+.modal-close { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s; z-index: 20; backdrop-filter: blur(6px); }
+.modal-close:hover { background: rgba(255, 80, 80, 0.6); transform: rotate(90deg) scale(1.15); border-color: rgba(255, 100, 100, 0.8); box-shadow: 0 0 20px rgba(255, 80, 80, 0.6); }
+
+/* Иконка в модалке */
+.modal-fish-icon-wrap { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; padding: 30px 20px 20px; position: relative; z-index: 2; }
+.modal-fish-icon-wrap::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, currentColor 0%, transparent 60%); opacity: 0.25; animation: haloPulse 3s ease-in-out infinite; z-index: -1; }
+@keyframes haloPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.25; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.4; } }
+.modal-fish-icon-wrap::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 220px; border-radius: 50%; border: 2px dashed currentColor; opacity: 0.35; animation: rotateRing 25s linear infinite; z-index: -1; }
+@keyframes rotateRing { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+.modal-fish-icon { width: 190px; height: 190px; image-rendering: pixelated; image-rendering: crisp-edges; filter: drop-shadow(0 12px 30px rgba(0,0,0,0.8)); animation: fishSwim 3s ease-in-out infinite; position: relative; z-index: 2; }
+@keyframes fishSwim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+/* Каскадное появление */
+.fish-modal .modal-fish-icon-wrap, .fish-modal .modal-fish-name, .fish-modal .modal-info-grid, .fish-modal .modal-counts { opacity: 0; transform: translateY(15px); animation: fadeInUp 0.5s ease forwards; }
+.fish-modal .modal-fish-icon-wrap { animation-delay: 0.15s; }
+.fish-modal .modal-fish-name { animation-delay: 0.25s; }
+.fish-modal .modal-info-grid { animation-delay: 0.45s; }
+.fish-modal .modal-counts { animation-delay: 0.55s; }
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+.modal-fish-name { text-align: center; font-size: 1.7rem; font-weight: 900; margin-bottom: 8px; background: linear-gradient(135deg, #00d4ff, #00ffa3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; z-index: 2; letter-spacing: 1.5px; text-shadow: 0 0 25px rgba(0, 212, 255, 0.4); }
+.modal-fish-name.undead { background: linear-gradient(135deg, #8a9a6a, #c8b878); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 0 25px rgba(140, 160, 100, 0.4); }
+.modal-fish-name::before, .modal-fish-name::after { content: '❦'; font-size: 1.2rem; color: currentColor; opacity: 0.8; position: absolute; top: 50%; transform: translateY(-50%); -webkit-text-fill-color: currentColor; text-shadow: 0 0 10px currentColor; }
+.modal-fish-name::before { left: 8%; }
+.modal-fish-name::after { right: 8%; }
+
+.modal-rarity { text-align: center; font-size: 0.95rem; font-weight: 800; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 5px; position: relative; z-index: 2; padding: 0 40px; }
+.modal-rarity.rarity-common { color: #8ab4d6; text-shadow: 0 0 12px rgba(138, 180, 214, 0.6); }
+.modal-rarity.rarity-rare { color: #00d4ff; text-shadow: 0 0 16px rgba(0,212,255,0.7); }
+.modal-rarity.rarity-epic { color: #c4b5fd; text-shadow: 0 0 16px rgba(167,139,250,0.7); }
+.modal-rarity.rarity-legendary { color: #ffd700; font-size: 1.05rem; letter-spacing: 7px; text-shadow: 0 0 22px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.5); animation: legendaryGlow 2s ease-in-out infinite; }
+@keyframes legendaryGlow { 0%, 100% { text-shadow: 0 0 22px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.5); } 50% { text-shadow: 0 0 32px rgba(255,215,0,1), 0 0 60px rgba(255,215,0,0.7); } }
+.modal-rarity::after { content: ''; display: block; width: 60%; height: 1px; margin: 10px auto 0; background: linear-gradient(90deg, transparent 0%, currentColor 50%, transparent 100%); opacity: 0.6; }
+
+.modal-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; position: relative; z-index: 2; }
+.modal-info-block { background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid rgba(255,255,255,0.15); border-radius: 18px; padding: 18px 14px; text-align: center; position: relative; overflow: hidden; transition: all 0.3s; }
+.modal-info-block:hover { background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%); border-color: rgba(255,255,255,0.25); transform: translateY(-2px); }
+.modal-info-block::before, .modal-info-block::after { content: ''; position: absolute; width: 14px; height: 14px; border: 1px solid currentColor; opacity: 0.5; }
+.modal-info-block::before { top: 6px; left: 6px; border-right: none; border-bottom: none; border-top-left-radius: 8px; }
+.modal-info-block::after { bottom: 6px; right: 6px; border-left: none; border-top: none; border-bottom-right-radius: 8px; }
+.modal-info-block .info-label { font-size: 0.7rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 2.5px; font-weight: 700; margin-bottom: 10px; }
+.modal-info-block .info-value { font-size: 1.35rem; font-weight: 900; color: #00d4ff; text-shadow: 0 0 14px rgba(0, 212, 255, 0.5); }
+.modal-info-block .info-value.record { color: #ffd700; text-shadow: 0 0 18px rgba(255,215,0,0.6); }
+.modal-info-block .info-value.no-record { color: rgba(255,255,255,0.35); font-size: 0.9rem; font-weight: 600; text-shadow: none; }
+
+/* Счётчики */
+.modal-counts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; position: relative; z-index: 2; }
+.modal-count-item { text-align: center; padding: 14px 10px; background: linear-gradient(135deg, rgba(0,212,255,0.18) 0%, rgba(0,212,255,0.05) 100%); border: 1px solid rgba(0,212,255,0.4); border-radius: 14px; position: relative; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(0,212,255,0.15); }
+.modal-count-item::before, .modal-count-item::after { content: ''; position: absolute; left: 20%; right: 20%; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.8) 50%, transparent 100%); }
+.modal-count-item::before { top: 0; }
+.modal-count-item::after { bottom: 0; }
+.modal-count-item .count-label { font-size: 0.65rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 6px; }
+.modal-count-item .count-value { font-size: 1.6rem; font-weight: 900; color: #00d4ff; text-shadow: 0 0 16px rgba(0, 212, 255, 0.7); line-height: 1; }
+.modal-count-item.lifetime { background: linear-gradient(135deg, rgba(255,215,0,0.18) 0%, rgba(255,215,0,0.05) 100%); border-color: rgba(255,215,0,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(255,215,0,0.2); }
+.modal-count-item.lifetime::before, .modal-count-item.lifetime::after { background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.9) 50%, transparent 100%); }
+.modal-count-item.lifetime .count-value { color: #ffd700; text-shadow: 0 0 18px rgba(255, 215, 0, 0.9); }
+.modal-counts.undead .modal-count-item { background: linear-gradient(135deg, rgba(140,160,100,0.2) 0%, rgba(140,160,100,0.06) 100%); border-color: rgba(140,160,100,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(140,160,100,0.2); }
+.modal-counts.undead .modal-count-item::before, .modal-counts.undead .modal-count-item::after { background: linear-gradient(90deg, transparent 0%, rgba(160, 180, 120, 0.8) 50%, transparent 100%); }
+.modal-counts.undead .modal-count-item .count-value { color: #a8b878; text-shadow: 0 0 16px rgba(160, 180, 120, 0.7); }
+.modal-counts.undead .modal-count-item.lifetime { background: linear-gradient(135deg, rgba(200,180,100,0.2) 0%, rgba(200,180,100,0.06) 100%); border-color: rgba(200,180,100,0.6); }
+.modal-counts.undead .modal-count-item.lifetime .count-value { color: #e0d090; text-shadow: 0 0 18px rgba(200, 180, 100, 0.9); }
+
+.count-value.updated { animation: countFlash 1s ease; }
+@keyframes countFlash { 0% { color: #00ff88; text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88; transform: scale(1.2); } 100% { transform: scale(1); } }
+
+@media (max-width: 700px) {
+    body { padding: 8px; padding-top: 12px; }
+    .header h1 { font-size: 1.5rem; }
+    .player-card { padding: 12px; border-radius: 14px; }
+    .player-header { flex-direction: column; text-align: center; }
+    .collection-progress { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .fish-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    .fish-icon { width: 44px; height: 44px; }
+    .modal-fish-icon { width: 120px; height: 120px; }
+    .fish-modal { padding: 24px 20px 20px; }
+    .modal-fish-name { font-size: 1.3rem; }
+    .modal-rarity { font-size: 0.8rem; letter-spacing: 2px; padding: 0 20px; }
+    .modal-fish-icon-wrap::before { width: 180px; height: 180px; }
+    .modal-fish-icon-wrap::after { width: 140px; height: 140px; }
+    .modal-counts { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -58,6 +527,9 @@
     
 <script src="/fish-icons.js"></script>
 <script>
+// ========================================================
+// НОРМАЛИЗАЦИЯ КЛЮЧЕЙ
+// ========================================================
 function normalizeKey(s) { return s === null || s === undefined ? '' : String(s).toLowerCase().replace(/ё/g, 'е').trim(); }
 function findNormalized(obj, targetKey) {
     if (!obj || typeof obj !== 'object') return null;
@@ -159,7 +631,7 @@ function loadAndRender(silent) {
 
             if (data._personalRecords) window._personalRecords = data._personalRecords;
             if (data._lifetimeCatches) window._lifetimeCatches = data._lifetimeCatches;
-            if (data._halloweenCollection) window._halloweenCollection = data._halloweenCollection; // НОВОЕ
+            if (data._halloweenCollection) window._halloweenCollection = data._halloweenCollection;
 
             let playerKey = null;
             for (const key in data) {
@@ -204,7 +676,6 @@ function renderInventory(playerName, inventory) {
     let totalRegular = 0, totalUndead = 0, totalHalloween = 0;
     const regularSet = new Set(), undeadSet = new Set(), halloweenSet = new Set();
 
-    // Собираем пойманное
     for (const [fish, count] of Object.entries(inventory)) {
         if (count <= 0) continue;
         const isUndead = normalizeKey(fish).startsWith('нежить ');
@@ -218,7 +689,6 @@ function renderInventory(playerName, inventory) {
         else { totalRegular += count; regularSet.add(baseNorm); }
     }
 
-    // Коллекция из стримербота
     const caughtHalloweenList = window._halloweenCollection ? window._halloweenCollection[playerName.toLowerCase()] || [] : [];
     const halloweenColSet = new Set(caughtHalloweenList.map(normalizeKey));
 
