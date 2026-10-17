@@ -25,7 +25,6 @@ body::before {
 }
 .container { width: 100%; max-width: 1100px; position: relative; z-index: 1; }
 
-/* === ШАПКА === */
 .header { text-align: center; margin-bottom: 25px; animation: fadeInDown 0.7s ease; }
 .header h1 {
     font-size: 2.8rem; font-weight: 900;
@@ -35,7 +34,6 @@ body::before {
 }
 .header .subtitle { font-size: 1rem; color: rgba(255,255,255,0.6); }
 
-/* === ФОРМА ПОИСКА === */
 .search-form {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(20px);
@@ -77,7 +75,6 @@ body::before {
 .search-button:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.6); filter: brightness(1.1); }
 .search-hint { margin-top: 12px; font-size: 0.82rem; color: rgba(255,255,255,0.45); }
 
-/* === СЕКЦИЯ === */
 .section {
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(20px);
@@ -98,7 +95,6 @@ body::before {
     border-radius: 2px;
 }
 
-/* === ОБЩАЯ СТАТИСТИКА === */
 .stats-mini {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -133,7 +129,6 @@ body::before {
     font-weight: 700;
 }
 
-/* === ТОП-3 ИГРОКОВ === */
 .top-players {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -200,35 +195,29 @@ body::before {
 }
 .top-player-card.rank-3 .player-count { color: #cd7f32; }
 
-/* === РЕКОРДЫ: СЕТКА === */
 .records-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 8px;
 }
 
-/* === КАРТОЧКА РЕКОРДА === */
 .record-card {
     position: relative;
     cursor: pointer;
     z-index: 1;
-    z-index: 1000;
     border-radius: 14px;
     padding: 10px 14px;
     display: flex;
     align-items: center;
     gap: 10px;
     transition: all 0.3s ease;
-    overflow: visible;       /* ← было hidden */
-    background-clip: padding-box;   /* ← чтобы градиент не выходил за углы */
+    overflow: visible;
+    background-clip: padding-box;
     border: 2px solid transparent;
     background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
 }
-
-/* === ИКОНКА === */
 .record-icon {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     flex-shrink: 0;
@@ -237,141 +226,78 @@ body::before {
     position: relative;
     z-index: 2;
 }
-.record-card:hover .record-icon {
-    transform: scale(1.15);
-}
-
-/* === ТЕКСТ: НАЗВАНИЕ === */
+.record-card:hover .record-icon { transform: scale(1.15); }
 .record-fish {
-    font-size: 0.85rem;
-    font-weight: 700;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    position: relative;
-    z-index: 2;
+    font-size: 0.85rem; font-weight: 700; flex: 1;
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    position: relative; z-index: 2;
 }
-
-/* === БЛОК С РАЗМЕРОМ === */
 .record-size-block {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 2;
+    display: flex; flex-direction: column; align-items: flex-end;
+    flex-shrink: 0; position: relative; z-index: 2;
 }
 .record-size {
-    font-size: 1rem;
-    font-weight: 900;
-    color: #ffd700;
-    line-height: 1;
-    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+    font-size: 1rem; font-weight: 900; color: #ffd700;
+    line-height: 1; text-shadow: 0 0 10px rgba(255,215,0,0.5);
 }
 .record-holder {
-    font-size: 0.65rem;
-    color: rgba(255,255,255,0.55);
-    font-weight: 600;
-    margin-top: 2px;
-    max-width: 160px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 0.65rem; color: rgba(255,255,255,0.55);
+    font-weight: 600; margin-top: 2px; max-width: 160px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-
-/* === ПОДСКАЗКА ПРИ НАВЕДЕНИИ === */
 .record-card::after {
     content: attr(data-tooltip);
-    position: absolute;
-    bottom: calc(100% + 12px);
-    left: 50%;
+    position: absolute; bottom: calc(100% + 12px); left: 50%;
     transform: translateX(-50%) translateY(4px);
     background: linear-gradient(135deg, rgba(20, 40, 60, 0.98) 0%, rgba(15, 30, 45, 0.98) 100%);
-    border: 1.5px solid rgba(0, 212, 255, 0.6);
-    border-radius: 10px;
-    padding: 8px 14px;
-    font-size: 0.75rem;
-    color: #00d4ff;
-    font-weight: 700;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s, transform 0.25s;
-    z-index: 100;
+    border: 1.5px solid rgba(0, 212, 255, 0.6); border-radius: 10px;
+    padding: 8px 14px; font-size: 0.75rem; color: #00d4ff; font-weight: 700;
+    white-space: nowrap; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s; z-index: 100;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0,212,255,0.3);
-    letter-spacing: 0.3px;
-    line-height: 1.4;
+    letter-spacing: 0.3px; line-height: 1.4;
 }
 .record-card::before {
-    content: '';
-    position: absolute;
-    bottom: calc(100% + 6px);
-    left: 50%;
+    content: ''; position: absolute; bottom: calc(100% + 6px); left: 50%;
     transform: translateX(-50%) translateY(4px);
-    border: 6px solid transparent;
-    border-top-color: rgba(0, 212, 255, 0.6);
-    opacity: 0;
-    transition: opacity 0.25s, transform 0.25s;
-    z-index: 100;
-    pointer-events: none;
+    border: 6px solid transparent; border-top-color: rgba(0, 212, 255, 0.6);
+    opacity: 0; transition: opacity 0.25s, transform 0.25s; z-index: 100; pointer-events: none;
 }
-.record-card:hover::after {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-.record-card:hover::before {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
+.record-card:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+.record-card:hover::before { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* === ОБЫЧНАЯ — серая === */
 .record-card.rarity-common {
-    color: rgba(140, 180, 220, 0.7);
-    border-color: rgba(120, 160, 200, 0.45);
+    color: rgba(140, 180, 220, 0.7); border-color: rgba(120, 160, 200, 0.45);
     background: linear-gradient(135deg, rgba(70, 110, 150, 0.28) 0%, rgba(40, 70, 100, 0.15) 100%);
     box-shadow: 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 .record-card.rarity-common:hover {
     border-color: rgba(170, 210, 250, 0.85);
     background: linear-gradient(135deg, rgba(100, 150, 200, 0.4) 0%, rgba(60, 100, 140, 0.22) 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3);
+    transform: translateY(-3px); box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3);
 }
-
-/* === РЕДКАЯ — голубая === */
 .record-card.rarity-rare {
-    color: rgba(0, 212, 255, 0.8);
-    border-color: rgba(0, 212, 255, 0.55);
+    color: rgba(0, 212, 255, 0.8); border-color: rgba(0, 212, 255, 0.55);
     background: linear-gradient(135deg, rgba(0, 180, 255, 0.28) 0%, rgba(0, 120, 180, 0.15) 100%);
     box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 14px rgba(0,212,255,0.2);
 }
 .record-card.rarity-rare:hover {
     border-color: rgba(100, 235, 255, 1);
     background: linear-gradient(135deg, rgba(0, 212, 255, 0.45) 0%, rgba(0, 150, 220, 0.25) 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45);
+    transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45);
 }
-
-/* === ЭПИЧЕСКАЯ — фиолетовая === */
 .record-card.rarity-epic {
-    color: rgba(200, 180, 255, 0.85);
-    border-color: rgba(167, 139, 250, 0.6);
+    color: rgba(200, 180, 255, 0.85); border-color: rgba(167, 139, 250, 0.6);
     background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(120, 90, 200, 0.15) 100%);
     box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 18px rgba(167,139,250,0.25);
 }
 .record-card.rarity-epic:hover {
     border-color: rgba(220, 205, 255, 1);
     background: linear-gradient(135deg, rgba(167, 139, 250, 0.48) 0%, rgba(140, 110, 220, 0.28) 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5);
+    transform: translateY(-3px); box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5);
 }
-
-/* === ЛЕГЕНДАРНАЯ — золотая === */
 .record-card.rarity-legendary {
-    color: rgba(255, 230, 130, 0.9);
-    border-color: rgba(255, 215, 0, 0.75);
+    color: rgba(255, 230, 130, 0.9); border-color: rgba(255, 215, 0, 0.75);
     background: linear-gradient(135deg, rgba(255, 200, 50, 0.35) 0%, rgba(200, 140, 0, 0.18) 100%);
     box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 24px rgba(255,215,0,0.3);
     animation: legendaryPulse 3s ease-in-out infinite;
@@ -383,14 +309,11 @@ body::before {
 .record-card.rarity-legendary:hover {
     border-color: rgba(255, 245, 150, 1);
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.5) 0%, rgba(220, 160, 20, 0.3) 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 40px rgba(255, 215, 0, 0.6);
+    transform: translateY(-3px); box-shadow: 0 8px 40px rgba(255, 215, 0, 0.6);
 }
 
-/* === НЕЖИТЬ — свои палитры === */
 .record-card.undead.rarity-common {
-    color: rgba(150, 170, 120, 0.8);
-    border-color: rgba(120, 130, 90, 0.55);
+    color: rgba(150, 170, 120, 0.8); border-color: rgba(120, 130, 90, 0.55);
     background: linear-gradient(135deg, rgba(70, 80, 60, 0.4) 0%, rgba(40, 50, 35, 0.2) 100%);
 }
 .record-card.undead.rarity-common:hover {
@@ -399,8 +322,7 @@ body::before {
     box-shadow: 0 8px 24px rgba(140, 160, 100, 0.4);
 }
 .record-card.undead.rarity-rare {
-    color: rgba(130, 180, 200, 0.85);
-    border-color: rgba(100, 140, 160, 0.65);
+    color: rgba(130, 180, 200, 0.85); border-color: rgba(100, 140, 160, 0.65);
     background: linear-gradient(135deg, rgba(60, 90, 110, 0.4) 0%, rgba(40, 60, 80, 0.2) 100%);
 }
 .record-card.undead.rarity-rare:hover {
@@ -409,8 +331,7 @@ body::before {
     box-shadow: 0 8px 28px rgba(110, 160, 190, 0.45);
 }
 .record-card.undead.rarity-epic {
-    color: rgba(160, 140, 190, 0.85);
-    border-color: rgba(120, 100, 140, 0.7);
+    color: rgba(160, 140, 190, 0.85); border-color: rgba(120, 100, 140, 0.7);
     background: linear-gradient(135deg, rgba(80, 60, 100, 0.4) 0%, rgba(50, 40, 70, 0.2) 100%);
 }
 .record-card.undead.rarity-epic:hover {
@@ -419,8 +340,7 @@ body::before {
     box-shadow: 0 8px 30px rgba(150, 120, 180, 0.45);
 }
 .record-card.undead.rarity-legendary {
-    color: rgba(200, 180, 120, 0.9);
-    border-color: rgba(160, 140, 70, 0.8);
+    color: rgba(200, 180, 120, 0.9); border-color: rgba(160, 140, 70, 0.8);
     background: linear-gradient(135deg, rgba(110, 90, 50, 0.42) 0%, rgba(70, 55, 30, 0.22) 100%);
     animation: undeadLegendaryPulse 3s ease-in-out infinite;
 }
@@ -434,66 +354,27 @@ body::before {
     box-shadow: 0 8px 40px rgba(170, 150, 80, 0.6);
 }
 
-/* === ПУСТЫЕ ПЛАШКИ (без рекорда) === */
-.record-card.empty {
-    opacity: 0.5;
-    filter: grayscale(0.7);
-}
-.record-card.empty:hover {
-    opacity: 0.8;
-    filter: grayscale(0.3);
-    transform: translateY(-2px);
-}
-.record-icon.faded {
-    opacity: 0.6;
-}
-.record-size.empty-size {
-    color: rgba(255,255,255,0.3);
-    text-shadow: none;
-}
-.record-card.empty .record-holder {
-    color: rgba(255,255,255,0.3);
-}
+.record-card.empty { opacity: 0.5; filter: grayscale(0.7); }
+.record-card.empty:hover { opacity: 0.8; filter: grayscale(0.3); transform: translateY(-2px); }
+.record-icon.faded { opacity: 0.6; }
+.record-size.empty-size { color: rgba(255,255,255,0.3); text-shadow: none; }
+.record-card.empty .record-holder { color: rgba(255,255,255,0.3); }
 
-/* === ЗАГЛУШКА === */
-.loading {
-    text-align: center;
-    padding: 60px 20px;
-    color: rgba(255,255,255,0.5);
-    font-size: 1rem;
-}
+.loading { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.5); font-size: 1rem; }
 .loading::after {
-    content: '';
-    display: inline-block;
-    width: 20px; height: 20px;
-    border: 2px solid rgba(0,212,255,0.3);
-    border-top-color: #00d4ff;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin-left: 10px;
-    vertical-align: middle;
+    content: ''; display: inline-block; width: 20px; height: 20px;
+    border: 2px solid rgba(0,212,255,0.3); border-top-color: #00d4ff;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-left: 10px; vertical-align: middle;
 }
-
-/* === ПОДВАЛ === */
-.footer {
-    text-align: center; margin-top: 20px; padding: 15px;
-    font-size: 0.85rem; color: rgba(255,255,255,0.4);
-}
+.footer { text-align: center; margin-top: 20px; padding: 15px; font-size: 0.85rem; color: rgba(255,255,255,0.4); }
 .footer a { color: #00d4ff; text-decoration: none; transition: color 0.3s; }
 .footer a:hover { color: #00ffa3; }
 
-/* === АНИМАЦИИ === */
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-25px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-25px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* === АДАПТИВ === */
 @media (max-width: 700px) {
     body { padding: 8px; padding-top: 12px; }
     .header h1 { font-size: 2rem; }
@@ -536,6 +417,9 @@ body::before {
 
         <h2 style="margin-top: 25px;">🧟 Рекорды размеров · Нежить</h2>
         <div class="records-grid" id="recordsUndead"></div>
+        
+        <h2 style="margin-top: 25px;">🎃 Рекорды размеров · Хэллоуин</h2>
+        <div class="records-grid" id="recordsHalloween"></div>
     </div>
 
     <div class="loading" id="loading">Загрузка данных...</div>
@@ -552,7 +436,6 @@ const DATA_URL = '/data.json';
 const nickInput = document.getElementById('nickInput');
 const searchBtn = document.getElementById('searchBtn');
 
-// === ПОИСК ИГРОКА ===
 function goToPlayer() {
     const nick = nickInput.value.trim();
     if (!nick) {
@@ -566,7 +449,6 @@ function goToPlayer() {
 searchBtn.addEventListener('click', goToPlayer);
 nickInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') goToPlayer(); });
 
-// === СПИСОК ВСЕХ РЫБ ===
 const ALL_FISH = [
     "Щука", "Форель", "Толстолобик", "Судак", "Сом",
     "Пескарь", "Окунь", "Налим", "Лосось", "Линь",
@@ -576,7 +458,11 @@ const ALL_FISH = [
     "Чоп", "Пиранья", "Плотва", "Язь", "Голавль"
 ];
 
-// === ДАННЫЕ РЫБ (редкость, размеры) ===
+const HALLOWEEN_FISH = [
+    "Назойливая тыковка", "Щука падлюка", "Краб шкраб", "Осётр Пётр", "Удильщик", 
+    "Луна в костюме луны", "Клоун в костюме клоуна", "Судак дурак", "Писклявый пескарь"
+];
+
 const FISH_DATA = {
     'Щука':       { min: 10, max: 120, rarity: 'rare' },
     'Форель':     { min: 10, max: 70,  rarity: 'rare' },
@@ -607,10 +493,20 @@ const FISH_DATA = {
     'Сазан':      { min: 20, max: 100, rarity: 'epic' },
     'Карась':     { min: 10, max: 40,  rarity: 'common' },
     'Краснопёрка':{ min: 5,  max: 35,  rarity: 'common' },
-    'Пескарь':    { min: 5,  max: 15,  rarity: 'common' }
+    'Пескарь':    { min: 5,  max: 15,  rarity: 'common' },
+    
+    // ХЭЛЛОУИН
+    'Назойливая тыковка': { min: 10, max: 30, rarity: 'common' },
+    'Щука падлюка':       { min: 30, max: 100, rarity: 'rare' },
+    'Краб шкраб':         { min: 10, max: 40, rarity: 'epic' },
+    'Осётр Пётр':         { min: 50, max: 180, rarity: 'legendary' },
+    'Удильщик':           { min: 20, max: 80, rarity: 'legendary' },
+    'Луна в костюме луны':{ min: 20, max: 60, rarity: 'epic' },
+    'Клоун в костюме клоуна': { min: 10, max: 40, rarity: 'rare' },
+    'Судак дурак':        { min: 20, max: 70, rarity: 'rare' },
+    'Писклявый пескарь':  { min: 5, max: 20, rarity: 'common' }
 };
 
-// === ЗАГРУЗКА ===
 let lastDataHash = '';
 
 function loadAndRender(silent) {
@@ -626,15 +522,9 @@ function loadAndRender(silent) {
 
             document.getElementById('loading').style.display = 'none';
 
-            // СНАЧАЛА lifetime
-            if (data._lifetimeCatches) {
-                window._lifetimeCatches = data._lifetimeCatches;
-            }
-            if (data._personalRecords) {
-                window._personalRecords = data._personalRecords;
-            }
+            if (data._lifetimeCatches) window._lifetimeCatches = data._lifetimeCatches;
+            if (data._personalRecords) window._personalRecords = data._personalRecords;
 
-            // ПОТОМ рендер
             if (data._stats) {
                 renderStatsMini(data._stats);
                 renderTopPlayers(data._stats);
@@ -648,13 +538,11 @@ function loadAndRender(silent) {
         .catch(err => {
             if (!silent) {
                 console.error(err);
-                document.getElementById('loading').innerHTML =
-                    '<span style="color:#ff6b6b">Не удалось загрузить данные</span>';
+                document.getElementById('loading').innerHTML = '<span style="color:#ff6b6b">Не удалось загрузить данные</span>';
             }
         });
 }
 
-// === ОБЩАЯ СТАТИСТИКА ===
 function renderStatsMini(stats) {
     const el = document.getElementById('statsMini');
     el.innerHTML = `
@@ -671,7 +559,6 @@ function renderStatsMini(stats) {
     `;
 }
 
-// === ТОП-3 ЗА МЕСЯЦ ===
 function renderTopPlayers(stats) {
     const el = document.getElementById('topPlayers');
     const top3 = (stats && stats.topPlayers) ? stats.topPlayers : [];
@@ -700,15 +587,15 @@ function renderTopPlayers(stats) {
     }).join('');
 }
 
-// === РЕКОРДЫ РАЗМЕРОВ (все рыбы) ===
 function renderRecords(records) {
     const regularEl = document.getElementById('recordsRegular');
     const undeadEl = document.getElementById('recordsUndead');
+    const halloweenEl = document.getElementById('recordsHalloween');
 
     const regularRows = [];
     const undeadRows = [];
+    const halloweenRows = [];
 
-    // === ОБЫЧНЫЕ РЫБЫ ===
     for (const fish of ALL_FISH) {
         const r = records[fish] || null;
         const info = FISH_DATA[fish] || { rarity: 'common', max: 0 };
@@ -743,7 +630,6 @@ function renderRecords(records) {
         }
     }
 
-    // === НЕЖИТЬ ===
     for (const fish of ALL_FISH) {
         const undeadFish = 'Нежить ' + fish.toLowerCase();
         const r = records[undeadFish] || null;
@@ -779,45 +665,70 @@ function renderRecords(records) {
         }
     }
 
+    for (const fish of HALLOWEEN_FISH) {
+        const r = records[fish] || null;
+        const info = FISH_DATA[fish] || { rarity: 'common', max: 0 };
+        const rarity = info.rarity || 'common';
+        const maxSize = info.max || 0;
+        const icon = getFishIcon(fish);
+        const lifetimeCount = getLifetimeCount(fish);
+
+        if (r) {
+            const isTrophy = maxSize > 0 && r.size >= maxSize;
+            halloweenRows.push(`
+                <div class="record-card rarity-${rarity}" data-tooltip="🎃 Поймано за всё время: ${lifetimeCount}">
+                    <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon">
+                    <div class="record-fish">${escapeHtml(fish)}${isTrophy ? ' 🏆' : ''}</div>
+                    <div class="record-size-block">
+                        <div class="record-size">${r.size} см</div>
+                        <div class="record-holder">@${escapeHtml(r.holder)}</div>
+                    </div>
+                </div>
+            `);
+        } else {
+            halloweenRows.push(`
+                <div class="record-card rarity-${rarity} empty" data-tooltip="🎃 Ещё не поймана">
+                    <img src="${icon}" alt="${escapeHtml(fish)}" class="record-icon faded">
+                    <div class="record-fish">${escapeHtml(fish)}</div>
+                    <div class="record-size-block">
+                        <div class="record-size empty-size">— см</div>
+                        <div class="record-holder">нет рекорда</div>
+                    </div>
+                </div>
+            `);
+        }
+    }
+
     regularEl.innerHTML = regularRows.join('');
     undeadEl.innerHTML = undeadRows.join('');
+    if (halloweenEl) halloweenEl.innerHTML = halloweenRows.join('');
 }
 
-// === СЧЁТЧИК ПОЙМАНО ЗА ВСЁ ВРЕМЯ ===
 function getLifetimeCount(fishName) {
     if (!window._lifetimeCatches) return 0;
-
     const normalize = (s) => String(s).toLowerCase().replace('ё', 'е').trim();
     const targetKey = normalize(fishName);
-
     let total = 0;
 
     for (const player in window._lifetimeCatches) {
         const playerCatches = window._lifetimeCatches[player];
         if (!playerCatches || typeof playerCatches !== 'object') continue;
-
         for (const storedFish in playerCatches) {
             if (normalize(storedFish) === targetKey) {
                 total += playerCatches[storedFish] || 0;
             }
         }
     }
-
     return total;
 }
 
-// === БЕЗОПАСНОСТЬ ===
 function escapeHtml(text) {
     if (!text) return '';
     return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-// === ЗАГРУЗКА + АВТООБНОВЛЕНИЕ КАЖДЫЕ 30 СЕК ===
 loadAndRender(false);
 setInterval(() => loadAndRender(true), 30000);
 </script>
