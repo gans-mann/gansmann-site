@@ -528,7 +528,7 @@ const ALL_FISH = [
 let currentModalFish = null;
 let isRegularListOpen = false;
 let isUndeadListOpen = false;
-    
+
 const urlParams = new URLSearchParams(window.location.search);
 const playerName = urlParams.get('player');
 const playerCard = document.getElementById('playerCard');
@@ -562,7 +562,6 @@ function loadAndRender(silent) {
                 return;
             }
 
-            // Если карточка открыта — не перерисовываем весь инвентарь
             if (silent && currentModalFish) {
                 if (data[playerKey][currentModalFish] !== undefined) {
                     refreshOpenModal(currentModalFish, data[playerKey][currentModalFish]);
@@ -586,12 +585,6 @@ function loadAndRender(silent) {
 }
 
 function renderInventory(playerName, inventory) {
-        // Запоминаем, какие списки были открыты
-    const regularBlock = document.getElementById('progressRegular');
-    if (regularBlock) isRegularListOpen = regularBlock.classList.contains('open');
-    
-    const undeadBlock = document.getElementById('progressUndead');
-    if (undeadBlock) isUndeadListOpen = undeadBlock.classList.contains('open');
     let totalRegular = 0, totalUndead = 0;
     const regularFish = [], undeadFish = [];
     const regularSet = new Set(), undeadSet = new Set();
@@ -628,7 +621,6 @@ function renderInventory(playerName, inventory) {
     const regularPercent = Math.round(regularCaught / totalTypes * 100);
     const undeadPercent = Math.round(undeadCaught / totalTypes * 100);
 
-    // Генерируем списки оставшихся для выпадающих меню
     let missedRegularHtml = '';
     let missedUndeadHtml = '';
 
@@ -655,7 +647,7 @@ function renderInventory(playerName, inventory) {
         </div>
 
         <div class="collection-progress">
-            <div class="progress-block" id="progressRegular">
+            <div class="progress-block ${isRegularListOpen ? 'open' : ''}" id="progressRegular">
                 <div class="progress-header">
                     <span class="label">🐟 Обычные</span>
                     <span class="count">${regularCaught} / ${totalTypes}</span>
@@ -668,7 +660,7 @@ function renderInventory(playerName, inventory) {
                 </div>
             </div>
 
-            <div class="progress-block undead" id="progressUndead">
+            <div class="progress-block undead ${isUndeadListOpen ? 'open' : ''}" id="progressUndead">
                 <div class="progress-header">
                     <span class="label">🧟 Нежить</span>
                     <span class="count">${undeadCaught} / ${totalTypes}</span>
@@ -744,34 +736,14 @@ function renderInventory(playerName, inventory) {
 
     playerCard.innerHTML = html;
 
-        // Восстанавливаем состояние открытых списков
     const blockRegular = document.getElementById('progressRegular');
     const blockUndead = document.getElementById('progressUndead');
 
     if (blockRegular) {
-        if (isRegularListOpen) blockRegular.classList.add('open');
-        
         blockRegular.addEventListener('click', function(e) {
             if (e.target.closest('.missed-list')) return;
             this.classList.toggle('open');
-            isRegularListOpen = this.classList.contains('open'); // Сохраняем новое состояние
-        });
-    }
-
-    if (blockUndead) {
-        if (isUndeadListOpen) blockUndead.classList.add('open');
-
-        blockUndead.addEventListener('click', function(e) {
-            if (e.target.closest('.missed-list')) return;
-            this.classList.toggle('open');
-            isUndeadListOpen = this.classList.contains('open'); // Сохраняем новое состояние
-        });
-    }
-
-    if (blockRegular) {
-        blockRegular.addEventListener('click', function(e) {
-            if (e.target.closest('.missed-list')) return;
-            this.classList.toggle('open');
+            isRegularListOpen = this.classList.contains('open');
         });
     }
 
@@ -779,6 +751,7 @@ function renderInventory(playerName, inventory) {
         blockUndead.addEventListener('click', function(e) {
             if (e.target.closest('.missed-list')) return;
             this.classList.toggle('open');
+            isUndeadListOpen = this.classList.contains('open');
         });
     }
 
