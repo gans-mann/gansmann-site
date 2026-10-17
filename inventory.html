@@ -647,7 +647,7 @@ function renderInventory(playerName, inventory) {
         </div>
 
         <div class="collection-progress">
-            <div class="progress-block" onclick="this.classList.toggle('open')">
+            <div class="progress-block" id="progressRegular">
                 <div class="progress-header">
                     <span class="label">🐟 Обычные</span>
                     <span class="count">${regularCaught} / ${totalTypes}</span>
@@ -655,12 +655,12 @@ function renderInventory(playerName, inventory) {
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: ${regularPercent}%"></div>
                 </div>
-                <div class="missed-list" onclick="event.stopPropagation()">
+                <div class="missed-list">
                     ${missedRegularHtml || '<div style="color:#00ffa3; font-size:0.8rem; padding:5px;">🎉 Все обычные рыбы пойманы!</div>'}
                 </div>
             </div>
 
-            <div class="progress-block undead" onclick="this.classList.toggle('open')">
+            <div class="progress-block undead" id="progressUndead">
                 <div class="progress-header">
                     <span class="label">🧟 Нежить</span>
                     <span class="count">${undeadCaught} / ${totalTypes}</span>
@@ -668,7 +668,7 @@ function renderInventory(playerName, inventory) {
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: ${undeadPercent}%"></div>
                 </div>
-                <div class="missed-list" onclick="event.stopPropagation()">
+                <div class="missed-list">
                     ${missedUndeadHtml || '<div style="color:#a8b878; font-size:0.8rem; padding:5px;">🎉 Вся нежить поймана!</div>'}
                 </div>
             </div>
@@ -735,6 +735,24 @@ function renderInventory(playerName, inventory) {
     }
 
     playerCard.innerHTML = html;
+
+    // Навешиваем обработчики на полоски
+    const blockRegular = document.getElementById('progressRegular');
+    const blockUndead = document.getElementById('progressUndead');
+
+    if (blockRegular) {
+        blockRegular.addEventListener('click', function(e) {
+            if (e.target.closest('.missed-list')) return;
+            this.classList.toggle('open');
+        });
+    }
+
+    if (blockUndead) {
+        blockUndead.addEventListener('click', function(e) {
+            if (e.target.closest('.missed-list')) return;
+            this.classList.toggle('open');
+        });
+    }
 
     document.querySelectorAll('.fish-item').forEach(item => {
         item.addEventListener('click', function(e) {
