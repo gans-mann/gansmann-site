@@ -526,7 +526,9 @@ const ALL_FISH = [
 ];
 
 let currentModalFish = null;
-
+let isRegularListOpen = false;
+let isUndeadListOpen = false;
+    
 const urlParams = new URLSearchParams(window.location.search);
 const playerName = urlParams.get('player');
 const playerCard = document.getElementById('playerCard');
@@ -584,6 +586,12 @@ function loadAndRender(silent) {
 }
 
 function renderInventory(playerName, inventory) {
+        // Запоминаем, какие списки были открыты
+    const regularBlock = document.getElementById('progressRegular');
+    if (regularBlock) isRegularListOpen = regularBlock.classList.contains('open');
+    
+    const undeadBlock = document.getElementById('progressUndead');
+    if (undeadBlock) isUndeadListOpen = undeadBlock.classList.contains('open');
     let totalRegular = 0, totalUndead = 0;
     const regularFish = [], undeadFish = [];
     const regularSet = new Set(), undeadSet = new Set();
@@ -736,9 +744,29 @@ function renderInventory(playerName, inventory) {
 
     playerCard.innerHTML = html;
 
-    // Навешиваем обработчики на полоски
+        // Восстанавливаем состояние открытых списков
     const blockRegular = document.getElementById('progressRegular');
     const blockUndead = document.getElementById('progressUndead');
+
+    if (blockRegular) {
+        if (isRegularListOpen) blockRegular.classList.add('open');
+        
+        blockRegular.addEventListener('click', function(e) {
+            if (e.target.closest('.missed-list')) return;
+            this.classList.toggle('open');
+            isRegularListOpen = this.classList.contains('open'); // Сохраняем новое состояние
+        });
+    }
+
+    if (blockUndead) {
+        if (isUndeadListOpen) blockUndead.classList.add('open');
+
+        blockUndead.addEventListener('click', function(e) {
+            if (e.target.closest('.missed-list')) return;
+            this.classList.toggle('open');
+            isUndeadListOpen = this.classList.contains('open'); // Сохраняем новое состояние
+        });
+    }
 
     if (blockRegular) {
         blockRegular.addEventListener('click', function(e) {
