@@ -35,6 +35,7 @@ const PALETTES = {
     lamprey:   { main: '#6a6a7a', dark: '#3a3a4a', light: '#9a9aaa', belly: '#c0c0d0', fin: '#4a4a5a', eye: '#ffd700', pupil: '#000', gill: '#3a3a4a', spot: '#3a3a4a', stripe: '#3a3a4a' },
     
     // === ХЭЛЛОУИН ===
+    mraz_karas:      { main: '#d4af37', dark: '#8b6508', light: '#ffd700', belly: '#ffebcd', fin: '#daa520', eye: '#ff0000', pupil: '#000', gill: '#8b6508', spot: '#8b6508', stripe: '#8b6508' },
     nagging_pumpkin: { main: '#ff8c00', dark: '#8b4500', light: '#ffb347', belly: '#ffd700', fin: '#228b22', eye: '#ffffff', pupil: '#000', gill: '#228b22', spot: '#8b4500', stripe: '#8b4500' },
     pike_hat:        { main: '#4a6b2a', dark: '#2a3f1a', light: '#6b8a4a', belly: '#8fa860', fin: '#3a5020', eye: '#ffd700', pupil: '#000', gill: '#2a3f1a', spot: '#8b4513', stripe: '#8b4513' },
     crab_square:     { main: '#d32f2f', dark: '#b71c1c', light: '#ef5350', belly: '#ffcdd2', fin: '#b71c1c', eye: '#000000', pupil: '#ffffff', gill: '#b71c1c', spot: '#4a148c', stripe: '#4a148c' },
@@ -126,6 +127,7 @@ const FISH_FORMS = {
     'Минога':     { bodyLen: 28, bodyH: 6, bodyY: 13, headShape: 'trumpet', headLen: 3, tailType: 'leaf', tailSize: 5, topFin: 'dorsal-long', topFinSize: 10, bottomFin: 'none', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'lamprey', snakeLike: true },
 
     // === ХЭЛЛОУИН ===
+        'Мразь карась':       { bodyLen: 16, bodyH: 17, bodyY: 7, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 5, topFin: 'long-back', topFinSize: 8, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'mraz_karas' },
     'Назойливая тыковка': { bodyLen: 14, bodyH: 14, bodyY: 9, headShape: 'round', headLen: 4, tailType: 'fan', tailSize: 5, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'nagging_pumpkin' },
     'Щука падлюка':       { bodyLen: 26, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 7, tailType: 'fork', tailSize: 6, topFin: 'small-back', topFinSize: 4, bottomFin: 'small', spots: [[10,2],[15,4],[19,3]], stripes: null, whiskers: false, spikes: false, palette: 'pike_hat' },
     'Краб шкраб':         { bodyLen: 18, bodyH: 12, bodyY: 10, headShape: 'round', headLen: 5, tailType: 'none', tailSize: 0, topFin: 'none', topFinSize: 0, bottomFin: 'none', spots: [[8,3],[12,5],[15,3]], stripes: null, whiskers: false, spikes: false, palette: 'crab_square' },
