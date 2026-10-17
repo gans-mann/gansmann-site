@@ -673,13 +673,20 @@ function loadAndRender(silent) {
 
 // Определяем ник из URL (поддерживаем и старый, и новый формат)
 let playerName = null;
+let playerName = null;
 const urlParams = new URLSearchParams(window.location.search);
 playerName = urlParams.get('player');
 
 if (!playerName) {
-    const pathParts = window.location.pathname.split('/');
-    if (pathParts[1] === 'inventory' && pathParts[2]) {
-        playerName = decodeURIComponent(pathParts[2]);
+    // Если Cloudflare обрезал адрес до /inventory, берем последний сегмент пути
+    const pathParts = window.location.pathname.split('/').filter(p => p !== '');
+    // Если зашли как /inventory/gans_mann, берем второй элемент
+    if (pathParts[0] === 'inventory' && pathParts[1]) {
+        playerName = decodeURIComponent(pathParts[1]);
+    } 
+    // Если Cloudflare срезал всё до /inventory, ник потерян, но мы предотвратим ошибку
+    else if (pathParts[0] === 'inventory' && !pathParts[1]) {
+        playerName = null; // Покажем сообщение "Укажите ник"
     }
 }
 
