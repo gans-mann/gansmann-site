@@ -1039,6 +1039,35 @@ body::before {
 <script src="/fish-icons.js"></script>
 <script>
 
+// ========================================================
+// НОРМАЛИЗАЦИЯ КЛЮЧЕЙ (регистр + ё/е)
+// ========================================================
+function normalizeKey(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).toLowerCase().replace(/ё/g, 'е').trim();
+}
+
+// Приводит любой ключ к каноническому виду
+function canonicalFishName(name) {
+    return normalizeKey(name);
+}
+
+// Ищет в объекте значение по нормализованному ключу
+// (возвращает { key, value } или null)
+function findNormalized(obj, targetKey) {
+    if (!obj || typeof obj !== 'object') return null;
+    const target = normalizeKey(targetKey);
+    for (const k in obj) {
+        if (normalizeKey(k) === target) {
+            return { key: k, value: obj[k] };
+        }
+    }
+    return null;
+}
+
+// ========================================================
+// ДАННЫЕ РЫБ
+// ========================================================
 const FISH_DATA = {
     'Щука':       { min: 10, max: 120, rarity: 'rare' },
     'Форель':     { min: 10, max: 70,  rarity: 'rare' },
@@ -1095,7 +1124,7 @@ function getFishInfo(fishName) {
     const info = getFishForm(fishName);
     let data = null;
     for (const key in FISH_DATA) {
-        if (key.toLowerCase().replace('ё', 'е') === info.baseName.toLowerCase().replace('ё', 'е')) {
+        if (normalizeKey(key) === normalizeKey(info.baseName)) {
             data = FISH_DATA[key];
             break;
         }
@@ -1109,6 +1138,50 @@ function getFishInfo(fishName) {
         max: data.max,
         rarity: (data.rarity || 'common').toLowerCase()
     };
+}
+
+// ========================================================
+// ПОИСК LIFETIME / PERSONAL RECORDS С НОРМАЛИЗАЦИЕЙ
+// ========================================================
+function getLifetimeCountForPlayer(playerName, fishName) {
+    if (!window._lifetimeCatches) return 0;
+
+    // 1. Ищем игрока по нормализованному ключу
+    const playerEntry = findNormalized(window._lifetimeCatches, playerName);
+    if (!playerEntry) return 0;
+
+    const playerCatches = playerEntry.value;
+    if (!playerCatches || typeof playerCatches !== 'object') return 0;
+
+    // 2. Ищем рыбу по нормализованному ключу
+    const fishEntry = findNormalized(playerCatches, fishName);
+    if (!fishEntry) return 0;
+
+    return fishEntry.value || 0;
+}
+
+function getPersonalRecordForPlayer(playerName, fishName) {
+    if (!window._personalRecords) return null;
+
+    // Ключ в C# формируется как "$"{player.ToLower()}|{fish.ToLower()}""
+    // Но подстрахуемся — нормализуем и ищем перебором
+    const targetKey = normalizeKey(playerName) + '|' + normalizeKey(fishName);
+
+    // Прямой поиск (быстро)
+    if (window._personalRecords[targetKey] !== undefined) {
+        return window._personalRecords[targetKey];
+    }
+
+    // Перебор с нормализацией (медленнее, но надёжно)
+    for (const k in window._personalRecords) {
+        const parts = k.split('|');
+        if (parts.length !== 2) continue;
+        if (normalizeKey(parts[0]) === normalizeKey(playerName) &&
+            normalizeKey(parts[1]) === normalizeKey(fishName)) {
+            return window._personalRecords[k];
+        }
+    }
+    return null;
 }
 
 // ========================================================
@@ -1144,10 +1217,15 @@ function loadAndRender(silent) {
             if (data._personalRecords) window._personalRecords = data._personalRecords;
             if (data._lifetimeCatches) window._lifetimeCatches = data._lifetimeCatches;
 
-            // === Игрок ===
-            const playerKey = Object.keys(data).find(
-                key => !key.startsWith('_') && key.toLowerCase() === playerName.toLowerCase()
-            );
+            // === Игрок (поиск с нормализацией регистра и ё/е) ===
+            let playerKey = null;
+            for (const key in data) {
+                if (key.startsWith('_')) continue;
+                if (normalizeKey(key) === normalizeKey(playerName)) {
+                    playerKey = key;
+                    break;
+                }
+            }
 
             if (!playerKey) {
                 playerCard.innerHTML = `
@@ -1164,10 +1242,13 @@ function loadAndRender(silent) {
 // === ЕСЛИ КАРТОЧКА ОТКРЫТА — ОБНОВЛЯЕМ ЕЁ ===
 if (currentModalFish) {
     const fishData = data[playerKey];
-    if (fishData && fishData[currentModalFish] !== undefined) {
-        // Обновляем count и lifetimeCount внутри карточки
-        refreshOpenModal(currentModalFish, fishData[currentModalFish]);
-    }
+    // Ищем рыбу в инвентаре с нормализацией
+    const fishEntry = findNormalized(fishData, currentModalFish);
+    const currentCount = fishEntry ? fishEntry.value : 0;
+
+    // Обновляем карточку всегда (даже если count не изменился —
+    // рекорд / lifetime могли измениться)
+    refreshOpenModal(currentModalFish, currentCount);
 }
         })
         .catch(err => {
@@ -1202,36 +1283,8 @@ if (!playerName) {
     // Первая загрузка — с индикатором "Загрузка..."
     loadAndRender(false);
 
-    // Автообновление каждые 15 секунд (silent = без индикатора)
+    // Автообновление каждые 5 секунд (silent = без индикатора)
     setInterval(() => loadAndRender(true), 5000);
-}
-
-function renderServerStats(stats) {
-    const grid = document.getElementById('serverStatsGrid');
-    const topPlayerName = capitalizeName(stats.topPlayer || '');
-    grid.innerHTML = `
-        <div class="server-stat">
-            <div class="stat-icon">🐟</div>
-            <div class="stat-value">${stats.totalFish}</div>
-            <div class="stat-label">Рыб всего</div>
-        </div>
-        <div class="server-stat">
-            <div class="stat-icon">👥</div>
-            <div class="stat-value">${stats.totalPlayers}</div>
-            <div class="stat-label">Рыбаков</div>
-        </div>
-        <div class="server-stat">
-            <div class="stat-icon">🏆</div>
-            <div class="stat-value" style="font-size: 0.95rem;">@${topPlayerName}</div>
-            <div class="stat-label">Лидер (${stats.topPlayerCount})</div>
-        </div>
-        <div class="server-stat">
-            <div class="stat-icon">💎</div>
-            <div class="stat-value" style="font-size: 0.95rem;">${capitalizeName(stats.rarestFish || '—')}</div>
-            <div class="stat-label">Самая редкая</div>
-        </div>
-    `;
-    document.getElementById('serverStats').style.display = 'block';
 }
 
 function renderInventory(playerName, inventory) {
@@ -1241,17 +1294,18 @@ function renderInventory(playerName, inventory) {
 
     for (const [fish, count] of Object.entries(inventory)) {
         if (count <= 0) continue;
-        const isUndead = fish.toLowerCase().startsWith('нежить ');
+        const isUndead = normalizeKey(fish).startsWith('нежить ');
         const baseFish = isUndead ? fish.substring(7).trim() : fish;
+        const baseNorm = normalizeKey(baseFish);
 
         if (isUndead) {
             totalUndead += count;
             undeadFish.push({ name: fish, displayName: baseFish.charAt(0).toUpperCase() + baseFish.slice(1), count });
-            undeadSet.add(baseFish.toLowerCase().replace('ё', 'е'));
+            undeadSet.add(baseNorm);
         } else {
             totalRegular += count;
             regularFish.push({ name: fish, displayName: fish, count });
-            regularSet.add(baseFish.toLowerCase().replace('ё', 'е'));
+            regularSet.add(baseNorm);
         }
     }
 
@@ -1263,7 +1317,7 @@ function renderInventory(playerName, inventory) {
 
     let regularCaught = 0, undeadCaught = 0;
     ALL_FISH.forEach(fish => {
-        const normalized = fish.toLowerCase().replace('ё', 'е');
+        const normalized = normalizeKey(fish);
         if (regularSet.has(normalized)) regularCaught++;
         if (undeadSet.has(normalized)) undeadCaught++;
     });
@@ -1322,9 +1376,11 @@ function renderInventory(playerName, inventory) {
             <h3>🐟 Обычные рыбы</h3>
             <div class="fish-grid">
                 ${ALL_FISH.map(fish => {
-                    const normalized = fish.toLowerCase().replace('ё', 'е');
+                    const normalized = normalizeKey(fish);
                     const isCaught = regularSet.has(normalized);
-                    const count = inventory[fish] || 0;
+                    // Ищем count по нормализованному ключу
+                    const entry = findNormalized(inventory, fish);
+                    const count = entry ? entry.value : 0;
                     const info = getFishInfo(fish);
                     
                     // Если рыба не в коллекции, добавляем класс not-caught
@@ -1349,10 +1405,12 @@ function renderInventory(playerName, inventory) {
             <h3>🧟 Нежить</h3>
             <div class="fish-grid">
                 ${ALL_FISH.map(fish => {
-                    const normalized = fish.toLowerCase().replace('ё', 'е');
+                    const normalized = normalizeKey(fish);
                     const isCaught = undeadSet.has(normalized);
                     const undeadName = 'Нежить ' + fish.toLowerCase();
-                    const count = inventory[undeadName] || 0;
+                    // Ищем count по нормализованному ключу
+                    const entry = findNormalized(inventory, undeadName);
+                    const count = entry ? entry.value : 0;
                     const info = getFishInfo(undeadName);
                     const displayName = fish.charAt(0).toUpperCase() + fish.slice(1);
 
@@ -1392,19 +1450,19 @@ function showFishModal(fishName, count) {
     currentModalFish = fishName;
     const info = getFishInfo(fishName);
     const rarity = RARITY_INFO[info.rarity];
-// Счётчик поймано за всё время
-let lifetimeCount = count; // fallback
-if (window._lifetimeCatches && window._lifetimeCatches[playerName.toLowerCase()]) {
-    const playerLT = window._lifetimeCatches[playerName.toLowerCase()];
-    const fishKey = fishName.toLowerCase();
-    if (playerLT[fishKey] !== undefined) {
-        lifetimeCount = playerLT[fishKey];
+
+    // Счётчик поймано за всё время (с нормализацией)
+    let lifetimeCount = getLifetimeCountForPlayer(playerName, fishName);
+    if (lifetimeCount === 0 && count > 0) {
+        // fallback: если в lifetime нет записи, но рыба в инвентаре
+        lifetimeCount = count;
     }
-}
-    const recordKey = (playerName.toLowerCase() + '|' + fishName.toLowerCase());
+
+    // Личный рекорд (с нормализацией)
+    const personalRecord = getPersonalRecordForPlayer(playerName, fishName);
     let recordHtml = '';
-    if (window._personalRecords && window._personalRecords[recordKey]) {
-        recordHtml = `<div class="info-value record">${window._personalRecords[recordKey]} см</div>`;
+    if (personalRecord !== null) {
+        recordHtml = `<div class="info-value record">${personalRecord} см</div>`;
     } else {
         recordHtml = `<div class="info-value no-record">не установлен</div>`;
     }
@@ -1506,18 +1564,13 @@ function closeFishModal() {
 }
 // === ОБНОВЛЕНИЕ ОТКРЫТОЙ КАРТОЧКИ БЕЗ ЗАКРЫТИЯ ===
 function refreshOpenModal(fishName, count) {
-    const info = getFishInfo(fishName);
     const modal = document.getElementById('fishModalContent');
     if (!modal) return;
 
-    // === СЧИТАЕМ LIFETIME ===
-    let lifetimeCount = count;
-    if (window._lifetimeCatches && window._lifetimeCatches[playerName.toLowerCase()]) {
-        const playerLT = window._lifetimeCatches[playerName.toLowerCase()];
-        const fishKey = fishName.toLowerCase();
-        if (playerLT[fishKey] !== undefined) {
-            lifetimeCount = playerLT[fishKey];
-        }
+    // === СЧИТАЕМ LIFETIME (с нормализацией) ===
+    let lifetimeCount = getLifetimeCountForPlayer(playerName, fishName);
+    if (lifetimeCount === 0 && count > 0) {
+        lifetimeCount = count;
     }
 
     // === ФУНКЦИЯ ОБНОВЛЕНИЯ ЗНАЧЕНИЯ С ПОДСВЕТКОЙ ===
@@ -1543,14 +1596,14 @@ function refreshOpenModal(fishName, count) {
         setCountValue(countItems[1], lifetimeCount);
     }
 
-    // === ОБНОВЛЯЕМ ЛИЧНЫЙ РЕКОРД ===
+    // === ОБНОВЛЯЕМ ЛИЧНЫЙ РЕКОРД (с нормализацией) ===
     const recordBlock = modal.querySelector('.modal-info-block:last-child');
     if (recordBlock) {
         const recordValueEl = recordBlock.querySelector('.info-value');
         if (recordValueEl) {
-            const recordKey = (playerName.toLowerCase() + '|' + fishName.toLowerCase());
-            if (window._personalRecords && window._personalRecords[recordKey]) {
-                const newRecord = window._personalRecords[recordKey] + ' см';
+            const personalRecord = getPersonalRecordForPlayer(playerName, fishName);
+            if (personalRecord !== null) {
+                const newRecord = personalRecord + ' см';
                 if (recordValueEl.textContent.trim() !== newRecord) {
                     recordValueEl.className = 'info-value record';
                     recordValueEl.textContent = newRecord;
