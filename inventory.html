@@ -208,19 +208,10 @@ body::before {
 .progress-block {
     background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
     border-radius: 10px; padding: 10px;
-    cursor: pointer;
     transition: all 0.3s;
-}
-.progress-block:hover {
-    border-color: rgba(0,212,255,0.4);
-    background: rgba(0,212,255,0.05);
 }
 .progress-block.undead {
     background: rgba(120,90,60,0.08); border-color: rgba(120,90,60,0.3);
-}
-.progress-block.undead:hover {
-    border-color: rgba(168,184,120,0.5);
-    background: rgba(120,90,60,0.15);
 }
 .progress-header {
     display: flex; justify-content: space-between; align-items: center;
@@ -240,18 +231,14 @@ body::before {
     background: linear-gradient(90deg, #6a7a4a, #a8b878);
 }
 
-/* === ВЫПАДАЮЩИЙ СПИСОК ОСТАВШИХСЯ РЫБ === */
+/* === ВСЕГДА ОТКРЫТЫЙ СПИСОК ОСТАВШИХСЯ РЫБ === */
 .progress-block .missed-list {
-    display: none;
+    display: grid;
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid rgba(255,255,255,0.1);
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 6px;
-    animation: fadeIn 0.3s ease;
-}
-.progress-block.open .missed-list {
-    display: grid;
 }
 .missed-item {
     font-size: 0.75rem;
@@ -272,10 +259,6 @@ body::before {
     height: 20px;
     image-rendering: pixelated;
     flex-shrink: 0;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* === СТАТИСТИКА === */
@@ -526,8 +509,6 @@ const ALL_FISH = [
 ];
 
 let currentModalFish = null;
-let isRegularListOpen = false;
-let isUndeadListOpen = false;
 
 const urlParams = new URLSearchParams(window.location.search);
 const playerName = urlParams.get('player');
@@ -621,6 +602,7 @@ function renderInventory(playerName, inventory) {
     const regularPercent = Math.round(regularCaught / totalTypes * 100);
     const undeadPercent = Math.round(undeadCaught / totalTypes * 100);
 
+    // Генерируем списки оставшихся
     let missedRegularHtml = '';
     let missedUndeadHtml = '';
 
@@ -647,7 +629,7 @@ function renderInventory(playerName, inventory) {
         </div>
 
         <div class="collection-progress">
-            <div class="progress-block ${isRegularListOpen ? 'open' : ''}" id="progressRegular">
+            <div class="progress-block">
                 <div class="progress-header">
                     <span class="label">🐟 Обычные</span>
                     <span class="count">${regularCaught} / ${totalTypes}</span>
@@ -660,7 +642,7 @@ function renderInventory(playerName, inventory) {
                 </div>
             </div>
 
-            <div class="progress-block undead ${isUndeadListOpen ? 'open' : ''}" id="progressUndead">
+            <div class="progress-block undead">
                 <div class="progress-header">
                     <span class="label">🧟 Нежить</span>
                     <span class="count">${undeadCaught} / ${totalTypes}</span>
@@ -735,25 +717,6 @@ function renderInventory(playerName, inventory) {
     }
 
     playerCard.innerHTML = html;
-
-    const blockRegular = document.getElementById('progressRegular');
-    const blockUndead = document.getElementById('progressUndead');
-
-    if (blockRegular) {
-        blockRegular.addEventListener('click', function(e) {
-            if (e.target.closest('.missed-list')) return;
-            this.classList.toggle('open');
-            isRegularListOpen = this.classList.contains('open');
-        });
-    }
-
-    if (blockUndead) {
-        blockUndead.addEventListener('click', function(e) {
-            if (e.target.closest('.missed-list')) return;
-            this.classList.toggle('open');
-            isUndeadListOpen = this.classList.contains('open');
-        });
-    }
 
     document.querySelectorAll('.fish-item').forEach(item => {
         item.addEventListener('click', function(e) {
