@@ -16,7 +16,6 @@ body {
     display: flex; justify-content: center; align-items: flex-start;
     padding-top: 20px; position: relative; overflow-x: hidden;
 }
-/* ОПТИМИЗАЦИЯ: Убрали тяжелый fixed background с градиентами */
 .container { width: 100%; max-width: 1300px; position: relative; z-index: 1; }
 
 .header { text-align: center; margin-bottom: 15px; }
@@ -313,7 +312,6 @@ body {
     width: 56px; height: 56px;
     image-rendering: pixelated; image-rendering: crisp-edges;
     flex-shrink: 0; transition: transform 0.3s;
-    /* ОПТИМИЗАЦИЯ: убран drop-shadow */
 }
 .fish-item:hover .fish-icon { transform: scale(1.1); }
 
@@ -531,9 +529,6 @@ body {
     
 <script src="/fish-icons.js"></script>
 <script>
-// ========================================================
-// НОРМАЛИЗАЦИЯ КЛЮЧЕЙ
-// ========================================================
 function normalizeKey(s) { return s === null || s === undefined ? '' : String(s).toLowerCase().replace(/ё/g, 'е').trim(); }
 function findNormalized(obj, targetKey) {
     if (!obj || typeof obj !== 'object') return null;
@@ -622,11 +617,9 @@ const DATA_URL = '/data.json';
 let currentModalFish = null;
 let isFirstRender = true;
 
-// ========================================================
-// ОПТИМИЗАЦИЯ: УМНОЕ ОБНОВЛЕНИЕ БЕЗ ПЕРЕРИСОВКИ DOM
-// ========================================================
 function loadAndRender(silent) {
-    fetch(DATA_URL + '?t=' + Date.now())
+    // ОПТИМИЗАЦИЯ: добавили уникальный параметр ?v=2 чтобы пробить кеш
+    fetch(DATA_URL + '?t=' + Date.now() + '&v=2')
         .then(response => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); })
         .then(data => {
             const newJson = JSON.stringify(data);
@@ -679,7 +672,7 @@ function loadAndRender(silent) {
         });
 }
 
-// === УМНОЕ ОБНОВЛЕНИЕ ЦИФР (БЕЗ ПЕРЕРИСОВКИ ВСЕГО ЭКРАНА) ===
+// === УМНОЕ ОБНОВЛЕНИЕ (БЕЗ ПЕРЕРИСОВКИ ВСЕГО ЭКРАНА) ===
 function updateInventoryCounts(inventory) {
     let totalRegular = 0, totalUndead = 0, totalHalloween = 0;
     const regularSet = new Set(), undeadSet = new Set(), halloweenSet = new Set();
@@ -700,13 +693,36 @@ function updateInventoryCounts(inventory) {
     const caughtHalloweenList = window._halloweenCollection ? window._halloweenCollection[playerName.toLowerCase()] || [] : [];
     const halloweenColSet = new Set(caughtHalloweenList.map(normalizeKey));
 
-    // Обновляем общие счетчики в шапке
+    let regCaught = 0, undCaught = 0, halCaught = 0;
+    ALL_FISH.forEach(fish => {
+        if (regularSet.has(normalizeKey(fish))) regCaught++;
+        if (undeadSet.has(normalizeKey(fish))) undCaught++;
+    });
+    HALLOWEEN_FISH.forEach(fish => {
+        if (halloweenColSet.has(normalizeKey(fish)) || halloweenSet.has(normalizeKey(fish))) halCaught++;
+    });
+
+    // Обновляем общие цифры
     document.getElementById('total-caught').textContent = totalRegular + totalUndead + totalHalloween;
     document.getElementById('total-regular').textContent = totalRegular;
     document.getElementById('total-undead').textContent = totalUndead;
     document.getElementById('total-halloween').textContent = totalHalloween;
 
-    // Обновляем счетчики конкретных рыб (без перерисовки картинок)
+    // Обновляем прогресс-бары
+    const pFills = document.querySelectorAll('.progress-fill');
+    if (pFills.length >= 3) {
+        pFills[0].style.width = Math.round(regCaught/30*100) + '%';
+        pFills[1].style.width = Math.round(undCaught/30*100) + '%';
+        pFills[2].style.width = Math.round(halCaught/10*100) + '%';
+    }
+    const pHdrs = document.querySelectorAll('.progress-header .count');
+    if (pHdrs.length >= 3) {
+        pHdrs[0].textContent = `${regCaught} / 30`;
+        pHdrs[1].textContent = `${undCaught} / 30`;
+        pHdrs[2].textContent = `${halCaught} / 10`;
+    }
+
+    // Обновляем циферки на карточках рыб
     document.querySelectorAll('.fish-item').forEach(item => {
         const fishName = item.getAttribute('data-fish');
         const countEl = item.querySelector('.fish-count');
@@ -737,7 +753,6 @@ function updateInventoryCounts(inventory) {
     });
 }
 
-// === ИНИЦИАЛИЗАЦИЯ ПЕРЕМЕННЫХ ===
 const urlParams = new URLSearchParams(window.location.search);
 const playerName = urlParams.get('player');
 const playerCard = document.getElementById('playerCard');
@@ -746,7 +761,6 @@ if (!playerName) {
     playerCard.innerHTML = `<div class="error"><p style="font-size: 1.1rem; margin-bottom: 8px;">🎣 Укажите ник игрока в адресе</p><p style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">Пример: <code style="background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px;">?player=ваш_ник</code></p></div>`;
 } else {
     loadAndRender(false);
-    // ОПТИМИЗАЦИЯ: увеличили интервал с 5 до 15 секунд
     setInterval(() => loadAndRender(true), 15000);
 }
 
