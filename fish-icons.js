@@ -1,8 +1,7 @@
 // ========================================================
-// РЫБЫ — ОТРИСОВКА (общая для index.html и inventory.html)
+// РЫБЫ — ОТРИСОВКА
 // ========================================================
 
-// === ОБЫЧНЫЕ ПАЛИТРЫ ===
 const PALETTES = {
     pike:      { main: '#4a6b2a', dark: '#2a3f1a', light: '#6b8a4a', belly: '#8fa860', fin: '#3a5020', eye: '#ffd700', pupil: '#000', gill: '#2a3f1a', spot: '#1a2810', stripe: '#2a3f1a' },
     zander:    { main: '#707880', dark: '#404850', light: '#98a0a8', belly: '#c0c8d0', fin: '#586068', eye: '#ffd700', pupil: '#000', gill: '#404850', spot: '#3a4048', stripe: '#3a4048' },
@@ -34,7 +33,7 @@ const PALETTES = {
     eel:       { main: '#3a5a3a', dark: '#1a3a1a', light: '#5a7a5a', belly: '#8aa08a', fin: '#2a4a2a', eye: '#ffd700', pupil: '#000', gill: '#1a3a1a', spot: '#1a3a1a', stripe: '#1a3a1a' },
     lamprey:   { main: '#6a6a7a', dark: '#3a3a4a', light: '#9a9aaa', belly: '#c0c0d0', fin: '#4a4a5a', eye: '#ffd700', pupil: '#000', gill: '#3a3a4a', spot: '#3a3a4a', stripe: '#3a3a4a' },
     
-    // === ХЭЛЛОУИН ===
+    // ХЭЛЛОУИН
     mraz_karas:      { main: '#d4af37', dark: '#8b6508', light: '#ffd700', belly: '#ffebcd', fin: '#daa520', eye: '#ff0000', pupil: '#000', gill: '#8b6508', spot: '#8b6508', stripe: '#8b6508' },
     nagging_pumpkin: { main: '#ff8c00', dark: '#8b4500', light: '#ffb347', belly: '#ffd700', fin: '#228b22', eye: '#ffffff', pupil: '#000', gill: '#228b22', spot: '#8b4500', stripe: '#8b4500' },
     pike_hat:        { main: '#4a6b2a', dark: '#2a3f1a', light: '#6b8a4a', belly: '#8fa860', fin: '#3a5020', eye: '#ffd700', pupil: '#000', gill: '#2a3f1a', spot: '#8b4513', stripe: '#8b4513' },
@@ -47,20 +46,17 @@ const PALETTES = {
     squeaky_gudgeon: { main: '#d4af37', dark: '#b8860b', light: '#ffd700', belly: '#fff8dc', fin: '#daa520', eye: '#000', pupil: '#fff', gill: '#b8860b', spot: '#b8860b', stripe: '#b8860b' }
 };
 
-// === ОБЩАЯ ПАЛИТРА НЕЖИТИ ===
 const UNDEAD_PALETTE = {
     main: '#6a7a4a', dark: '#0a0a0a', light: '#a8b878', belly: '#c8d098',
     fin: '#4a5a2a', eye: '#c0ff00', pupil: '#000000', gill: '#3a4a1a',
     spot: '#3a4a1a', stripe: '#3a4a1a'
 };
 
-// === КОНСТАНТЫ ДЛЯ КОСТЕЙ ===
 const UNDEAD_BONE = '#f0e8c8';
 const UNDEAD_BONE_DARK = '#a89878';
 const UNDEAD_GUTS = '#d02040';
 const UNDEAD_GUTS_LIGHT = '#ff6080';
 
-// === ИНДИВИДУАЛЬНЫЕ ПАЛИТРЫ НЕЖИТИ ===
 const UNDEAD_FISH_PALETTES = {
     pike:      { main: '#c0d040', dark: '#4a5020', light: '#f0f860', belly: '#f8f8a0', fin: '#90a020', eye: '#ffffff', pupil: '#ff0000', gill: '#606820', spot: '#d04060', stripe: '#505820' },
     zander:    { main: '#60c0c0', dark: '#205050', light: '#a0f0f0', belly: '#c8f8f8', fin: '#409090', eye: '#ffffff', pupil: '#ff0000', gill: '#307070', spot: '#d04080', stripe: '#205050' },
@@ -93,7 +89,6 @@ const UNDEAD_FISH_PALETTES = {
     lamprey:   { main: '#9080b0', dark: '#403060', light: '#c8b8e0', belly: '#e8e0f0', fin: '#705890', eye: '#ffffff', pupil: '#ff0000', gill: '#504070', spot: '#c05090', stripe: '#403060' }
 };
 
-// === ФОРМЫ РЫБ ===
 const FISH_FORMS = {
     'Щука':       { bodyLen: 26, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 7, tailType: 'fork', tailSize: 6, topFin: 'small-back', topFinSize: 4, bottomFin: 'small', spots: [[10,2],[15,4],[19,3],[12,5],[17,2]], stripes: null, whiskers: false, spikes: false, palette: 'pike' },
     'Судак':      { bodyLen: 24, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 6, tailType: 'fork', tailSize: 6, topFin: 'spiky', topFinSize: 6, bottomFin: 'small', spots: null, stripes: [[8,2],[12,2],[16,2],[20,2]], whiskers: false, spikes: false, palette: 'zander' },
@@ -126,8 +121,8 @@ const FISH_FORMS = {
     'Угорь':      { bodyLen: 28, bodyH: 7, bodyY: 12, headShape: 'small', headLen: 4, tailType: 'long', tailSize: 6, topFin: 'long-back-merged', topFinSize: 14, bottomFin: 'long-anal-merged', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'eel', snakeLike: true },
     'Минога':     { bodyLen: 28, bodyH: 6, bodyY: 13, headShape: 'trumpet', headLen: 3, tailType: 'leaf', tailSize: 5, topFin: 'dorsal-long', topFinSize: 10, bottomFin: 'none', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'lamprey', snakeLike: true },
 
-    // === ХЭЛЛОУИН ===
-        'Мразь карась':       { bodyLen: 16, bodyH: 17, bodyY: 7, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 5, topFin: 'long-back', topFinSize: 8, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'mraz_karas' },
+    // ХЭЛЛОУИН
+    'Мразь карась':       { bodyLen: 16, bodyH: 17, bodyY: 7, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 5, topFin: 'long-back', topFinSize: 8, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'mraz_karas' },
     'Назойливая тыковка': { bodyLen: 14, bodyH: 14, bodyY: 9, headShape: 'round', headLen: 4, tailType: 'fan', tailSize: 5, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'nagging_pumpkin' },
     'Щука падлюка':       { bodyLen: 26, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 7, tailType: 'fork', tailSize: 6, topFin: 'small-back', topFinSize: 4, bottomFin: 'small', spots: [[10,2],[15,4],[19,3]], stripes: null, whiskers: false, spikes: false, palette: 'pike_hat' },
     'Краб шкраб':         { bodyLen: 18, bodyH: 12, bodyY: 10, headShape: 'round', headLen: 5, tailType: 'none', tailSize: 0, topFin: 'none', topFinSize: 0, bottomFin: 'none', spots: [[8,3],[12,5],[15,3]], stripes: null, whiskers: false, spikes: false, palette: 'crab_square' },
@@ -140,7 +135,7 @@ const FISH_FORMS = {
 };
 
 // ========================================================
-// ФУНКЦИЯ ОТРИСОВКИ
+// ФУНКЦИИ ОТРИСОВКИ
 // ========================================================
 function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
@@ -666,11 +661,53 @@ function makeFishSVGWithCustomPalette(palette, form, scale) {
     );
 }
 
-// ========================================================
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-// ========================================================
+function makeCrabSVG(scale) {
+    scale = scale || 1;
+    let s = '';
+    const p = PALETTES['crab_square'];
+
+    s += `<rect x="6" y="22" width="4" height="2" fill="${p.main}"/>`;
+    s += `<rect x="22" y="22" width="4" height="2" fill="${p.main}"/>`;
+    s += `<rect x="8" y="25" width="3" height="2" fill="${p.main}"/>`;
+    s += `<rect x="21" y="25" width="3" height="2" fill="${p.main}"/>`;
+    s += `<rect x="12" y="26" width="8" height="2" fill="${p.main}"/>`;
+
+    s += `<rect x="2" y="12" width="4" height="4" fill="${p.main}"/>`;
+    s += `<rect x="1" y="10" width="2" height="2" fill="${p.main}"/>`;
+    s += `<rect x="1" y="16" width="2" height="2" fill="${p.main}"/>`;
+    s += `<rect x="26" y="12" width="4" height="4" fill="${p.main}"/>`;
+    s += `<rect x="29" y="10" width="2" height="2" fill="${p.main}"/>`;
+    s += `<rect x="29" y="16" width="2" height="2" fill="${p.main}"/>`;
+
+    s += `<rect x="9" y="6" width="2" height="4" fill="${p.main}"/>`;
+    s += `<rect x="21" y="6" width="2" height="4" fill="${p.main}"/>`;
+    s += `<rect x="8" y="4" width="4" height="4" fill="${p.eye}"/>`;
+    s += `<rect x="20" y="4" width="4" height="4" fill="${p.eye}"/>`;
+    s += `<rect x="9" y="5" width="2" height="2" fill="${p.pupil}"/>`;
+    s += `<rect x="21" y="5" width="2" height="2" fill="${p.pupil}"/>`;
+
+    s += `<rect x="6" y="10" width="20" height="12" fill="${p.main}"/>`;
+    s += `<rect x="8" y="8" width="16" height="16" fill="${p.main}"/>`;
+    s += `<rect x="10" y="7" width="12" height="2" fill="${p.main}"/>`;
+    s += `<rect x="10" y="23" width="12" height="2" fill="${p.main}"/>`;
+
+    s += `<rect x="10" y="10" width="4" height="2" fill="${p.light}" opacity="0.6"/>`;
+    s += `<rect x="14" y="12" width="2" height="2" fill="${p.light}" opacity="0.6"/>`;
+
+    s += `<rect x="16" y="10" width="4" height="4" fill="${p.spot}"/>`;
+    s += `<rect x="22" y="14" width="2" height="2" fill="${p.spot}"/>`;
+    s += `<rect x="10" y="16" width="2" height="2" fill="${p.spot}"/>`;
+    
+    s += `<rect x="10" y="20" width="12" height="3" fill="${p.belly}"/>`;
+
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
+    );
+}
 
 function getFishForm(fishName) {
+    if (!fishName) return { isUndead: false, baseName: '', form: FISH_FORMS['Плотва'] };
+    
     const isUndead = fishName.toLowerCase().startsWith('нежить ');
     const baseName = isUndead ? fishName.substring(7).trim() : fishName;
 
@@ -681,79 +718,45 @@ function getFishForm(fishName) {
             break;
         }
     }
+    
+    // Если форма не найдена для хэллоуинской рыбы, пробуем найти по точному совпадению
+    if (!form) {
+         for (const key in FISH_FORMS) {
+            if (key.toLowerCase() === fishName.toLowerCase()) {
+                form = FISH_FORMS[key];
+                break;
+            }
+        }
+    }
+
     if (!form) form = FISH_FORMS['Плотва'];
 
     return { isUndead, baseName, form };
 }
 
-function makeCrabSVG(scale) {
-    scale = scale || 1;
-    let s = '';
-    const p = PALETTES['crab_square'];
-
-    // Лапки (по бокам и снизу)
-    s += `<rect x="6" y="22" width="4" height="2" fill="${p.main}"/>`;
-    s += `<rect x="22" y="22" width="4" height="2" fill="${p.main}"/>`;
-    s += `<rect x="8" y="25" width="3" height="2" fill="${p.main}"/>`;
-    s += `<rect x="21" y="25" width="3" height="2" fill="${p.main}"/>`;
-    s += `<rect x="12" y="26" width="8" height="2" fill="${p.main}"/>`;
-
-    // Клешни
-    // Левая
-    s += `<rect x="2" y="12" width="4" height="4" fill="${p.main}"/>`;
-    s += `<rect x="1" y="10" width="2" height="2" fill="${p.main}"/>`;
-    s += `<rect x="1" y="16" width="2" height="2" fill="${p.main}"/>`;
-    // Правая
-    s += `<rect x="26" y="12" width="4" height="4" fill="${p.main}"/>`;
-    s += `<rect x="29" y="10" width="2" height="2" fill="${p.main}"/>`;
-    s += `<rect x="29" y="16" width="2" height="2" fill="${p.main}"/>`;
-
-    // Глаза на стебельках
-    s += `<rect x="9" y="6" width="2" height="4" fill="${p.main}"/>`;
-    s += `<rect x="21" y="6" width="2" height="4" fill="${p.main}"/>`;
-    s += `<rect x="8" y="4" width="4" height="4" fill="${p.eye}"/>`;
-    s += `<rect x="20" y="4" width="4" height="4" fill="${p.eye}"/>`;
-    s += `<rect x="9" y="5" width="2" height="2" fill="${p.pupil}"/>`;
-    s += `<rect x="21" y="5" width="2" height="2" fill="${p.pupil}"/>`;
-
-    // Панцирь (основное тело)
-    s += `<rect x="6" y="10" width="20" height="12" fill="${p.main}"/>`;
-    s += `<rect x="8" y="8" width="16" height="16" fill="${p.main}"/>`;
-    // Закругления
-    s += `<rect x="10" y="7" width="12" height="2" fill="${p.main}"/>`;
-    s += `<rect x="10" y="23" width="12" height="2" fill="${p.main}"/>`;
-
-    // Блики на панцире
-    s += `<rect x="10" y="10" width="4" height="2" fill="${p.light}" opacity="0.6"/>`;
-    s += `<rect x="14" y="12" width="2" height="2" fill="${p.light}" opacity="0.6"/>`;
-
-    // Узор/пятна на панцире (квадратики)
-    s += `<rect x="16" y="10" width="4" height="4" fill="${p.spot}"/>`;
-    s += `<rect x="22" y="14" width="2" height="2" fill="${p.spot}"/>`;
-    s += `<rect x="10" y="16" width="2" height="2" fill="${p.spot}"/>`;
-    
-    // Нижняя часть (брюшко)
-    s += `<rect x="10" y="20" width="12" height="3" fill="${p.belly}"/>`;
-
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
-    );
-}
-
 function getFishIcon(fishName, scale) {
     const info = getFishForm(fishName);
-
-    // Кастомная отрисовка для Краба
+    
+    // Краб
     if (info.baseName.toLowerCase() === 'краб шкраб') {
         return makeCrabSVG(scale);
     }
 
+    // Нежить
     if (info.isUndead) {
         const undeadKey = info.form.palette;
         if (typeof UNDEAD_FISH_PALETTES !== 'undefined' && UNDEAD_FISH_PALETTES[undeadKey]) {
             return makeFishSVGWithCustomPalette(UNDEAD_FISH_PALETTES[undeadKey], info.form, scale);
         }
         return makeFishSVG('undead', info.form, scale);
+    }
+
+    // Хэллоуин (кастомные палитры)
+    if (PALETTES[info.form.palette] && info.baseName !== 'Щука') {
+        // Проверяем, есть ли это в палитрах Хэллоуина (по совпадению ключа палитры)
+         if (info.form.palette.includes('mraz') || info.form.palette.includes('pumpkin') || info.form.palette.includes('pike_hat') || info.form.palette.includes('crab') || info.form.palette.includes('peter') || info.form.palette.includes('angler') || info.form.palette.includes('moon') || info.form.palette.includes('clown') || info.form.palette.includes('fool') || info.form.palette.includes('squeaky')) {
+             return makeFishSVG(info.form.palette, info.form, scale);
+         }
     }
 
     return makeFishSVG(info.form.palette, info.form, scale);
