@@ -19,7 +19,7 @@ body {
     transition: padding 0.3s;
 }
 
-/* Полноэкранный режим: убираем отступы и растягиваем аквариум */
+/* Полноэкранный режим: убираем всё */
 body:fullscreen,
 body:-webkit-full-screen {
     padding: 0;
@@ -52,13 +52,14 @@ body:-webkit-full-screen .subtitle { display: none; }
                 linear-gradient(180deg, #1e5680 0%, #124060 30%, #0a2e4a 60%, #061e33 100%);
     cursor: default; transition: border-radius 0.3s, max-width 0.3s, height 0.3s; }
 
-/* В полноэкранном режиме — на весь экран */
+/* В полноэкранном режиме — на весь экран, без рамки */
 body:fullscreen .aquarium,
 body:-webkit-full-screen .aquarium {
     max-width: 100%;
     height: 100vh;
     border-radius: 0;
     border-width: 0;
+    border: none;
     box-shadow: none;
 }
 
@@ -93,7 +94,7 @@ body:-webkit-full-screen .aquarium {
 .aquarium::after { content: ''; position: absolute; inset: 0; border-radius: 19px;
     box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.55), inset 0 0 120px rgba(0, 40, 70, 0.4); pointer-events: none; z-index: 51; }
 body:fullscreen .aquarium::after,
-body:-webkit-full-screen .aquarium::after { border-radius: 0; }
+body:-webkit-full-screen .aquarium::after { border-radius: 0; box-shadow: none; }
 
 .light-rays { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
 .light-ray { position: absolute; top: -20%; height: 150%; transform-origin: top center; filter: blur(8px);
@@ -149,8 +150,15 @@ body:-webkit-full-screen .sand { border-radius: 0; }
     letter-spacing: 0.3px; transform: translate(-50%, -100%); }
 .fish-tooltip.show { opacity: 1; }
 
-.aquarium-ui { position: absolute; top: 16px; left: 18px; right: 18px; display: flex; justify-content: space-between; z-index: 60; pointer-events: none; }
+body:fullscreen .fish-tooltip,
+body:-webkit-full-screen .fish-tooltip { display: none; }
+
+.aquarium-ui { position: absolute; top: 16px; left: 18px; right: 18px; display: flex; justify-content: space-between; z-index: 60; pointer-events: none; transition: opacity 0.3s; }
 .aquarium-ui > * { pointer-events: auto; }
+
+body:fullscreen .aquarium-ui,
+body:-webkit-full-screen .aquarium-ui { display: none; }
+
 .ui-left { display: flex; gap: 8px; }
 .back-btn, .type-badge, .fullscreen-btn {
     font-size: 0.75rem; font-weight: 700; padding: 6px 14px; border-radius: 20px;
@@ -347,7 +355,6 @@ window.addEventListener('resize', updateSize);
 // ============================================================
 const fullscreenBtn = document.getElementById('fullscreenBtn');
 
-// Проверяем, поддерживается ли Fullscreen API
 const isFullscreenSupported = document.fullscreenEnabled ||
     document.webkitFullscreenEnabled ||
     document.mozFullScreenEnabled ||
@@ -362,11 +369,8 @@ function toggleFullscreen() {
         !document.webkitFullscreenElement &&
         !document.mozFullScreenElement &&
         !document.msFullscreenElement) {
-        // Входим в полноэкранный режим
         if (aquarium.requestFullscreen) {
-            aquarium.requestFullscreen().catch(err => {
-                console.warn('Fullscreen error:', err);
-            });
+            aquarium.requestFullscreen().catch(err => console.warn('Fullscreen error:', err));
         } else if (aquarium.webkitRequestFullscreen) {
             aquarium.webkitRequestFullscreen();
         } else if (aquarium.mozRequestFullScreen) {
@@ -375,7 +379,6 @@ function toggleFullscreen() {
             aquarium.msRequestFullscreen();
         }
     } else {
-        // Выходим из полноэкранного режима
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.webkitExitFullscreen) {
@@ -390,7 +393,6 @@ function toggleFullscreen() {
 
 fullscreenBtn.addEventListener('click', toggleFullscreen);
 
-// Обновляем состояние кнопки и пересчитываем canvas при смене режима
 function onFullscreenChange() {
     const isFs = !!(document.fullscreenElement ||
         document.webkitFullscreenElement ||
@@ -405,7 +407,6 @@ function onFullscreenChange() {
         fullscreenBtn.textContent = '⛶';
         fullscreenBtn.title = 'На весь экран';
     }
-    // Даём браузеру время применить стили, затем пересчитываем
     setTimeout(updateSize, 50);
     setTimeout(updateSize, 300);
 }
@@ -461,10 +462,11 @@ const SPECIES_PROFILES = {
     'Язь':        { type: 'generic', speed: 0.9, sizeRange: [30, 45], verticalZone: [0.2, 0.8], schooling: 0.6, shyness: 0.5, dashChance: 0.25 },
     'Голавль':    { type: 'generic', speed: 1.0, sizeRange: [30, 50], verticalZone: [0.2, 0.7], schooling: 0.5, shyness: 0.4, dashChance: 0.3 },
     'Линь':       { type: 'generic', speed: 0.5, sizeRange: [30, 45], verticalZone: [0.5, 0.95], schooling: 0.4, shyness: 0.5, dashChance: 0.1 },
+    // Хэллоуин
     'Мразь карась':       { type: 'grazer', speed: 0.6, sizeRange: [30, 44], verticalZone: [0.4, 0.9], schooling: 0.6, shyness: 0.5, dashChance: 0.15 },
     'Назойливая тыковка': { type: 'generic', speed: 0.6, sizeRange: [30, 40], verticalZone: [0.4, 0.9], schooling: 0.5, shyness: 0.5, dashChance: 0.15 },
     'Щука падлюка':       { type: 'predator', speed: 1.1, sizeRange: [44, 60], huntRange: 120, lungeDistance: 60, lungeCooldown: [30000, 50000], lungeDuration: 500, verticalZone: [0.2, 0.8], schooling: 0.85, shyness: 0.4, dashChance: 0.3 },
-    'Краб шкраб':         { type: 'bottom', speed: 0.5, sizeRange: [30, 50], bottomBias: 0.9, verticalZone: [0.7, 1.0], schooling: 0.3, shyness: 0.4, dashChance: 0.05 },
+    'Краб шкраб':         { type: 'crab', speed: 0.4, sizeRange: [40, 60], verticalZone: [0.9, 1.0], schooling: 0, shyness: 0.1, dashChance: 0 },
     'Осётр Пётр':         { type: 'bottom', speed: 0.55, sizeRange: [50, 68], bottomBias: 0.9, verticalZone: [0.75, 1.0], schooling: 0.6, shyness: 0.2, dashChance: 0.02 },
     'Удильщик':           { type: 'predator', speed: 0.8, sizeRange: [40, 60], huntRange: 100, lungeDistance: 50, lungeCooldown: [20000, 40000], lungeDuration: 500, verticalZone: [0.5, 1.0], schooling: 0.4, shyness: 0.3, dashChance: 0.2 },
     'Луна в костюме луны':{ type: 'generic', speed: 0.5, sizeRange: [30, 50], verticalZone: [0.2, 0.8], schooling: 0.5, shyness: 0.5, dashChance: 0.1 },
@@ -692,6 +694,13 @@ class Fish {
         this.flockLeader = null; this.opportunisticSchool = null;
         this.foodTarget = null;
 
+        // Для краба: прыжок
+        this.jumpCooldown = Math.random() * 4000;
+        this.jumpTimer = 0;
+        this.jumpVY = 0;
+        this.jumpHeight = 0;
+        this.isJumping = false;
+
         this.icon = getCachedIcon(name, this.size);
     }
 
@@ -700,6 +709,10 @@ class Fish {
     }
 
     updateSchool() {
+        if (this.type === 'crab') {
+            this.flockLeader = null; this.isSchooled = false; this.schoolCount = 0; this.isProtected = false;
+            return;
+        }
         const effectiveSchooling = this.profile.schooling || 0;
         if (effectiveSchooling < 0.3) { this.flockLeader = null; this.isSchooled = false; this.schoolCount = 0; this.isProtected = false; return; }
         this.flockLeader = getFlockLeader(this.name, this.type === 'predator');
@@ -745,7 +758,7 @@ class Fish {
     }
 
     startle(predator) {
-        if (this.type === 'predator') return;
+        if (this.type === 'predator' || this.type === 'crab') return;
         if (this.fleeCooldown > 0) return;
         if (this.state === 'flee' && this.fleeTimer > 0) return;
         this.state = 'flee'; this.stateTimer = 0;
@@ -819,6 +832,8 @@ class Fish {
     }
 
     applyBoundaryForces(dt, s) {
+        if (this.type === 'crab') return; // Краб ходит по дну, границы не нужны
+
         if (this.x < BOUNDARY_MARGIN) { const force = (1 - this.x / BOUNDARY_MARGIN) * BOUNDARY_FORCE; this.vx += force * s; }
         if (this.x + this.size > VIRTUAL_WIDTH - BOUNDARY_MARGIN) { const force = (1 - (VIRTUAL_WIDTH - this.x - this.size) / BOUNDARY_MARGIN) * BOUNDARY_FORCE; this.vx -= force * s; }
         if (this.y < BOUNDARY_MARGIN) { const force = (1 - this.y / BOUNDARY_MARGIN) * BOUNDARY_FORCE; this.vy += force * s; }
@@ -839,6 +854,68 @@ class Fish {
         }
     }
 
+    updateCrab(dt, s) {
+        // Краб ходит по дну
+        const floorY = VIRTUAL_HEIGHT - 130 - this.size;
+
+        // Движение вбок
+        this.x += this.vx * s;
+
+        // Прыжок
+        this.jumpCooldown -= dt;
+        if (this.isJumping) {
+            this.jumpTimer += dt;
+            this.vy += 0.15 * s; // гравитация
+            this.y += this.vy * s;
+            if (this.y >= floorY) {
+                this.y = floorY;
+                this.isJumping = false;
+                this.vy = 0;
+                this.jumpTimer = 0;
+            }
+        } else {
+            this.y = floorY;
+            if (this.jumpCooldown <= 0) {
+                this.jumpCooldown = 3000 + Math.random() * 5000;
+                this.isJumping = true;
+                this.vy = -3.5 - Math.random() * 1.5;
+            }
+        }
+
+        // Отталкивание от стенок
+        if (this.x < 20) { this.x = 20; this.vx = Math.abs(this.vx); }
+        if (this.x + this.size > VIRTUAL_WIDTH - 20) { this.x = VIRTUAL_WIDTH - 20 - this.size; this.vx = -Math.abs(this.vx); }
+
+        // Случайная смена направления
+        if (Math.random() < 0.005) {
+            this.vx = (Math.random() > 0.5 ? 1 : -1) * (0.3 + Math.random() * 0.5);
+        }
+
+        // Медленное замедление
+        this.vx *= 0.99;
+
+        // Направление
+        if (this.vx > 0.05) this.dir = 1;
+        else if (this.vx < -0.05) this.dir = -1;
+
+        // Ест корм, если он рядом
+        if (this.foodTarget) {
+            const dx = this.foodTarget.x - this.x;
+            const dy = this.foodTarget.y - this.y;
+            const d = Math.hypot(dx, dy) || 1;
+            if (d < FOOD_EAT_RADIUS + this.size * 0.5) {
+                const idx = foodList.indexOf(this.foodTarget);
+                if (idx !== -1) foodList.splice(idx, 1);
+                this.foodTarget = null;
+            } else {
+                // Ползёт к корму
+                this.vx += (dx / d) * 0.05 * s;
+            }
+        }
+
+        this.phase += this.bobSpeed * dt * 0.5;
+    }
+
     update(dt) {
         const s = dt / 16;
         this.stateTimer += dt; this.dashCooldown -= dt; this.restTimer -= dt;
@@ -849,6 +926,12 @@ class Fish {
         if (this.lockedSchoolTimer > 0) { this.lockedSchoolTimer -= dt; if (this.lockedSchoolTimer <= 0) this.lockedSchoolName = null; }
 
         this.foodTarget = this.findFood();
+
+        // === КРАБ: своя логика ===
+        if (this.type === 'crab') {
+            this.updateCrab(dt, s);
+            return;
+        }
 
         if (this.type !== 'predator' && this.state !== 'flee') {
             const nearbyPredators = spatialHash.queryNear(this.x, this.y, PANIC_RADIUS);
@@ -1141,7 +1224,12 @@ class Fish {
     }
 
     draw(ctx) {
-        const bob = Math.sin(this.phase) * this.bobAmp;
+        let bob = 0;
+        if (this.type === 'crab') {
+            bob = 0;
+        } else {
+            bob = Math.sin(this.phase) * this.bobAmp;
+        }
         const screenX = this.x * camScale + camX;
         const screenY = (this.y + bob) * camScale + camY;
         const screenSize = this.size * camScale;
