@@ -20,7 +20,7 @@ body {
 }
 
 /* ============================================================
-   ПОЛНОЭКРАННЫЙ РЕЖИМ — скрываем всё лишнее
+   ПОЛНОЭКРАННЫЙ РЕЖИМ — скрываем только кнопки и заголовки
    ============================================================ */
 body.fullscreen-active {
     padding: 0;
@@ -29,9 +29,10 @@ body.fullscreen-active {
 body.fullscreen-active h1,
 body.fullscreen-active .subtitle,
 body.fullscreen-active .aquarium-ui,
-body.fullscreen-active .fish-tooltip {
+body.fullscreen-active .loading {
     display: none !important;
 }
+/* Тултип НЕ скрываем — он должен работать */
 
 body.fullscreen-active .aquarium {
     max-width: 100%;
@@ -166,6 +167,8 @@ h1 { font-size: 1.6rem; font-weight: 900;
 .type-badge.undead { border-color: rgba(150, 200, 100, 0.5); color: #a8b878; }
 .type-badge.halloween { border-color: rgba(255, 140, 0, 0.5); color: #ff8c00; }
 
+.loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 100; font-size: 1.1rem; color: rgba(255,255,255,0.6); background: rgba(10,20,30,0.85); backdrop-filter: blur(10px); }
+
 @media (max-width: 900px) {
     .aquarium { height: 450px; }
     h1 { font-size: 1.3rem; }
@@ -213,6 +216,8 @@ h1 { font-size: 1.6rem; font-weight: 900;
             <button class="fullscreen-btn" id="fullscreenBtn" title="На весь экран" style="display:none;">⛶</button>
         </div>
     </div>
+    
+    <div class="loading" id="loading">Загрузка аквариума...</div>
 </div>
 
 <!-- ПОДКЛЮЧАЕМ ВАШ fish-icons.js -->
@@ -222,7 +227,6 @@ h1 { font-size: 1.6rem; font-weight: 900;
 // ============================================================
 // КОНСТАНТЫ
 // ============================================================
-const MAX_FISH = 500;
 const HASH_CELL = 80;
 const SCHOOL_RADIUS = 100;
 const SCHOOL_MIN_COUNT = 3;
@@ -270,22 +274,8 @@ const FEED_INTERVAL = 80;
 // URL ПАРАМЕТРЫ
 // ============================================================
 const urlParams = new URLSearchParams(window.location.search);
-let AQUARIUM_TYPE = urlParams.get('type') || 'regular';
-
-// ============================================================
-// СПИСКИ РЫБ
-// ============================================================
-const ALL_REGULAR = [
-    'Щука', 'Окунь', 'Карп', 'Карась', 'Сом', 'Судак', 'Лещ', 'Плотва',
-    'Пескарь', 'Краснопёрка', 'Ёрш', 'Уклейка', 'Голавль', 'Язь', 'Сиг',
-    'Хариус', 'Форель', 'Линь', 'Чоп', 'Голец', 'Сазан', 'Змееголов',
-    'Угорь', 'Белый амур', 'Лосось', 'Осётр', 'Пиранья', 'Минога', 'Налим'
-];
-const ALL_HALLOWEEN = [
-    'Мразь карась', 'Назойливая тыковка', 'Щука падлюка', 'Краб шкраб',
-    'Осётр Пётр', 'Удильщик', 'Луна в костюме луны', 'Клоун в костюме клоуна',
-    'Судак дурак', 'Писклявый пескарь'
-];
+const AQUARIUM_TYPE = urlParams.get('type') || 'regular';
+const playerName = urlParams.get('player');
 
 // ============================================================
 // АКВАРИУМ
@@ -294,6 +284,7 @@ const aquarium = document.getElementById('aquarium');
 const canvas = document.getElementById('fishCanvas');
 const ctx = canvas.getContext('2d', { alpha: true });
 const tooltip = document.getElementById('fishTooltip');
+const loadingEl = document.getElementById('loading');
 
 // Настройка стилей
 if (AQUARIUM_TYPE === 'halloween') {
@@ -323,6 +314,10 @@ const hoveredFish = { current: null };
 let isFeeding = false;
 let lastFeedTime = 0;
 
+// Объявляем СПИСОК РЫБ ЗАРАНЕЕ, чтобы addFish работала
+let fishCounter = 0;
+let fishList = [];
+
 function updateSize() {
     const rect = aquarium.getBoundingClientRect();
     AQ_W = rect.width;
@@ -345,72 +340,45 @@ window.addEventListener('resize', updateSize);
 // ПОЛНОЭКРАННЫЙ РЕЖИМ
 // ============================================================
 const fullscreenBtn = document.getElementById('fullscreenBtn');
-
-const isFullscreenSupported = document.fullscreenEnabled ||
-    document.webkitFullscreenEnabled ||
-    document.mozFullScreenEnabled ||
-    document.msFullscreenEnabled;
-
-if (isFullscreenSupported) {
-    fullscreenBtn.style.display = 'flex';
-}
+const isFullscreenSupported = document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled;
+if (isFullscreenSupported) fullscreenBtn.style.display = 'flex';
 
 function toggleFullscreen() {
-    if (!document.fullscreenElement &&
-        !document.webkitFullscreenElement &&
-        !document.mozFullScreenElement &&
-        !document.msFullscreenElement) {
-        if (aquarium.requestFullscreen) {
-            aquarium.requestFullscreen().catch(err => console.warn('Fullscreen error:', err));
-        } else if (aquarium.webkitRequestFullscreen) {
-            aquarium.webkitRequestFullscreen();
-        } else if (aquarium.mozRequestFullScreen) {
-            aquarium.mozRequestFullScreen();
-        } else if (aquarium.msRequestFullscreen) {
-            aquarium.msRequestFullscreen();
-        }
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
+        if (aquarium.requestFullscreen) aquarium.requestFullscreen().catch(err => console.warn(err));
+        else if (aquarium.webkitRequestFullscreen) aquarium.webkitRequestFullscreen();
+        else if (aquarium.mozRequestFullScreen) aquarium.mozRequestFullScreen();
+        else if (aquarium.msRequestFullscreen) aquarium.msRequestFullscreen();
     } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        }
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+        else if (document.msExitFullscreen) document.msExitFullscreen();
     }
 }
-
 fullscreenBtn.addEventListener('click', toggleFullscreen);
 
 function onFullscreenChange() {
-    const isFs = !!(document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.mozFullScreenElement ||
-        document.msFullscreenElement);
+    const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
     if (isFs) {
         document.body.classList.add('fullscreen-active');
         fullscreenBtn.classList.add('active');
         fullscreenBtn.textContent = '✕';
-        fullscreenBtn.title = 'Выйти из полноэкранного режима';
     } else {
         document.body.classList.remove('fullscreen-active');
         fullscreenBtn.classList.remove('active');
         fullscreenBtn.textContent = '⛶';
-        fullscreenBtn.title = 'На весь экран';
     }
     setTimeout(updateSize, 50);
     setTimeout(updateSize, 300);
 }
-
 document.addEventListener('fullscreenchange', onFullscreenChange);
 document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 document.addEventListener('mozfullscreenchange', onFullscreenChange);
 document.addEventListener('MSFullscreenChange', onFullscreenChange);
 
 // ============================================================
-// РЫБЫ И ПОВЕДЕНИЕ
+// ВСПОМОГАТЕЛЬНЫЕ
 // ============================================================
 function randomEdgePoint() {
     if (Math.random() < EDGE_BIAS) {
@@ -499,7 +467,7 @@ function getCachedIcon(fishName, size) {
     const img = new Image();
     img.src = icon;
     iconCache.set(key, img);
-    if (iconCache.size > 400) iconCache.delete(iconCache.keys().next().value);
+    if (iconCache.size > 500) iconCache.delete(iconCache.keys().next().value);
     return img;
 }
 
@@ -823,7 +791,7 @@ class Fish {
     }
 
     applyBoundaryForces(dt, s) {
-        if (this.type === 'crab') return; // Краб плавает, но не привязан к дну, границы в updateCrab
+        if (this.type === 'crab') return;
 
         if (this.x < BOUNDARY_MARGIN) { const force = (1 - this.x / BOUNDARY_MARGIN) * BOUNDARY_FORCE; this.vx += force * s; }
         if (this.x + this.size > VIRTUAL_WIDTH - BOUNDARY_MARGIN) { const force = (1 - (VIRTUAL_WIDTH - this.x - this.size) / BOUNDARY_MARGIN) * BOUNDARY_FORCE; this.vx -= force * s; }
@@ -846,27 +814,22 @@ class Fish {
     }
 
     updateCrab(dt, s) {
-        // Плавающее прыжковое движение
         const bottomLimit = VIRTUAL_HEIGHT - 130 - this.size;
         const topLimit = 50;
 
-        // Движение вбок
         this.x += this.vx * s;
 
-        // Прыжковое движение
         this.jumpCooldown -= dt;
         if (this.jumpTimer > 0) {
             this.jumpTimer -= dt;
-            this.vy += 0.15 * s; // гравитация
+            this.vy += 0.15 * s;
         } else {
-            // Случайный прыжок вверх или вниз
             if (this.jumpCooldown <= 0) {
                 this.jumpCooldown = 1500 + Math.random() * 3000;
                 this.jumpVY = (Math.random() > 0.5 ? -1 : 1) * (2.0 + Math.random() * 1.5);
                 this.vy = this.jumpVY;
                 this.jumpTimer = 30 + Math.random() * 30;
             } else {
-                // Плавное планирование
                 this.vy *= 0.95;
                 if (Math.random() < 0.02) this.vy += (Math.random() - 0.5) * 0.1;
             }
@@ -874,25 +837,17 @@ class Fish {
 
         this.y += this.vy * s;
 
-        // Границы
         if (this.y < topLimit) { this.y = topLimit; this.vy = Math.abs(this.vy); }
         if (this.y + this.size > bottomLimit) { this.y = bottomLimit - this.size; this.vy = -Math.abs(this.vy); }
         if (this.x < 20) { this.x = 20; this.vx = Math.abs(this.vx); }
         if (this.x + this.size > VIRTUAL_WIDTH - 20) { this.x = VIRTUAL_WIDTH - 20 - this.size; this.vx = -Math.abs(this.vx); }
 
-        // Случайная смена направления
-        if (Math.random() < 0.008) {
-            this.vx = (Math.random() > 0.5 ? 1 : -1) * (0.3 + Math.random() * 0.5);
-        }
-
-        // Медленное замедление по X
+        if (Math.random() < 0.008) this.vx = (Math.random() > 0.5 ? 1 : -1) * (0.3 + Math.random() * 0.5);
         this.vx *= 0.99;
 
-        // Направление
         if (this.vx > 0.05) this.dir = 1;
         else if (this.vx < -0.05) this.dir = -1;
 
-        // Ест корм
         if (this.foodTarget) {
             const dx = this.foodTarget.x - this.x;
             const dy = this.foodTarget.y - this.y;
@@ -921,7 +876,6 @@ class Fish {
 
         this.foodTarget = this.findFood();
 
-        // === КРАБ: своя логика ===
         if (this.type === 'crab') {
             this.updateCrab(dt, s);
             return;
@@ -1219,11 +1173,8 @@ class Fish {
 
     draw(ctx) {
         let bob = 0;
-        if (this.type === 'crab') {
-            bob = 0;
-        } else {
-            bob = Math.sin(this.phase) * this.bobAmp;
-        }
+        if (this.type === 'crab') bob = 0;
+        else bob = Math.sin(this.phase) * this.bobAmp;
         const screenX = this.x * camScale + camX;
         const screenY = (this.y + bob) * camScale + camY;
         const screenSize = this.size * camScale;
@@ -1240,14 +1191,8 @@ class Fish {
     }
 }
 
-// ============================================================
-// СПИСОК РЫБ
-// ============================================================
-let fishCounter = 0;
-let fishList = [];
-
 function addFish(name, options) {
-    if (fishList.length >= MAX_FISH) return null;
+    // Лимита нет — пул рыб берется строго из инвентаря игрока
     const f = new Fish(name, options);
     fishList.push(f);
     return f;
@@ -1371,64 +1316,103 @@ document.querySelectorAll('.bubble-column').forEach((col, i) => {
 });
 
 // ============================================================
-// ЗАПУСК АКВАРИУМА
+// ЗАГРУЗКА ДАННЫХ ИЗ data.json
 // ============================================================
-function populateDemo() {
-    let speciesWeights = {};
+function normalizeKey(s) { return s === null || s === undefined ? '' : String(s).toLowerCase().replace(/ё/g, 'е').trim(); }
 
-    if (AQUARIUM_TYPE === 'halloween') {
-        speciesWeights = {
-            'Назойливая тыковка': 10, 'Писклявый пескарь': 8, 'Клоун в костюме клоуна': 6,
-            'Мразь карась': 5, 'Щука падлюка': 4, 'Судак дурак': 4, 'Краб шкраб': 3,
-            'Луна в костюме луны': 3, 'Осётр Пётр': 2, 'Удильщик': 2
-        };
-    } else if (AQUARIUM_TYPE === 'undead') {
-        const undeadWeights = {
-            'Плотва': 10, 'Окунь': 10, 'Карась': 8, 'Лещ': 8, 'Карп': 7,
-            'Пескарь': 6, 'Краснопёрка': 6, 'Ёрш': 5, 'Уклейка': 5, 'Голавль': 4,
-            'Щука': 4, 'Судак': 3, 'Язь': 3, 'Сиг': 3, 'Хариус': 3,
-            'Форель': 2, 'Линь': 2, 'Чоп': 2, 'Голец': 2,
-            'Лосось': 2, 'Сазан': 2, 'Змееголов': 1, 'Угорь': 1, 'Белый амур': 1, 'Сом': 1,
-            'Осётр': 1, 'Пиранья': 1, 'Минога': 1, 'Налим': 1
-        };
-        for (const [base, weight] of Object.entries(undeadWeights)) {
-            speciesWeights['Нежить ' + base.toLowerCase()] = weight;
+function findNormalized(obj, targetKey) {
+    if (!obj || typeof obj !== 'object') return null;
+    const target = normalizeKey(targetKey);
+    for (const k in obj) { if (normalizeKey(k) === target) return { key: k, value: obj[k] }; }
+    return null;
+}
+
+async function loadAquariumData() {
+    if (!playerName) {
+        loadingEl.textContent = 'Ошибка: не указан игрок.';
+        return;
+    }
+
+    try {
+        const response = await fetch('/data.json?t=' + Date.now());
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+
+        let playerKey = null;
+        for (const key in data) {
+            if (key.startsWith('_')) continue;
+            if (normalizeKey(key) === normalizeKey(playerName)) { playerKey = key; break; }
         }
-    } else {
-        speciesWeights = {
-            'Плотва': 65, 'Окунь': 55, 'Карась': 45, 'Лещ': 40, 'Карп': 35,
-            'Пескарь': 30, 'Краснопёрка': 30, 'Ёрш': 25, 'Уклейка': 25, 'Голавль': 20,
-            'Щука': 18, 'Судак': 15, 'Язь': 15, 'Сиг': 15, 'Хариус': 12,
-            'Форель': 10, 'Линь': 10, 'Чоп': 10, 'Голец': 10,
-            'Лосось': 8, 'Сазан': 7, 'Змееголов': 6, 'Угорь': 6, 'Белый амур': 5, 'Сом': 4,
-            'Осётр': 3, 'Пиранья': 3, 'Минога': 2, 'Налим': 2
-        };
-    }
 
-    const pool = [];
-    for (const [name, weight] of Object.entries(speciesWeights)) {
-        for (let i = 0; i < weight; i++) pool.push(name);
-    }
-    for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-    }
+        if (!playerKey) {
+            loadingEl.textContent = `Игрок @${playerName} не найден.`;
+            return;
+        }
 
-    let DEMO_COUNT = 500;
-    if (AQUARIUM_TYPE === 'halloween') DEMO_COUNT = 80;
-    if (AQUARIUM_TYPE === 'undead') DEMO_COUNT = 150;
+        const inventory = data[playerKey];
+        const halloweenCol = data._halloweenCollection ? data._halloweenCollection[playerName.toLowerCase()] || [] : [];
+        const halloweenColSet = new Set(halloweenCol.map(normalizeKey));
 
-    for (let i = 0; i < DEMO_COUNT; i++) {
-        const name = pool[i % pool.length];
-        addFish(name);
+        const HALLOWEEN_NAMES = [
+            "Мразь карась", "Назойливая тыковка", "Щука падлюка", "Краб шкраб", "Осётр Пётр", "Удильщик",
+            "Луна в костюме луны", "Клоун в костюме клоуна", "Судак дурак", "Писклявый пескарь"
+        ];
+
+        let addedCount = 0;
+
+        for (const [fishName, count] of Object.entries(inventory)) {
+            if (count <= 0) continue;
+
+            const isUndead = normalizeKey(fishName).startsWith('нежить ');
+            const isHalloween = HALLOWEEN_NAMES.some(h => normalizeKey(h) === normalizeKey(fishName));
+
+            if (AQUARIUM_TYPE === 'regular') {
+                if (!isUndead && !isHalloween) {
+                    for (let i = 0; i < count; i++) { addFish(fishName); addedCount++; }
+                }
+            } else if (AQUARIUM_TYPE === 'undead') {
+                if (isUndead) {
+                    for (let i = 0; i < count; i++) { addFish(fishName); addedCount++; }
+                }
+            } else if (AQUARIUM_TYPE === 'halloween') {
+                if (isHalloween) {
+                    for (let i = 0; i < count; i++) { addFish(fishName); addedCount++; }
+                }
+            }
+        }
+
+        // Для Хэллоуина: добавляем тех, кто есть в коллекции, но не в инвентаре
+        if (AQUARIUM_TYPE === 'halloween') {
+            halloweenColSet.forEach(name => {
+                let found = false;
+                for (const [fishName, count] of Object.entries(inventory)) {
+                    if (normalizeKey(fishName) === name && count > 0) { found = true; break; }
+                }
+                if (!found) {
+                    const originalName = HALLOWEEN_NAMES.find(h => normalizeKey(h) === name);
+                    if (originalName) { addFish(originalName); addedCount++; }
+                }
+            });
+        }
+
+        if (addedCount === 0) {
+            loadingEl.textContent = 'В этом аквариуме пока нет рыб.';
+            setTimeout(() => loadingEl.style.display = 'none', 2000);
+            return;
+        }
+
+        loadingEl.style.display = 'none';
+        updateSize();
+        requestAnimationFrame(animate);
+
+    } catch (err) {
+        console.error(err);
+        loadingEl.textContent = 'Не удалось загрузить данные.';
     }
 }
 
-setTimeout(() => {
-    updateSize();
-    populateDemo();
-    requestAnimationFrame(animate);
-}, 100);
+// Запуск
+setTimeout(loadAquariumData, 100);
 </script>
 </body>
 </html>
