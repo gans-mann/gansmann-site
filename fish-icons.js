@@ -1,5 +1,5 @@
 // ========================================================
-// РЫБЫ — ОТРИСОВКА
+// fish-icons.js — полная исправленная версия
 // ========================================================
 
 const PALETTES = {
@@ -134,9 +134,6 @@ const FISH_FORMS = {
     'Писклявый пескарь':  { bodyLen: 16, bodyH: 9, bodyY: 11, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 4, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'squeaky_gudgeon' }
 };
 
-// ========================================================
-// ФУНКЦИИ ОТРИСОВКИ
-// ========================================================
 function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
     const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey];
@@ -708,21 +705,25 @@ function makeCrabSVG(scale) {
 function getFishForm(fishName) {
     if (!fishName) return { isUndead: false, baseName: '', form: FISH_FORMS['Плотва'] };
     
-    const isUndead = fishName.toLowerCase().startsWith('нежить ');
-    const baseName = isUndead ? fishName.substring(7).trim() : fishName;
-
+    // 1. Сначала ищем ТОЧНОЕ совпадение (это нужно для хэллоуинских рыб)
     let form = null;
     for (const key in FISH_FORMS) {
-        if (key.toLowerCase().replace('ё', 'е') === baseName.toLowerCase().replace('ё', 'е')) {
+        if (key.toLowerCase().replace('ё', 'е') === fishName.toLowerCase().replace('ё', 'е')) {
             form = FISH_FORMS[key];
             break;
         }
     }
     
-    // Если форма не найдена для хэллоуинской рыбы, пробуем найти по точному совпадению
+    // 2. Если не нашли и это нежить, срезаем префикс и ищем снова
+    let isUndead = false;
+    let baseName = fishName;
+    
     if (!form) {
-         for (const key in FISH_FORMS) {
-            if (key.toLowerCase() === fishName.toLowerCase()) {
+        isUndead = fishName.toLowerCase().startsWith('нежить ');
+        baseName = isUndead ? fishName.substring(7).trim() : fishName;
+        
+        for (const key in FISH_FORMS) {
+            if (key.toLowerCase().replace('ё', 'е') === baseName.toLowerCase().replace('ё', 'е')) {
                 form = FISH_FORMS[key];
                 break;
             }
@@ -751,13 +752,11 @@ function getFishIcon(fishName, scale) {
         return makeFishSVG('undead', info.form, scale);
     }
 
-    // Хэллоуин (кастомные палитры)
-    if (PALETTES[info.form.palette] && info.baseName !== 'Щука') {
-        // Проверяем, есть ли это в палитрах Хэллоуина (по совпадению ключа палитры)
-         if (info.form.palette.includes('mraz') || info.form.palette.includes('pumpkin') || info.form.palette.includes('pike_hat') || info.form.palette.includes('crab') || info.form.palette.includes('peter') || info.form.palette.includes('angler') || info.form.palette.includes('moon') || info.form.palette.includes('clown') || info.form.palette.includes('fool') || info.form.palette.includes('squeaky')) {
-             return makeFishSVG(info.form.palette, info.form, scale);
-         }
+    // Хэллоуин (проверяем, есть ли палитра в PALETTES)
+    if (PALETTES[info.form.palette]) {
+        return makeFishSVG(info.form.palette, info.form, scale);
     }
 
+    // Фоллбек для обычных
     return makeFishSVG(info.form.palette, info.form, scale);
 }
