@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аквариум</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: radial-gradient(ellipse at 50% 0%, #102a3a 0%, #0a1520 60%, #050a10 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #fff;
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #00d4ff, #00ffa3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 12px;
+    text-align: center;
+}
+.subtitle a { color: #00d4ff; text-decoration: none; }
+.subtitle a:hover { text-decoration: underline; }
+
+.aquarium {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    height: 640px;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 3px solid rgba(0, 212, 255, 0.35);
+    box-shadow:
+        0 0 80px rgba(0, 212, 255, 0.3),
+        0 0 160px rgba(0, 150, 200, 0.15),
+        inset 0 0 100px rgba(0, 80, 130, 0.4);
+    background:
+        radial-gradient(ellipse at 50% -10%, rgba(120, 220, 255, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 20% 100%, rgba(0, 140, 90, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(0, 100, 160, 0.3) 0%, transparent 50%),
+        linear-gradient(180deg, #1e5680 0%, #124060 30%, #0a2e4a 60%, #061e33 100%);
+    cursor: default;
+}
+
+.aquarium.halloween-mode {
+    border-color: rgba(255, 140, 0, 0.4);
+    box-shadow: 0 0 80px rgba(255, 140, 0, 0.3), 0 0 160px rgba(200, 80, 0, 0.15), inset 0 0 100px rgba(80, 40, 0, 0.4);
+    background:
+        radial-gradient(ellipse at 50% -10%, rgba(255, 180, 50, 0.3) 0%, transparent 55%),
+        radial-gradient(ellipse at 20% 100%, rgba(180, 80, 0, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(100, 40, 0, 0.3) 0%, transparent 50%),
+        linear-gradient(180deg, #6a3a00 0%, #3a2000 30%, #1a0e00 60%, #0a0500 100%);
+}
+
+.aquarium.undead-mode {
+    border-color: rgba(150, 200, 100, 0.4);
+    box-shadow: 0 0 80px rgba(150, 200, 100, 0.3), 0 0 160px rgba(80, 120, 60, 0.15), inset 0 0 100px rgba(40, 60, 30, 0.4);
+    background:
+        radial-gradient(ellipse at 50% -10%, rgba(150, 200, 100, 0.3) 0%, transparent 55%),
+        radial-gradient(ellipse at 20% 100%, rgba(80, 120, 60, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(40, 60, 30, 0.3) 0%, transparent 50%),
+        linear-gradient(180deg, #2a4a20 0%, #1a2a10 30%, #0a1a00 60%, #051000 100%);
+}
+
+.aquarium .caustics {
+    position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.55; mix-blend-mode: screen;
+    background:
+        radial-gradient(ellipse 200px 60px at 25% 88%, rgba(120, 230, 255, 0.4) 0%, transparent 70%),
+        radial-gradient(ellipse 260px 50px at 60% 92%, rgba(100, 220, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(ellipse 180px 40px at 85% 85%, rgba(140, 240, 255, 0.35) 0%, transparent 70%);
+    animation: causticsShift 12s ease-in-out infinite;
+}
+.aquarium.halloween-mode .caustics { background: radial-gradient(ellipse 200px 60px at 25% 88%, rgba(255,200,100,0.4) 0%, transparent 70%), radial-gradient(ellipse 260px 50px at 60% 92%, rgba(255,140,0,0.3) 0%, transparent 70%); }
+.aquarium.undead-mode .caustics { background: radial-gradient(ellipse 200px 60px at 25% 88%, rgba(150,200,100,0.4) 0%, transparent 70%), radial-gradient(ellipse 260px 50px at 60% 92%, rgba(100,150,80,0.3) 0%, transparent 70%); }
+
+@keyframes causticsShift {
+    0%, 100% { transform: translateX(0) scale(1); opacity: 0.5; }
+    33% { transform: translateX(20px) scale(1.05); opacity: 0.7; }
+    66% { transform: translateX(-15px) scale(0.98); opacity: 0.6; }
+}
+
+.aquarium::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 50;
+    background: linear-gradient(115deg, transparent 18%, rgba(255,255,255,0.05) 24%, transparent 30%), linear-gradient(115deg, transparent 52%, rgba(255,255,255,0.04) 58%, transparent 64%), linear-gradient(115deg, transparent 78%, rgba(255,255,255,0.03) 84%, transparent 90%);
+    animation: glassShimmer 8s ease-in-out infinite; }
+@keyframes glassShimmer { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+
+.aquarium::after { content: ''; position: absolute; inset: 0; border-radius: 19px;
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.55), inset 0 0 120px rgba(0, 40, 70, 0.4); pointer-events: none; z-index: 51; }
+
+.light-rays { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+.light-ray { position: absolute; top: -20%; height: 150%; transform-origin: top center; filter: blur(8px);
+    animation: raySway 10s ease-in-out infinite;
+    background: linear-gradient(180deg, rgba(140, 230, 255, 0.18) 0%, rgba(100, 200, 255, 0.08) 40%, transparent 90%); }
+.aquarium.halloween-mode .light-ray { background: linear-gradient(180deg, rgba(255,200,100,0.18) 0%, rgba(255,150,50,0.08) 40%, transparent 90%); }
+.aquarium.undead-mode .light-ray { background: linear-gradient(180deg, rgba(150,200,100,0.18) 0%, rgba(100,150,80,0.08) 40%, transparent 90%); }
+.light-ray:nth-child(1) { left: 8%; width: 130px; animation-delay: 0s; }
+.light-ray:nth-child(2) { left: 30%; width: 70px; animation-delay: -3s; opacity: 0.7; }
+.light-ray:nth-child(3) { left: 52%; width: 160px; animation-delay: -5s; opacity: 0.85; }
+.light-ray:nth-child(4) { left: 76%; width: 90px; animation-delay: -1.5s; opacity: 0.65; }
+.light-ray:nth-child(5) { left: 90%; width: 60px; animation-delay: -7s; opacity: 0.5; }
+
+@keyframes raySway { 0%, 100% { transform: rotate(-7deg) translateX(0); opacity: 0.55; } 50% { transform: rotate(5deg) translateX(18px); opacity: 1; } }
+
+.sand { position: absolute; bottom: 0; left: 0; right: 0; height: 90px; z-index: 3; pointer-events: none;
+    border-radius: 0 0 19px 19px;
+    box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.35);
+    background:
+        radial-gradient(ellipse at 15% 0%, rgba(190, 170, 110, 0.55) 0%, transparent 45%),
+        radial-gradient(ellipse at 45% 0%, rgba(170, 150, 95, 0.5) 0%, transparent 45%),
+        radial-gradient(ellipse at 75% 0%, rgba(180, 160, 100, 0.5) 0%, transparent 45%),
+        linear-gradient(180deg, rgba(175, 155, 105, 0.65) 0%, rgba(130, 110, 70, 0.85) 45%, rgba(80, 65, 40, 0.95) 80%, rgba(50, 40, 25, 1) 100%); }
+.aquarium.halloween-mode .sand { background: linear-gradient(180deg, rgba(150,80,20,0.65) 0%, rgba(80,40,10,0.85) 45%, rgba(40,20,5,0.95) 100%); }
+.aquarium.undead-mode .sand { background: linear-gradient(180deg, rgba(100,120,70,0.65) 0%, rgba(60,80,40,0.85) 45%, rgba(30,40,20,0.95) 100%); }
+
+.plant { position: absolute; bottom: 70px; transform-origin: bottom center; z-index: 4; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.5)); pointer-events: none; }
+.plant svg { display: block; overflow: visible; }
+.plant-1 { left: 7%; animation: plantSway 5s ease-in-out infinite; }
+.plant-2 { left: 14%; animation: plantSway 6.5s ease-in-out infinite reverse; }
+.plant-3 { right: 8%; animation: plantSway 5.8s ease-in-out infinite; }
+.plant-4 { right: 17%; animation: plantSway 7s ease-in-out infinite reverse; }
+.plant-5 { left: 44%; animation: plantSway 6s ease-in-out infinite; opacity: 0.75; }
+.plant-6 { left: 30%; animation: plantSway 7.5s ease-in-out infinite; opacity: 0.6; transform: scale(0.75); }
+@keyframes plantSway { 0%, 100% { transform: rotate(-4deg) scaleY(1); } 50% { transform: rotate(5deg) scaleY(1.04); } }
+.plant-6 { animation-name: plantSwaySmall; }
+@keyframes plantSwaySmall { 0%, 100% { transform: rotate(-3deg) scale(0.75) scaleY(1); } 50% { transform: rotate(4deg) scale(0.75) scaleY(1.04); } }
+
+.bubble-column { position: absolute; bottom: 0; width: 30px; height: 100%; pointer-events: none; z-index: 6; }
+.bubble-column.col-1 { left: 22%; }
+.bubble-column.col-2 { right: 28%; }
+.bubble-column.col-3 { left: 62%; }
+.bubble-column.col-4 { left: 80%; }
+
+.bubble { position: absolute; border-radius: 50%; z-index: 6; pointer-events: none; bottom: -20px;
+    border: 1px solid rgba(180, 230, 255, 0.5);
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(150, 220, 255, 0.3) 55%, transparent 100%);
+    box-shadow: inset -1px -1px 3px rgba(255,255,255,0.4);
+    animation: bubbleRise linear infinite; }
+@keyframes bubbleRise {
+    0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
+    8% { opacity: 0.95; }
+    45% { transform: translateY(-260px) translateX(14px) scale(1); opacity: 0.85; }
+    75% { transform: translateY(-430px) translateX(-6px) scale(0.9); opacity: 0.65; }
+    100% { transform: translateY(-600px) translateX(8px) scale(0.7); opacity: 0; }
+}
+
+#fishCanvas { position: absolute; inset: 0; z-index: 10; pointer-events: none; image-rendering: pixelated; image-rendering: crisp-edges; }
+
+.fish-tooltip { position: absolute; background: rgba(10, 25, 40, 0.94); border: 1px solid rgba(0, 212, 255, 0.5);
+    border-radius: 8px; padding: 4px 10px; font-size: 0.68rem; font-weight: 700; color: #00d4ff;
+    white-space: nowrap; pointer-events: none; z-index: 55; opacity: 0; transition: opacity 0.15s;
+    letter-spacing: 0.3px; transform: translate(-50%, -100%); }
+.fish-tooltip.show { opacity: 1; }
+
+/* UI */
+.aquarium-ui { position: absolute; top: 16px; left: 18px; right: 18px; display: flex; justify-content: space-between; z-index: 60; pointer-events: none; }
+.aquarium-ui > * { pointer-events: auto; }
+.back-btn, .type-badge {
+    font-size: 0.75rem; font-weight: 700; padding: 6px 14px; border-radius: 20px;
+    background: rgba(5, 20, 35, 0.65); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 212, 255, 0.35); color: rgba(255,255,255,0.85); text-decoration: none;
+    display: flex; align-items: center; gap: 6px; transition: all 0.3s; letter-spacing: 0.5px;
+}
+.back-btn:hover { background: rgba(0, 212, 255, 0.2); color: #fff; border-color: rgba(0, 212, 255, 0.8); }
+.type-badge.regular { border-color: rgba(0, 212, 255, 0.35); color: #00d4ff; }
+.type-badge.undead { border-color: rgba(150, 200, 100, 0.5); color: #a8b878; }
+.type-badge.halloween { border-color: rgba(255, 140, 0, 0.5); color: #ff8c00; }
+
+@media (max-width: 900px) {
+    .aquarium { height: 450px; }
+    h1 { font-size: 1.3rem; }
+    .sand { height: 60px; }
+    .plant { transform: scale(0.65); transform-origin: bottom center; }
+}
+</style>
+</head>
+<body>
+
+<h1 id="pageTitle">Аквариум</h1>
+<p class="subtitle"><a href="/">← на главную</a></p>
+
+<div class="aquarium" id="aquarium">
+    <div class="caustics"></div>
+    <div class="light-rays">
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+        <div class="light-ray"></div>
+    </div>
+
+    <div class="plant plant-1"><svg width="40" height="150" viewBox="0 0 40 150"><path d="M20 150 Q8 115 14 85 Q20 55 12 28 Q6 10 14 0" stroke="#1e6b3a" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M20 150 Q26 120 22 95 Q18 68 26 42 Q32 22 26 8" stroke="#2a8a4a" stroke-width="4" fill="none" stroke-linecap="round"/></svg></div>
+    <div class="plant plant-2"><svg width="28" height="105" viewBox="0 0 28 105"><path d="M14 105 Q6 80 12 60 Q18 42 10 20 Q6 8 12 0" stroke="#247a3e" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div>
+    <div class="plant plant-3"><svg width="44" height="160" viewBox="0 0 44 160"><path d="M22 160 Q10 125 18 95 Q26 65 16 35 Q10 16 18 0" stroke="#1e6b3a" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M22 160 Q30 130 26 102 Q22 75 30 50 Q36 30 30 12" stroke="#2a8a4a" stroke-width="4" fill="none" stroke-linecap="round"/></svg></div>
+    <div class="plant plant-4"><svg width="34" height="125" viewBox="0 0 34 125"><path d="M17 125 Q7 98 13 75 Q19 52 11 28 Q7 13 13 0" stroke="#247a3e" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div>
+
+    <div class="sand"></div>
+
+    <div class="bubble-column col-1"></div>
+    <div class="bubble-column col-2"></div>
+    <div class="bubble-column col-3"></div>
+    <div class="bubble-column col-4"></div>
+
+    <canvas id="fishCanvas"></canvas>
+    <div class="fish-tooltip" id="fishTooltip"></div>
+
+    <div class="aquarium-ui">
+        <a class="back-btn" href="javascript:history.back()">← Назад</a>
+        <span class="type-badge regular" id="typeBadge">🐟 Обычные</span>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// fish-icons.js — заглушка
+// ============================================================
+if (typeof getFishIcon === 'undefined') {
+    const DEMO_PALETTES = {
+        'Щука': ['#4a6b2a','#2a3f1a','#8fa860','#ffd700'],
+        'Окунь': ['#5a7a3a','#3a5020','#9ab070','#ffd700'],
+        'Карп': ['#8b6f3a','#5a4520','#c4a870','#ffd700'],
+        'Карась': ['#c8a830','#8a7020','#f0d878','#ffd700'],
+        'Сом': ['#3a2a1a','#1a1208','#7a6050','#f0f0f0'],
+        'Судак': ['#707880','#404850','#c0c8d0','#ffd700'],
+        'Лещ': ['#7a8090','#505868','#c8d0e0','#ffd700'],
+        'Плотва': ['#a0a8b0','#707880','#e8f0f8','#ffd700'],
+        'Пиранья': ['#a01818','#6a0808','#d88080','#ffd700'],
+        'Лосось': ['#e07050','#a04830','#f8c8a8','#ffd700'],
+        'Форель': ['#d97645','#8a4a28','#f0b890','#ffd700'],
+        'Осётр': ['#5a6a7a','#3a4a5a','#a0b0c0','#ffd700'],
+        'Угорь': ['#3a5a3a','#1a3a1a','#8aa08a','#ffd700'],
+        'Налим': ['#5a5a4a','#3a3a2a','#a0a090','#ffd700'],
+        'Хариус': ['#9098a8','#606878','#e0e8f0','#ffd700'],
+        'Нежить щука': ['#6a7a4a','#0a0a0a','#a8b878','#c0ff00'],
+        'Мразь карась': ['#d4af37','#8b6508','#ffd700','#ff0000'],
+        'Назойливая тыковка': ['#ff8c00','#8b4500','#ffb347','#ffffff'],
+        'Удильщик': ['#4a5a6a','#2a3a4a','#7a8a9a','#ffffff'],
+        'Краб шкраб': ['#d32f2f','#b71c1c','#ef5350','#000000'],
+    };
+    window.getFishIcon = function(fishName, scale) {
+        scale = scale || 1;
+        const pal = DEMO_PALETTES[fishName] || ['#7a8090','#505868','#c8d0e0','#ffd700'];
+        const main = pal[0], dark = pal[1], belly = pal[2], eye = pal[3];
+        let s = '';
+        s += `<rect x="6" y="12" width="18" height="8" fill="${main}"/>`;
+        s += `<rect x="7" y="11" width="16" height="10" fill="${main}"/>`;
+        s += `<rect x="8" y="13" width="14" height="6" fill="${main}"/>`;
+        s += `<rect x="8" y="16" width="14" height="3" fill="${belly}" opacity="0.85"/>`;
+        s += `<rect x="8" y="11" width="14" height="2" fill="${dark}"/>`;
+        s += `<rect x="9" y="13" width="3" height="3" fill="${eye}"/>`;
+        s += `<rect x="10" y="14" width="2" height="2" fill="#000"/>`;
+        s += `<rect x="23" y="12" width="2" height="8" fill="${main}"/>`;
+        s += `<rect x="25" y="10" width="3" height="4" fill="${dark}"/>`;
+        s += `<rect x="25" y="18" width="3" height="4" fill="${dark}"/>`;
+        s += `<rect x="11" y="9" width="4" height="3" fill="${dark}"/>`;
+        return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
+        );
+    };
+}
+
+// ============================================================
+// КОНСТАНТЫ
+// ============================================================
+const MAX_FISH = 500;
+const HASH_CELL = 80;
+const SCHOOL_RADIUS = 100;
+const SCHOOL_MIN_COUNT = 3;
+const PROTECTION_RADIUS = 130;
+const SCHOOL_UPDATE_INTERVAL = 6;
+const VIRTUAL_WIDTH = 2000;
+const VIRTUAL_HEIGHT = 1000;
+
+const FLOCK_REPULSION_RADIUS = 350;
+const FLOCK_REPULSION_FORCE = 0.8;
+const PANIC_RADIUS = 180;
+
+const FORMATION_RADIUS = 65;
+const FOLLOW_FORCE = 0.15;
+const SEPARATION_FORCE = 0.8;
+const ALIGNMENT_FORCE = 0.1;
+
+const SCHOOL_RADIUS_PREDATOR = 150;
+const FOLLOW_FORCE_PREDATOR = 0.28;
+
+const PERSONAL_SPACE = 160;
+const PERSONAL_SPACE_FORCE = 1.5;
+
+const BOUNDARY_MARGIN = 120;
+const BOUNDARY_FORCE = 0.5;
+const CORNER_MARGIN = 220;
+const CORNER_FORCE = 1.2;
+
+const HUNT_COOLDOWN_MULTIPLIER = 2.5;
+const PATROL_VISION = 900;
+const PATROL_WAYPOINT_INTERVAL = 3500;
+const PATROL_FORCE = 0.12;
+const PATROL_FORCE_IN_SCHOOL = 0.06;
+const EDGE_ZONE = 260;
+const EDGE_BIAS = 0.85;
+const FLEE_COOLDOWN = 400;
+
+const FOOD_LIFETIME = 15000;
+const FOOD_SINK_SPEED = 0.35;
+const FOOD_EAT_RADIUS = 14;
+const FOOD_ATTRACT_RADIUS = 400;
+const FEED_INTERVAL = 80;
+
+// ============================================================
+// URL ПАРАМЕТРЫ
+// ============================================================
+const urlParams = new URLSearchParams(window.location.search);
+let AQUARIUM_TYPE = urlParams.get('type') || 'regular'; // regular | undead | halloween
+
+// ============================================================
+// ВСЕ РЫБЫ
+// ============================================================
+const ALL_REGULAR = [
+    'Щука', 'Окунь', 'Карп', 'Карась', 'Сом', 'Судак', 'Лещ', 'Плотва',
+    'Пескарь', 'Краснопёрка', 'Ёрш', 'Уклейка', 'Голавль', 'Язь', 'Сиг',
+    'Хариус', 'Форель', 'Линь', 'Чоп', 'Голец', 'Сазан', 'Змееголов',
+    'Угорь', 'Белый амур', 'Лосось', 'Осётр', 'Пиранья', 'Минога', 'Налим'
+];
+const ALL_HALLOWEEN = [
+    'Мразь карась', 'Назойливая тыковка', 'Щука падлюка', 'Краб шкраб',
+    'Осётр Пётр', 'Удильщик', 'Луна в костюме луны', 'Клоун в костюме клоуна',
+    'Судак дурак', 'Писклявый пескарь'
+];
+
+// ============================================================
+// АКВАРИУМ
+// ============================================================
+const aquarium = document.getElementById('aquarium');
+const canvas = document.getElementById('fishCanvas');
+const ctx = canvas.getContext('2d', { alpha: true });
+const tooltip = document.getElementById('fishTooltip');
+
+// Настройка стилей в зависимости от типа
+if (AQUARIUM_TYPE === 'halloween') {
+    aquarium.classList.add('halloween-mode');
+    document.getElementById('pageTitle').textContent = '🎃 Аквариум Хэллоуина';
+    const badge = document.getElementById('typeBadge');
+    badge.className = 'type-badge halloween';
+    badge.textContent = '🎃 Хэллоуин';
+} else if (AQUARIUM_TYPE === 'undead') {
+    aquarium.classList.add('undead-mode');
+    document.getElementById('pageTitle').textContent = '🧟 Аквариум нежити';
+    const badge = document.getElementById('typeBadge');
+    badge.className = 'type-badge undead';
+    badge.textContent = '🧟 Нежить';
+} else {
+    document.getElementById('pageTitle').textContent = '🐟 Аквариум обычных рыб';
+}
+
+let AQ_W = 0, AQ_H = 0;
+let dpr = window.devicePixelRatio || 1;
+let camScale = 1;
+let camX = 0, camY = 0;
+
+const mouse = { x: -9999, y: -9999, active: false, worldX: -9999, worldY: -9999 };
+const hoveredFish = { current: null };
+
+let isFeeding = false;
+let lastFeedTime = 0;
+
+function updateSize() {
+    const rect = aquarium.getBoundingClientRect();
+    AQ_W = rect.width;
+    AQ_H = rect.height;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = AQ_W * dpr;
+    canvas.height = AQ_H * dpr;
+    canvas.style.width = AQ_W + 'px';
+    canvas.style.height = AQ_H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    camScale = Math.min(AQ_W / VIRTUAL_WIDTH, AQ_H / VIRTUAL_HEIGHT);
+    camX = (AQ_W - VIRTUAL_WIDTH * camScale) / 2;
+    camY = (AQ_H - VIRTUAL_HEIGHT * camScale) / 2;
+}
+window.addEventListener('resize', updateSize);
+
+function randomEdgePoint() {
+    if (Math.random() < EDGE_BIAS) {
+        const side = Math.floor(Math.random() * 4);
+        let x, y;
+        if (side === 0) { y = 80 + Math.random() * EDGE_ZONE; x = 150 + Math.random() * (VIRTUAL_WIDTH - 300); }
+        else if (side === 1) { x = VIRTUAL_WIDTH - EDGE_ZONE - 80 - Math.random() * (EDGE_ZONE - 80); y = 100 + Math.random() * (VIRTUAL_HEIGHT - 300); }
+        else if (side === 2) { y = VIRTUAL_HEIGHT - 220 - Math.random() * EDGE_ZONE; x = 150 + Math.random() * (VIRTUAL_WIDTH - 300); }
+        else { x = 80 + Math.random() * EDGE_ZONE; y = 100 + Math.random() * (VIRTUAL_HEIGHT - 300); }
+        return { x, y };
+    }
+    return { x: 300 + Math.random() * (VIRTUAL_WIDTH - 600), y: 150 + Math.random() * (VIRTUAL_HEIGHT - 400) };
+}
+
+// ============================================================
+// ПРОФИЛИ ПОВЕДЕНИЯ
+// ============================================================
+const SPECIES_PROFILES = {
+    'Плотва':     { type: 'schooling', speed: 0.9, sizeRange: [24, 34], verticalZone: [0.2, 0.7], schooling: 0.95, shyness: 0.7, dashChance: 0.25 },
+    'Окунь':      { type: 'schooling', speed: 1.0, sizeRange: [30, 42], verticalZone: [0.2, 0.8], schooling: 0.8, shyness: 0.5, dashChance: 0.3 },
+    'Карась':     { type: 'grazer', speed: 0.6, sizeRange: [30, 44], verticalZone: [0.4, 0.9], schooling: 0.6, shyness: 0.5, dashChance: 0.15 },
+    'Лещ':        { type: 'grazer', speed: 0.5, sizeRange: [32, 46], verticalZone: [0.5, 0.95], schooling: 0.8, shyness: 0.55, dashChance: 0.1 },
+    'Карп':       { type: 'grazer', speed: 0.55, sizeRange: [40, 56], verticalZone: [0.4, 0.9], schooling: 0.6, shyness: 0.4, dashChance: 0.1 },
+    'Хариус':     { type: 'swift', speed: 1.6, sizeRange: [30, 44], verticalZone: [0.1, 0.6], schooling: 0.5, shyness: 0.6, dashChance: 0.4 },
+    'Форель':     { type: 'swift', speed: 1.4, sizeRange: [32, 46], verticalZone: [0.1, 0.6], schooling: 0.5, shyness: 0.5, dashChance: 0.3 },
+    'Лосось':     { type: 'swift', speed: 1.3, sizeRange: [40, 56], verticalZone: [0.15, 0.7], schooling: 0.5, shyness: 0.3, dashChance: 0.25 },
+    'Щука':       { type: 'predator', speed: 1.1, sizeRange: [44, 60], huntRange: 120, lungeDistance: 60, lungeCooldown: [30000, 50000], lungeDuration: 500, verticalZone: [0.2, 0.8], schooling: 0.85, shyness: 0.4, dashChance: 0.3 },
+    'Судак':      { type: 'predator', speed: 1.0, sizeRange: [40, 54], huntRange: 110, lungeDistance: 50, lungeCooldown: [36000, 60000], lungeDuration: 450, verticalZone: [0.3, 0.9], schooling: 0.9, shyness: 0.5, dashChance: 0.2 },
+    'Пиранья':    { type: 'predator', speed: 1.2, sizeRange: [30, 42], huntRange: 140, lungeDistance: 70, lungeCooldown: [26000, 44000], lungeDuration: 450, verticalZone: [0.2, 0.7], schooling: 0.98, shyness: 0.2, dashChance: 0.3 },
+    'Сом':        { type: 'bottom', speed: 0.6, sizeRange: [52, 72], bottomBias: 0.85, verticalZone: [0.7, 1.0], schooling: 0.5, shyness: 0.3, dashChance: 0.05 },
+    'Налим':      { type: 'bottom', speed: 0.7, sizeRange: [40, 54], bottomBias: 0.8, verticalZone: [0.65, 0.95], schooling: 0.5, shyness: 0.5, dashChance: 0.1 },
+    'Осётр':      { type: 'bottom', speed: 0.55, sizeRange: [50, 68], bottomBias: 0.9, verticalZone: [0.75, 1.0], schooling: 0.6, shyness: 0.2, dashChance: 0.02 },
+    'Угорь':      { type: 'snake', speed: 0.7, sizeRange: [44, 58], verticalZone: [0.6, 1.0], schooling: 0.4, shyness: 0.3, dashChance: 0.05, wiggles: true },
+    'Пескарь':    { type: 'generic', speed: 0.7, sizeRange: [20, 30], verticalZone: [0.5, 0.95], schooling: 0.6, shyness: 0.6, dashChance: 0.2 },
+    'Краснопёрка':{ type: 'generic', speed: 0.6, sizeRange: [25, 35], verticalZone: [0.3, 0.8], schooling: 0.7, shyness: 0.6, dashChance: 0.15 },
+    'Ёрш':        { type: 'generic', speed: 0.5, sizeRange: [20, 30], verticalZone: [0.5, 0.95], schooling: 0.5, shyness: 0.5, dashChance: 0.1 },
+    'Уклейка':    { type: 'generic', speed: 1.2, sizeRange: [15, 25], verticalZone: [0.1, 0.5], schooling: 0.9, shyness: 0.7, dashChance: 0.4 },
+    'Сазан':      { type: 'generic', speed: 0.5, sizeRange: [50, 70], verticalZone: [0.4, 0.9], schooling: 0.4, shyness: 0.3, dashChance: 0.05 },
+    'Минога':     { type: 'snake', speed: 0.6, sizeRange: [30, 40], verticalZone: [0.6, 1.0], schooling: 0.3, shyness: 0.4, dashChance: 0.05, wiggles: true },
+    'Голец':      { type: 'generic', speed: 1.1, sizeRange: [30, 45], verticalZone: [0.2, 0.7], schooling: 0.5, shyness: 0.4, dashChance: 0.25 },
+    'Белый амур': { type: 'generic', speed: 0.6, sizeRange: [45, 65], verticalZone: [0.3, 0.8], schooling: 0.5, shyness: 0.4, dashChance: 0.1 },
+    'Сиг':        { type: 'generic', speed: 0.8, sizeRange: [30, 45], verticalZone: [0.2, 0.7], schooling: 0.6, shyness: 0.5, dashChance: 0.2 },
+    'Змееголов':  { type: 'generic', speed: 0.7, sizeRange: [40, 60], verticalZone: [0.4, 0.9], schooling: 0.3, shyness: 0.3, dashChance: 0.15 },
+    'Чоп':        { type: 'generic', speed: 0.8, sizeRange: [25, 35], verticalZone: [0.3, 0.8], schooling: 0.5, shyness: 0.5, dashChance: 0.2 },
+    'Язь':        { type: 'generic', speed: 0.9, sizeRange: [30, 45], verticalZone: [0.2, 0.8], schooling: 0.6, shyness: 0.5, dashChance: 0.25 },
+    'Голавль':    { type: 'generic', speed: 1.0, sizeRange: [30, 50], verticalZone: [0.2, 0.7], schooling: 0.5, shyness: 0.4, dashChance: 0.3 },
+    'Линь':       { type: 'generic', speed: 0.5, sizeRange: [30, 45], verticalZone: [0.5, 0.95], schooling: 0.4, shyness: 0.5, dashChance: 0.1 },
+    // Нежить (наследует поведение базовой рыбы)
+    'Нежить щука':        { type: 'predator', speed: 1.1, sizeRange: [44, 60], huntRange: 120, lungeDistance: 60, lungeCooldown: [30000, 50000], lungeDuration: 500, verticalZone: [0.2, 0.8], schooling: 0.85, shyness: 0.4, dashChance: 0.3 },
+    'Нежить окунь':       { type: 'schooling', speed: 1.0, sizeRange: [30, 42], verticalZone: [0.2, 0.8], schooling: 0.8, shyness: 0.5, dashChance: 0.3 },
+    'Нежить карп':        { type: 'grazer', speed: 0.55, sizeRange: [40, 56], verticalZone: [0.4, 0.9], schooling: 0.6, shyness: 0.4, dashChance: 0.1 },
+    // Хэллоуин
+    'Мразь карась':       { type: 'grazer', speed: 0.6, sizeRange: [30, 44], verticalZone: [0.4, 0.9], schooling: 0.6, shyness: 0.5, dashChance: 0.15 },
+    'Назойливая тыковка': { type: 'generic', speed: 0.6, sizeRange: [30, 40], verticalZone: [0.4, 0.9], schooling: 0.5, shyness: 0.5, dashChance: 0.15 },
+    'Щука падлюка':       { type: 'predator', speed: 1.1, sizeRange: [44, 60], huntRange: 120, lungeDistance: 60, lungeCooldown: [30000, 50000], lungeDuration: 500, verticalZone: [0.2, 0.8], schooling: 0.85, shyness: 0.4, dashChance: 0.3 },
+    'Краб шкраб':         { type: 'bottom', speed: 0.5, sizeRange: [30, 50], bottomBias: 0.9, verticalZone: [0.7, 1.0], schooling: 0.3, shyness: 0.4, dashChance: 0.05 },
+    'Осётр Пётр':         { type: 'bottom', speed: 0.55, sizeRange: [50, 68], bottomBias: 0.9, verticalZone: [0.75, 1.0], schooling: 0.6, shyness: 0.2, dashChance: 0.02 },
+    'Удильщик':           { type: 'predator', speed: 0.8, sizeRange: [40, 60], huntRange: 100, lungeDistance: 50, lungeCooldown: [20000, 40000], lungeDuration: 500, verticalZone: [0.5, 1.0], schooling: 0.4, shyness: 0.3, dashChance: 0.2 },
+    'Луна в костюме луны':{ type: 'generic', speed: 0.5, sizeRange: [30, 50], verticalZone: [0.2, 0.8], schooling: 0.5, shyness: 0.5, dashChance: 0.1 },
+    'Клоун в костюме клоуна': { type: 'generic', speed: 1.0, sizeRange: [25, 40], verticalZone: [0.2, 0.8], schooling: 0.6, shyness: 0.5, dashChance: 0.3 },
+    'Судак дурак':        { type: 'predator', speed: 1.0, sizeRange: [40, 54], huntRange: 110, lungeDistance: 50, lungeCooldown: [36000, 60000], lungeDuration: 450, verticalZone: [0.3, 0.9], schooling: 0.9, shyness: 0.5, dashChance: 0.2 },
+    'Писклявый пескарь':  { type: 'generic', speed: 0.7, sizeRange: [20, 30], verticalZone: [0.5, 0.95], schooling: 0.6, shyness: 0.6, dashChance: 0.2 },
+};
+
+function getProfile(fishName) {
+    for (const key in SPECIES_PROFILES) {
+        if (key.toLowerCase() === fishName.toLowerCase()) return SPECIES_PROFILES[key];
+    }
+    return { type: 'generic', speed: 0.8, sizeRange: [28, 42], verticalZone: [0.2, 0.8], schooling: 0.5, shyness: 0.5, dashChance: 0.2 };
+}
+
+// ============================================================
+// КЭШ ИКОНОК
+// ============================================================
+const iconCache = new Map();
+function getCachedIcon(fishName, size) {
+    const roundedSize = Math.round(size / 4) * 4;
+    const key = fishName + '|' + roundedSize;
+    if (iconCache.has(key)) return iconCache.get(key);
+    const icon = getFishIcon(fishName, roundedSize / 32);
+    const img = new Image();
+    img.src = icon;
+    iconCache.set(key, img);
+    if (iconCache.size > 400) iconCache.delete(iconCache.keys().next().value);
+    return img;
+}
+
+// ============================================================
+// ПРОСТРАНСТВЕННЫЙ ХЕШ
+// ============================================================
+class SpatialHash {
+    constructor(cellSize) { this.cellSize = cellSize; this.cells = new Map(); }
+    clear() { this.cells.clear(); }
+    key(cx, cy) { return cx + ',' + cy; }
+    insert(obj) {
+        const cx = Math.floor(obj.x / this.cellSize);
+        const cy = Math.floor(obj.y / this.cellSize);
+        const k = this.key(cx, cy);
+        let arr = this.cells.get(k);
+        if (!arr) { arr = []; this.cells.set(k, arr); }
+        arr.push(obj);
+    }
+    queryNear(x, y, radius) {
+        const result = [];
+        const minCx = Math.floor((x - radius) / this.cellSize);
+        const maxCx = Math.floor((x + radius) / this.cellSize);
+        const minCy = Math.floor((y - radius) / this.cellSize);
+        const maxCy = Math.floor((y + radius) / this.cellSize);
+        for (let cx = minCx; cx <= maxCx; cx++) {
+            for (let cy = minCy; cy <= maxCy; cy++) {
+                const arr = this.cells.get(this.key(cx, cy));
+                if (arr) for (let i = 0; i < arr.length; i++) result.push(arr[i]);
+            }
+        }
+        return result;
+    }
+}
+const spatialHash = new SpatialHash(HASH_CELL);
+
+// ============================================================
+// КОРМ
+// ============================================================
+const foodList = [];
+
+function spawnFood(x, y, count = 4) {
+    for (let i = 0; i < count; i++) {
+        foodList.push({
+            x: x + (Math.random() - 0.5) * 40, y: y + (Math.random() - 0.5) * 20,
+            vx: (Math.random() - 0.5) * 0.5, vy: 0.1 + Math.random() * 0.2,
+            size: 2.5 + Math.random() * 2.5, life: FOOD_LIFETIME,
+            wobble: Math.random() * Math.PI * 2
+        });
+    }
+}
+
+function updateFood(dt) {
+    const s = dt / 16;
+    for (let i = foodList.length - 1; i >= 0; i--) {
+        const f = foodList[i];
+        f.life -= dt;
+        if (f.life <= 0) { foodList.splice(i, 1); continue; }
+        f.wobble += 0.05 * s;
+        f.x += (f.vx + Math.sin(f.wobble) * 0.15) * s;
+        f.y += (f.vy + FOOD_SINK_SPEED * 0.5) * s;
+        const bottomY = VIRTUAL_HEIGHT - 130;
+        if (f.y > bottomY) { f.y = bottomY; f.vy *= 0.8; }
+    }
+}
+
+function drawFood(ctx) {
+    for (const f of foodList) {
+        const alpha = Math.min(1, f.life / 2000);
+        const screenX = f.x * camScale + camX;
+        const screenY = f.y * camScale + camY;
+        const r = Math.max(0.8, f.size * camScale);
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.beginPath(); ctx.arc(screenX, screenY, r, 0, Math.PI * 2); ctx.fillStyle = '#ffcc55'; ctx.fill();
+        ctx.beginPath(); ctx.arc(screenX - r * 0.3, screenY - r * 0.3, r * 0.4, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,220,0.7)'; ctx.fill();
+        ctx.restore();
+    }
+}
+
+// ============================================================
+// ЛИДЕРЫ СТАЙ
+// ============================================================
+const flockLeaders = new Map();
+
+class FlockLeader {
+    constructor(name, isPredator) {
+        this.name = name;
+        this.isPredator = isPredator;
+        if (isPredator) {
+            const p = randomEdgePoint();
+            this.x = p.x; this.y = p.y;
+        } else {
+            this.x = Math.random() * VIRTUAL_WIDTH;
+            this.y = VIRTUAL_HEIGHT * (0.2 + Math.random() * 0.6);
+        }
+        this.vx = 0; this.vy = 0;
+        this.target = null; this.targetTimer = 0;
+        this.speed = isPredator ? 1.15 : 0.6;
+        this.changeTarget();
+    }
+    changeTarget() {
+        if (this.isPredator) { this.target = randomEdgePoint(); this.targetTimer = 2500 + Math.random() * 3000; }
+        else { this.target = { x: 150 + Math.random() * (VIRTUAL_WIDTH - 300), y: 100 + Math.random() * (VIRTUAL_HEIGHT - 300) }; this.targetTimer = 4000 + Math.random() * 6000; }
+    }
+    update(dt) {
+        this.targetTimer -= dt;
+        if (this.targetTimer <= 0 || !this.target) this.changeTarget();
+        if (this.target) {
+            const dx = this.target.x - this.x;
+            const dy = this.target.y - this.y;
+            const d = Math.hypot(dx, dy);
+            if (d < 50) this.changeTarget();
+            const speedMult = 0.05 * (dt / 16);
+            this.vx += (dx / d) * speedMult; this.vy += (dy / d) * speedMult;
+        }
+        for (const [otherName, otherLeader] of flockLeaders.entries()) {
+            if (otherName === this.name) continue;
+            const dx = this.x - otherLeader.x;
+            const dy = this.y - otherLeader.y;
+            const d = Math.hypot(dx, dy);
+            if (d < FLOCK_REPULSION_RADIUS && d > 0.1) {
+                const force = (1 - d / FLOCK_REPULSION_RADIUS) * FLOCK_REPULSION_FORCE;
+                this.vx += (dx / d) * force * (dt / 16); this.vy += (dy / d) * force * (dt / 16);
+            }
+        }
+        const sp = Math.hypot(this.vx, this.vy);
+        if (sp > this.speed) { this.vx = (this.vx / sp) * this.speed; this.vy = (this.vy / sp) * this.speed; }
+        this.x += this.vx * (dt / 16); this.y += this.vy * (dt / 16);
+        if (this.x < 100) { this.x = 100; this.vx = Math.abs(this.vx); }
+        if (this.x > VIRTUAL_WIDTH - 100) { this.x = VIRTUAL_WIDTH - 100; this.vx = -Math.abs(this.vx); }
+        if (this.y < 100) { this.y = 100; this.vy = Math.abs(this.vy); }
+        if (this.y > VIRTUAL_HEIGHT - 200) { this.y = VIRTUAL_HEIGHT - 200; this.vy = -Math.abs(this.vy); }
+    }
+}
+function getFlockLeader(name, isPredator) {
+    if (!flockLeaders.has(name)) flockLeaders.set(name, new FlockLeader(name, isPredator));
+    return flockLeaders.get(name);
+}
+
+// ============================================================
+// КЛАСС РЫБЫ
+// ============================================================
+class Fish {
+    constructor(name, options = {}) {
+        this.id = fishCounter++;
+        this.name = name;
+        this.profile = getProfile(name);
+        this.type = this.profile.type;
+
+        const [minS, maxS] = this.profile.sizeRange;
+        this.size = options.size || (minS + Math.random() * (maxS - minS));
+
+        this.homeX = Math.random() * VIRTUAL_WIDTH;
+        this.homeY = this.pickWanderY();
+        this.territoryRadius = 200 + Math.random() * 200;
+
+        this.x = options.x !== undefined ? options.x : this.homeX;
+        this.y = options.y !== undefined ? options.y : this.homeY;
+
+        this.baseSpeed = this.profile.speed;
+        this.vx = (Math.random() > 0.5 ? 1 : -1) * this.baseSpeed * 0.6;
+        this.vy = 0; this.dir = this.vx > 0 ? 1 : -1;
+        this.bobAmp = 3 + Math.random() * 5;
+        this.bobSpeed = 0.001 + Math.random() * 0.0015;
+        this.phase = Math.random() * Math.PI * 2;
+
+        this.state = 'swim';
+        this.stateTimer = 0;
+        this.dashCooldown = Math.random() * 3000;
+        this.restTimer = 0;
+        this.wanderTarget = null; this.wanderTimer = 0;
+
+        this.target = null;
+        this.lungeCooldown = (2000 + Math.random() * 4000) * HUNT_COOLDOWN_MULTIPLIER;
+        this.lungeTimer = 0; this.lungeVector = null;
+        this.chaseTrailTimer = 0; this.blockedTimer = 0;
+        this.patrolTarget = null; this.patrolTimer = 0;
+        this.lockedSchoolName = null; this.lockedSchoolTimer = 0;
+        this._lungeSignal = 0;
+
+        this.fleeFrom = null; this.fleeTimer = 0; this.fleeCooldown = 0;
+
+        this.schoolCenter = null; this.schoolCount = 0;
+        this.isSchooled = false; this.isProtected = false;
+        this.flockLeader = null; this.opportunisticSchool = null;
+        this.foodTarget = null;
+
+        this.icon = getCachedIcon(name, this.size);
+    }
+
+    pickWanderTarget() {
+        return { x: this.homeX + (Math.random() - 0.5) * this.territoryRadius * 1.5, y: this.homeY + (Math.random() - 0.5) * this.territoryRadius };
+    }
+
+    updateSchool() {
+        const effectiveSchooling = this.profile.schooling || 0;
+        if (effectiveSchooling < 0.3) { this.flockLeader = null; this.isSchooled = false; this.schoolCount = 0; this.isProtected = false; return; }
+        this.flockLeader = getFlockLeader(this.name, this.type === 'predator');
+        const radius = this.type === 'predator' ? SCHOOL_RADIUS_PREDATOR : SCHOOL_RADIUS;
+        const nearby = spatialHash.queryNear(this.x, this.y, radius);
+        let count = 0;
+        for (let i = 0; i < nearby.length; i++) {
+            const other = nearby[i];
+            if (other === this) continue;
+            if (other.name !== this.name) continue;
+            if (Math.hypot(other.x - this.x, other.y - this.y) < radius) count++;
+        }
+        this.schoolCount = count;
+        this.isSchooled = count + 1 >= SCHOOL_MIN_COUNT;
+        if (this.isSchooled && this.type !== 'predator') {
+            const nearPredators = spatialHash.queryNear(this.x, this.y, PROTECTION_RADIUS);
+            let predatorNear = false;
+            for (let i = 0; i < nearPredators.length; i++) {
+                if (nearPredators[i].type === 'predator') { predatorNear = true; break; }
+            }
+            this.isProtected = predatorNear;
+        } else { this.isProtected = false; }
+    }
+
+    findPrey() {
+        if (!this.profile.huntRange) return null;
+        const radius = this.lockedSchoolName ? PATROL_VISION : this.profile.huntRange;
+        const nearby = spatialHash.queryNear(this.x, this.y, radius);
+        let best = null; let bestDist = radius;
+        for (let i = 0; i < nearby.length; i++) {
+            const other = nearby[i];
+            if (other === this) continue;
+            if (other.type === 'predator') continue;
+            if (other.size > this.size * 1.1) continue;
+            if (other.state === 'flee') continue;
+            if (other.isProtected) continue;
+            if (this.lockedSchoolName && other.name !== this.lockedSchoolName) continue;
+            const dx = other.x - this.x; const dy = other.y - this.y;
+            const d = Math.hypot(dx, dy);
+            if (d < bestDist) { bestDist = d; best = other; }
+        }
+        return best;
+    }
+
+    startle(predator) {
+        if (this.type === 'predator') return;
+        if (this.fleeCooldown > 0) return;
+        if (this.state === 'flee' && this.fleeTimer > 0) return;
+        this.state = 'flee'; this.stateTimer = 0;
+        this.fleeTimer = 1200 + Math.random() * 800;
+        this.fleeCooldown = FLEE_COOLDOWN;
+        this.fleeFrom = predator;
+        const dx = this.x - predator.x; const dy = this.y - predator.y;
+        const d = Math.hypot(dx, dy) || 1;
+        this.vx = (dx / d) * 3.5; this.vy = (dy / d) * 2.0 + (Math.random() - 0.5) * 1.5;
+    }
+
+    findFood() {
+        if (!foodList.length) return null;
+        if (this.type === 'predator' && Math.random() < 0.7) return null;
+        let best = null, bestDist = FOOD_ATTRACT_RADIUS;
+        for (let i = 0; i < foodList.length; i++) {
+            const f = foodList[i];
+            const dx = f.x - this.x; const dy = f.y - this.y;
+            const d = Math.hypot(dx, dy);
+            if (d < bestDist) { bestDist = d; best = f; }
+        }
+        return best;
+    }
+
+    applySchoolForces(dt, s) {
+        if (!this.isSchooled || !this.flockLeader) return;
+        if (this.state === 'flee' || this.state === 'lunge' || this.state === 'alert' || this.state === 'blocked') return;
+        const leader = this.flockLeader;
+        const leaderSpeed = Math.hypot(leader.vx, leader.vy) || 1;
+        const dirX = leader.vx / leaderSpeed; const dirY = leader.vy / leaderSpeed;
+        const slotDist = 25 + (this.id % 10) * 6;
+        const slotSide = ((this.id % 5) - 2) * 12;
+        const targetX = leader.x - dirX * slotDist - dirY * slotSide;
+        const targetY = leader.y - dirY * slotDist + dirX * slotSide;
+        const dx = targetX - this.x; const dy = targetY - this.y;
+        const d = Math.hypot(dx, dy) || 1;
+        const followForce = this.type === 'predator' ? FOLLOW_FORCE_PREDATOR : FOLLOW_FORCE;
+        this.vx += (dx / d) * followForce * s; this.vy += (dy / d) * followForce * s;
+
+        let avgVx = 0, avgVy = 0, alignCount = 0;
+        const nearby = spatialHash.queryNear(this.x, this.y, FORMATION_RADIUS);
+        for (let i = 0; i < nearby.length; i++) {
+            const m = nearby[i];
+            if (m === this || m.name !== this.name) continue;
+            const dist = Math.hypot(m.x - this.x, m.y - this.y);
+            if (dist < FORMATION_RADIUS) {
+                avgVx += m.vx; avgVy += m.vy; alignCount++;
+                if (dist < 30) {
+                    this.vx += ((this.x - m.x) / dist) * SEPARATION_FORCE * (1 - dist / 30) * s;
+                    this.vy += ((this.y - m.y) / dist) * SEPARATION_FORCE * (1 - dist / 30) * s;
+                }
+            }
+        }
+        if (alignCount > 0) {
+            avgVx /= alignCount; avgVy /= alignCount;
+            this.vx += (avgVx - this.vx) * ALIGNMENT_FORCE * s;
+            this.vy += (avgVy - this.vy) * ALIGNMENT_FORCE * s;
+        }
+        const nearbyPredators = spatialHash.queryNear(this.x, this.y, PERSONAL_SPACE);
+        for (let i = 0; i < nearbyPredators.length; i++) {
+            const p = nearbyPredators[i];
+            if (p.type !== 'predator') continue;
+            if (p.name === this.name) continue;
+            const pdx = this.x - p.x; const pdy = this.y - p.y;
+            const pd = Math.hypot(pdx, pdy) || 1;
+            if (pd < PERSONAL_SPACE) {
+                const force = (1 - pd / PERSONAL_SPACE) * PERSONAL_SPACE_FORCE;
+                this.vx += (pdx / pd) * force * s; this.vy += (pdy / pd) * force * s;
+            }
+        }
+    }
+
+    applyBoundaryForces(dt, s) {
+        if (this.x < BOUNDARY_MARGIN) { const force = (1 - this.x / BOUNDARY_MARGIN) * BOUNDARY_FORCE; this.vx += force * s; }
+        if (this.x + this.size > VIRTUAL_WIDTH - BOUNDARY_MARGIN) { const force = (1 - (VIRTUAL_WIDTH - this.x - this.size) / BOUNDARY_MARGIN) * BOUNDARY_FORCE; this.vx -= force * s; }
+        if (this.y < BOUNDARY_MARGIN) { const force = (1 - this.y / BOUNDARY_MARGIN) * BOUNDARY_FORCE; this.vy += force * s; }
+        if (this.y + this.size > VIRTUAL_HEIGHT - 150 - BOUNDARY_MARGIN) { const force = (1 - (VIRTUAL_HEIGHT - 150 - this.y - this.size) / BOUNDARY_MARGIN) * BOUNDARY_FORCE; this.vy -= force * s; }
+
+        const cx1 = CORNER_MARGIN, cy1 = CORNER_MARGIN;
+        const cx2 = VIRTUAL_WIDTH - CORNER_MARGIN, cy2 = CORNER_MARGIN;
+        const cx3 = CORNER_MARGIN, cy3 = VIRTUAL_HEIGHT - 150 - CORNER_MARGIN;
+        const cx4 = VIRTUAL_WIDTH - CORNER_MARGIN, cy4 = VIRTUAL_HEIGHT - 150 - CORNER_MARGIN;
+        const corners = [[cx1, cy1], [cx2, cy2], [cx3, cy3], [cx4, cy4]];
+        for (const [cx, cy] of corners) {
+            const dx = this.x - cx; const dy = this.y - cy;
+            const d = Math.hypot(dx, dy);
+            if (d < CORNER_MARGIN && d > 0.1) {
+                const force = (1 - d / CORNER_MARGIN) * CORNER_FORCE;
+                this.vx += (dx / d) * force * s; this.vy += (dy / d) * force * s;
+            }
+        }
+    }
+
+    update(dt) {
+        const s = dt / 16;
+        this.stateTimer += dt; this.dashCooldown -= dt; this.restTimer -= dt;
+        this.wanderTimer -= dt; this.lungeCooldown -= dt; this.lungeTimer -= dt;
+        this.fleeTimer -= dt; this.fleeCooldown -= dt; this.blockedTimer -= dt;
+
+        if (this._lungeSignal > 0) this._lungeSignal -= dt;
+        if (this.lockedSchoolTimer > 0) { this.lockedSchoolTimer -= dt; if (this.lockedSchoolTimer <= 0) this.lockedSchoolName = null; }
+
+        this.foodTarget = this.findFood();
+
+        if (this.type !== 'predator' && this.state !== 'flee') {
+            const nearbyPredators = spatialHash.queryNear(this.x, this.y, PANIC_RADIUS);
+            for (let i = 0; i < nearbyPredators.length; i++) {
+                if (nearbyPredators[i].type === 'predator') {
+                    if (Math.random() < 0.02) { this.startle(nearbyPredators[i]); break; }
+                }
+            }
+        }
+
+        if (mouse.active && this.state !== 'flee' && this.state !== 'lunge' && this.type !== 'predator') {
+            const dx = this.x - mouse.worldX; const dy = this.y - mouse.worldY;
+            const dist = Math.hypot(dx, dy);
+            const fearRadius = 70 + this.profile.shyness * 90;
+            if (dist < fearRadius && dist > 0.1) {
+                const force = (1 - dist / fearRadius) * this.profile.shyness * 0.6;
+                this.vx += (dx / dist) * force * s; this.vy += (dy / dist) * force * s;
+            }
+        }
+
+        this.applySchoolForces(dt, s);
+        this.applyBoundaryForces(dt, s);
+
+        if (this.type !== 'predator' && !this.isSchooled) {
+            const nearPreds = spatialHash.queryNear(this.x, this.y, PERSONAL_SPACE);
+            for (let i = 0; i < nearPreds.length; i++) {
+                const p = nearPreds[i];
+                if (p.type !== 'predator') continue;
+                const pdx = this.x - p.x; const pdy = this.y - p.y;
+                const pd = Math.hypot(pdx, pdy) || 1;
+                if (pd < PERSONAL_SPACE) {
+                    const force = (1 - pd / PERSONAL_SPACE) * PERSONAL_SPACE_FORCE;
+                    this.vx += (pdx / pd) * force * s; this.vy += (pdy / pd) * force * s;
+                }
+            }
+        }
+
+        if (this.foodTarget) {
+            const dx = this.foodTarget.x - this.x; const dy = this.foodTarget.y - this.y;
+            const d = Math.hypot(dx, dy) || 1;
+            if (d > 5) { this.vx += (dx / d) * 0.18 * s; this.vy += (dy / d) * 0.18 * s; }
+            if (d < FOOD_EAT_RADIUS + this.size * 0.5) {
+                const idx = foodList.indexOf(this.foodTarget);
+                if (idx !== -1) foodList.splice(idx, 1);
+                this.foodTarget = null;
+            }
+        }
+
+        switch (this.type) {
+            case 'predator': this.updatePredator(dt, s); break;
+            case 'bottom':   this.updateBottom(dt, s); break;
+            case 'grazer':   this.updateGrazer(dt, s); break;
+            case 'schooling': this.updateSchooling(dt, s); break;
+            case 'swift':    this.updateSwift(dt, s); break;
+            case 'snake':    this.updateSnake(dt, s); break;
+            default:         this.updateGeneric(dt, s); break;
+        }
+
+        if (this.state === 'rest') { this.vx *= 0.94; this.vy *= 0.94; }
+        else if (this.state === 'flee') { this.vx *= 0.97; this.vy *= 0.97; }
+        else if (this.state === 'lunge') { this.vx *= 0.995; this.vy *= 0.995; }
+        else { this.vx *= 0.985; this.vy *= 0.985; }
+
+        const minSpeed = this.state === 'rest' ? 0.05 : 0.2;
+        if (Math.abs(this.vx) < minSpeed && this.state !== 'flee' && this.state !== 'lunge') {
+            this.vx = (this.vx >= 0 ? 1 : -1) * minSpeed;
+        }
+        let maxSpeed = 2.4;
+        if (this.state === 'lunge') maxSpeed = 4.0;
+        if (this.state === 'flee') maxSpeed = 3.8;
+        const sp = Math.hypot(this.vx, this.vy);
+        if (sp > maxSpeed) { this.vx = (this.vx / sp) * maxSpeed; this.vy = (this.vy / sp) * maxSpeed; }
+
+        this.x += this.vx * s; this.y += this.vy * s;
+        this.phase += this.bobSpeed * dt;
+
+        if (this.x + this.size > VIRTUAL_WIDTH) this.x = VIRTUAL_WIDTH - this.size;
+        if (this.x < 0) this.x = 0;
+        if (this.y + this.size > VIRTUAL_HEIGHT - 100) this.y = VIRTUAL_HEIGHT - 100 - this.size;
+        if (this.y < 20) this.y = 20;
+
+        if (this.vx > 0.05) this.dir = 1;
+        else if (this.vx < -0.05) this.dir = -1;
+        if (this.state === 'flee' && this.fleeTimer <= 0) this.state = 'swim';
+    }
+
+    updatePredator(dt, s) {
+        if (this.state === 'lunge') {
+            if (this.lungeVector) { this.vx = this.lungeVector.x; this.vy = this.lungeVector.y; }
+            this.chaseTrailTimer -= dt;
+            if (this.chaseTrailTimer <= 0) this.chaseTrailTimer = 60;
+            if (this.lungeTimer <= 0) { this.state = 'recover'; this.stateTimer = 0; this.lungeVector = null; }
+            return;
+        }
+        if (this.state === 'recover') {
+            if (this.isSchooled && this.flockLeader) {
+                const leader = this.flockLeader;
+                const dx = leader.x - this.x; const dy = leader.y - this.y;
+                const d = Math.hypot(dx, dy) || 1;
+                if (d > 40) { this.vx += (dx / d) * 0.06 * s; this.vy += (dy / d) * 0.06 * s; }
+            }
+            this.vx *= 0.96; this.vy *= 0.96;
+            if (this.stateTimer > 800) { this.state = 'swim'; this.stateTimer = 0; }
+            return;
+        }
+        if (this.state === 'blocked') {
+            if (this.target && fishList.indexOf(this.target) !== -1) {
+                const dx = this.target.x - this.x; const dy = this.target.y - this.y;
+                const angle = Math.atan2(dy, dx) + Math.PI / 2;
+                this.vx += Math.cos(angle) * 0.08 * s; this.vy += Math.sin(angle) * 0.08 * s;
+            }
+            this.blockedTimer -= dt;
+            if (this.blockedTimer <= 0) {
+                this.state = 'swim'; this.stateTimer = 0; this.target = null;
+                this.lungeCooldown = (5000 + Math.random() * 5000) * HUNT_COOLDOWN_MULTIPLIER;
+            }
+            return;
+        }
+        if (this.state === 'swim') {
+            if (this.isSchooled && this.flockLeader && this.flockLeader._lungeSignal > 0) { if (this.lungeCooldown > 0) this.lungeCooldown = 0; }
+            if (this.lungeCooldown <= 0) {
+                const prey = this.findPrey();
+                if (prey) {
+                    this.target = prey; this.state = 'alert'; this.stateTimer = 0;
+                    if (!this.lockedSchoolName) { this.lockedSchoolName = prey.name; this.lockedSchoolTimer = 25000 + Math.random() * 30000; }
+                }
+            }
+            this.patrolTimer -= dt;
+            if (this.patrolTimer <= 0 || !this.patrolTarget) { this.patrolTarget = randomEdgePoint(); this.patrolTimer = PATROL_WAYPOINT_INTERVAL + Math.random() * 2000; }
+            if (this.patrolTarget) {
+                const dx = this.patrolTarget.x - this.x; const dy = this.patrolTarget.y - this.y;
+                const d = Math.hypot(dx, dy) || 1;
+                if (d < 60) { this.patrolTarget = null; }
+                else { const force = this.isSchooled ? PATROL_FORCE_IN_SCHOOL : PATROL_FORCE; this.vx += (dx / d) * force * s; this.vy += (dy / d) * force * s; }
+            }
+            if (this.isSchooled && this.flockLeader && !this.lockedSchoolName) {
+                const leader = this.flockLeader;
+                const ls = Math.hypot(leader.vx, leader.vy) || 1;
+                const dirX = leader.vx / ls; const dirY = leader.vy / ls;
+                const slotDist = 30 + (this.id % 8) * 7;
+                const slotSide = ((this.id % 5) - 2) * 14;
+                const targetX = leader.x - dirX * slotDist - dirY * slotSide;
+                const targetY = leader.y - dirY * slotDist + dirX * slotSide;
+                const dx = targetX - this.x; const dy = targetY - this.y;
+                const d = Math.hypot(dx, dy) || 1;
+                const pull = d > 20 ? 0.28 : 0.05;
+                this.vx += (dx / d) * pull * s; this.vy += (dy / d) * pull * s;
+            }
+        }
+        if (this.state === 'alert') {
+            if (!this.target || fishList.indexOf(this.target) === -1) {
+                this.target = this.findPrey();
+                if (!this.target) { this.state = 'swim'; this.stateTimer = 0; return; }
+            }
+            this.vx *= 0.9; this.vy *= 0.9;
+            const dx = this.target.x - this.x; const dy = this.target.y - this.y;
+            const d = Math.hypot(dx, dy);
+            if (this.target.isProtected) { this.state = 'blocked'; this.stateTimer = 0; this.blockedTimer = 3000 + Math.random() * 3000; return; }
+            if (d < this.profile.lungeDistance && this.stateTimer > 600) { this.startLunge(this.target); return; }
+            if (d > this.profile.huntRange) { this.target = null; this.state = 'swim'; this.stateTimer = 0; this.lungeCooldown = 3000 * HUNT_COOLDOWN_MULTIPLIER; }
+            if (this.stateTimer > 2000) { this.target = null; this.state = 'swim'; this.stateTimer = 0; this.lungeCooldown = 4000 * HUNT_COOLDOWN_MULTIPLIER; }
+        }
+    }
+
+    pickWanderY() {
+        const [vzTop, vzBottom] = this.profile.verticalZone || [0.2, 0.8];
+        let targetY;
+        if (this.profile.bottomBias) {
+            const t = 0.3 + Math.random() * 0.5;
+            targetY = VIRTUAL_HEIGHT * vzTop + (VIRTUAL_HEIGHT * (vzBottom - vzTop)) * t;
+        } else { targetY = VIRTUAL_HEIGHT * vzTop + Math.random() * (VIRTUAL_HEIGHT * (vzBottom - vzTop)); }
+        return Math.max(30, Math.min(VIRTUAL_HEIGHT - 130, targetY));
+    }
+
+    startLunge(prey) {
+        if (prey.isProtected) { this.state = 'blocked'; this.stateTimer = 0; this.blockedTimer = 3000 + Math.random() * 3000; return; }
+        const dx = prey.x - this.x; const dy = prey.y - this.y;
+        const d = Math.hypot(dx, dy) || 1;
+        const lungeSpeed = Math.min(4.0, 2.8 + Math.random() * 0.8);
+        this.lungeVector = { x: (dx / d) * lungeSpeed, y: (dy / d) * lungeSpeed };
+        this.state = 'lunge'; this.stateTimer = 0;
+        this.lungeTimer = this.profile.lungeDuration || 700;
+        this.chaseTrailTimer = 0;
+        prey.startle(this);
+        const [minCd, maxCd] = this.profile.lungeCooldown || [5000, 10000];
+        const cdMult = this.isSchooled ? 1.6 : 1.0;
+        this.lungeCooldown = (minCd + Math.random() * (maxCd - minCd)) * cdMult;
+        this.target = null;
+        if (this.flockLeader === this) this._lungeSignal = 1200;
+    }
+
+    updateBottom(dt, s) {
+        if (this.wanderTimer <= 0 || !this.wanderTarget) {
+            const [vzTop, vzBottom] = this.profile.verticalZone || [0.7, 1.0];
+            const t = 0.3 + Math.random() * 0.6;
+            const targetY = VIRTUAL_HEIGHT * vzTop + (VIRTUAL_HEIGHT * (vzBottom - vzTop)) * t;
+            this.wanderTarget = { x: this.homeX + (Math.random() - 0.5) * this.territoryRadius * 2, y: targetY };
+            this.wanderTimer = 4000 + Math.random() * 4000;
+        }
+        if (this.wanderTarget) {
+            const dx = this.wanderTarget.x - this.x; const dy = this.wanderTarget.y - this.y;
+            const d = Math.hypot(dx, dy);
+            if (d > 30) { this.vx += (dx / d) * 0.06 * s; this.vy += (dy / d) * 0.06 * s; }
+            else { this.wanderTarget = null; }
+        }
+        if (Math.random() < 0.005) this.vy += (Math.random() - 0.5) * 0.5;
+    }
+
+    updateGrazer(dt, s) {
+        if (this.state === 'flee') { if (this.fleeTimer <= 0) this.state = 'swim'; return; }
+        if (this.state === 'rest' && !this.foodTarget) { if (this.restTimer <= 0) this.state = 'swim'; return; }
+        if (this.wanderTimer <= 0 || !this.wanderTarget) { this.wanderTarget = this.pickWanderTarget(); this.wanderTimer = 3000 + Math.random() * 4000; }
+        if (this.wanderTarget) {
+            const dx = this.wanderTarget.x - this.x; const dy = this.wanderTarget.y - this.y;
+            const d = Math.hypot(dx, dy);
+            if (d > 25) { this.vx += (dx / d) * 0.06 * s; this.vy += (dy / d) * 0.06 * s; }
+            else { this.wanderTarget = null; this.state = 'rest'; this.restTimer = 1000 + Math.random() * 2000; }
+        }
+    }
+
+    updateSchooling(dt, s) {
+        if (this.state === 'flee') { if (this.fleeTimer <= 0) this.state = 'swim'; return; }
+        if (this.isSchooled && this.flockLeader) {
+            if (Math.random() < 0.01) { this.vx += (Math.random() - 0.5) * 0.2; this.vy += (Math.random() - 0.5) * 0.1; }
+        } else {
+            const nearby = spatialHash.queryNear(this.x, this.y, 300);
+            let best = null, bestDist = 300;
+            for (let i = 0; i < nearby.length; i++) {
+                const other = nearby[i];
+                if (other === this || other.name !== this.name) continue;
+                const d = Math.hypot(other.x - this.x, other.y - this.y);
+                if (d < bestDist) { bestDist = d; best = other; }
+            }
+            if (best) {
+                const dx = best.x - this.x; const dy = best.y - this.y;
+                const d = Math.hypot(dx, dy) || 1;
+                this.vx += (dx / d) * 0.12 * s; this.vy += (dy / d) * 0.12 * s;
+            } else {
+                if (this.wanderTimer <= 0 || !this.wanderTarget) { this.wanderTarget = this.pickWanderTarget(); this.wanderTimer = 2000 + Math.random() * 2000; }
+                if (this.wanderTarget) {
+                    const dx = this.wanderTarget.x - this.x; const dy = this.wanderTarget.y - this.y;
+                    const d = Math.hypot(dx, dy);
+                    if (d > 20) { this.vx += (dx / d) * 0.08 * s; this.vy += (dy / d) * 0.08 * s; }
+                    else { this.wanderTarget = null; }
+                }
+            }
+        }
+    }
+
+    updateSwift(dt, s) {
+        if (this.state === 'flee') { if (this.fleeTimer <= 0) this.state = 'swim'; return; }
+        if (this.wanderTimer <= 0 || !this.wanderTarget) { this.wanderTarget = this.pickWanderTarget(); this.wanderTimer = 1500 + Math.random() * 2000; }
+        if (this.wanderTarget) {
+            const dx = this.wanderTarget.x - this.x; const dy = this.wanderTarget.y - this.y;
+            const d = Math.hypot(dx, dy);
+            if (d > 15) { this.vx += (dx / d) * 0.12 * s; this.vy += (dy / d) * 0.12 * s; }
+            else { this.wanderTarget = null; }
+        }
+        if (this.dashCooldown <= 0) {
+            this.dashCooldown = 800 + Math.random() * 1500;
+            if (Math.random() < this.profile.dashChance) {
+                const angle = Math.random() * Math.PI * 2;
+                const power = 1.0 + Math.random() * 1.0;
+                this.vx += Math.cos(angle) * power; this.vy += Math.sin(angle) * power * 0.6;
+            }
+        }
+    }
+
+    updateSnake(dt, s) {
+        if (this.state === 'flee') { if (this.fleeTimer <= 0) this.state = 'swim'; return; }
+        if (this.wanderTimer <= 0 || !this.wanderTarget) { this.wanderTarget = this.pickWanderTarget(); this.wanderTimer = 4000 + Math.random() * 3000; }
+        if (this.wanderTarget) {
+            const dx = this.wanderTarget.x - this.x; const dy = this.wanderTarget.y - this.y;
+            const d = Math.hypot(dx, dy);
+            if (d > 20) { this.vx += (dx / d) * 0.06 * s; this.vy += (dy / d) * 0.06 * s; }
+            else { this.wanderTarget = null; }
+        }
+        this.vy += Math.sin(this.phase * 2) * 0.08 * s;
+    }
+
+    updateGeneric(dt, s) {
+        if (this.state === 'flee') { if (this.fleeTimer <= 0) this.state = 'swim'; return; }
+        if (this.wanderTimer <= 0 || !this.wanderTarget) { this.wanderTarget = this.pickWanderTarget(); this.wanderTimer = 2500 + Math.random() * 3000; }
+        if (this.wanderTarget) {
+            const dx = this.wanderTarget.x - this.x; const dy = this.wanderTarget.y - this.y;
+            const d = Math.hypot(dx, dy);
+            if (d > 20) { this.vx += (dx / d) * 0.08 * s; this.vy += (dy / d) * 0.08 * s; }
+            else { this.wanderTarget = null; }
+        }
+    }
+
+    draw(ctx) {
+        const bob = Math.sin(this.phase) * this.bobAmp;
+        const screenX = this.x * camScale + camX;
+        const screenY = (this.y + bob) * camScale + camY;
+        const screenSize = this.size * camScale;
+        if (screenX + screenSize < -10 || screenX > AQ_W + 10 || screenY + screenSize < -10 || screenY > AQ_H + 10) return;
+        ctx.save();
+        if (this.dir > 0) {
+            ctx.translate(screenX + screenSize / 2, screenY + screenSize / 2);
+            ctx.scale(-1, 1);
+            ctx.drawImage(this.icon, -screenSize / 2, -screenSize / 2, screenSize, screenSize);
+        } else {
+            ctx.drawImage(this.icon, screenX, screenY, screenSize, screenSize);
+        }
+        ctx.restore();
+    }
+}
+
+// ============================================================
+// СПИСОК РЫБ
+// ============================================================
+let fishCounter = 0;
+let fishList = [];
+
+function addFish(name, options) {
+    if (fishList.length >= MAX_FISH) return null;
+    const f = new Fish(name, options);
+    fishList.push(f);
+    return f;
+}
+
+// ============================================================
+// АНИМАЦИОННЫЙ ЦИКЛ
+// ============================================================
+let lastTime = performance.now();
+let frameCount = 0;
+let schoolUpdateCounter = 0;
+
+function animate(now) {
+    const dt = Math.min(now - lastTime, 50);
+    lastTime = now;
+
+    flockLeaders.forEach(leader => leader.update(dt));
+
+    spatialHash.clear();
+    for (let i = 0; i < fishList.length; i++) spatialHash.insert(fishList[i]);
+
+    schoolUpdateCounter++;
+    if (schoolUpdateCounter >= SCHOOL_UPDATE_INTERVAL) {
+        schoolUpdateCounter = 0;
+        for (let i = 0; i < fishList.length; i++) fishList[i].updateSchool();
+    }
+
+    for (let i = 0; i < fishList.length; i++) fishList[i].update(dt);
+
+    updateFood(dt);
+
+    if (isFeeding && mouse.active) {
+        if (now - lastFeedTime > FEED_INTERVAL) {
+            lastFeedTime = now;
+            spawnFood(mouse.worldX, mouse.worldY, 2);
+        }
+    }
+
+    ctx.clearRect(0, 0, AQ_W, AQ_H);
+
+    if (frameCount % 10 === 0) fishList.sort((a, b) => a.y - b.y);
+    for (let i = 0; i < fishList.length; i++) fishList[i].draw(ctx);
+
+    drawFood(ctx);
+
+    updateHover();
+
+    frameCount++;
+    requestAnimationFrame(animate);
+}
+
+// ============================================================
+// HOVER
+// ============================================================
+function updateHover() {
+    if (!mouse.active) { hoveredFish.current = null; tooltip.classList.remove('show'); return; }
+    let best = null; let bestDist = 30;
+    const nearby = spatialHash.queryNear(mouse.worldX, mouse.worldY, 40);
+    for (let i = 0; i < nearby.length; i++) {
+        const f = nearby[i];
+        const dx = f.x + f.size / 2 - mouse.worldX; const dy = f.y + f.size / 2 - mouse.worldY;
+        const d = Math.hypot(dx, dy);
+        if (d < bestDist + f.size / 2) { bestDist = d; best = f; }
+    }
+    if (best) {
+        hoveredFish.current = best;
+        tooltip.textContent = best.name;
+        tooltip.classList.add('show');
+        const sx = best.x * camScale + camX + (best.size * camScale) / 2;
+        const sy = best.y * camScale + camY - 10;
+        tooltip.style.left = sx + 'px';
+        tooltip.style.top = sy + 'px';
+    } else { hoveredFish.current = null; tooltip.classList.remove('show'); }
+}
+
+// ============================================================
+// МЫШЬ И КОРМ
+// ============================================================
+aquarium.addEventListener('mousemove', (e) => {
+    const rect = aquarium.getBoundingClientRect();
+    const localX = e.clientX - rect.left;
+    const localY = e.clientY - rect.top;
+    mouse.x = localX; mouse.y = localY;
+    mouse.worldX = (localX - camX) / camScale;
+    mouse.worldY = (localY - camY) / camScale;
+    mouse.active = true;
+});
+aquarium.addEventListener('mouseleave', () => { mouse.active = false; isFeeding = false; });
+aquarium.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    isFeeding = true;
+    spawnFood(mouse.worldX, mouse.worldY, 6);
+    lastFeedTime = performance.now();
+});
+window.addEventListener('mouseup', () => { isFeeding = false; });
+
+// ============================================================
+// ПУЗЫРЬКИ
+// ============================================================
+function spawnBubble(columnEl) {
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    const size = 4 + Math.random() * 9;
+    const dur = 4 + Math.random() * 5;
+    const offsetX = (Math.random() - 0.5) * 30;
+    bubble.style.width = size + 'px'; bubble.style.height = size + 'px';
+    bubble.style.left = (15 + offsetX) + 'px'; bubble.style.bottom = '-20px';
+    bubble.style.animationDuration = dur + 's';
+    bubble.style.animationDelay = (Math.random() * 1.5) + 's';
+    columnEl.appendChild(bubble);
+    setTimeout(() => bubble.remove(), (dur + 2.5) * 1000);
+}
+document.querySelectorAll('.bubble-column').forEach((col, i) => {
+    const interval = 500 + i * 250;
+    setInterval(() => { if (Math.random() < 0.75) spawnBubble(col); }, interval);
+    for (let j = 0; j < 3; j++) setTimeout(() => spawnBubble(col), j * 400 + i * 200);
+});
+
+// ============================================================
+// ЗАПУСК АКВАРИУМА
+// ============================================================
+const urlParams2 = new URLSearchParams(window.location.search);
+const playerName = urlParams2.get('player');
+
+function populateDemo() {
+    let speciesWeights = {};
+
+    if (AQUARIUM_TYPE === 'halloween') {
+        // Хэллоуинские рыбы (веса по редкости)
+        speciesWeights = {
+            'Назойливая тыковка': 10, 'Писклявый пескарь': 8, 'Клоун в костюме клоуна': 6,
+            'Мразь карась': 5, 'Щука падлюка': 4, 'Судак дурак': 4, 'Краб шкраб': 3,
+            'Луна в костюме луны': 3, 'Осётр Пётр': 2, 'Удильщик': 2
+        };
+    } else if (AQUARIUM_TYPE === 'undead') {
+        // Нежить (все обычные рыбы, но в виде нежити)
+        const undeadWeights = {
+            'Плотва': 10, 'Окунь': 10, 'Карась': 8, 'Лещ': 8, 'Карп': 7,
+            'Пескарь': 6, 'Краснопёрка': 6, 'Ёрш': 5, 'Уклейка': 5, 'Голавль': 4,
+            'Щука': 4, 'Судак': 3, 'Язь': 3, 'Сиг': 3, 'Хариус': 3,
+            'Форель': 2, 'Линь': 2, 'Чоп': 2, 'Голец': 2,
+            'Лосось': 2, 'Сазан': 2, 'Змееголов': 1, 'Угорь': 1, 'Белый амур': 1, 'Сом': 1,
+            'Осётр': 1, 'Пиранья': 1, 'Минога': 1, 'Налим': 1
+        };
+        for (const [base, weight] of Object.entries(undeadWeights)) {
+            speciesWeights['Нежить ' + base.toLowerCase()] = weight;
+        }
+    } else {
+        // Обычные
+        speciesWeights = {
+            'Плотва': 65, 'Окунь': 55, 'Карась': 45, 'Лещ': 40, 'Карп': 35,
+            'Пескарь': 30, 'Краснопёрка': 30, 'Ёрш': 25, 'Уклейка': 25, 'Голавль': 20,
+            'Щука': 18, 'Судак': 15, 'Язь': 15, 'Сиг': 15, 'Хариус': 12,
+            'Форель': 10, 'Линь': 10, 'Чоп': 10, 'Голец': 10,
+            'Лосось': 8, 'Сазан': 7, 'Змееголов': 6, 'Угорь': 6, 'Белый амур': 5, 'Сом': 4,
+            'Осётр': 3, 'Пиранья': 3, 'Минога': 2, 'Налим': 2
+        };
+    }
+
+    const pool = [];
+    for (const [name, weight] of Object.entries(speciesWeights)) {
+        for (let i = 0; i < weight; i++) pool.push(name);
+    }
+    for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+
+    // Количество рыб зависит от типа
+    let DEMO_COUNT = 500;
+    if (AQUARIUM_TYPE === 'halloween') DEMO_COUNT = 80;
+    if (AQUARIUM_TYPE === 'undead') DEMO_COUNT = 150;
+
+    for (let i = 0; i < DEMO_COUNT; i++) {
+        const name = pool[i % pool.length];
+        addFish(name);
+    }
+}
+
+setTimeout(() => {
+    updateSize();
+    populateDemo();
+    requestAnimationFrame(animate);
+}, 100);
+</script>
+</body>
+</html>
