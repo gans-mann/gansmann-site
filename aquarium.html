@@ -13,93 +13,51 @@
 body {
     font-family: 'Montserrat', sans-serif;
     background: radial-gradient(ellipse at 50% 0%, #102a3a 0%, #0a1520 60%, #050a10 100%);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    color: #fff;
-    overflow: hidden;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px; color: #fff; overflow: hidden;
 }
 
-h1 {
-    font-size: 1.6rem;
-    font-weight: 900;
+h1 { font-size: 1.6rem; font-weight: 900;
     background: linear-gradient(135deg, #00d4ff, #00ffa3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 6px;
-    letter-spacing: 0.5px;
-    text-align: center;
-}
-
-.subtitle {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.45);
-    margin-bottom: 12px;
-    text-align: center;
-}
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 4px; letter-spacing: 0.5px; text-align: center; }
+.subtitle { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-bottom: 12px; text-align: center; }
 .subtitle a { color: #00d4ff; text-decoration: none; }
 .subtitle a:hover { text-decoration: underline; }
 
-.aquarium {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    height: 640px;
-    border-radius: 22px;
-    overflow: hidden;
+.aquarium { position: relative; width: 100%; max-width: 1200px; height: 640px;
+    border-radius: 22px; overflow: hidden;
     border: 3px solid rgba(0, 212, 255, 0.35);
-    box-shadow:
-        0 0 80px rgba(0, 212, 255, 0.3),
-        0 0 160px rgba(0, 150, 200, 0.15),
-        inset 0 0 100px rgba(0, 80, 130, 0.4);
-    background:
-        radial-gradient(ellipse at 50% -10%, rgba(120, 220, 255, 0.35) 0%, transparent 55%),
-        radial-gradient(ellipse at 20% 100%, rgba(0, 140, 90, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 100%, rgba(0, 100, 160, 0.3) 0%, transparent 50%),
-        linear-gradient(180deg, #1e5680 0%, #124060 30%, #0a2e4a 60%, #061e33 100%);
-    cursor: default;
-}
+    box-shadow: 0 0 80px rgba(0, 212, 255, 0.3), 0 0 160px rgba(0, 150, 200, 0.15), inset 0 0 100px rgba(0, 80, 130, 0.4);
+    background: radial-gradient(ellipse at 50% -10%, rgba(120, 220, 255, 0.35) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 100%, rgba(0, 140, 90, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(0, 100, 160, 0.3) 0%, transparent 50%),
+                linear-gradient(180deg, #1e5680 0%, #124060 30%, #0a2e4a 60%, #061e33 100%);
+    cursor: default; }
 
-.aquarium.halloween-mode {
-    border-color: rgba(255, 140, 0, 0.4);
+.aquarium.halloween-mode { border-color: rgba(255, 140, 0, 0.4);
     box-shadow: 0 0 80px rgba(255, 140, 0, 0.3), 0 0 160px rgba(200, 80, 0, 0.15), inset 0 0 100px rgba(80, 40, 0, 0.4);
-    background:
-        radial-gradient(ellipse at 50% -10%, rgba(255, 180, 50, 0.3) 0%, transparent 55%),
-        radial-gradient(ellipse at 20% 100%, rgba(180, 80, 0, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 100%, rgba(100, 40, 0, 0.3) 0%, transparent 50%),
-        linear-gradient(180deg, #6a3a00 0%, #3a2000 30%, #1a0e00 60%, #0a0500 100%);
-}
+    background: radial-gradient(ellipse at 50% -10%, rgba(255, 180, 50, 0.3) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 100%, rgba(180, 80, 0, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(100, 40, 0, 0.3) 0%, transparent 50%),
+                linear-gradient(180deg, #6a3a00 0%, #3a2000 30%, #1a0e00 60%, #0a0500 100%); }
 
-.aquarium.undead-mode {
-    border-color: rgba(150, 200, 100, 0.4);
+.aquarium.undead-mode { border-color: rgba(150, 200, 100, 0.4);
     box-shadow: 0 0 80px rgba(150, 200, 100, 0.3), 0 0 160px rgba(80, 120, 60, 0.15), inset 0 0 100px rgba(40, 60, 30, 0.4);
-    background:
-        radial-gradient(ellipse at 50% -10%, rgba(150, 200, 100, 0.3) 0%, transparent 55%),
-        radial-gradient(ellipse at 20% 100%, rgba(80, 120, 60, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 100%, rgba(40, 60, 30, 0.3) 0%, transparent 50%),
-        linear-gradient(180deg, #2a4a20 0%, #1a2a10 30%, #0a1a00 60%, #051000 100%);
-}
+    background: radial-gradient(ellipse at 50% -10%, rgba(150, 200, 100, 0.3) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 100%, rgba(80, 120, 60, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(40, 60, 30, 0.3) 0%, transparent 50%),
+                linear-gradient(180deg, #2a4a20 0%, #1a2a10 30%, #0a1a00 60%, #051000 100%); }
 
-.aquarium .caustics {
-    position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.55; mix-blend-mode: screen;
-    background:
-        radial-gradient(ellipse 200px 60px at 25% 88%, rgba(120, 230, 255, 0.4) 0%, transparent 70%),
-        radial-gradient(ellipse 260px 50px at 60% 92%, rgba(100, 220, 255, 0.3) 0%, transparent 70%),
-        radial-gradient(ellipse 180px 40px at 85% 85%, rgba(140, 240, 255, 0.35) 0%, transparent 70%);
-    animation: causticsShift 12s ease-in-out infinite;
-}
+.aquarium .caustics { position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.55; mix-blend-mode: screen;
+    background: radial-gradient(ellipse 200px 60px at 25% 88%, rgba(120, 230, 255, 0.4) 0%, transparent 70%),
+                radial-gradient(ellipse 260px 50px at 60% 92%, rgba(100, 220, 255, 0.3) 0%, transparent 70%),
+                radial-gradient(ellipse 180px 40px at 85% 85%, rgba(140, 240, 255, 0.35) 0%, transparent 70%);
+    animation: causticsShift 12s ease-in-out infinite; }
 .aquarium.halloween-mode .caustics { background: radial-gradient(ellipse 200px 60px at 25% 88%, rgba(255,200,100,0.4) 0%, transparent 70%), radial-gradient(ellipse 260px 50px at 60% 92%, rgba(255,140,0,0.3) 0%, transparent 70%); }
 .aquarium.undead-mode .caustics { background: radial-gradient(ellipse 200px 60px at 25% 88%, rgba(150,200,100,0.4) 0%, transparent 70%), radial-gradient(ellipse 260px 50px at 60% 92%, rgba(100,150,80,0.3) 0%, transparent 70%); }
-
-@keyframes causticsShift {
-    0%, 100% { transform: translateX(0) scale(1); opacity: 0.5; }
-    33% { transform: translateX(20px) scale(1.05); opacity: 0.7; }
-    66% { transform: translateX(-15px) scale(0.98); opacity: 0.6; }
-}
+@keyframes causticsShift { 0%, 100% { transform: translateX(0) scale(1); opacity: 0.5; } 33% { transform: translateX(20px) scale(1.05); opacity: 0.7; } 66% { transform: translateX(-15px) scale(0.98); opacity: 0.6; } }
 
 .aquarium::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 50;
     background: linear-gradient(115deg, transparent 18%, rgba(255,255,255,0.05) 24%, transparent 30%), linear-gradient(115deg, transparent 52%, rgba(255,255,255,0.04) 58%, transparent 64%), linear-gradient(115deg, transparent 78%, rgba(255,255,255,0.03) 84%, transparent 90%);
@@ -120,17 +78,11 @@ h1 {
 .light-ray:nth-child(3) { left: 52%; width: 160px; animation-delay: -5s; opacity: 0.85; }
 .light-ray:nth-child(4) { left: 76%; width: 90px; animation-delay: -1.5s; opacity: 0.65; }
 .light-ray:nth-child(5) { left: 90%; width: 60px; animation-delay: -7s; opacity: 0.5; }
-
 @keyframes raySway { 0%, 100% { transform: rotate(-7deg) translateX(0); opacity: 0.55; } 50% { transform: rotate(5deg) translateX(18px); opacity: 1; } }
 
 .sand { position: absolute; bottom: 0; left: 0; right: 0; height: 90px; z-index: 3; pointer-events: none;
-    border-radius: 0 0 19px 19px;
-    box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.35);
-    background:
-        radial-gradient(ellipse at 15% 0%, rgba(190, 170, 110, 0.55) 0%, transparent 45%),
-        radial-gradient(ellipse at 45% 0%, rgba(170, 150, 95, 0.5) 0%, transparent 45%),
-        radial-gradient(ellipse at 75% 0%, rgba(180, 160, 100, 0.5) 0%, transparent 45%),
-        linear-gradient(180deg, rgba(175, 155, 105, 0.65) 0%, rgba(130, 110, 70, 0.85) 45%, rgba(80, 65, 40, 0.95) 80%, rgba(50, 40, 25, 1) 100%); }
+    border-radius: 0 0 19px 19px; box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.35);
+    background: radial-gradient(ellipse at 15% 0%, rgba(190, 170, 110, 0.55) 0%, transparent 45%), radial-gradient(ellipse at 45% 0%, rgba(170, 150, 95, 0.5) 0%, transparent 45%), radial-gradient(ellipse at 75% 0%, rgba(180, 160, 100, 0.5) 0%, transparent 45%), linear-gradient(180deg, rgba(175, 155, 105, 0.65) 0%, rgba(130, 110, 70, 0.85) 45%, rgba(80, 65, 40, 0.95) 80%, rgba(50, 40, 25, 1) 100%); }
 .aquarium.halloween-mode .sand { background: linear-gradient(180deg, rgba(150,80,20,0.65) 0%, rgba(80,40,10,0.85) 45%, rgba(40,20,5,0.95) 100%); }
 .aquarium.undead-mode .sand { background: linear-gradient(180deg, rgba(100,120,70,0.65) 0%, rgba(60,80,40,0.85) 45%, rgba(30,40,20,0.95) 100%); }
 
@@ -157,13 +109,7 @@ h1 {
     background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(150, 220, 255, 0.3) 55%, transparent 100%);
     box-shadow: inset -1px -1px 3px rgba(255,255,255,0.4);
     animation: bubbleRise linear infinite; }
-@keyframes bubbleRise {
-    0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
-    8% { opacity: 0.95; }
-    45% { transform: translateY(-260px) translateX(14px) scale(1); opacity: 0.85; }
-    75% { transform: translateY(-430px) translateX(-6px) scale(0.9); opacity: 0.65; }
-    100% { transform: translateY(-600px) translateX(8px) scale(0.7); opacity: 0; }
-}
+@keyframes bubbleRise { 0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; } 8% { opacity: 0.95; } 45% { transform: translateY(-260px) translateX(14px) scale(1); opacity: 0.85; } 75% { transform: translateY(-430px) translateX(-6px) scale(0.9); opacity: 0.65; } 100% { transform: translateY(-600px) translateX(8px) scale(0.7); opacity: 0; } }
 
 #fishCanvas { position: absolute; inset: 0; z-index: 10; pointer-events: none; image-rendering: pixelated; image-rendering: crisp-edges; }
 
@@ -173,7 +119,6 @@ h1 {
     letter-spacing: 0.3px; transform: translate(-50%, -100%); }
 .fish-tooltip.show { opacity: 1; }
 
-/* UI */
 .aquarium-ui { position: absolute; top: 16px; left: 18px; right: 18px; display: flex; justify-content: space-between; z-index: 60; pointer-events: none; }
 .aquarium-ui > * { pointer-events: auto; }
 .back-btn, .type-badge {
@@ -231,55 +176,10 @@ h1 {
     </div>
 </div>
 
-<script>
-// ============================================================
-// fish-icons.js — заглушка
-// ============================================================
-if (typeof getFishIcon === 'undefined') {
-    const DEMO_PALETTES = {
-        'Щука': ['#4a6b2a','#2a3f1a','#8fa860','#ffd700'],
-        'Окунь': ['#5a7a3a','#3a5020','#9ab070','#ffd700'],
-        'Карп': ['#8b6f3a','#5a4520','#c4a870','#ffd700'],
-        'Карась': ['#c8a830','#8a7020','#f0d878','#ffd700'],
-        'Сом': ['#3a2a1a','#1a1208','#7a6050','#f0f0f0'],
-        'Судак': ['#707880','#404850','#c0c8d0','#ffd700'],
-        'Лещ': ['#7a8090','#505868','#c8d0e0','#ffd700'],
-        'Плотва': ['#a0a8b0','#707880','#e8f0f8','#ffd700'],
-        'Пиранья': ['#a01818','#6a0808','#d88080','#ffd700'],
-        'Лосось': ['#e07050','#a04830','#f8c8a8','#ffd700'],
-        'Форель': ['#d97645','#8a4a28','#f0b890','#ffd700'],
-        'Осётр': ['#5a6a7a','#3a4a5a','#a0b0c0','#ffd700'],
-        'Угорь': ['#3a5a3a','#1a3a1a','#8aa08a','#ffd700'],
-        'Налим': ['#5a5a4a','#3a3a2a','#a0a090','#ffd700'],
-        'Хариус': ['#9098a8','#606878','#e0e8f0','#ffd700'],
-        'Нежить щука': ['#6a7a4a','#0a0a0a','#a8b878','#c0ff00'],
-        'Мразь карась': ['#d4af37','#8b6508','#ffd700','#ff0000'],
-        'Назойливая тыковка': ['#ff8c00','#8b4500','#ffb347','#ffffff'],
-        'Удильщик': ['#4a5a6a','#2a3a4a','#7a8a9a','#ffffff'],
-        'Краб шкраб': ['#d32f2f','#b71c1c','#ef5350','#000000'],
-    };
-    window.getFishIcon = function(fishName, scale) {
-        scale = scale || 1;
-        const pal = DEMO_PALETTES[fishName] || ['#7a8090','#505868','#c8d0e0','#ffd700'];
-        const main = pal[0], dark = pal[1], belly = pal[2], eye = pal[3];
-        let s = '';
-        s += `<rect x="6" y="12" width="18" height="8" fill="${main}"/>`;
-        s += `<rect x="7" y="11" width="16" height="10" fill="${main}"/>`;
-        s += `<rect x="8" y="13" width="14" height="6" fill="${main}"/>`;
-        s += `<rect x="8" y="16" width="14" height="3" fill="${belly}" opacity="0.85"/>`;
-        s += `<rect x="8" y="11" width="14" height="2" fill="${dark}"/>`;
-        s += `<rect x="9" y="13" width="3" height="3" fill="${eye}"/>`;
-        s += `<rect x="10" y="14" width="2" height="2" fill="#000"/>`;
-        s += `<rect x="23" y="12" width="2" height="8" fill="${main}"/>`;
-        s += `<rect x="25" y="10" width="3" height="4" fill="${dark}"/>`;
-        s += `<rect x="25" y="18" width="3" height="4" fill="${dark}"/>`;
-        s += `<rect x="11" y="9" width="4" height="3" fill="${dark}"/>`;
-        return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
-        );
-    };
-}
+<!-- ПОДКЛЮЧАЕМ ВАШ РЕАЛЬНЫЙ fish-icons.js -->
+<script src="/fish-icons.js"></script>
 
+<script>
 // ============================================================
 // КОНСТАНТЫ
 // ============================================================
@@ -331,10 +231,10 @@ const FEED_INTERVAL = 80;
 // URL ПАРАМЕТРЫ
 // ============================================================
 const urlParams = new URLSearchParams(window.location.search);
-let AQUARIUM_TYPE = urlParams.get('type') || 'regular'; // regular | undead | halloween
+let AQUARIUM_TYPE = urlParams.get('type') || 'regular';
 
 // ============================================================
-// ВСЕ РЫБЫ
+// СПИСКИ РЫБ
 // ============================================================
 const ALL_REGULAR = [
     'Щука', 'Окунь', 'Карп', 'Карась', 'Сом', 'Судак', 'Лещ', 'Плотва',
@@ -356,7 +256,7 @@ const canvas = document.getElementById('fishCanvas');
 const ctx = canvas.getContext('2d', { alpha: true });
 const tooltip = document.getElementById('fishTooltip');
 
-// Настройка стилей в зависимости от типа
+// Настройка стилей
 if (AQUARIUM_TYPE === 'halloween') {
     aquarium.classList.add('halloween-mode');
     document.getElementById('pageTitle').textContent = '🎃 Аквариум Хэллоуина';
@@ -448,11 +348,7 @@ const SPECIES_PROFILES = {
     'Язь':        { type: 'generic', speed: 0.9, sizeRange: [30, 45], verticalZone: [0.2, 0.8], schooling: 0.6, shyness: 0.5, dashChance: 0.25 },
     'Голавль':    { type: 'generic', speed: 1.0, sizeRange: [30, 50], verticalZone: [0.2, 0.7], schooling: 0.5, shyness: 0.4, dashChance: 0.3 },
     'Линь':       { type: 'generic', speed: 0.5, sizeRange: [30, 45], verticalZone: [0.5, 0.95], schooling: 0.4, shyness: 0.5, dashChance: 0.1 },
-    // Нежить (наследует поведение базовой рыбы)
-    'Нежить щука':        { type: 'predator', speed: 1.1, sizeRange: [44, 60], huntRange: 120, lungeDistance: 60, lungeCooldown: [30000, 50000], lungeDuration: 500, verticalZone: [0.2, 0.8], schooling: 0.85, shyness: 0.4, dashChance: 0.3 },
-    'Нежить окунь':       { type: 'schooling', speed: 1.0, sizeRange: [30, 42], verticalZone: [0.2, 0.8], schooling: 0.8, shyness: 0.5, dashChance: 0.3 },
-    'Нежить карп':        { type: 'grazer', speed: 0.55, sizeRange: [40, 56], verticalZone: [0.4, 0.9], schooling: 0.6, shyness: 0.4, dashChance: 0.1 },
-    // Хэллоуин
+    // Хэллоуин (ключи должны точно совпадать с именами в fish-icons.js)
     'Мразь карась':       { type: 'grazer', speed: 0.6, sizeRange: [30, 44], verticalZone: [0.4, 0.9], schooling: 0.6, shyness: 0.5, dashChance: 0.15 },
     'Назойливая тыковка': { type: 'generic', speed: 0.6, sizeRange: [30, 40], verticalZone: [0.4, 0.9], schooling: 0.5, shyness: 0.5, dashChance: 0.15 },
     'Щука падлюка':       { type: 'predator', speed: 1.1, sizeRange: [44, 60], huntRange: 120, lungeDistance: 60, lungeCooldown: [30000, 50000], lungeDuration: 500, verticalZone: [0.2, 0.8], schooling: 0.85, shyness: 0.4, dashChance: 0.3 },
@@ -466,21 +362,37 @@ const SPECIES_PROFILES = {
 };
 
 function getProfile(fishName) {
-    for (const key in SPECIES_PROFILES) {
-        if (key.toLowerCase() === fishName.toLowerCase()) return SPECIES_PROFILES[key];
+    // Для нежити срезаем префикс
+    let searchName = fishName;
+    if (searchName.toLowerCase().startsWith('нежить ')) {
+        searchName = searchName.substring(7).trim();
     }
+
+    for (const key in SPECIES_PROFILES) {
+        if (key.toLowerCase() === searchName.toLowerCase()) return SPECIES_PROFILES[key];
+    }
+    // Фоллбек
     return { type: 'generic', speed: 0.8, sizeRange: [28, 42], verticalZone: [0.2, 0.8], schooling: 0.5, shyness: 0.5, dashChance: 0.2 };
 }
 
 // ============================================================
-// КЭШ ИКОНОК
+// КЭШ ИКОНОК — вызываем getFishIcon из fish-icons.js
 // ============================================================
 const iconCache = new Map();
 function getCachedIcon(fishName, size) {
     const roundedSize = Math.round(size / 4) * 4;
     const key = fishName + '|' + roundedSize;
     if (iconCache.has(key)) return iconCache.get(key);
-    const icon = getFishIcon(fishName, roundedSize / 32);
+    
+    // Если getFishIcon не загрузился — рисуем серый квадрат
+    if (typeof window.getFishIcon !== 'function') {
+        const img = new Image();
+        img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="8" y="8" width="16" height="16" fill="#888"/></svg>`);
+        iconCache.set(key, img);
+        return img;
+    }
+    
+    const icon = window.getFishIcon(fishName, roundedSize / 32);
     const img = new Image();
     img.src = icon;
     iconCache.set(key, img);
@@ -672,6 +584,7 @@ class Fish {
         this.flockLeader = null; this.opportunisticSchool = null;
         this.foodTarget = null;
 
+        // ВАЖНО: передаём ИМЯ целиком (например, "Нежить щука" или "Мразь карась")
         this.icon = getCachedIcon(name, this.size);
     }
 
@@ -1212,7 +1125,12 @@ function updateHover() {
     }
     if (best) {
         hoveredFish.current = best;
-        tooltip.textContent = best.name;
+        // Для нежити показываем красивое имя
+        let displayName = best.name;
+        if (displayName.toLowerCase().startsWith('нежить ')) {
+            displayName = '🧟 ' + displayName.substring(7).charAt(0).toUpperCase() + displayName.substring(8);
+        }
+        tooltip.textContent = displayName;
         tooltip.classList.add('show');
         const sx = best.x * camScale + camX + (best.size * camScale) / 2;
         const sy = best.y * camScale + camY - 10;
@@ -1267,21 +1185,16 @@ document.querySelectorAll('.bubble-column').forEach((col, i) => {
 // ============================================================
 // ЗАПУСК АКВАРИУМА
 // ============================================================
-const urlParams2 = new URLSearchParams(window.location.search);
-const playerName = urlParams2.get('player');
-
 function populateDemo() {
     let speciesWeights = {};
 
     if (AQUARIUM_TYPE === 'halloween') {
-        // Хэллоуинские рыбы (веса по редкости)
         speciesWeights = {
             'Назойливая тыковка': 10, 'Писклявый пескарь': 8, 'Клоун в костюме клоуна': 6,
             'Мразь карась': 5, 'Щука падлюка': 4, 'Судак дурак': 4, 'Краб шкраб': 3,
             'Луна в костюме луны': 3, 'Осётр Пётр': 2, 'Удильщик': 2
         };
     } else if (AQUARIUM_TYPE === 'undead') {
-        // Нежить (все обычные рыбы, но в виде нежити)
         const undeadWeights = {
             'Плотва': 10, 'Окунь': 10, 'Карась': 8, 'Лещ': 8, 'Карп': 7,
             'Пескарь': 6, 'Краснопёрка': 6, 'Ёрш': 5, 'Уклейка': 5, 'Голавль': 4,
@@ -1294,7 +1207,6 @@ function populateDemo() {
             speciesWeights['Нежить ' + base.toLowerCase()] = weight;
         }
     } else {
-        // Обычные
         speciesWeights = {
             'Плотва': 65, 'Окунь': 55, 'Карась': 45, 'Лещ': 40, 'Карп': 35,
             'Пескарь': 30, 'Краснопёрка': 30, 'Ёрш': 25, 'Уклейка': 25, 'Голавль': 20,
@@ -1314,7 +1226,6 @@ function populateDemo() {
         [pool[i], pool[j]] = [pool[j], pool[i]];
     }
 
-    // Количество рыб зависит от типа
     let DEMO_COUNT = 500;
     if (AQUARIUM_TYPE === 'halloween') DEMO_COUNT = 80;
     if (AQUARIUM_TYPE === 'undead') DEMO_COUNT = 150;
