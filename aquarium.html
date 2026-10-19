@@ -19,26 +19,39 @@ body {
     transition: padding 0.3s;
 }
 
-/* Полноэкранный режим: убираем всё */
-body:fullscreen,
-body:-webkit-full-screen {
+/* ============================================================
+   ПОЛНОЭКРАННЫЙ РЕЖИМ — скрываем всё лишнее
+   ============================================================ */
+body.fullscreen-active {
     padding: 0;
     background: #000;
 }
+body.fullscreen-active h1,
+body.fullscreen-active .subtitle,
+body.fullscreen-active .aquarium-ui,
+body.fullscreen-active .fish-tooltip {
+    display: none !important;
+}
 
+body.fullscreen-active .aquarium {
+    max-width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+body.fullscreen-active .aquarium::after { border-radius: 0; box-shadow: none; }
+body.fullscreen-active .sand { border-radius: 0; }
+
+/* ============================================================
+   ОБЫЧНЫЙ РЕЖИМ
+   ============================================================ */
 h1 { font-size: 1.6rem; font-weight: 900;
     background: linear-gradient(135deg, #00d4ff, #00ffa3);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; margin-bottom: 4px; letter-spacing: 0.5px; text-align: center;
-    transition: opacity 0.3s; }
+    background-clip: text; margin-bottom: 4px; letter-spacing: 0.5px; text-align: center; }
 
-body:fullscreen h1,
-body:-webkit-full-screen h1 { display: none; }
-
-.subtitle { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-bottom: 12px; text-align: center; transition: opacity 0.3s; }
-body:fullscreen .subtitle,
-body:-webkit-full-screen .subtitle { display: none; }
-
+.subtitle { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-bottom: 12px; text-align: center; }
 .subtitle a { color: #00d4ff; text-decoration: none; }
 .subtitle a:hover { text-decoration: underline; }
 
@@ -51,17 +64,6 @@ body:-webkit-full-screen .subtitle { display: none; }
                 radial-gradient(ellipse at 80% 100%, rgba(0, 100, 160, 0.3) 0%, transparent 50%),
                 linear-gradient(180deg, #1e5680 0%, #124060 30%, #0a2e4a 60%, #061e33 100%);
     cursor: default; transition: border-radius 0.3s, max-width 0.3s, height 0.3s; }
-
-/* В полноэкранном режиме — на весь экран, без рамки */
-body:fullscreen .aquarium,
-body:-webkit-full-screen .aquarium {
-    max-width: 100%;
-    height: 100vh;
-    border-radius: 0;
-    border-width: 0;
-    border: none;
-    box-shadow: none;
-}
 
 .aquarium.halloween-mode { border-color: rgba(255, 140, 0, 0.4);
     box-shadow: 0 0 80px rgba(255, 140, 0, 0.3), 0 0 160px rgba(200, 80, 0, 0.15), inset 0 0 100px rgba(80, 40, 0, 0.4);
@@ -93,8 +95,6 @@ body:-webkit-full-screen .aquarium {
 
 .aquarium::after { content: ''; position: absolute; inset: 0; border-radius: 19px;
     box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.55), inset 0 0 120px rgba(0, 40, 70, 0.4); pointer-events: none; z-index: 51; }
-body:fullscreen .aquarium::after,
-body:-webkit-full-screen .aquarium::after { border-radius: 0; box-shadow: none; }
 
 .light-rays { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
 .light-ray { position: absolute; top: -20%; height: 150%; transform-origin: top center; filter: blur(8px);
@@ -112,8 +112,6 @@ body:-webkit-full-screen .aquarium::after { border-radius: 0; box-shadow: none; 
 .sand { position: absolute; bottom: 0; left: 0; right: 0; height: 90px; z-index: 3; pointer-events: none;
     border-radius: 0 0 19px 19px; box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.35);
     background: radial-gradient(ellipse at 15% 0%, rgba(190, 170, 110, 0.55) 0%, transparent 45%), radial-gradient(ellipse at 45% 0%, rgba(170, 150, 95, 0.5) 0%, transparent 45%), radial-gradient(ellipse at 75% 0%, rgba(180, 160, 100, 0.5) 0%, transparent 45%), linear-gradient(180deg, rgba(175, 155, 105, 0.65) 0%, rgba(130, 110, 70, 0.85) 45%, rgba(80, 65, 40, 0.95) 80%, rgba(50, 40, 25, 1) 100%); }
-body:fullscreen .sand,
-body:-webkit-full-screen .sand { border-radius: 0; }
 .aquarium.halloween-mode .sand { background: linear-gradient(180deg, rgba(150,80,20,0.65) 0%, rgba(80,40,10,0.85) 45%, rgba(40,20,5,0.95) 100%); }
 .aquarium.undead-mode .sand { background: linear-gradient(180deg, rgba(100,120,70,0.65) 0%, rgba(60,80,40,0.85) 45%, rgba(30,40,20,0.95) 100%); }
 
@@ -150,15 +148,8 @@ body:-webkit-full-screen .sand { border-radius: 0; }
     letter-spacing: 0.3px; transform: translate(-50%, -100%); }
 .fish-tooltip.show { opacity: 1; }
 
-body:fullscreen .fish-tooltip,
-body:-webkit-full-screen .fish-tooltip { display: none; }
-
-.aquarium-ui { position: absolute; top: 16px; left: 18px; right: 18px; display: flex; justify-content: space-between; z-index: 60; pointer-events: none; transition: opacity 0.3s; }
+.aquarium-ui { position: absolute; top: 16px; left: 18px; right: 18px; display: flex; justify-content: space-between; z-index: 60; pointer-events: none; }
 .aquarium-ui > * { pointer-events: auto; }
-
-body:fullscreen .aquarium-ui,
-body:-webkit-full-screen .aquarium-ui { display: none; }
-
 .ui-left { display: flex; gap: 8px; }
 .back-btn, .type-badge, .fullscreen-btn {
     font-size: 0.75rem; font-weight: 700; padding: 6px 14px; border-radius: 20px;
@@ -347,6 +338,14 @@ function updateSize() {
     camScale = Math.min(AQ_W / VIRTUAL_WIDTH, AQ_H / VIRTUAL_HEIGHT);
     camX = (AQ_W - VIRTUAL_WIDTH * camScale) / 2;
     camY = (AQ_H - VIRTUAL_HEIGHT * camScale) / 2;
+
+    // Пересчитываем позиции крабов, чтобы они не висели в воздухе
+    for (const f of fishList) {
+        if (f.type === 'crab') {
+            f.y = VIRTUAL_HEIGHT - 130 - f.size;
+            f.baseFloorY = f.y;
+        }
+    }
 }
 window.addEventListener('resize', updateSize);
 
@@ -399,14 +398,17 @@ function onFullscreenChange() {
         document.mozFullScreenElement ||
         document.msFullscreenElement);
     if (isFs) {
+        document.body.classList.add('fullscreen-active');
         fullscreenBtn.classList.add('active');
         fullscreenBtn.textContent = '✕';
         fullscreenBtn.title = 'Выйти из полноэкранного режима';
     } else {
+        document.body.classList.remove('fullscreen-active');
         fullscreenBtn.classList.remove('active');
         fullscreenBtn.textContent = '⛶';
         fullscreenBtn.title = 'На весь экран';
     }
+    // Ждём пока браузер применит новые размеры, и пересчитываем
     setTimeout(updateSize, 50);
     setTimeout(updateSize, 300);
 }
@@ -666,6 +668,12 @@ class Fish {
         this.x = options.x !== undefined ? options.x : this.homeX;
         this.y = options.y !== undefined ? options.y : this.homeY;
 
+        // Для краба — фиксированная позиция дна
+        if (this.type === 'crab') {
+            this.baseFloorY = VIRTUAL_HEIGHT - 130 - this.size;
+            this.y = this.baseFloorY;
+        }
+
         this.baseSpeed = this.profile.speed;
         this.vx = (Math.random() > 0.5 ? 1 : -1) * this.baseSpeed * 0.6;
         this.vy = 0; this.dir = this.vx > 0 ? 1 : -1;
@@ -696,10 +704,8 @@ class Fish {
 
         // Для краба: прыжок
         this.jumpCooldown = Math.random() * 4000;
-        this.jumpTimer = 0;
-        this.jumpVY = 0;
-        this.jumpHeight = 0;
         this.isJumping = false;
+        this.jumpVY = 0;
 
         this.icon = getCachedIcon(name, this.size);
     }
@@ -856,7 +862,7 @@ class Fish {
 
     updateCrab(dt, s) {
         // Краб ходит по дну
-        const floorY = VIRTUAL_HEIGHT - 130 - this.size;
+        this.baseFloorY = VIRTUAL_HEIGHT - 130 - this.size;
 
         // Движение вбок
         this.x += this.vx * s;
@@ -864,17 +870,15 @@ class Fish {
         // Прыжок
         this.jumpCooldown -= dt;
         if (this.isJumping) {
-            this.jumpTimer += dt;
             this.vy += 0.15 * s; // гравитация
             this.y += this.vy * s;
-            if (this.y >= floorY) {
-                this.y = floorY;
+            if (this.y >= this.baseFloorY) {
+                this.y = this.baseFloorY;
                 this.isJumping = false;
                 this.vy = 0;
-                this.jumpTimer = 0;
             }
         } else {
-            this.y = floorY;
+            this.y = this.baseFloorY;
             if (this.jumpCooldown <= 0) {
                 this.jumpCooldown = 3000 + Math.random() * 5000;
                 this.isJumping = true;
@@ -908,7 +912,6 @@ class Fish {
                 if (idx !== -1) foodList.splice(idx, 1);
                 this.foodTarget = null;
             } else {
-                // Ползёт к корму
                 this.vx += (dx / d) * 0.05 * s;
             }
         }
