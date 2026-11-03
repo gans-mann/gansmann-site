@@ -505,7 +505,7 @@ function updateInventoryCounts(inventory) {
         else { totalRegular += count; regularSet.add(baseNorm); }
     }
 
-    // Обновляем все стат-боксы
+    // Обновляем стат-боксы
     const totalCaughtEl = document.getElementById('total-caught');
     const totalRegularEl = document.getElementById('total-regular');
     const totalUndeadEl = document.getElementById('total-undead');
@@ -516,9 +516,11 @@ function updateInventoryCounts(inventory) {
     if (totalHalloweenEl) totalHalloweenEl.textContent = totalHalloween;
 
     // Обновляем прогресс-бары
-    const caughtHalloweenList = window._halloweenCollection ? window._halloweenCollection[playerName.toLowerCase()] || [] : [];
+    const caughtHalloweenList = window._halloweenCollection
+        ? window._halloweenCollection[playerName.toLowerCase()] || []
+        : [];
     const halloweenColSet = new Set(caughtHalloweenList.map(normalizeKey));
-    
+
     let regCaught = 0, undCaught = 0, halCaught = 0;
     ALL_FISH.forEach(fish => {
         if (regularSet.has(normalizeKey(fish))) regCaught++;
@@ -550,7 +552,7 @@ function updateInventoryCounts(inventory) {
         const entry = findNormalized(inventory, fishName);
         const newCount = entry ? entry.value : 0;
         const oldText = countEl.textContent.replace('×', '');
-        
+
         if (oldText !== String(newCount)) {
             countEl.textContent = `×${newCount}`;
             if (oldText === '0' && newCount > 0) {
@@ -558,21 +560,16 @@ function updateInventoryCounts(inventory) {
                 const isUndead = normalizeKey(fishName).startsWith('нежить ');
                 const isHalloween = HALLOWEEN_FISH.some(hf => normalizeKey(hf) === normalizeKey(fishName));
                 const isBoss = BOSS_FISH.some(bf => normalizeKey(bf) === normalizeKey(fishName));
-                
+
                 let newClass = 'fish-item ';
                 if (isUndead) newClass += 'undead rarity-' + info.rarity;
                 else if (isHalloween) newClass += 'halloween rarity-' + info.rarity;
                 else if (isBoss) newClass += 'boss';
                 else newClass += 'rarity-' + info.rarity;
-                
+
                 item.className = newClass;
                 const img = item.querySelector('.fish-icon');
                 if (img) img.style.opacity = '1';
-                // Для босса также обновляем иконку в контейнере (если нужно)
-                const bossIconWrap = item.querySelector('.boss-icon-wrap');
-                if (bossIconWrap) {
-                    // При переходе из not-caught в boss нужно восстановить иконку
-                }
             }
         }
     });
