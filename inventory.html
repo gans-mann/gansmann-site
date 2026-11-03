@@ -744,8 +744,11 @@ function showFishModal(fishName, count) {
     </div>
     <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
     <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label.toUpperCase()}</div>
-    <div class="modal-info-grid">
-        <div class="modal-info-block"><div class="info-label">Размер</div><div class="info-value">${info.min}–${info.max} см</div></div>
+        <div class="modal-info-grid">
+        <div class="modal-info-block">
+            <div class="info-label">Размер</div>
+            <div class="info-value">${isBoss ? '2000 см' : info.min + '–' + info.max + ' см'}</div>
+        </div>
         <div class="modal-info-block"><div class="info-label">Твой рекорд</div>${recordHtml}</div>
     </div>
     <div class="modal-counts ${info.isUndead ? 'undead' : ''}">
