@@ -43,7 +43,10 @@ const PALETTES = {
     moonfish:        { main: '#f5f5dc', dark: '#d3d3d3', light: '#ffffff', belly: '#ffffe0', fin: '#e0e0c0', eye: '#000', pupil: '#000', gill: '#d3d3d3', spot: '#d3d3d3', stripe: '#d3d3d3' },
     clownfish:       { main: '#ff6600', dark: '#cc5200', light: '#ff944d', belly: '#ffcc99', fin: '#cc5200', eye: '#000', pupil: '#fff', gill: '#cc5200', spot: '#ffffff', stripe: '#ffffff' },
     zander_fool:     { main: '#707880', dark: '#404850', light: '#98a0a8', belly: '#c0c8d0', fin: '#586068', eye: '#ffd700', pupil: '#000', gill: '#404850', spot: '#4a148c', stripe: '#4a148c' },
-    squeaky_gudgeon: { main: '#d4af37', dark: '#b8860b', light: '#ffd700', belly: '#fff8dc', fin: '#daa520', eye: '#000', pupil: '#fff', gill: '#b8860b', spot: '#b8860b', stripe: '#b8860b' }
+    squeaky_gudgeon: { main: '#d4af37', dark: '#b8860b', light: '#ffd700', belly: '#fff8dc', fin: '#daa520', eye: '#000', pupil: '#fff', gill: '#b8860b', spot: '#b8860b', stripe: '#b8860b' },
+    
+    // БОСС
+    boss_salmon:     { main: '#2a1e2b', dark: '#1a121a', light: '#4a3e4b', belly: '#8b0000', fin: '#1a121a', eye: '#ffffff', pupil: '#00ffff', gill: '#1a121a', spot: '#1a121a', stripe: '#1a121a' }
 };
 
 const UNDEAD_PALETTE = {
@@ -131,9 +134,13 @@ const FISH_FORMS = {
     'Луна в костюме луны':{ bodyLen: 20, bodyH: 18, bodyY: 7, headShape: 'small', headLen: 4, tailType: 'fork', tailSize: 5, topFin: 'long-back', topFinSize: 7, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: false, palette: 'moonfish' },
     'Клоун в костюме клоуна': { bodyLen: 18, bodyH: 13, bodyY: 9, headShape: 'round', headLen: 5, tailType: 'fork', tailSize: 5, topFin: 'medium', topFinSize: 5, bottomFin: 'medium', spots: null, stripes: [[7,0],[12,0],[17,0]], whiskers: false, spikes: false, palette: 'clownfish' },
     'Судак дурак':        { bodyLen: 24, bodyH: 10, bodyY: 11, headShape: 'pointed', headLen: 6, tailType: 'fork', tailSize: 6, topFin: 'spiky', topFinSize: 6, bottomFin: 'small', spots: null, stripes: [[8,2],[12,2],[16,2]], whiskers: false, spikes: false, palette: 'zander_fool' },
-    'Писклявый пескарь':  { bodyLen: 16, bodyH: 9, bodyY: 11, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 4, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'squeaky_gudgeon' }
+    'Писклявый пескарь':  { bodyLen: 16, bodyH: 9, bodyY: 11, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 4, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'squeaky_gudgeon' },
+
+    // БОСС
+    'Босс Лосось':        { bodyLen: 54, bodyH: 20, bodyY: 22, headShape: 'pointed', headLen: 14, tailType: 'fork', tailSize: 12, topFin: 'high-spiky', topFinSize: 10, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: true, palette: 'boss_salmon' }
 };
 
+// Функция для генерации SVG (немного универсализирована для больших размеров)
 function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
     const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey];
@@ -730,20 +737,14 @@ function getFishForm(fishName) {
 }
 
 function getFishIcon(fishName, scale) {
-    // 1. Проверка на Босса
-    if (fishName.toLowerCase().includes('босс')) {
-        // Пока для босса возвращаем заглушку, так как он рисуется через HTML в inventory.html
-        return ''; 
-    }
-
     const info = getFishForm(fishName);
     
-    // 2. Проверка на Краба (у него уникальная отрисовка)
+    // 1. Проверка на Краба (уникальная отрисовка)
     if (info.baseName.toLowerCase() === 'краб шкраб') {
         return makeCrabSVG(scale);
     }
 
-    // 3. Отрисовка нежити
+    // 2. Отрисовка нежити
     if (info.isUndead) {
         const undeadKey = info.form.palette;
         if (typeof UNDEAD_FISH_PALETTES !== 'undefined' && UNDEAD_FISH_PALETTES[undeadKey]) {
@@ -752,6 +753,6 @@ function getFishIcon(fishName, scale) {
         return makeFishSVG('undead', info.form, scale);
     }
 
-    // 4. Отрисовка всех остальных (обычные и хэллоуин)
+    // 3. Отрисовка всех остальных (включая босса)
     return makeFishSVG(info.form.palette, info.form, scale);
 }
