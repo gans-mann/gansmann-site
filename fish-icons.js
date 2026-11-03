@@ -137,8 +137,7 @@ const FISH_FORMS = {
     'Писклявый пескарь':  { bodyLen: 16, bodyH: 9, bodyY: 11, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 4, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'squeaky_gudgeon' },
 
     // БОСС
-        'Босс Лосось':        { bodyLen: 44, bodyH: 18, bodyY: 15, headShape: 'pointed', headLen: 10, tailType: 'fork', tailSize: 10, topFin: 'high-spiky', topFinSize: 8, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: true, palette: 'boss_salmon' }
-};
+    'Босс Лосось':        { bodyLen: 26, bodyH: 12, bodyY: 10, headShape: 'pointed', headLen: 7, tailType: 'fork', tailSize: 6, topFin: 'high-spiky', topFinSize: 6, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: true, palette: 'boss_salmon' };
 
 function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
@@ -408,12 +407,12 @@ function makeFishSVG(paletteKey, form, scale) {
     );
 }
 
-function makeFishSVGWithCustomPalette(palette, form, scale) {
+function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
-    const p = palette;
+    const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey];
     if (!p) return '';
     const f = form;
-    const isUndead = true;
+    const isUndead = paletteKey === 'undead';
 
     const bodyLen = f.bodyLen;
     const bodyH = f.bodyH;
