@@ -140,7 +140,6 @@ const FISH_FORMS = {
     'Босс Лосось':        { bodyLen: 54, bodyH: 20, bodyY: 22, headShape: 'pointed', headLen: 14, tailType: 'fork', tailSize: 12, topFin: 'high-spiky', topFinSize: 10, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: true, palette: 'boss_salmon' }
 };
 
-// Функция для генерации SVG (немного универсализирована для больших размеров)
 function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
     const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey];
@@ -665,50 +664,6 @@ function makeFishSVGWithCustomPalette(palette, form, scale) {
     );
 }
 
-function makeCrabSVG(scale) {
-    scale = scale || 1;
-    let s = '';
-    const p = PALETTES['crab_square'];
-
-    s += `<rect x="6" y="22" width="4" height="2" fill="${p.main}"/>`;
-    s += `<rect x="22" y="22" width="4" height="2" fill="${p.main}"/>`;
-    s += `<rect x="8" y="25" width="3" height="2" fill="${p.main}"/>`;
-    s += `<rect x="21" y="25" width="3" height="2" fill="${p.main}"/>`;
-    s += `<rect x="12" y="26" width="8" height="2" fill="${p.main}"/>`;
-
-    s += `<rect x="2" y="12" width="4" height="4" fill="${p.main}"/>`;
-    s += `<rect x="1" y="10" width="2" height="2" fill="${p.main}"/>`;
-    s += `<rect x="1" y="16" width="2" height="2" fill="${p.main}"/>`;
-    s += `<rect x="26" y="12" width="4" height="4" fill="${p.main}"/>`;
-    s += `<rect x="29" y="10" width="2" height="2" fill="${p.main}"/>`;
-    s += `<rect x="29" y="16" width="2" height="2" fill="${p.main}"/>`;
-
-    s += `<rect x="9" y="6" width="2" height="4" fill="${p.main}"/>`;
-    s += `<rect x="21" y="6" width="2" height="4" fill="${p.main}"/>`;
-    s += `<rect x="8" y="4" width="4" height="4" fill="${p.eye}"/>`;
-    s += `<rect x="20" y="4" width="4" height="4" fill="${p.eye}"/>`;
-    s += `<rect x="9" y="5" width="2" height="2" fill="${p.pupil}"/>`;
-    s += `<rect x="21" y="5" width="2" height="2" fill="${p.pupil}"/>`;
-
-    s += `<rect x="6" y="10" width="20" height="12" fill="${p.main}"/>`;
-    s += `<rect x="8" y="8" width="16" height="16" fill="${p.main}"/>`;
-    s += `<rect x="10" y="7" width="12" height="2" fill="${p.main}"/>`;
-    s += `<rect x="10" y="23" width="12" height="2" fill="${p.main}"/>`;
-
-    s += `<rect x="10" y="10" width="4" height="2" fill="${p.light}" opacity="0.6"/>`;
-    s += `<rect x="14" y="12" width="2" height="2" fill="${p.light}" opacity="0.6"/>`;
-
-    s += `<rect x="16" y="10" width="4" height="4" fill="${p.spot}"/>`;
-    s += `<rect x="22" y="14" width="2" height="2" fill="${p.spot}"/>`;
-    s += `<rect x="10" y="16" width="2" height="2" fill="${p.spot}"/>`;
-    
-    s += `<rect x="10" y="20" width="12" height="3" fill="${p.belly}"/>`;
-
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
-    );
-}
-
 function getFishForm(fishName) {
     if (!fishName) return { isUndead: false, baseName: '', form: FISH_FORMS['Плотва'] };
     
@@ -737,14 +692,19 @@ function getFishForm(fishName) {
 }
 
 function getFishIcon(fishName, scale) {
+    // 1. Проверка на Босса
+    if (fishName.toLowerCase().includes('босс')) {
+        return ''; 
+    }
+
     const info = getFishForm(fishName);
     
-    // 1. Проверка на Краба (уникальная отрисовка)
+    // 2. Проверка на Краба
     if (info.baseName.toLowerCase() === 'краб шкраб') {
         return makeCrabSVG(scale);
     }
 
-    // 2. Отрисовка нежити
+    // 3. Отрисовка нежити
     if (info.isUndead) {
         const undeadKey = info.form.palette;
         if (typeof UNDEAD_FISH_PALETTES !== 'undefined' && UNDEAD_FISH_PALETTES[undeadKey]) {
@@ -753,6 +713,6 @@ function getFishIcon(fishName, scale) {
         return makeFishSVG('undead', info.form, scale);
     }
 
-    // 3. Отрисовка всех остальных (включая босса)
+    // 4. Отрисовка всех остальных (включая босса)
     return makeFishSVG(info.form.palette, info.form, scale);
 }
