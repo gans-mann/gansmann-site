@@ -732,12 +732,14 @@ function showFishModal(fishName, count) {
     
     let recordHtml = personalRecord !== null ? `<div class="info-value record">${personalRecord} см</div>` : `<div class="info-value no-record">не установлен</div>`;
     const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
-    const bigIcon = getFishIcon(fishName, 6);
+    
+    const isBoss = info.rarity === 'boss';
+    
+    // ИСПРАВЛЕНИЕ: для босса используем масштаб 3, чтобы картинка 64x48 стала 192x144 (идеально вписывается)
+    const bigIcon = getFishIcon(fishName, isBoss ? 3 : 6);
 
     const cornerSVG = `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M 5 5 Q 5 20 15 20 Q 28 20 28 10 Q 28 5 18 5 Q 12 5 12 12"/><path d="M 10 10 Q 10 18 20 18"/><circle cx="15" cy="15" r="2" fill="currentColor" stroke="none"/><path d="M 5 5 L 10 10" stroke-opacity="0.5"/></svg>`;
     let particlesHtml = '', holoHtml = '', crownHtml = '', gemsHtml = '';
-
-    const isBoss = info.rarity === 'boss';
 
     if (isBoss || info.rarity === 'legendary' || info.rarity === 'epic') {
         particlesHtml = '<div class="modal-particles">';
@@ -747,7 +749,7 @@ function showFishModal(fishName, count) {
         const gemChar = info.isUndead ? '💠' : '💎';
         gemsHtml = `<div class="modal-gem g1">${gemChar}</div><div class="modal-gem g2">${gemChar}</div><div class="modal-gem g3">${gemChar}</div><div class="modal-gem g4">${gemChar}</div>`;
     }
-    if (isBoss || info.rarity === 'legendary') crownHtml = `<div class="modal-crown">${isBoss ? '👑' : '👑'}</div>`;
+    if (isBoss || info.rarity === 'legendary') crownHtml = `<div class="modal-crown">👑</div>`;
 
     const modal = document.getElementById('fishModalContent');
     modal.className = 'fish-modal ' + (isBoss ? 'boss-modal' : 'rarity-' + info.rarity) + (info.isUndead ? ' undead' : '');
@@ -759,7 +761,7 @@ function showFishModal(fishName, count) {
     <div class="modal-fish-icon-wrap" ${isBoss ? 'style="animation: fishSwim 3s ease-in-out infinite;"' : ''}>
         <img src="${bigIcon}" class="modal-fish-icon">
     </div>
-    <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
+    <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}" ${isBoss ? 'style="background: none; -webkit-text-fill-color: #ff0000; color: #ff0000; text-shadow: 0 0 30px red;"' : ''}>${displayName}</div>
     <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label.toUpperCase()}</div>
     <div class="modal-info-grid">
         <div class="modal-info-block">
