@@ -157,12 +157,7 @@ body {
     50% { box-shadow: 0 0 40px rgba(255, 0, 0, 0.8), inset 0 0 25px rgba(255, 0, 0, 0.4); }
 }
 .fish-item:not(.not-caught).boss:hover { transform: translateY(-3px); }
-.fish-item:not(.not-caught).boss .boss-icon-wrap { 
-    width: 120px; 
-    height: 90px; /* Изменено с 120px на 90px, так как пропорции картинки 64x48 (это 4:3) */
-    flex-shrink: 0; 
-    margin-right: 15px; 
-}
+.fish-item:not(.not-caught).boss .boss-icon-wrap { width: 120px; height: 120px; flex-shrink: 0; margin-right: 15px; }
 .fish-item:not(.not-caught).boss .fish-name { font-size: 1.4rem; color: #ff5555; text-shadow: 0 0 10px red; font-weight: 900; text-align: left; }
 .fish-item:not(.not-caught).boss .fish-count { position: absolute; bottom: 15px; right: 15px; font-size: 1.2rem; padding: 8px 15px; background: #ff0000; color: white; box-shadow: 0 0 10px red; }
 
@@ -196,11 +191,11 @@ body {
 
 /* БОСС КАРТОЧКА */
 .fish-modal.boss-modal { max-width: 600px; border-color: #ff0000; box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 100px rgba(255, 0, 0, 0.5); background: radial-gradient(circle at center, rgba(80, 0, 0, 0.95) 0%, rgba(10, 0, 0, 0.98) 100%); }
-.fish-modal.boss-modal .modal-fish-icon { width: 350px; height: 260px; object-fit: contain; }
+.fish-modal.boss-modal .modal-fish-icon { width: 250px; height: 250px; object-fit: contain; }
 .fish-modal.boss-modal .modal-fish-name { font-size: 2.5rem; color: #ff0000; text-shadow: 0 0 30px red; }
 .fish-modal.boss-modal .modal-rarity { color: #ff0000; font-size: 1.2rem; letter-spacing: 10px; }
 
-/* ВЕНЗЕЛЯ ИСПРАВЛЕНЫ */
+/* ВЕНЗЕЛЯ */
 .modal-corner { position: absolute; width: 60px; height: 60px; color: currentColor; opacity: 0.7; pointer-events: none; z-index: 6; transition: all 0.4s; }
 .fish-modal:hover .modal-corner { opacity: 1; transform: scale(1.05); }
 .modal-corner.tl { top: 12px; left: 12px; } .modal-corner.tr { top: 12px; right: 12px; transform: scaleX(-1); }
@@ -692,7 +687,7 @@ function renderInventory(playerName, inventory) {
     });
     html += `</div></div>`;
 
-        // БОССЫ (ОТДЕЛЬНАЯ СЕКЦИЯ)
+    // БОССЫ (ОТДЕЛЬНАЯ СЕКЦИЯ)
     html += `<div class="fish-section boss-section" style="margin-top: 14px;"><h3>💀 Боссы</h3><div class="fish-grid">`;
     BOSS_FISH.forEach(fish => {
         const entry = findNormalized(inventory, fish);
@@ -703,7 +698,7 @@ function renderInventory(playerName, inventory) {
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}">
             <div class="fish-item-inner"></div>
             <div class="boss-icon-wrap">
-            <img src="${getFishIcon(fish, 2)}" style="width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated;" />  
+                <img src="${getFishIcon(fish, 2)}" style="width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated;" />
             </div>
             <span class="fish-name">${fish}</span>
             <span class="fish-count">×${count}</span>
@@ -734,8 +729,6 @@ function showFishModal(fishName, count) {
     const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
     
     const isBoss = info.rarity === 'boss';
-    
-        // Для всех рыб, включая Босса, используем стандартный масштаб 6
     const bigIcon = getFishIcon(fishName, 6);
 
     const cornerSVG = `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M 5 5 Q 5 20 15 20 Q 28 20 28 10 Q 28 5 18 5 Q 12 5 12 12"/><path d="M 10 10 Q 10 18 20 18"/><circle cx="15" cy="15" r="2" fill="currentColor" stroke="none"/><path d="M 5 5 L 10 10" stroke-opacity="0.5"/></svg>`;
