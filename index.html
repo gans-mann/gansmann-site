@@ -411,10 +411,14 @@ body::before {
 
         <h2 style="margin-top: 25px;">🏆 Топ-3 рыбаков за месяц</h2>
         <div class="top-players" id="topPlayers"></div>
-<div id="bossSection" style="display: none; margin-bottom: 25px;">
-    <h2 style="margin-top: 0;">💀 Рекорд Босса</h2>
-    <div id="recordsBoss" style="display: grid; grid-template-columns: 1fr; gap: 10px;"></div>
-</div>
+
+        <!-- ВСТАВИТЬ ВОТ СЮДА -->
+        <div id="bossSection" style="display: none; margin-bottom: 25px; margin-top: 25px;">
+            <h2 style="margin-top: 0;">💀 Рекорд Босса</h2>
+            <div id="recordsBoss" style="display: grid; grid-template-columns: 1fr; gap: 10px;"></div>
+        </div>
+        <!-- КОНЕЦ ВСТАВКИ -->
+
         <h2 style="margin-top: 25px;">🏅 Рекорды размеров · Обычные рыбы</h2>
         <div class="records-grid" id="recordsRegular"></div>
 
@@ -432,7 +436,7 @@ body::before {
     </div>
 </div>
 
-<script src="/fish-icons.js"></script>
+<script src="/fish-icons.js?v=2"></script>
 <script>
 const DATA_URL = '/data.json';
 
@@ -462,53 +466,41 @@ const ALL_FISH = [
 ];
 
 const HALLOWEEN_FISH = [
-        "Мразь карась", "Назойливая тыковка", "Щука падлюка", "Краб шкраб", "Осётр Пётр", "Удильщик", 
+    "Мразь карась", "Назойливая тыковка", "Щука падлюка", "Краб шкраб", "Осётр Пётр", "Удильщик", 
     "Луна в костюме луны", "Клоун в костюме клоуна", "Судак дурак", "Писклявый пескарь"
 ];
 
+const BOSS_FISH = ["Босс Лосось"];
+
 const FISH_DATA = {
-    'Щука':       { min: 10, max: 120, rarity: 'rare' },
-    'Форель':     { min: 10, max: 70,  rarity: 'rare' },
-    'Карп':       { min: 20, max: 100, rarity: 'rare' },
-    'Окунь':      { min: 10, max: 40,  rarity: 'common' },
-    'Сом':        { min: 10, max: 250, rarity: 'legendary' },
-    'Осётр':      { min: 20, max: 200, rarity: 'legendary' },
-    'Пиранья':    { min: 5,  max: 30,  rarity: 'legendary' },
-    'Лосось':     { min: 20, max: 120, rarity: 'epic' },
-    'Уклейка':    { min: 5,  max: 15,  rarity: 'common' },
-    'Плотва':     { min: 7,  max: 30,  rarity: 'common' },
-    'Ёрш':        { min: 5,  max: 20,  rarity: 'common' },
-    'Лещ':        { min: 15, max: 60,  rarity: 'common' },
-    'Голавль':    { min: 10, max: 60,  rarity: 'common' },
-    'Язь':        { min: 10, max: 60,  rarity: 'common' },
-    'Линь':       { min: 20, max: 50,  rarity: 'common' },
-    'Судак':      { min: 10, max: 90,  rarity: 'rare' },
-    'Голец':      { min: 20, max: 60,  rarity: 'common' },
-    'Сиг':        { min: 20, max: 60,  rarity: 'rare' },
-    'Хариус':     { min: 20, max: 50,  rarity: 'rare' },
-    'Змееголов':  { min: 20, max: 100, rarity: 'rare' },
-    'Налим':      { min: 20, max: 80,  rarity: 'rare' },
-    'Минога':     { min: 15, max: 40,  rarity: 'epic' },
-    'Толстолобик':{ min: 10, max: 100, rarity: 'epic' },
-    'Белый амур': { min: 30, max: 120, rarity: 'epic' },
-    'Угорь':      { min: 20, max: 150, rarity: 'epic' },
-    'Чоп':        { min: 5,  max: 30,  rarity: 'common' },
-    'Сазан':      { min: 20, max: 100, rarity: 'epic' },
-    'Карась':     { min: 10, max: 40,  rarity: 'common' },
-    'Краснопёрка':{ min: 5,  max: 35,  rarity: 'common' },
-    'Пескарь':    { min: 5,  max: 15,  rarity: 'common' },
-    
+    'Щука': { min: 10, max: 120, rarity: 'rare' }, 'Форель': { min: 10, max: 70, rarity: 'rare' },
+    'Карп': { min: 20, max: 100, rarity: 'rare' }, 'Окунь': { min: 10, max: 40, rarity: 'common' },
+    'Сом': { min: 10, max: 250, rarity: 'legendary' }, 'Осётр': { min: 20, max: 200, rarity: 'legendary' },
+    'Пиранья': { min: 5, max: 30, rarity: 'legendary' }, 'Лосось': { min: 20, max: 120, rarity: 'epic' },
+    'Уклейка': { min: 5, max: 15, rarity: 'common' }, 'Плотва': { min: 7, max: 30, rarity: 'common' },
+    'Ёрш': { min: 5, max: 20, rarity: 'common' }, 'Лещ': { min: 15, max: 60, rarity: 'common' },
+    'Голавль': { min: 10, max: 60, rarity: 'common' }, 'Язь': { min: 10, max: 60, rarity: 'common' },
+    'Линь': { min: 20, max: 50, rarity: 'common' }, 'Судак': { min: 10, max: 90, rarity: 'rare' },
+    'Голец': { min: 20, max: 60, rarity: 'common' }, 'Сиг': { min: 20, max: 60, rarity: 'rare' },
+    'Хариус': { min: 20, max: 50, rarity: 'rare' }, 'Змееголов': { min: 20, max: 100, rarity: 'rare' },
+    'Налим': { min: 20, max: 80, rarity: 'rare' }, 'Минога': { min: 15, max: 40, rarity: 'epic' },
+    'Толстолобик': { min: 10, max: 100, rarity: 'epic' }, 'Белый амур': { min: 30, max: 120, rarity: 'epic' },
+    'Угорь': { min: 20, max: 150, rarity: 'epic' }, 'Чоп': { min: 5, max: 30, rarity: 'common' },
+    'Сазан': { min: 20, max: 100, rarity: 'epic' }, 'Карась': { min: 10, max: 40, rarity: 'common' },
+    'Краснопёрка': { min: 5, max: 35, rarity: 'common' }, 'Пескарь': { min: 5, max: 15, rarity: 'common' },
     // ХЭЛЛОУИН
-    'Мразь карась':       { min: 10, max: 40, rarity: 'rare' },
+    'Мразь карась': { min: 10, max: 40, rarity: 'rare' },
     'Назойливая тыковка': { min: 10, max: 30, rarity: 'common' },
-    'Щука падлюка':       { min: 30, max: 100, rarity: 'rare' },
-    'Краб шкраб':         { min: 10, max: 40, rarity: 'epic' },
-    'Осётр Пётр':         { min: 50, max: 180, rarity: 'legendary' },
-    'Удильщик':           { min: 20, max: 80, rarity: 'legendary' },
-    'Луна в костюме луны':{ min: 20, max: 60, rarity: 'epic' },
+    'Щука падлюка': { min: 30, max: 100, rarity: 'rare' },
+    'Краб шкраб': { min: 10, max: 40, rarity: 'epic' },
+    'Осётр Пётр': { min: 50, max: 180, rarity: 'legendary' },
+    'Удильщик': { min: 20, max: 80, rarity: 'legendary' },
+    'Луна в костюме луны': { min: 20, max: 60, rarity: 'epic' },
     'Клоун в костюме клоуна': { min: 10, max: 40, rarity: 'rare' },
-    'Судак дурак':        { min: 20, max: 70, rarity: 'rare' },
-    'Писклявый пескарь':  { min: 5, max: 20, rarity: 'common' }
+    'Судак дурак': { min: 20, max: 70, rarity: 'rare' },
+    'Писклявый пескарь': { min: 5, max: 20, rarity: 'common' },
+    // БОСС
+    'Босс Лосось': { min: 100, max: 500, rarity: 'boss' }
 };
 
 let lastDataHash = '';
@@ -595,10 +587,37 @@ function renderRecords(records) {
     const regularEl = document.getElementById('recordsRegular');
     const undeadEl = document.getElementById('recordsUndead');
     const halloweenEl = document.getElementById('recordsHalloween');
+    const bossEl = document.getElementById('recordsBoss');
 
     const regularRows = [];
     const undeadRows = [];
     const halloweenRows = [];
+    let bossHtml = '';
+
+    // === БОСС ===
+    if (bossEl) {
+        const r = records['Босс Лосось'];
+        if (r) {
+            bossHtml = `
+                <div class="record-card boss-record" style="border: 3px solid red; background: radial-gradient(circle, rgba(80,0,0,0.8) 0%, rgba(10,0,0,0.9) 100%); box-shadow: 0 0 20px red;">
+                    <div style="display: flex; align-items: center; gap: 20px; width: 100%; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div style="width: 80px; height: 60px;">${getBossHtml()}</div>
+                            <div>
+                                <div style="font-size: 1.2rem; font-weight: 900; color: #ff3333; text-shadow: 0 0 10px red;">БОСС ЛОСОСЬ</div>
+                                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.6);">@${escapeHtml(r.holder)}</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 1.5rem; font-weight: 900; color: white;">${r.size} см</div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('bossSection').style.display = 'block';
+        } else {
+            document.getElementById('bossSection').style.display = 'none';
+        }
+        bossEl.innerHTML = bossHtml;
+    }
 
     for (const fish of ALL_FISH) {
         const r = records[fish] || null;
@@ -706,25 +725,6 @@ function renderRecords(records) {
     regularEl.innerHTML = regularRows.join('');
     undeadEl.innerHTML = undeadRows.join('');
     if (halloweenEl) halloweenEl.innerHTML = halloweenRows.join('');
-        // === БОССЫ (Рекорды) ===
-    const bossEl = document.getElementById('recordsBoss');
-    if (bossEl && records['Босс Лосось']) {
-        const r = records['Босс Лосось'];
-        const icon = getBossHtml(); // Используем ту же HTML-отрисовку, что и в инвентаре
-        bossEl.innerHTML = `
-            <div class="record-card boss-record" style="border: 3px solid red; background: radial-gradient(circle, rgba(80,0,0,0.8) 0%, rgba(10,0,0,0.9) 100%); box-shadow: 0 0 20px red;">
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <div style="width: 80px; height: 60px;">${icon}</div>
-                    <div>
-                        <div style="font-size: 1.2rem; font-weight: 900; color: #ff3333; text-shadow: 0 0 10px red;">БОСС ЛОСОСЬ</div>
-                        <div style="font-size: 1.5rem; font-weight: 900; color: white;">${r.size} см</div>
-                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.6);">@${escapeHtml(r.holder)}</div>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.getElementById('bossSection').style.display = 'block';
-    }
 }
 
 function getLifetimeCount(fishName) {
@@ -745,16 +745,7 @@ function getLifetimeCount(fishName) {
     return total;
 }
 
-function escapeHtml(text) {
-    if (!text) return '';
-    return String(text)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
-
-loadAndRender(false);
-setInterval(() => loadAndRender(true), 30000);
-    function getBossHtml() {
+function getBossHtml() {
     return `
     <div style="width: 100%; height: 100%; position: relative; filter: drop-shadow(0 0 20px rgba(255,0,0,0.6));">
         <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
@@ -778,6 +769,16 @@ setInterval(() => loadAndRender(true), 30000);
     </div>
     `;
 }
+
+function escapeHtml(text) {
+    if (!text) return '';
+    return String(text)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+loadAndRender(false);
+setInterval(() => loadAndRender(true), 30000);
 </script>
 </body>
 </html>
