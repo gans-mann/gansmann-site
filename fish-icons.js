@@ -137,7 +137,7 @@ const FISH_FORMS = {
     'Писклявый пескарь':  { bodyLen: 16, bodyH: 9, bodyY: 11, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 4, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'squeaky_gudgeon' },
 
     // БОСС
-    'Босс Лосось':        { bodyLen: 54, bodyH: 20, bodyY: 22, headShape: 'pointed', headLen: 14, tailType: 'fork', tailSize: 12, topFin: 'high-spiky', topFinSize: 10, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: true, palette: 'boss_salmon' }
+        'Босс Лосось':        { bodyLen: 44, bodyH: 18, bodyY: 15, headShape: 'pointed', headLen: 10, tailType: 'fork', tailSize: 10, topFin: 'high-spiky', topFinSize: 8, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: true, palette: 'boss_salmon' }
 };
 
 function makeFishSVG(paletteKey, form, scale) {
@@ -397,8 +397,14 @@ function makeFishSVG(paletteKey, form, scale) {
         }
     }
 
+        // Если это босс, используем расширенный viewBox, чтобы рыба не обрезалась
+    const isBoss = paletteKey === 'boss_salmon';
+    const vb = isBoss ? "0 0 64 48" : "0 0 32 32";
+    const w = isBoss ? 64 : 32;
+    const h = isBoss ? 48 : 32;
+
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" shape-rendering="crispEdges" ${scale !== 1 ? `width="${w*scale}" height="${h*scale}"` : ''}>${s}</svg>`
     );
 }
 
