@@ -411,7 +411,10 @@ body::before {
 
         <h2 style="margin-top: 25px;">🏆 Топ-3 рыбаков за месяц</h2>
         <div class="top-players" id="topPlayers"></div>
-
+<div id="bossSection" style="display: none; margin-bottom: 25px;">
+    <h2 style="margin-top: 0;">💀 Рекорд Босса</h2>
+    <div id="recordsBoss" style="display: grid; grid-template-columns: 1fr; gap: 10px;"></div>
+</div>
         <h2 style="margin-top: 25px;">🏅 Рекорды размеров · Обычные рыбы</h2>
         <div class="records-grid" id="recordsRegular"></div>
 
@@ -703,6 +706,25 @@ function renderRecords(records) {
     regularEl.innerHTML = regularRows.join('');
     undeadEl.innerHTML = undeadRows.join('');
     if (halloweenEl) halloweenEl.innerHTML = halloweenRows.join('');
+        // === БОССЫ (Рекорды) ===
+    const bossEl = document.getElementById('recordsBoss');
+    if (bossEl && records['Босс Лосось']) {
+        const r = records['Босс Лосось'];
+        const icon = getBossHtml(); // Используем ту же HTML-отрисовку, что и в инвентаре
+        bossEl.innerHTML = `
+            <div class="record-card boss-record" style="border: 3px solid red; background: radial-gradient(circle, rgba(80,0,0,0.8) 0%, rgba(10,0,0,0.9) 100%); box-shadow: 0 0 20px red;">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div style="width: 80px; height: 60px;">${icon}</div>
+                    <div>
+                        <div style="font-size: 1.2rem; font-weight: 900; color: #ff3333; text-shadow: 0 0 10px red;">БОСС ЛОСОСЬ</div>
+                        <div style="font-size: 1.5rem; font-weight: 900; color: white;">${r.size} см</div>
+                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.6);">@${escapeHtml(r.holder)}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.getElementById('bossSection').style.display = 'block';
+    }
 }
 
 function getLifetimeCount(fishName) {
