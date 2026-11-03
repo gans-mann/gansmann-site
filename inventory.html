@@ -191,11 +191,11 @@ body {
 
 /* БОСС КАРТОЧКА */
 .fish-modal.boss-modal { max-width: 600px; border-color: #ff0000; box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 100px rgba(255, 0, 0, 0.5); background: radial-gradient(circle at center, rgba(80, 0, 0, 0.95) 0%, rgba(10, 0, 0, 0.98) 100%); }
-.fish-modal.boss-modal .modal-fish-icon { width: 250px; height: 250px; }
+.fish-modal.boss-modal .modal-fish-icon { width: 300px; height: 300px; }
 .fish-modal.boss-modal .modal-fish-name { font-size: 2.5rem; color: #ff0000; text-shadow: 0 0 30px red; }
 .fish-modal.boss-modal .modal-rarity { color: #ff0000; font-size: 1.2rem; letter-spacing: 10px; }
 
-/* ИСПРАВЛЕНИЕ ВЕНЗЕЛЕЙ (УБРАН ПЕРЕВОРОТ) */
+/* ВЕНЗЕЛЯ ИСПРАВЛЕНЫ */
 .modal-corner { position: absolute; width: 60px; height: 60px; color: currentColor; opacity: 0.7; pointer-events: none; z-index: 6; transition: all 0.4s; }
 .fish-modal:hover .modal-corner { opacity: 1; transform: scale(1.05); }
 .modal-corner.tl { top: 12px; left: 12px; } .modal-corner.tr { top: 12px; right: 12px; transform: scaleX(-1); }
@@ -663,7 +663,7 @@ function renderInventory(playerName, inventory) {
         
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}">
             <div class="fish-item-inner"></div>
-            <div class="boss-icon-wrap">${getBossHtml()}</div>
+            <div class="boss-icon-wrap"><img src="${getFishIcon(fish, 4)}" style="width:100%; height:100%; object-fit:contain;"></div>
             <span class="fish-name">${fish}</span>
             <span class="fish-count">×${count}</span>
         </div>`;
@@ -682,53 +682,6 @@ function renderInventory(playerName, inventory) {
     });
 }
 
-// НОВАЯ ОТРИСОВКА БОССА (48x48, плавные линии, смотрит вправо)
-function getBossHtml() {
-    return `
-    <div style="width: 100%; height: 100%; position: relative; filter: drop-shadow(0 0 15px rgba(200,0,50,0.8));">
-        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
-            <!-- Тело (плавное) -->
-            <path d="M 12 24 Q 16 10 28 12 Q 38 14 40 24 Q 38 34 28 36 Q 16 38 12 24 Z" fill="#2a1e2b" stroke="#1a121a" stroke-width="1"/>
-            
-            <!-- Брюхо (красное) -->
-            <path d="M 14 26 Q 20 36 28 34 Q 34 32 36 26 Q 30 32 20 30 Z" fill="#8b0000"/>
-
-            <!-- Чешуя (зубчатые линии) -->
-            <path d="M 16 16 L 20 18 L 18 20 L 22 22 L 20 24" fill="none" stroke="#1a121a" stroke-width="1" opacity="0.6"/>
-            <path d="M 24 14 L 26 18 L 24 20 L 28 24 L 26 26" fill="none" stroke="#1a121a" stroke-width="1" opacity="0.6"/>
-            <path d="M 30 16 L 32 20 L 30 22 L 34 26 L 32 28" fill="none" stroke="#1a121a" stroke-width="1" opacity="0.6"/>
-
-            <!-- Шипы на спине -->
-            <path d="M 18 12 L 20 6 L 22 11 Z" fill="#1a121a"/>
-            <path d="M 22 11 L 24 4 L 26 10 Z" fill="#1a121a"/>
-            <path d="M 26 10 L 28 6 L 30 12 Z" fill="#1a121a"/>
-
-            <!-- Плавники -->
-            <path d="M 32 14 Q 38 10 40 16 Q 36 16 34 18 Z" fill="#1a121a"/>
-            <path d="M 32 34 Q 38 38 40 32 Q 36 32 34 30 Z" fill="#1a121a"/>
-            <path d="M 22 34 L 24 40 L 26 36 Z" fill="#8b0000"/>
-            <path d="M 28 32 L 30 38 L 32 34 Z" fill="#8b0000"/>
-
-            <!-- Хвост -->
-            <path d="M 12 24 L 2 14 Q 6 24 2 34 Z" fill="#2a1e2b" stroke="#1a121a" stroke-width="1"/>
-            <path d="M 12 24 L 6 18 M 12 24 L 6 30" stroke="#1a121a" stroke-width="1" opacity="0.8"/>
-
-            <!-- Голова -->
-            <path d="M 34 16 Q 40 18 42 24 Q 40 30 34 32 Z" fill="#2a1e2b"/>
-
-            <!-- Пасть (открытая, злая) -->
-            <path d="M 38 26 L 46 22 L 44 28 L 38 28 Z" fill="#0f0508"/>
-            <path d="M 42 23 L 45 22 L 44 24 Z" fill="#ffffff"/>
-            <path d="M 42 27 L 45 28 L 44 26 Z" fill="#ffffff"/>
-
-            <!-- Светящийся глаз -->
-            <circle cx="38" cy="19" r="3" fill="#ffffff"/>
-            <circle cx="39" cy="19" r="1.5" fill="#00ffff"/>
-        </svg>
-    </div>
-    `;
-}
-
 function showFishModal(fishName, count) {
     currentModalFish = fishName;
     const info = getFishInfo(fishName);
@@ -738,7 +691,7 @@ function showFishModal(fishName, count) {
     
     let recordHtml = personalRecord !== null ? `<div class="info-value record">${personalRecord} см</div>` : `<div class="info-value no-record">не установлен</div>`;
     const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
-    const bigIcon = getFishIcon(fishName, 5);
+    const bigIcon = getFishIcon(fishName, 6); // Увеличенный размер для карточки
 
     const cornerSVG = `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M 5 5 Q 5 20 15 20 Q 28 20 28 10 Q 28 5 18 5 Q 12 5 12 12"/><path d="M 10 10 Q 10 18 20 18"/><circle cx="15" cy="15" r="2" fill="currentColor" stroke="none"/><path d="M 5 5 L 10 10" stroke-opacity="0.5"/></svg>`;
     let particlesHtml = '', holoHtml = '', crownHtml = '', gemsHtml = '';
@@ -763,7 +716,7 @@ function showFishModal(fishName, count) {
     ${holoHtml}${crownHtml}${gemsHtml}${particlesHtml}
     <button class="modal-close" onclick="closeFishModal()">✕</button>
     <div class="modal-fish-icon-wrap" ${isBoss ? 'style="animation: fishSwim 3s ease-in-out infinite;"' : ''}>
-        ${isBoss ? getBossHtml().replace('width: 100%; height: 100%;', 'width: 250px; height: 250px;') : `<img src="${bigIcon}" class="modal-fish-icon">`}
+        <img src="${bigIcon}" class="modal-fish-icon">
     </div>
     <div class="modal-fish-name ${info.isUndead ? 'undead' : ''}">${displayName}</div>
     <div class="modal-rarity rarity-${info.rarity}">${rarity.icon} ${rarity.label.toUpperCase()}</div>
