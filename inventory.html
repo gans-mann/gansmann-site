@@ -505,11 +505,43 @@ function updateInventoryCounts(inventory) {
         else { totalRegular += count; regularSet.add(baseNorm); }
     }
 
-    document.getElementById('total-caught').textContent = totalRegular + totalUndead + totalHalloween;
-    document.getElementById('total-regular').textContent = totalRegular;
-    document.getElementById('total-undead').textContent = totalUndead;
-    document.getElementById('total-halloween').textContent = totalHalloween;
+    // Обновляем все стат-боксы
+    const totalCaughtEl = document.getElementById('total-caught');
+    const totalRegularEl = document.getElementById('total-regular');
+    const totalUndeadEl = document.getElementById('total-undead');
+    const totalHalloweenEl = document.getElementById('total-halloween');
+    if (totalCaughtEl) totalCaughtEl.textContent = totalRegular + totalUndead + totalHalloween;
+    if (totalRegularEl) totalRegularEl.textContent = totalRegular;
+    if (totalUndeadEl) totalUndeadEl.textContent = totalUndead;
+    if (totalHalloweenEl) totalHalloweenEl.textContent = totalHalloween;
 
+    // Обновляем прогресс-бары
+    const caughtHalloweenList = window._halloweenCollection ? window._halloweenCollection[playerName.toLowerCase()] || [] : [];
+    const halloweenColSet = new Set(caughtHalloweenList.map(normalizeKey));
+    
+    let regCaught = 0, undCaught = 0, halCaught = 0;
+    ALL_FISH.forEach(fish => {
+        if (regularSet.has(normalizeKey(fish))) regCaught++;
+        if (undeadSet.has(normalizeKey(fish))) undCaught++;
+    });
+    HALLOWEEN_FISH.forEach(fish => {
+        if (halloweenColSet.has(normalizeKey(fish)) || halloweenSet.has(normalizeKey(fish))) halCaught++;
+    });
+
+    const progressCounts = document.querySelectorAll('.progress-block .progress-header .count');
+    const progressFills = document.querySelectorAll('.progress-block .progress-fill');
+    if (progressCounts.length >= 3) {
+        progressCounts[0].textContent = `${regCaught} / 30`;
+        progressCounts[1].textContent = `${undCaught} / 30`;
+        progressCounts[2].textContent = `${halCaught} / 10`;
+    }
+    if (progressFills.length >= 3) {
+        progressFills[0].style.width = `${Math.round(regCaught/30*100)}%`;
+        progressFills[1].style.width = `${Math.round(undCaught/30*100)}%`;
+        progressFills[2].style.width = `${Math.round(halCaught/10*100)}%`;
+    }
+
+    // Обновляем карточки рыб
     document.querySelectorAll('.fish-item').forEach(item => {
         const fishName = item.getAttribute('data-fish');
         const countEl = item.querySelector('.fish-count');
@@ -536,6 +568,11 @@ function updateInventoryCounts(inventory) {
                 item.className = newClass;
                 const img = item.querySelector('.fish-icon');
                 if (img) img.style.opacity = '1';
+                // Для босса также обновляем иконку в контейнере (если нужно)
+                const bossIconWrap = item.querySelector('.boss-icon-wrap');
+                if (bossIconWrap) {
+                    // При переходе из not-caught в boss нужно восстановить иконку
+                }
             }
         }
     });
@@ -691,7 +728,7 @@ function showFishModal(fishName, count) {
     
     let recordHtml = personalRecord !== null ? `<div class="info-value record">${personalRecord} см</div>` : `<div class="info-value no-record">не установлен</div>`;
     const displayName = info.isUndead ? '🧟 ' + info.baseName : info.baseName;
-    const bigIcon = getFishIcon(fishName, 6); // Увеличенный размер для карточки
+    const bigIcon = getFishIcon(fishName, 6);
 
     const cornerSVG = `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M 5 5 Q 5 20 15 20 Q 28 20 28 10 Q 28 5 18 5 Q 12 5 12 12"/><path d="M 10 10 Q 10 18 20 18"/><circle cx="15" cy="15" r="2" fill="currentColor" stroke="none"/><path d="M 5 5 L 10 10" stroke-opacity="0.5"/></svg>`;
     let particlesHtml = '', holoHtml = '', crownHtml = '', gemsHtml = '';
