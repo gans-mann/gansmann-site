@@ -157,7 +157,12 @@ body {
     50% { box-shadow: 0 0 40px rgba(255, 0, 0, 0.8), inset 0 0 25px rgba(255, 0, 0, 0.4); }
 }
 .fish-item:not(.not-caught).boss:hover { transform: translateY(-3px); }
-.fish-item:not(.not-caught).boss .boss-icon-wrap { width: 120px; height: 120px; flex-shrink: 0; margin-right: 15px; }
+.fish-item:not(.not-caught).boss .boss-icon-wrap { 
+    width: 120px; 
+    height: 90px; /* Изменено с 120px на 90px, так как пропорции картинки 64x48 (это 4:3) */
+    flex-shrink: 0; 
+    margin-right: 15px; 
+}
 .fish-item:not(.not-caught).boss .fish-name { font-size: 1.4rem; color: #ff5555; text-shadow: 0 0 10px red; font-weight: 900; text-align: left; }
 .fish-item:not(.not-caught).boss .fish-count { position: absolute; bottom: 15px; right: 15px; font-size: 1.2rem; padding: 8px 15px; background: #ff0000; color: white; box-shadow: 0 0 10px red; }
 
@@ -191,7 +196,7 @@ body {
 
 /* БОСС КАРТОЧКА */
 .fish-modal.boss-modal { max-width: 600px; border-color: #ff0000; box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 100px rgba(255, 0, 0, 0.5); background: radial-gradient(circle at center, rgba(80, 0, 0, 0.95) 0%, rgba(10, 0, 0, 0.98) 100%); }
-.fish-modal.boss-modal .modal-fish-icon { width: 300px; height: 300px; }
+.fish-modal.boss-modal .modal-fish-icon { width: 350px; height: 260px; object-fit: contain; }
 .fish-modal.boss-modal .modal-fish-name { font-size: 2.5rem; color: #ff0000; text-shadow: 0 0 30px red; }
 .fish-modal.boss-modal .modal-rarity { color: #ff0000; font-size: 1.2rem; letter-spacing: 10px; }
 
@@ -687,7 +692,7 @@ function renderInventory(playerName, inventory) {
     });
     html += `</div></div>`;
 
-    // БОССЫ (ОТДЕЛЬНАЯ СЕКЦИЯ)
+        // БОССЫ (ОТДЕЛЬНАЯ СЕКЦИЯ)
     html += `<div class="fish-section boss-section" style="margin-top: 14px;"><h3>💀 Боссы</h3><div class="fish-grid">`;
     BOSS_FISH.forEach(fish => {
         const entry = findNormalized(inventory, fish);
@@ -697,7 +702,9 @@ function renderInventory(playerName, inventory) {
         
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}">
             <div class="fish-item-inner"></div>
-            <div class="boss-icon-wrap"><img src="${getFishIcon(fish, 4)}" style="width:100%; height:100%; object-fit:contain;"></div>
+            <div class="boss-icon-wrap">
+                <img src="${getFishIcon(fish, 2)}" style="width:100%; height:100%; object-fit:contain; image-rendering: pixelated;">
+            </div>
             <span class="fish-name">${fish}</span>
             <span class="fish-count">×${count}</span>
         </div>`;
