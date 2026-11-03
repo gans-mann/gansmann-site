@@ -137,7 +137,8 @@ const FISH_FORMS = {
     'Писклявый пескарь':  { bodyLen: 16, bodyH: 9, bodyY: 11, headShape: 'round', headLen: 4, tailType: 'fork', tailSize: 4, topFin: 'small', topFinSize: 3, bottomFin: 'small', spots: null, stripes: null, whiskers: true, spikes: false, palette: 'squeaky_gudgeon' },
 
     // БОСС
-    'Босс Лосось':        { bodyLen: 26, bodyH: 12, bodyY: 10, headShape: 'pointed', headLen: 7, tailType: 'fork', tailSize: 6, topFin: 'high-spiky', topFinSize: 6, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: true, palette: 'boss_salmon' };
+    'Босс Лосось':        { bodyLen: 26, bodyH: 12, bodyY: 10, headShape: 'pointed', headLen: 7, tailType: 'fork', tailSize: 6, topFin: 'high-spiky', topFinSize: 6, bottomFin: 'medium', spots: null, stripes: null, whiskers: false, spikes: true, palette: 'boss_salmon' }
+};
 
 function makeFishSVG(paletteKey, form, scale) {
     scale = scale || 1;
@@ -396,23 +397,17 @@ function makeFishSVG(paletteKey, form, scale) {
         }
     }
 
-        // Если это босс, используем расширенный viewBox, чтобы рыба не обрезалась
-    const isBoss = paletteKey === 'boss_salmon';
-    const vb = isBoss ? "0 0 64 48" : "0 0 32 32";
-    const w = isBoss ? 64 : 32;
-    const h = isBoss ? 48 : 32;
-
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" shape-rendering="crispEdges" ${scale !== 1 ? `width="${w*scale}" height="${h*scale}"` : ''}>${s}</svg>`
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
     );
 }
 
-function makeFishSVG(paletteKey, form, scale) {
+function makeFishSVGWithCustomPalette(palette, form, scale) {
     scale = scale || 1;
-    const p = (paletteKey === 'undead') ? UNDEAD_PALETTE : PALETTES[paletteKey];
+    const p = palette;
     if (!p) return '';
     const f = form;
-    const isUndead = paletteKey === 'undead';
+    const isUndead = true;
 
     const bodyLen = f.bodyLen;
     const bodyH = f.bodyH;
@@ -696,7 +691,6 @@ function getFishForm(fishName) {
     return { isUndead, baseName, form };
 }
 
-// ВОССТАНОВЛЕННАЯ ФУНКЦИЯ ДЛЯ КРАБА
 function makeCrabSVG(scale) {
     scale = scale || 1;
     const p = PALETTES['crab_square'];
