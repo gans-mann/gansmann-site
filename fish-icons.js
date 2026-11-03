@@ -691,20 +691,64 @@ function getFishForm(fishName) {
     return { isUndead, baseName, form };
 }
 
-function getFishIcon(fishName, scale) {
-    // 1. Проверка на Босса
-    if (fishName.toLowerCase().includes('босс')) {
-        return ''; 
-    }
+// ВОССТАНОВЛЕННАЯ ФУНКЦИЯ ДЛЯ КРАБА
+function makeCrabSVG(scale) {
+    scale = scale || 1;
+    const p = PALETTES['crab_square'];
+    let s = '';
 
+    // Основа (панцирь)
+    s += `<rect x="6" y="10" width="20" height="12" fill="${p.main}"/>`;
+    s += `<rect x="8" y="8" width="16" height="16" fill="${p.main}"/>`;
+    s += `<rect x="10" y="12" width="12" height="10" fill="${p.light}"/>`;
+    
+    // Брюхо
+    s += `<rect x="8" y="18" width="16" height="4" fill="${p.belly}"/>`;
+
+    // Клешни (левая и правая)
+    s += `<rect x="2" y="12" width="6" height="6" fill="${p.main}"/>`;
+    s += `<rect x="0" y="10" width="4" height="4" fill="${p.light}"/>`;
+    s += `<rect x="0" y="16" width="4" height="4" fill="${p.light}"/>`;
+
+    s += `<rect x="24" y="12" width="6" height="6" fill="${p.main}"/>`;
+    s += `<rect x="28" y="10" width="4" height="4" fill="${p.light}"/>`;
+    s += `<rect x="28" y="16" width="4" height="4" fill="${p.light}"/>`;
+
+    // Глаза (вынесены на стебельках вверх)
+    s += `<rect x="10" y="6" width="2" height="4" fill="${p.main}"/>`;
+    s += `<rect x="10" y="4" width="2" height="2" fill="${p.eye}"/>`;
+    s += `<rect x="10" y="4" width="1" height="1" fill="${p.pupil}"/>`;
+
+    s += `<rect x="20" y="6" width="2" height="4" fill="${p.main}"/>`;
+    s += `<rect x="20" y="4" width="2" height="2" fill="${p.eye}"/>`;
+    s += `<rect x="21" y="4" width="1" height="1" fill="${p.pupil}"/>`;
+
+    // Ноги (по 3 с каждой стороны)
+    s += `<rect x="6" y="22" width="2" height="4" fill="${p.dark}"/>`;
+    s += `<rect x="12" y="22" width="2" height="4" fill="${p.dark}"/>`;
+    s += `<rect x="18" y="22" width="2" height="4" fill="${p.dark}"/>`;
+    
+    s += `<rect x="24" y="22" width="2" height="4" fill="${p.dark}"/>`;
+    // Дополнительные сегменты ног
+    s += `<rect x="4" y="24" width="4" height="2" fill="${p.main}"/>`;
+    s += `<rect x="10" y="24" width="4" height="2" fill="${p.main}"/>`;
+    s += `<rect x="16" y="24" width="4" height="2" fill="${p.main}"/>`;
+    s += `<rect x="22" y="24" width="4" height="2" fill="${p.main}"/>`;
+
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" ${scale !== 1 ? `width="${32*scale}" height="${32*scale}"` : ''}>${s}</svg>`
+    );
+}
+
+function getFishIcon(fishName, scale) {
     const info = getFishForm(fishName);
     
-    // 2. Проверка на Краба
+    // 1. Проверка на Краба (восстановлено)
     if (info.baseName.toLowerCase() === 'краб шкраб') {
         return makeCrabSVG(scale);
     }
 
-    // 3. Отрисовка нежити
+    // 2. Отрисовка нежити
     if (info.isUndead) {
         const undeadKey = info.form.palette;
         if (typeof UNDEAD_FISH_PALETTES !== 'undefined' && UNDEAD_FISH_PALETTES[undeadKey]) {
@@ -713,6 +757,7 @@ function getFishIcon(fishName, scale) {
         return makeFishSVG('undead', info.form, scale);
     }
 
-    // 4. Отрисовка всех остальных (включая босса)
+    // 3. Отрисовка всех остальных (включая босса)
+    // Убрана блокировка босса, теперь он рендерится
     return makeFishSVG(info.form.palette, info.form, scale);
 }
