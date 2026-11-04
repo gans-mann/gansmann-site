@@ -1494,7 +1494,15 @@ function animate(now) {
 
     ctx.clearRect(0, 0, AQ_W, AQ_H);
 
-    if (frameCount % 10 === 0) fishList.sort((a, b) => a.y - b.y);
+            // Сортируем каждый кадр для идеального перекрытия
+    fishList.sort((a, b) => {
+        // Босс всегда отрисовывается ПЕРВЫМ (позади всех)
+        if (a.isBoss && !b.isBoss) return -1;
+        if (!a.isBoss && b.isBoss) return 1;
+        return a.y - b.y;
+    });
+
+    // Отрисовываем по порядку
     for (let i = 0; i < fishList.length; i++) fishList[i].draw(ctx);
 
     drawFood(ctx);
