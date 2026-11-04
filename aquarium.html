@@ -32,7 +32,6 @@ body.fullscreen-active .aquarium-ui,
 body.fullscreen-active .loading {
     display: none !important;
 }
-/* Тултип НЕ скрываем — он должен работать */
 
 body.fullscreen-active .aquarium {
     max-width: 100%;
@@ -122,11 +121,7 @@ h1 { font-size: 1.6rem; font-weight: 900;
 .plant-2 { left: 14%; animation: plantSway 6.5s ease-in-out infinite reverse; }
 .plant-3 { right: 8%; animation: plantSway 5.8s ease-in-out infinite; }
 .plant-4 { right: 17%; animation: plantSway 7s ease-in-out infinite reverse; }
-.plant-5 { left: 44%; animation: plantSway 6s ease-in-out infinite; opacity: 0.75; }
-.plant-6 { left: 30%; animation: plantSway 7.5s ease-in-out infinite; opacity: 0.6; transform: scale(0.75); }
 @keyframes plantSway { 0%, 100% { transform: rotate(-4deg) scaleY(1); } 50% { transform: rotate(5deg) scaleY(1.04); } }
-.plant-6 { animation-name: plantSwaySmall; }
-@keyframes plantSwaySmall { 0%, 100% { transform: rotate(-3deg) scale(0.75) scaleY(1); } 50% { transform: rotate(4deg) scale(0.75) scaleY(1.04); } }
 
 .bubble-column { position: absolute; bottom: 0; width: 30px; height: 100%; pointer-events: none; z-index: 6; }
 .bubble-column.col-1 { left: 22%; }
@@ -148,6 +143,7 @@ h1 { font-size: 1.6rem; font-weight: 900;
     white-space: nowrap; pointer-events: none; z-index: 55; opacity: 0; transition: opacity 0.15s;
     letter-spacing: 0.3px; transform: translate(-50%, -100%); }
 .fish-tooltip.show { opacity: 1; }
+.fish-tooltip.boss-tooltip { border-color: rgba(255, 60, 60, 0.8); color: #ff6060; box-shadow: 0 0 12px rgba(255, 40, 40, 0.5); }
 
 .aquarium-ui { position: absolute; top: 16px; left: 18px; right: 18px; display: flex; justify-content: space-between; z-index: 60; pointer-events: none; }
 .aquarium-ui > * { pointer-events: auto; }
@@ -220,7 +216,6 @@ h1 { font-size: 1.6rem; font-weight: 900;
     <div class="loading" id="loading">Загрузка аквариума...</div>
 </div>
 
-<!-- ПОДКЛЮЧАЕМ ВАШ fish-icons.js -->
 <script src="/fish-icons.js"></script>
 
 <script>
@@ -271,6 +266,18 @@ const FOOD_ATTRACT_RADIUS = 400;
 const FEED_INTERVAL = 80;
 
 // ============================================================
+// БОСС ЛОСОСЬ
+// ============================================================
+const BOSS_NAME = 'Босс Лосось';
+const BOSS_SIZE_MULTIPLIER = 10;
+const BOSS_HUNT_COOLDOWN = 10000;
+const BOSS_EAT_RADIUS = 120;
+const BOSS_CHASE_SPEED_BOOST = 2.2;
+const BOSS_CHASE_RADIUS = 900;
+const BOSS_PANIC_RADIUS = 600;
+const BOSS_EAT_ANIM_DURATION = 700;
+
+// ============================================================
 // URL ПАРАМЕТРЫ
 // ============================================================
 const urlParams = new URLSearchParams(window.location.search);
@@ -314,7 +321,6 @@ const hoveredFish = { current: null };
 let isFeeding = false;
 let lastFeedTime = 0;
 
-// Объявляем СПИСОК РЫБ ЗАРАНЕЕ, чтобы addFish работала
 let fishCounter = 0;
 let fishList = [];
 
@@ -423,6 +429,8 @@ const SPECIES_PROFILES = {
     'Язь':        { type: 'generic', speed: 0.9, sizeRange: [30, 45], verticalZone: [0.2, 0.8], schooling: 0.6, shyness: 0.5, dashChance: 0.25 },
     'Голавль':    { type: 'generic', speed: 1.0, sizeRange: [30, 50], verticalZone: [0.2, 0.7], schooling: 0.5, shyness: 0.4, dashChance: 0.3 },
     'Линь':       { type: 'generic', speed: 0.5, sizeRange: [30, 45], verticalZone: [0.5, 0.95], schooling: 0.4, shyness: 0.5, dashChance: 0.1 },
+    // Босс
+    'Босс Лосось':{ type: 'generic', speed: 1.6, sizeRange: [26, 26], verticalZone: [0.2, 0.8], schooling: 0, shyness: 0, dashChance: 0 },
     // Хэллоуин
     'Мразь карась':       { type: 'grazer', speed: 0.6, sizeRange: [30, 44], verticalZone: [0.4, 0.9], schooling: 0.6, shyness: 0.5, dashChance: 0.15 },
     'Назойливая тыковка': { type: 'generic', speed: 0.6, sizeRange: [30, 40], verticalZone: [0.4, 0.9], schooling: 0.5, shyness: 0.5, dashChance: 0.15 },
@@ -472,7 +480,7 @@ function getCachedIcon(fishName, size) {
 }
 
 // ============================================================
-// ПРОСТРАНСТВЕННЫЙ ХЕШ
+// ПРОСТРАНСТВЕННЫЙ ХЭШ
 // ============================================================
 class SpatialHash {
     constructor(cellSize) { this.cellSize = cellSize; this.cells = new Map(); }
@@ -504,9 +512,11 @@ class SpatialHash {
 const spatialHash = new SpatialHash(HASH_CELL);
 
 // ============================================================
-// КОРМ
+// КОРМ + ЭФФЕКТЫ БОССА
 // ============================================================
 const foodList = [];
+const bloodParticles = [];
+const skeletons = [];
 
 function spawnFood(x, y, count = 4) {
     for (let i = 0; i < count; i++) {
@@ -543,6 +553,88 @@ function drawFood(ctx) {
         ctx.globalAlpha = alpha;
         ctx.beginPath(); ctx.arc(screenX, screenY, r, 0, Math.PI * 2); ctx.fillStyle = '#ffcc55'; ctx.fill();
         ctx.beginPath(); ctx.arc(screenX - r * 0.3, screenY - r * 0.3, r * 0.4, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,220,0.7)'; ctx.fill();
+        ctx.restore();
+    }
+}
+
+function updateBloodParticles(dt) {
+    const s = dt / 16;
+    for (let i = bloodParticles.length - 1; i >= 0; i--) {
+        const p = bloodParticles[i];
+        p.life -= dt;
+        if (p.life <= 0) { bloodParticles.splice(i, 1); continue; }
+        p.x += p.vx * s;
+        p.y += p.vy * s;
+        p.vx *= 0.96;
+        p.vy *= 0.96;
+        p.vy += 0.02 * s;
+    }
+}
+
+function drawBloodParticles(ctx) {
+    for (const p of bloodParticles) {
+        const a = p.life / p.maxLife;
+        const sx = p.x * camScale + camX;
+        const sy = p.y * camScale + camY;
+        const r = Math.max(0.5, p.size * camScale * (0.5 + a * 0.5));
+        ctx.save();
+        ctx.globalAlpha = a * 0.85;
+        ctx.beginPath();
+        ctx.arc(sx, sy, r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+function updateSkeletons(dt) {
+    const s = dt / 16;
+    for (let i = skeletons.length - 1; i >= 0; i--) {
+        const sk = skeletons[i];
+        sk.life -= dt;
+        if (sk.life <= 0) { skeletons.splice(i, 1); continue; }
+        const floor = VIRTUAL_HEIGHT - 130 - sk.size;
+        if (sk.y < floor) {
+            sk.y += sk.vy * s;
+            if (sk.y > floor) sk.y = floor;
+        }
+    }
+}
+
+function drawSkeletons(ctx) {
+    for (const sk of skeletons) {
+        const a = Math.min(1, sk.life / 2000);
+        const sx = sk.x * camScale + camX;
+        const sy = sk.y * camScale + camY;
+        const sz = Math.max(8, sk.size * camScale);
+        ctx.save();
+        ctx.globalAlpha = a;
+        ctx.translate(sx + sz / 2, sy + sz / 2);
+        ctx.rotate(sk.rot);
+
+        const bone = '#e8e0c0';
+        const boneDark = '#a89878';
+        // Череп
+        ctx.fillStyle = bone;
+        ctx.fillRect(-sz * 0.4, -sz * 0.18, sz * 0.22, sz * 0.36);
+        // Глазница
+        ctx.fillStyle = '#2a1a10';
+        ctx.fillRect(-sz * 0.35, -sz * 0.1, sz * 0.08, sz * 0.08);
+        // Позвоночник
+        ctx.fillStyle = boneDark;
+        ctx.fillRect(-sz * 0.18, -sz * 0.03, sz * 0.7, sz * 0.06);
+        // Рёбра
+        ctx.fillStyle = bone;
+        for (let i = 0; i < 4; i++) {
+            const rx = -sz * 0.12 + i * sz * 0.14;
+            const rh = sz * (0.18 + (i % 2) * 0.04);
+            ctx.fillRect(rx, -rh, sz * 0.03, rh * 2);
+        }
+        // Хвост
+        ctx.fillStyle = bone;
+        ctx.fillRect(sz * 0.5, -sz * 0.1, sz * 0.12, sz * 0.04);
+        ctx.fillRect(sz * 0.5, sz * 0.06, sz * 0.12, sz * 0.04);
+
         ctx.restore();
     }
 }
@@ -655,10 +747,22 @@ class Fish {
         this.flockLeader = null; this.opportunisticSchool = null;
         this.foodTarget = null;
 
-        // Для краба: прыжковое движение
         this.jumpCooldown = Math.random() * 3000;
         this.jumpTimer = 0;
         this.jumpVY = 0;
+
+        // === БОСС ===
+        this.isBoss = (name === BOSS_NAME);
+        if (this.isBoss) {
+            this.size *= BOSS_SIZE_MULTIPLIER;
+            this.baseSpeed = 1.6;
+            this.bossEatCooldown = 3000;
+            this.bossChaseTarget = null;
+            this.bossChaseTimer = 0;
+            this.bossEatAnim = 0;
+            this.bossEatAnimTimer = 0;
+            this.bossTrail = [];
+        }
 
         this.icon = getCachedIcon(name, this.size);
     }
@@ -667,7 +771,18 @@ class Fish {
         return { x: this.homeX + (Math.random() - 0.5) * this.territoryRadius * 1.5, y: this.homeY + (Math.random() - 0.5) * this.territoryRadius };
     }
 
+    pickWanderY() {
+        const [vzTop, vzBottom] = this.profile.verticalZone || [0.2, 0.8];
+        let targetY;
+        if (this.profile.bottomBias) {
+            const t = 0.3 + Math.random() * 0.5;
+            targetY = VIRTUAL_HEIGHT * vzTop + (VIRTUAL_HEIGHT * (vzBottom - vzTop)) * t;
+        } else { targetY = VIRTUAL_HEIGHT * vzTop + Math.random() * (VIRTUAL_HEIGHT * (vzBottom - vzTop)); }
+        return Math.max(30, Math.min(VIRTUAL_HEIGHT - 130, targetY));
+    }
+
     updateSchool() {
+        if (this.isBoss) { this.flockLeader = null; this.isSchooled = false; this.schoolCount = 0; this.isProtected = false; return; }
         if (this.type === 'crab') {
             this.flockLeader = null; this.isSchooled = false; this.schoolCount = 0; this.isProtected = false;
             return;
@@ -697,6 +812,7 @@ class Fish {
     }
 
     findPrey() {
+        if (this.isBoss) return null;
         if (!this.profile.huntRange) return null;
         const radius = this.lockedSchoolName ? PATROL_VISION : this.profile.huntRange;
         const nearby = spatialHash.queryNear(this.x, this.y, radius);
@@ -705,6 +821,7 @@ class Fish {
             const other = nearby[i];
             if (other === this) continue;
             if (other.type === 'predator') continue;
+            if (other.isBoss) continue;
             if (other.size > this.size * 1.1) continue;
             if (other.state === 'flee') continue;
             if (other.isProtected) continue;
@@ -717,7 +834,9 @@ class Fish {
     }
 
     startle(predator) {
-        if (this.type === 'predator' || this.type === 'crab') return;
+        if (this.isBoss) return;
+        if (this.type === 'crab') return;
+        if (this.type === 'predator' && !predator.isBoss) return;
         if (this.fleeCooldown > 0) return;
         if (this.state === 'flee' && this.fleeTimer > 0) return;
         this.state = 'flee'; this.stateTimer = 0;
@@ -743,6 +862,7 @@ class Fish {
     }
 
     applySchoolForces(dt, s) {
+        if (this.isBoss) return;
         if (!this.isSchooled || !this.flockLeader) return;
         if (this.state === 'flee' || this.state === 'lunge' || this.state === 'alert' || this.state === 'blocked') return;
         const leader = this.flockLeader;
@@ -865,6 +985,134 @@ class Fish {
         this.phase += this.bobSpeed * dt * 0.5;
     }
 
+    // ========================================================
+    // БОСС ЛОСОСЬ
+    // ========================================================
+    updateBoss(dt, s) {
+        this.bossEatCooldown -= dt;
+        if (this.bossEatAnimTimer > 0) {
+            this.bossEatAnimTimer -= dt;
+            this.bossEatAnim = 1 - Math.max(0, this.bossEatAnimTimer / BOSS_EAT_ANIM_DURATION);
+        } else {
+            this.bossEatAnim = 0;
+        }
+
+        for (let i = this.bossTrail.length - 1; i >= 0; i--) {
+            this.bossTrail[i].life -= dt;
+            if (this.bossTrail[i].life <= 0) this.bossTrail.splice(i, 1);
+        }
+
+        if (!this.bossChaseTarget || fishList.indexOf(this.bossChaseTarget) === -1) {
+            this.bossChaseTarget = null;
+            if (this.bossEatCooldown <= 0) {
+                let best = null, bestDist = BOSS_CHASE_RADIUS;
+                for (let i = 0; i < fishList.length; i++) {
+                    const f = fishList[i];
+                    if (f === this || f.isBoss) continue;
+                    const d = Math.hypot(f.x - this.x, f.y - this.y);
+                    if (d < bestDist) { bestDist = d; best = f; }
+                }
+                if (best) {
+                    this.bossChaseTarget = best;
+                    this.bossChaseTimer = 0;
+                }
+            }
+        }
+
+        const panicNear = spatialHash.queryNear(this.x, this.y, BOSS_PANIC_RADIUS);
+        for (let i = 0; i < panicNear.length; i++) {
+            const f = panicNear[i];
+            if (f === this || f.isBoss) continue;
+            const dx = f.x - this.x, dy = f.y - this.y;
+            const d = Math.hypot(dx, dy) || 1;
+            if (d < BOSS_PANIC_RADIUS) {
+                const force = (1 - d / BOSS_PANIC_RADIUS) * 1.2;
+                f.vx += (dx / d) * force * s;
+                f.vy += (dy / d) * force * s;
+            }
+        }
+
+        if (this.bossChaseTarget) {
+            const t = this.bossChaseTarget;
+            const dx = t.x - this.x, dy = t.y - this.y;
+            const d = Math.hypot(dx, dy) || 1;
+            const boost = BOSS_CHASE_SPEED_BOOST;
+            this.vx += (dx / d) * 0.25 * boost * s;
+            this.vy += (dy / d) * 0.25 * boost * s;
+            this.bossChaseTimer += dt;
+
+            if (Math.random() < 0.6) {
+                this.bossTrail.push({
+                    x: this.x + (Math.random() - 0.5) * this.size * 0.4,
+                    y: this.y + (Math.random() - 0.5) * this.size * 0.4,
+                    life: 600 + Math.random() * 400,
+                    maxLife: 1000,
+                    size: this.size * (0.05 + Math.random() * 0.08)
+                });
+            }
+
+            if (d < BOSS_EAT_RADIUS) {
+                this.eatFish(t);
+            }
+            if (this.bossChaseTimer > 6000) {
+                this.bossChaseTarget = null;
+            }
+        } else {
+            if (this.wanderTimer <= 0 || !this.wanderTarget) {
+                this.wanderTarget = this.pickWanderTarget();
+                this.wanderTimer = 2500 + Math.random() * 2500;
+            }
+            if (this.wanderTarget) {
+                const dx = this.wanderTarget.x - this.x, dy = this.wanderTarget.y - this.y;
+                const d = Math.hypot(dx, dy);
+                if (d > 40) { this.vx += (dx / d) * 0.05 * s; this.vy += (dy / d) * 0.05 * s; }
+                else { this.wanderTarget = null; }
+            }
+        }
+    }
+
+    eatFish(prey) {
+        const idx = fishList.indexOf(prey);
+        if (idx === -1) return;
+
+        for (let i = 0; i < 18; i++) {
+            const ang = Math.random() * Math.PI * 2;
+            const spd = 0.5 + Math.random() * 2.5;
+            bloodParticles.push({
+                x: prey.x + prey.size / 2,
+                y: prey.y + prey.size / 2,
+                vx: Math.cos(ang) * spd,
+                vy: Math.sin(ang) * spd,
+                life: 900 + Math.random() * 600,
+                maxLife: 1500,
+                size: 3 + Math.random() * 5,
+                color: Math.random() < 0.5 ? '#c01818' : '#8a0808'
+            });
+        }
+
+        skeletons.push({
+            x: prey.x,
+            y: prey.y,
+            vy: 0.3 + Math.random() * 0.4,
+            rot: (Math.random() - 0.5) * 0.6,
+            size: prey.size,
+            life: 12000,
+            maxLife: 12000,
+            name: prey.name
+        });
+
+        fishList.splice(idx, 1);
+
+        this.bossEatCooldown = BOSS_HUNT_COOLDOWN;
+        this.bossChaseTarget = null;
+        this.bossEatAnimTimer = BOSS_EAT_ANIM_DURATION;
+        this.bossEatAnim = 0;
+
+        const sp = Math.hypot(this.vx, this.vy) || 1;
+        this.vx += (this.vx / sp) * 1.5;
+        this.vy += (this.vy / sp) * 1.5;
+    }
+
     update(dt) {
         const s = dt / 16;
         this.stateTimer += dt; this.dashCooldown -= dt; this.restTimer -= dt;
@@ -874,6 +1122,24 @@ class Fish {
         if (this._lungeSignal > 0) this._lungeSignal -= dt;
         if (this.lockedSchoolTimer > 0) { this.lockedSchoolTimer -= dt; if (this.lockedSchoolTimer <= 0) this.lockedSchoolName = null; }
 
+        // === БОСС ИДЁТ ОТДЕЛЬНО ===
+        if (this.isBoss) {
+            this.updateBoss(dt, s);
+            this.vx *= 0.985; this.vy *= 0.985;
+            const spB = Math.hypot(this.vx, this.vy);
+            const maxSpB = this.bossChaseTarget ? 4.5 : 1.8;
+            if (spB > maxSpB) { this.vx = (this.vx / spB) * maxSpB; this.vy = (this.vy / spB) * maxSpB; }
+            this.x += this.vx * s; this.y += this.vy * s;
+            this.phase += this.bobSpeed * dt;
+            if (this.x + this.size > VIRTUAL_WIDTH) this.x = VIRTUAL_WIDTH - this.size;
+            if (this.x < 0) this.x = 0;
+            if (this.y + this.size > VIRTUAL_HEIGHT - 100) this.y = VIRTUAL_HEIGHT - 100 - this.size;
+            if (this.y < 20) this.y = 20;
+            if (this.vx > 0.05) this.dir = 1;
+            else if (this.vx < -0.05) this.dir = -1;
+            return;
+        }
+
         this.foodTarget = this.findFood();
 
         if (this.type === 'crab') {
@@ -881,10 +1147,22 @@ class Fish {
             return;
         }
 
+        // Паника от босса (включая хищников) + обычная паника от хищников
+        if (this.state !== 'flee') {
+            const nearBoss = spatialHash.queryNear(this.x, this.y, BOSS_PANIC_RADIUS * 0.7);
+            for (let i = 0; i < nearBoss.length; i++) {
+                if (nearBoss[i].isBoss) {
+                    if (this.type === 'predator' || Math.random() < 0.05) {
+                        this.startle(nearBoss[i]);
+                        break;
+                    }
+                }
+            }
+        }
         if (this.type !== 'predator' && this.state !== 'flee') {
             const nearbyPredators = spatialHash.queryNear(this.x, this.y, PANIC_RADIUS);
             for (let i = 0; i < nearbyPredators.length; i++) {
-                if (nearbyPredators[i].type === 'predator') {
+                if (nearbyPredators[i].type === 'predator' && !nearbyPredators[i].isBoss) {
                     if (Math.random() < 0.02) { this.startle(nearbyPredators[i]); break; }
                 }
             }
@@ -1044,16 +1322,6 @@ class Fish {
         }
     }
 
-    pickWanderY() {
-        const [vzTop, vzBottom] = this.profile.verticalZone || [0.2, 0.8];
-        let targetY;
-        if (this.profile.bottomBias) {
-            const t = 0.3 + Math.random() * 0.5;
-            targetY = VIRTUAL_HEIGHT * vzTop + (VIRTUAL_HEIGHT * (vzBottom - vzTop)) * t;
-        } else { targetY = VIRTUAL_HEIGHT * vzTop + Math.random() * (VIRTUAL_HEIGHT * (vzBottom - vzTop)); }
-        return Math.max(30, Math.min(VIRTUAL_HEIGHT - 130, targetY));
-    }
-
     startLunge(prey) {
         if (prey.isProtected) { this.state = 'blocked'; this.stateTimer = 0; this.blockedTimer = 3000 + Math.random() * 3000; return; }
         const dx = prey.x - this.x; const dy = prey.y - this.y;
@@ -1172,27 +1440,65 @@ class Fish {
     }
 
     draw(ctx) {
-        let bob = 0;
-        if (this.type === 'crab') bob = 0;
-        else bob = Math.sin(this.phase) * this.bobAmp;
+        const bob = this.type === 'crab' ? 0 : Math.sin(this.phase) * this.bobAmp;
         const screenX = this.x * camScale + camX;
         const screenY = (this.y + bob) * camScale + camY;
         const screenSize = this.size * camScale;
-        if (screenX + screenSize < -10 || screenX > AQ_W + 10 || screenY + screenSize < -10 || screenY > AQ_H + 10) return;
-        ctx.save();
-        if (this.dir > 0) {
-            ctx.translate(screenX + screenSize / 2, screenY + screenSize / 2);
-            ctx.scale(-1, 1);
-            ctx.drawImage(this.icon, -screenSize / 2, -screenSize / 2, screenSize, screenSize);
-        } else {
-            ctx.drawImage(this.icon, screenX, screenY, screenSize, screenSize);
+        if (screenX + screenSize < -20 || screenX > AQ_W + 20 || screenY + screenSize < -20 || screenY > AQ_H + 20) return;
+
+        // Шлейф босса
+        if (this.isBoss && this.bossTrail.length) {
+            for (const t of this.bossTrail) {
+                const a = t.life / t.maxLife;
+                const sx = t.x * camScale + camX;
+                const sy = t.y * camScale + camY;
+                ctx.save();
+                ctx.globalAlpha = a * 0.6;
+                ctx.beginPath();
+                ctx.arc(sx, sy, t.size * camScale, 0, Math.PI * 2);
+                ctx.fillStyle = '#ff4060';
+                ctx.fill();
+                ctx.restore();
+            }
         }
+
+        ctx.save();
+
+        // Красная аура босса
+        if (this.isBoss) {
+            const auraR = screenSize * (0.75 + Math.sin(this.phase * 2) * 0.08);
+            const grad = ctx.createRadialGradient(
+                screenX + screenSize / 2, screenY + screenSize / 2, screenSize * 0.3,
+                screenX + screenSize / 2, screenY + screenSize / 2, auraR
+            );
+            grad.addColorStop(0, 'rgba(255,40,60,0.35)');
+            grad.addColorStop(0.6, 'rgba(200,0,30,0.15)');
+            grad.addColorStop(1, 'rgba(150,0,20,0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(screenX + screenSize / 2, screenY + screenSize / 2, auraR, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        let drawSize = screenSize;
+        if (this.isBoss && this.bossEatAnim > 0) {
+            const pulse = 1 + Math.sin(this.bossEatAnim * Math.PI) * 0.25;
+            drawSize = screenSize * pulse;
+        }
+
+        if (this.dir > 0) {
+            ctx.translate(screenX + drawSize / 2, screenY + drawSize / 2);
+            ctx.scale(-1, 1);
+            ctx.drawImage(this.icon, -drawSize / 2, -drawSize / 2, drawSize, drawSize);
+        } else {
+            ctx.drawImage(this.icon, screenX + (screenSize - drawSize) / 2, screenY + (screenSize - drawSize) / 2, drawSize, drawSize);
+        }
+
         ctx.restore();
     }
 }
 
 function addFish(name, options) {
-    // Лимита нет — пул рыб берется строго из инвентаря игрока
     const f = new Fish(name, options);
     fishList.push(f);
     return f;
@@ -1223,6 +1529,8 @@ function animate(now) {
     for (let i = 0; i < fishList.length; i++) fishList[i].update(dt);
 
     updateFood(dt);
+    updateBloodParticles(dt);
+    updateSkeletons(dt);
 
     if (isFeeding && mouse.active) {
         if (now - lastFeedTime > FEED_INTERVAL) {
@@ -1237,6 +1545,8 @@ function animate(now) {
     for (let i = 0; i < fishList.length; i++) fishList[i].draw(ctx);
 
     drawFood(ctx);
+    drawSkeletons(ctx);
+    drawBloodParticles(ctx);
 
     updateHover();
 
@@ -1255,13 +1565,20 @@ function updateHover() {
         const f = nearby[i];
         const dx = f.x + f.size / 2 - mouse.worldX; const dy = f.y + f.size / 2 - mouse.worldY;
         const d = Math.hypot(dx, dy);
-        if (d < bestDist + f.size / 2) { bestDist = d; best = f; }
+        const hitRadius = (f.isBoss ? f.size * 0.6 : f.size / 2);
+        if (d < Math.max(bestDist, hitRadius)) { bestDist = d; best = f; }
     }
     if (best) {
         hoveredFish.current = best;
         let displayName = best.name;
         if (displayName.toLowerCase().startsWith('нежить ')) {
             displayName = '🧟 ' + displayName.substring(7).charAt(0).toUpperCase() + displayName.substring(8);
+        }
+        if (best.isBoss) {
+            displayName = '👑 ' + displayName;
+            tooltip.classList.add('boss-tooltip');
+        } else {
+            tooltip.classList.remove('boss-tooltip');
         }
         tooltip.textContent = displayName;
         tooltip.classList.add('show');
@@ -1320,13 +1637,6 @@ document.querySelectorAll('.bubble-column').forEach((col, i) => {
 // ============================================================
 function normalizeKey(s) { return s === null || s === undefined ? '' : String(s).toLowerCase().replace(/ё/g, 'е').trim(); }
 
-function findNormalized(obj, targetKey) {
-    if (!obj || typeof obj !== 'object') return null;
-    const target = normalizeKey(targetKey);
-    for (const k in obj) { if (normalizeKey(k) === target) return { key: k, value: obj[k] }; }
-    return null;
-}
-
 async function loadAquariumData() {
     if (!playerName) {
         loadingEl.textContent = 'Ошибка: не указан игрок.';
@@ -1381,7 +1691,6 @@ async function loadAquariumData() {
             }
         }
 
-        // Для Хэллоуина: добавляем тех, кто есть в коллекции, но не в инвентаре
         if (AQUARIUM_TYPE === 'halloween') {
             halloweenColSet.forEach(name => {
                 let found = false;
@@ -1411,7 +1720,6 @@ async function loadAquariumData() {
     }
 }
 
-// Запуск
 setTimeout(loadAquariumData, 100);
 </script>
 </body>
