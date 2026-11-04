@@ -265,10 +265,10 @@ const FEED_INTERVAL = 80;
 const BOSS_NAME = 'Босс Лосось';
 const BOSS_SIZE_MULTIPLIER = 10;
 const BOSS_HUNT_COOLDOWN = 10000;
-const BOSS_EAT_RADIUS = 60; // уменьшен, т.к. теперь считаем от краёв
+const BOSS_EAT_RADIUS = 90;       // увеличен, чтобы хватать у стен
 const BOSS_CHASE_SPEED_BOOST = 2.2;
 const BOSS_CHASE_RADIUS = 900;
-const BOSS_PANIC_RADIUS = 600;
+const BOSS_PANIC_RADIUS = 250;    // уменьшено: паника теперь локальная
 const BOSS_EAT_ANIM_DURATION = 700;
 const BOSS_CHASE_TIMEOUT = 4000; // через сколько босс бросает жертву
 
@@ -748,7 +748,6 @@ class Fish {
             this.bossChaseTimer = 0;
             this.bossEatAnim = 0;
             this.bossEatAnimTimer = 0;
-            this.bossTrail = [];
         }
 
         this.icon = getCachedIcon(name, this.size);
@@ -984,11 +983,6 @@ class Fish {
             this.bossEatAnim = 0;
         }
 
-        for (let i = this.bossTrail.length - 1; i >= 0; i--) {
-            this.bossTrail[i].life -= dt;
-            if (this.bossTrail[i].life <= 0) this.bossTrail.splice(i, 1);
-        }
-
         if (!this.bossChaseTarget || fishList.indexOf(this.bossChaseTarget) === -1) {
             this.bossChaseTarget = null;
             if (this.bossEatCooldown <= 0) {
@@ -1013,7 +1007,7 @@ class Fish {
             const dx = f.x - this.x, dy = f.y - this.y;
             const d = Math.hypot(dx, dy) || 1;
             if (d < BOSS_PANIC_RADIUS) {
-                const force = (1 - d / BOSS_PANIC_RADIUS) * 1.2;
+                const force = (1 - d / BOSS_PANIC_RADIUS) * 0.6;
                 f.vx += (dx / d) * force * s;
                 f.vy += (dy / d) * force * s;
             }
@@ -1028,19 +1022,12 @@ class Fish {
             this.vy += (dy / d) * 0.25 * boost * s;
             this.bossChaseTimer += dt;
 
-            if (Math.random() < 0.6) {
-                this.bossTrail.push({
-                    x: this.x + (Math.random() - 0.5) * this.size * 0.4,
-                    y: this.y + (Math.random() - 0.5) * this.size * 0.4,
-                    life: 600 + Math.random() * 400,
-                    maxLife: 1000,
-                    size: this.size * (0.05 + Math.random() * 0.08)
-                });
-            }
 
             // Укус — считаем расстояние от КРАЁВ рыб, а не от центров
-            const eatDist = BOSS_EAT_RADIUS + this.size / 2 + t.size / 2;
-            if (d < eatDist) {
+                        // Считаем расстояние по осям (AABB), чтобы хватать у стен
+            const eatDistX = BOSS_EAT_RADIUS + this.size / 2 + t.size / 2;
+            const eatDistY = BOSS_EAT_RADIUS + this.size / 2 + t.size / 2;
+            if (Math.abs(dx) < eatDistX && Math.abs(dy) < eatDistY) {
                 this.eatFish(t);
             }
             // Таймаут погони — отпускаем, если долго не получается
@@ -1118,7 +1105,7 @@ class Fish {
             this.updateBoss(dt, s);
             this.vx *= 0.985; this.vy *= 0.985;
             const spB = Math.hypot(this.vx, this.vy);
-            const maxSpB = this.bossChaseTarget ? 4.5 : 1.8;
+            const maxSpB = this.bossChaseTarget ? 6 : 1.8;
             if (spB > maxSpB) { this.vx = (this.vx / spB) * maxSpB; this.vy = (this.vy / spB) * maxSpB; }
             this.x += this.vx * s; this.y += this.vy * s;
             this.phase += this.bobSpeed * dt;
@@ -1140,7 +1127,7 @@ class Fish {
 
         // Паника от босса (включая хищников) + обычная паника от хищников
         if (this.state !== 'flee') {
-            const nearBoss = spatialHash.queryNear(this.x, this.y, BOSS_PANIC_RADIUS * 0.7);
+            const nearBoss = spatialHash.queryNear(this.x, this.y, BOSS_PANIC_RADIUS);
             for (let i = 0; i < nearBoss.length; i++) {
                 if (nearBoss[i].isBoss) {
                     if (this.type === 'predator' || Math.random() < 0.05) {
@@ -1437,49 +1424,7 @@ class Fish {
         const screenSize = this.size * camScale;
         if (screenX + screenSize < -20 || screenX > AQ_W + 20 || screenY + screenSize < -20 || screenY > AQ_H + 20) return;
 
-        // Шлейф босса — теперь золотисто-оранжевый (скорость, а не кровь)
-        if (this.isBoss && this.bossTrail.length) {
-            for (const t of this.bossTrail) {
-                const a = t.life / t.maxLife;
-                const sx = t.x * camScale + camX;
-                const sy = t.y * camScale + camY;
-                const r = t.size * camScale;
-                ctx.save();
-                ctx.globalAlpha = a * 0.4;
-                ctx.beginPath();
-                ctx.arc(sx, sy, r, 0, Math.PI * 2);
-                const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, r);
-                grad.addColorStop(0, 'rgba(255, 200, 80, 0.9)');
-                grad.addColorStop(1, 'rgba(255, 120, 20, 0)');
-                ctx.fillStyle = grad;
-                ctx.fill();
-                ctx.restore();
-            }
-        }
-
         ctx.save();
-
-        // Аура босса
-        if (this.isBoss) {
-            const auraR = screenSize * (0.75 + Math.sin(this.phase * 2) * 0.08);
-            const grad = ctx.createRadialGradient(
-                screenX + screenSize / 2, screenY + screenSize / 2, screenSize * 0.3,
-                screenX + screenSize / 2, screenY + screenSize / 2, auraR
-            );
-            // Аура тоже меняется: если гонится — красная, если спокоен — тёмно-красная
-            if (this.bossChaseTarget) {
-                grad.addColorStop(0, 'rgba(255,40,60,0.4)');
-                grad.addColorStop(0.6, 'rgba(200,0,30,0.2)');
-                grad.addColorStop(1, 'rgba(150,0,20,0)');
-            } else {
-                grad.addColorStop(0, 'rgba(180,20,40,0.2)');
-                grad.addColorStop(1, 'rgba(100,0,10,0)');
-            }
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(screenX + screenSize / 2, screenY + screenSize / 2, auraR, 0, Math.PI * 2);
-            ctx.fill();
-        }
 
         let drawSize = screenSize;
         if (this.isBoss && this.bossEatAnim > 0) {
