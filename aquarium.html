@@ -1009,12 +1009,13 @@ class Fish {
             this.bossChaseTimer += dt;
 
 
-            // Укус строго по телу босса: половина ширины/высоты спрайта босса + жертвы
-            // Пропорции спрайта: ширина ≈ 75% от size, высота ≈ 45% от size
-            const bossHalfW = this.size * 0.375;
-            const bossHalfH = this.size * 0.225;
-            const preyHalfW = t.size * 0.375;
-            const preyHalfH = t.size * 0.225;
+            // Укус строго по визуальным габаритам спрайтов.
+            // Босс Лосось (bodyLen 26/32, bodyH 12/32): ширина ≈ 0.47, высота ≈ 0.19 от size.
+            // Жертвы: средние пропорции ≈ 0.35 (ширина) и 0.25 (высота) от size.
+            const bossHalfW = this.size * 0.42;
+            const bossHalfH = this.size * 0.16;
+            const preyHalfW = t.size * 0.35;
+            const preyHalfH = t.size * 0.25;
 
             if (Math.abs(dx) < bossHalfW + preyHalfW && Math.abs(dy) < bossHalfH + preyHalfH) {
                 this.eatFish(t);
