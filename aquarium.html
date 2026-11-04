@@ -265,10 +265,9 @@ const FEED_INTERVAL = 80;
 const BOSS_NAME = 'Босс Лосось';
 const BOSS_SIZE_MULTIPLIER = 10;
 const BOSS_HUNT_COOLDOWN = 10000;
-const BOSS_EAT_RADIUS = 30;       // увеличен, чтобы хватать у стен
 const BOSS_CHASE_SPEED_BOOST = 2.2;
 const BOSS_CHASE_RADIUS = 900;
-const BOSS_PANIC_RADIUS = 150;    // уменьшено: паника теперь локальная
+const BOSS_PANIC_RADIUS = 300;    // уменьшено: паника теперь локальная
 const BOSS_EAT_ANIM_DURATION = 700;
 const BOSS_CHASE_TIMEOUT = 4000; // через сколько босс бросает жертву
 
@@ -1000,19 +999,6 @@ class Fish {
             }
         }
 
-        const panicNear = spatialHash.queryNear(this.x, this.y, BOSS_PANIC_RADIUS);
-        for (let i = 0; i < panicNear.length; i++) {
-            const f = panicNear[i];
-            if (f === this || f.isBoss) continue;
-            const dx = f.x - this.x, dy = f.y - this.y;
-            const d = Math.hypot(dx, dy) || 1;
-            if (d < BOSS_PANIC_RADIUS) {
-                const force = (1 - d / BOSS_PANIC_RADIUS) * 0.6;
-                f.vx += (dx / d) * force * s;
-                f.vy += (dy / d) * force * s;
-            }
-        }
-
         if (this.bossChaseTarget) {
             const t = this.bossChaseTarget;
             const dx = t.x - this.x, dy = t.y - this.y;
@@ -1023,11 +1009,14 @@ class Fish {
             this.bossChaseTimer += dt;
 
 
-            // Укус — считаем расстояние от КРАЁВ рыб, а не от центров
-                        // Считаем расстояние по осям (AABB), чтобы хватать у стен
-            const eatDistX = BOSS_EAT_RADIUS + this.size / 2 + t.size / 2;
-            const eatDistY = BOSS_EAT_RADIUS + this.size / 2 + t.size / 2;
-            if (Math.abs(dx) < eatDistX && Math.abs(dy) < eatDistY) {
+            // Укус строго по телу босса: половина ширины/высоты спрайта босса + жертвы
+            // Пропорции спрайта: ширина ≈ 75% от size, высота ≈ 45% от size
+            const bossHalfW = this.size * 0.375;
+            const bossHalfH = this.size * 0.225;
+            const preyHalfW = t.size * 0.375;
+            const preyHalfH = t.size * 0.225;
+
+            if (Math.abs(dx) < bossHalfW + preyHalfW && Math.abs(dy) < bossHalfH + preyHalfH) {
                 this.eatFish(t);
             }
             // Таймаут погони — отпускаем, если долго не получается
