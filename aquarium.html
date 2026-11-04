@@ -19,9 +19,6 @@ body {
     transition: padding 0.3s;
 }
 
-/* ============================================================
-   ПОЛНОЭКРАННЫЙ РЕЖИМ — скрываем только кнопки и заголовки
-   ============================================================ */
 body.fullscreen-active {
     padding: 0;
     background: #000;
@@ -43,9 +40,6 @@ body.fullscreen-active .aquarium {
 body.fullscreen-active .aquarium::after { border-radius: 0; box-shadow: none; }
 body.fullscreen-active .sand { border-radius: 0; }
 
-/* ============================================================
-   ОБЫЧНЫЙ РЕЖИМ
-   ============================================================ */
 h1 { font-size: 1.6rem; font-weight: 900;
     background: linear-gradient(135deg, #00d4ff, #00ffa3);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -271,11 +265,12 @@ const FEED_INTERVAL = 80;
 const BOSS_NAME = 'Босс Лосось';
 const BOSS_SIZE_MULTIPLIER = 10;
 const BOSS_HUNT_COOLDOWN = 10000;
-const BOSS_EAT_RADIUS = 120;
+const BOSS_EAT_RADIUS = 60; // уменьшен, т.к. теперь считаем от краёв
 const BOSS_CHASE_SPEED_BOOST = 2.2;
 const BOSS_CHASE_RADIUS = 900;
 const BOSS_PANIC_RADIUS = 600;
 const BOSS_EAT_ANIM_DURATION = 700;
+const BOSS_CHASE_TIMEOUT = 4000; // через сколько босс бросает жертву
 
 // ============================================================
 // URL ПАРАМЕТРЫ
@@ -293,7 +288,6 @@ const ctx = canvas.getContext('2d', { alpha: true });
 const tooltip = document.getElementById('fishTooltip');
 const loadingEl = document.getElementById('loading');
 
-// Настройка стилей
 if (AQUARIUM_TYPE === 'halloween') {
     aquarium.classList.add('halloween-mode');
     document.getElementById('pageTitle').textContent = '🎃 Аквариум Хэллоуина';
@@ -429,9 +423,7 @@ const SPECIES_PROFILES = {
     'Язь':        { type: 'generic', speed: 0.9, sizeRange: [30, 45], verticalZone: [0.2, 0.8], schooling: 0.6, shyness: 0.5, dashChance: 0.25 },
     'Голавль':    { type: 'generic', speed: 1.0, sizeRange: [30, 50], verticalZone: [0.2, 0.7], schooling: 0.5, shyness: 0.4, dashChance: 0.3 },
     'Линь':       { type: 'generic', speed: 0.5, sizeRange: [30, 45], verticalZone: [0.5, 0.95], schooling: 0.4, shyness: 0.5, dashChance: 0.1 },
-    // Босс
     'Босс Лосось':{ type: 'generic', speed: 1.6, sizeRange: [26, 26], verticalZone: [0.2, 0.8], schooling: 0, shyness: 0, dashChance: 0 },
-    // Хэллоуин
     'Мразь карась':       { type: 'grazer', speed: 0.6, sizeRange: [30, 44], verticalZone: [0.4, 0.9], schooling: 0.6, shyness: 0.5, dashChance: 0.15 },
     'Назойливая тыковка': { type: 'generic', speed: 0.6, sizeRange: [30, 40], verticalZone: [0.4, 0.9], schooling: 0.5, shyness: 0.5, dashChance: 0.15 },
     'Щука падлюка':       { type: 'predator', speed: 1.1, sizeRange: [44, 60], huntRange: 120, lungeDistance: 60, lungeCooldown: [30000, 50000], lungeDuration: 500, verticalZone: [0.2, 0.8], schooling: 0.85, shyness: 0.4, dashChance: 0.3 },
@@ -614,23 +606,18 @@ function drawSkeletons(ctx) {
 
         const bone = '#e8e0c0';
         const boneDark = '#a89878';
-        // Череп
         ctx.fillStyle = bone;
         ctx.fillRect(-sz * 0.4, -sz * 0.18, sz * 0.22, sz * 0.36);
-        // Глазница
         ctx.fillStyle = '#2a1a10';
         ctx.fillRect(-sz * 0.35, -sz * 0.1, sz * 0.08, sz * 0.08);
-        // Позвоночник
         ctx.fillStyle = boneDark;
         ctx.fillRect(-sz * 0.18, -sz * 0.03, sz * 0.7, sz * 0.06);
-        // Рёбра
         ctx.fillStyle = bone;
         for (let i = 0; i < 4; i++) {
             const rx = -sz * 0.12 + i * sz * 0.14;
             const rh = sz * (0.18 + (i % 2) * 0.04);
             ctx.fillRect(rx, -rh, sz * 0.03, rh * 2);
         }
-        // Хвост
         ctx.fillStyle = bone;
         ctx.fillRect(sz * 0.5, -sz * 0.1, sz * 0.12, sz * 0.04);
         ctx.fillRect(sz * 0.5, sz * 0.06, sz * 0.12, sz * 0.04);
@@ -1051,11 +1038,15 @@ class Fish {
                 });
             }
 
-            if (d < BOSS_EAT_RADIUS) {
+            // Укус — считаем расстояние от КРАЁВ рыб, а не от центров
+            const eatDist = BOSS_EAT_RADIUS + this.size / 2 + t.size / 2;
+            if (d < eatDist) {
                 this.eatFish(t);
             }
-            if (this.bossChaseTimer > 6000) {
+            // Таймаут погони — отпускаем, если долго не получается
+            if (this.bossChaseTimer > BOSS_CHASE_TIMEOUT) {
                 this.bossChaseTarget = null;
+                this.bossEatCooldown = BOSS_HUNT_COOLDOWN * 0.5; // половинный кулдаун после неудачи
             }
         } else {
             if (this.wanderTimer <= 0 || !this.wanderTarget) {
@@ -1446,17 +1437,21 @@ class Fish {
         const screenSize = this.size * camScale;
         if (screenX + screenSize < -20 || screenX > AQ_W + 20 || screenY + screenSize < -20 || screenY > AQ_H + 20) return;
 
-        // Шлейф босса
+        // Шлейф босса — теперь золотисто-оранжевый (скорость, а не кровь)
         if (this.isBoss && this.bossTrail.length) {
             for (const t of this.bossTrail) {
                 const a = t.life / t.maxLife;
                 const sx = t.x * camScale + camX;
                 const sy = t.y * camScale + camY;
+                const r = t.size * camScale;
                 ctx.save();
-                ctx.globalAlpha = a * 0.6;
+                ctx.globalAlpha = a * 0.4;
                 ctx.beginPath();
-                ctx.arc(sx, sy, t.size * camScale, 0, Math.PI * 2);
-                ctx.fillStyle = '#ff4060';
+                ctx.arc(sx, sy, r, 0, Math.PI * 2);
+                const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, r);
+                grad.addColorStop(0, 'rgba(255, 200, 80, 0.9)');
+                grad.addColorStop(1, 'rgba(255, 120, 20, 0)');
+                ctx.fillStyle = grad;
                 ctx.fill();
                 ctx.restore();
             }
@@ -1464,16 +1459,22 @@ class Fish {
 
         ctx.save();
 
-        // Красная аура босса
+        // Аура босса
         if (this.isBoss) {
             const auraR = screenSize * (0.75 + Math.sin(this.phase * 2) * 0.08);
             const grad = ctx.createRadialGradient(
                 screenX + screenSize / 2, screenY + screenSize / 2, screenSize * 0.3,
                 screenX + screenSize / 2, screenY + screenSize / 2, auraR
             );
-            grad.addColorStop(0, 'rgba(255,40,60,0.35)');
-            grad.addColorStop(0.6, 'rgba(200,0,30,0.15)');
-            grad.addColorStop(1, 'rgba(150,0,20,0)');
+            // Аура тоже меняется: если гонится — красная, если спокоен — тёмно-красная
+            if (this.bossChaseTarget) {
+                grad.addColorStop(0, 'rgba(255,40,60,0.4)');
+                grad.addColorStop(0.6, 'rgba(200,0,30,0.2)');
+                grad.addColorStop(1, 'rgba(150,0,20,0)');
+            } else {
+                grad.addColorStop(0, 'rgba(180,20,40,0.2)');
+                grad.addColorStop(1, 'rgba(100,0,10,0)');
+            }
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.arc(screenX + screenSize / 2, screenY + screenSize / 2, auraR, 0, Math.PI * 2);
