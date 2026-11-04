@@ -265,10 +265,10 @@ const FEED_INTERVAL = 80;
 const BOSS_NAME = 'Босс Лосось';
 const BOSS_SIZE_MULTIPLIER = 10;
 const BOSS_HUNT_COOLDOWN = 10000;
-const BOSS_EAT_RADIUS = 90;       // увеличен, чтобы хватать у стен
+const BOSS_EAT_RADIUS = 30;       // увеличен, чтобы хватать у стен
 const BOSS_CHASE_SPEED_BOOST = 2.2;
 const BOSS_CHASE_RADIUS = 900;
-const BOSS_PANIC_RADIUS = 250;    // уменьшено: паника теперь локальная
+const BOSS_PANIC_RADIUS = 150;    // уменьшено: паника теперь локальная
 const BOSS_EAT_ANIM_DURATION = 700;
 const BOSS_CHASE_TIMEOUT = 4000; // через сколько босс бросает жертву
 
@@ -1126,14 +1126,12 @@ class Fish {
         }
 
         // Паника от босса (включая хищников) + обычная паника от хищников
-        if (this.state !== 'flee') {
+                if (this.state !== 'flee') {
             const nearBoss = spatialHash.queryNear(this.x, this.y, BOSS_PANIC_RADIUS);
             for (let i = 0; i < nearBoss.length; i++) {
                 if (nearBoss[i].isBoss) {
-                    if (this.type === 'predator' || Math.random() < 0.05) {
-                        this.startle(nearBoss[i]);
-                        break;
-                    }
+                    this.startle(nearBoss[i]);
+                    break;
                 }
             }
         }
