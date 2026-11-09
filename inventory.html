@@ -522,7 +522,7 @@ function renderInventory(playerName, inventory) {
     let totalRegular = 0, totalUndead = 0, totalHalloween = 0;
     const regularSet = new Set(), undeadSet = new Set(), halloweenSet = new Set();
     
-    // 1. Считаем текущий инвентарь
+    // 1. Считаем текущий инвентарь (для счетчиков и модалки)
     for (const [fish, count] of Object.entries(inventory)) {
         if (count <= 0) continue;
         const isUndead = normalizeKey(fish).startsWith('нежить ');
@@ -534,12 +534,9 @@ function renderInventory(playerName, inventory) {
         else { totalRegular += count; regularSet.add(baseNorm); }
     }
 
-    // 2. Берем коллекцию из _halloweenCollection. Это единственный источник правды для плашек.
+    // 2. Берем коллекцию СТРОГО из _halloweenCollection
     const caughtHalloweenList = window._halloweenCollection ? window._halloweenCollection[playerName.toLowerCase()] || [] : [];
-    const halloweenColSet = new Set(caughtHalloweenList.map(normalizeKey));
-    
-    // Определяем, какие рыбы открыты, строго по _halloweenCollection
-    const allCaughtSet = new Set(halloweenColSet);
+    const allCaughtSet = new Set(caughtHalloweenList.map(normalizeKey));
 
     const total = totalRegular + totalUndead + totalHalloween;
     const firstLetter = playerName.charAt(0).toUpperCase();
@@ -620,7 +617,7 @@ function renderInventory(playerName, inventory) {
 
     html += `<div id="cat-halloween"><div class="fish-section halloween-section" style="margin-top: 14px;"><h3>🎃 Хэллоуин</h3><div class="fish-grid">`;
     HALLOWEEN_FISH.forEach(fish => {
-        const isCaught = allCaughtSet.has(normalizeKey(fish)) || halloweenColSet.has(normalizeKey(fish));
+        const isCaught = allCaughtSet.has(normalizeKey(fish));
         const count = findNormalized(inventory, fish)?.value || 0;
         const itemClass = isCaught ? `halloween rarity-${getFishInfo(fish).rarity}` : 'not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}" data-name="${escapeHtml(fish).toLowerCase()}"><div class="fish-item-inner"></div><img src="${getFishIcon(fish)}" class="fish-icon" alt="${fish}"><span class="fish-name">${fish}</span><span class="fish-count">×${count}</span></div>`;
@@ -630,6 +627,7 @@ function renderInventory(playerName, inventory) {
     html += `<div id="cat-boss" style="margin-top: 14px;"><div class="fish-section boss-section"><h3>💀 Боссы</h3><div class="fish-grid">`;
     BOSS_FISH.forEach(fish => {
         const count = findNormalized(inventory, fish)?.value || 0;
+        // Босс проверяется по коллекции, инвентарю и рекордам (так как в коллекции его может не быть)
         const isCaught = allCaughtSet.has(normalizeKey(fish)) || count > 0 || getLifetimeCountForPlayer(playerName, fish) > 0 || getPersonalRecordForPlayer(playerName, fish) !== null;
         const itemClass = isCaught ? 'boss' : 'boss not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}" data-name="${escapeHtml(fish).toLowerCase()}">
