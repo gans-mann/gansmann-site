@@ -522,7 +522,7 @@ function renderInventory(playerName, inventory) {
     let totalRegular = 0, totalUndead = 0, totalHalloween = 0;
     const regularSet = new Set(), undeadSet = new Set(), halloweenSet = new Set();
     
-    // Мы собираем пойманных рыб за все время из инвентаря
+    // 1. Считаем текущий инвентарь
     for (const [fish, count] of Object.entries(inventory)) {
         if (count <= 0) continue;
         const isUndead = normalizeKey(fish).startsWith('нежить ');
@@ -540,18 +540,15 @@ function renderInventory(playerName, inventory) {
     const total = totalRegular + totalUndead + totalHalloween;
     const firstLetter = playerName.charAt(0).toUpperCase();
 
-    let regCaught = 0, undCaught = 0, halCaught = 0;
-    ALL_FISH.forEach(fish => { if (regularSet.has(normalizeKey(fish))) regCaught++; if (undeadSet.has(normalizeKey(fish))) undCaught++; });
-    HALLOWEEN_FISH.forEach(fish => { if (halloweenColSet.has(normalizeKey(fish)) || halloweenSet.has(normalizeKey(fish))) halCaught++; });
-
-    // Собираем ВСЕХ пойманных рыб за историю (инвентарь + история улова + личные рекорды)
+    // 2. Собираем ВСЕХ пойманных рыб за историю (для подсветки и прогресс-баров)
     const allCaughtSet = new Set();
     const cleanPlayer = normalizeKey(playerName).replace(/^@/, '');
 
+    // Из текущего инвентаря
     for (const [fish, count] of Object.entries(inventory)) {
         if (count > 0) allCaughtSet.add(normalizeKey(fish));
     }
-    
+    // Из истории улова (_lifetimeCatches)
     if (window._lifetimeCatches) {
         const pL = findNormalized(window._lifetimeCatches, playerName);
         if (pL && typeof pL.value === 'object') {
@@ -560,7 +557,7 @@ function renderInventory(playerName, inventory) {
             }
         }
     }
-    
+    // Из личных рекордов (_personalRecords)
     if (window._personalRecords) {
         for (const k in window._personalRecords) {
             const parts = k.split('|');
@@ -569,11 +566,22 @@ function renderInventory(playerName, inventory) {
             }
         }
     }
-
+    // Из коллекции Хэллоуина
     if (window._halloweenCollection) {
         const hList = window._halloweenCollection[playerName.toLowerCase()] || [];
         hList.forEach(f => allCaughtSet.add(normalizeKey(f)));
     }
+
+    // 3. Считаем прогресс на основе allCaughtSet
+    let regCaught = 0, undCaught = 0, halCaught = 0;
+    ALL_FISH.forEach(fish => {
+        const fn = normalizeKey(fish);
+        if (allCaughtSet.has(fn)) regCaught++;
+        if (allCaughtSet.has('нежить ' + fn)) undCaught++;
+    });
+    HALLOWEEN_FISH.forEach(fish => {
+        if (allCaughtSet.has(normalizeKey(fish))) halCaught++;
+    });
 
     let html = `
         <div class="player-header">
@@ -704,7 +712,8 @@ function showFishModal(fishName, count) {
     currentModalFish = fishName;
     const info = getFishInfo(fishName);
     const rarity = RARITY_INFO[info.rarity];
-    let lifetimeCount = getLifetimeCountForPlayer(playerName, fishName) || (count > 0 ? count : 0);
+    // ВСЕГДА берем из _lifetimeCatches
+    let lifetimeCount = getLifetimeCountForPlayer(playerName, fishName);
     const personalRecord = getPersonalRecordForPlayer(playerName, fishName);
 
     let recordHtml = personalRecord !== null ? `<div class="info-value record">${personalRecord} см</div>` : `<div class="info-value no-record">не установлен</div>`;
@@ -748,7 +757,7 @@ function closeFishModal() { document.getElementById('fishModal').classList.remov
 function refreshOpenModal(fishName, count) {
     const modal = document.getElementById('fishModalContent');
     if (!modal) return;
-    let lifetimeCount = getLifetimeCountForPlayer(playerName, fishName) || (count > 0 ? count : 0);
+    let lifetimeCount = getLifetimeCountForPlayer(playerName, fishName);
     const setCountValue = (el, newValue) => { if (!el) return; if (el.textContent.trim() !== String(newValue)) { el.textContent = newValue; } };
     const countItems = modal.querySelectorAll('.modal-count-item .count-value');
     if (countItems.length >= 1) setCountValue(countItems[0], count);
