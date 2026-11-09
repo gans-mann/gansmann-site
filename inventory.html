@@ -70,7 +70,7 @@ body {
 }
 .player-info { flex: 1; min-width: 140px; }
 .player-info h2 { font-size: 1.35rem; font-weight: 900; margin-bottom: 4px; letter-spacing: -0.5px; }
-.player-info .player-stats { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
+.player-info .player-stats { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; display: flex; gap: 12px; flex-wrap: wrap;}
 .player-info .player-stats span { color: var(--accent-green); font-weight: 800; }
 
 .twitch-link {
@@ -416,6 +416,7 @@ function loadAndRender(silent) {
             if (data._personalRecords) window._personalRecords = data._personalRecords;
             if (data._lifetimeCatches) window._lifetimeCatches = data._lifetimeCatches;
             if (data._halloweenCollection) window._halloweenCollection = data._halloweenCollection;
+            if (data._playerCollection) window._playerCollection = data._playerCollection;
 
             let playerKey = null;
             for (const key in data) {
@@ -452,6 +453,7 @@ function loadAndRender(silent) {
                 if (data._personalRecords) window._personalRecords = data._personalRecords;
                 if (data._lifetimeCatches) window._lifetimeCatches = data._lifetimeCatches;
                 if (data._halloweenCollection) window._halloweenCollection = data._halloweenCollection;
+                if (data._playerCollection) window._playerCollection = data._playerCollection;
                 let playerKey = null;
                 for (const key in data) { if (key.startsWith('_')) continue; if (normalizeKey(key) === normalizeKey(playerName)) { playerKey = key; break; } }
                 if (playerKey) {
@@ -534,22 +536,25 @@ function renderInventory(playerName, inventory) {
         else { totalRegular += count; regularSet.add(baseNorm); }
     }
 
-    // 2. Берем коллекцию СТРОГО из _halloweenCollection
-    const caughtHalloweenList = window._halloweenCollection ? window._halloweenCollection[playerName.toLowerCase()] || [] : [];
-    const allCaughtSet = new Set(caughtHalloweenList.map(normalizeKey));
+    // 2. Берем коллекции из _playerCollection и _halloweenCollection
+    const playerColList = window._playerCollection ? window._playerCollection[playerName.toLowerCase()] || [] : [];
+    const halloweenColList = window._halloweenCollection ? window._halloweenCollection[playerName.toLowerCase()] || [] : [];
+    
+    const playerColSet = new Set(playerColList.map(normalizeKey));
+    const halloweenColSet = new Set(halloweenColList.map(normalizeKey));
 
     const total = totalRegular + totalUndead + totalHalloween;
     const firstLetter = playerName.charAt(0).toUpperCase();
 
-    // 3. Считаем прогресс на основе allCaughtSet
+    // 3. Считаем прогресс на основе объединения коллекций
     let regCaught = 0, undCaught = 0, halCaught = 0;
     ALL_FISH.forEach(fish => {
         const fn = normalizeKey(fish);
-        if (allCaughtSet.has(fn)) regCaught++;
-        if (allCaughtSet.has('нежить ' + fn)) undCaught++;
+        if (playerColSet.has(fn)) regCaught++;
+        if (playerColSet.has('нежить ' + fn)) undCaught++;
     });
     HALLOWEEN_FISH.forEach(fish => {
-        if (allCaughtSet.has(normalizeKey(fish))) halCaught++;
+        if (halloweenColSet.has(normalizeKey(fish))) halCaught++;
     });
 
     let html = `
@@ -557,7 +562,10 @@ function renderInventory(playerName, inventory) {
             <div class="player-avatar">${firstLetter}</div>
             <div class="player-info">
                 <h2>@${playerName}</h2>
-                <div class="player-stats">Всего поймано: <span id="total-caught">${total}</span> рыб</div>
+                <div class="player-stats">
+                    Всего поймано: <span>${getTotalLifetimeCatches(playerName)}</span> 
+                    | Рыб в инвентаре: <span>${total}</span>
+                </div>
             </div>
             <a href="https://twitch.tv/${escapeHtml(playerName)}" target="_blank" class="twitch-link">📺 Twitch</a>
         </div>
@@ -598,7 +606,7 @@ function renderInventory(playerName, inventory) {
 
     html += `<div id="cat-regular"><div class="fish-section"><h3>🐟 Обычные рыбы</h3><div class="fish-grid">`;
     ALL_FISH.forEach(fish => {
-        const isCaught = allCaughtSet.has(normalizeKey(fish));
+        const isCaught = playerColSet.has(normalizeKey(fish));
         const count = findNormalized(inventory, fish)?.value || 0;
         const itemClass = isCaught ? `rarity-${getFishInfo(fish).rarity}` : 'not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}" data-name="${escapeHtml(fish).toLowerCase()}"><div class="fish-item-inner"></div><img src="${getFishIcon(fish)}" class="fish-icon" alt="${fish}"><span class="fish-name">${fish}</span><span class="fish-count">×${count}</span></div>`;
@@ -608,7 +616,7 @@ function renderInventory(playerName, inventory) {
     html += `<div id="cat-undead"><div class="fish-section undead-section" style="margin-top: 14px;"><h3>🧟 Нежить</h3><div class="fish-grid">`;
     ALL_FISH.forEach(fish => {
         const undeadName = 'Нежить ' + fish.toLowerCase();
-        const isCaught = allCaughtSet.has(normalizeKey(undeadName));
+        const isCaught = playerColSet.has(normalizeKey(undeadName));
         const count = findNormalized(inventory, undeadName)?.value || 0;
         const itemClass = isCaught ? `undead rarity-${getFishInfo(undeadName).rarity}` : 'not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${undeadName}" data-name="${escapeHtml(undeadName).toLowerCase()}"><div class="fish-item-inner"></div><img src="${getFishIcon(undeadName)}" class="fish-icon" alt="${fish}"><span class="fish-name">${fish}</span><span class="fish-count">×${count}</span></div>`;
@@ -617,7 +625,7 @@ function renderInventory(playerName, inventory) {
 
     html += `<div id="cat-halloween"><div class="fish-section halloween-section" style="margin-top: 14px;"><h3>🎃 Хэллоуин</h3><div class="fish-grid">`;
     HALLOWEEN_FISH.forEach(fish => {
-        const isCaught = allCaughtSet.has(normalizeKey(fish));
+        const isCaught = halloweenColSet.has(normalizeKey(fish));
         const count = findNormalized(inventory, fish)?.value || 0;
         const itemClass = isCaught ? `halloween rarity-${getFishInfo(fish).rarity}` : 'not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}" data-name="${escapeHtml(fish).toLowerCase()}"><div class="fish-item-inner"></div><img src="${getFishIcon(fish)}" class="fish-icon" alt="${fish}"><span class="fish-name">${fish}</span><span class="fish-count">×${count}</span></div>`;
@@ -627,8 +635,8 @@ function renderInventory(playerName, inventory) {
     html += `<div id="cat-boss" style="margin-top: 14px;"><div class="fish-section boss-section"><h3>💀 Боссы</h3><div class="fish-grid">`;
     BOSS_FISH.forEach(fish => {
         const count = findNormalized(inventory, fish)?.value || 0;
-        // Босс проверяется по коллекции, инвентарю и рекордам (так как в коллекции его может не быть)
-        const isCaught = allCaughtSet.has(normalizeKey(fish)) || count > 0 || getLifetimeCountForPlayer(playerName, fish) > 0 || getPersonalRecordForPlayer(playerName, fish) !== null;
+        // Босс подчиняется общей логике: проверяется только в _playerCollection
+        const isCaught = playerColSet.has(normalizeKey(fish));
         const itemClass = isCaught ? 'boss' : 'boss not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}" data-name="${escapeHtml(fish).toLowerCase()}">
             <div class="fish-item-inner"></div>
@@ -658,6 +666,15 @@ function renderInventory(playerName, inventory) {
     });
     const invInput = document.getElementById('invFilterInput');
     if (invInput) invInput.addEventListener('input', applyInvFilter);
+}
+
+function getTotalLifetimeCatches(playerName) {
+    if (!window._lifetimeCatches) return 0;
+    const playerEntry = findNormalized(window._lifetimeCatches, playerName);
+    if (!playerEntry || typeof playerEntry.value !== 'object') return 0;
+    let total = 0;
+    for (const fish in playerEntry.value) total += playerEntry.value[fish] || 0;
+    return total;
 }
 
 function applyInvFilter() {
