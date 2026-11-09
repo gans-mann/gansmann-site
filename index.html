@@ -14,17 +14,13 @@
     --bg-card: rgba(18, 32, 45, 0.75);
     --bg-card-hover: rgba(25, 45, 65, 0.85);
     --border-card: rgba(0, 212, 255, 0.16);
-    --border-hover: rgba(0, 212, 255, 0.55);
     --accent-cyan: #00d4ff;
     --accent-green: #00ffa3;
     --accent-gold: #ffd700;
     --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
     --text-muted: rgba(255, 255, 255, 0.45);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
     font-family: 'Montserrat', sans-serif;
     background-color: var(--bg-main);
@@ -37,13 +33,9 @@ body {
     padding: 12px 14px 40px; display: flex; justify-content: center;
     overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
-
 .container { width: 100%; max-width: 1120px; position: relative; z-index: 1; }
 
-/* Кнопка стрима сверху */
-.stream-btn-top {
-    display: flex; justify-content: center; margin-bottom: 20px;
-}
+.stream-btn-top { display: flex; justify-content: center; margin-bottom: 20px; }
 .twitch-btn {
     display: inline-flex; align-items: center; gap: 8px;
     background: linear-gradient(135deg, #9146ff 0%, #6f23e4 100%);
@@ -53,16 +45,9 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 14px rgba(145, 70, 255, 0.35);
 }
-.twitch-btn:hover {
-    background: linear-gradient(135deg, #a15aff 0%, #7d35ef 100%);
-    transform: translateY(-2px); box-shadow: 0 6px 22px rgba(145, 70, 255, 0.6);
-}
-.twitch-pulse-dot {
-    width: 8px; height: 8px; background: #00ffa3; border-radius: 50%;
-    box-shadow: 0 0 8px #00ffa3; display: inline-block; flex-shrink: 0;
-}
+.twitch-btn:hover { background: linear-gradient(135deg, #a15aff 0%, #7d35ef 100%); transform: translateY(-2px); box-shadow: 0 6px 22px rgba(145, 70, 255, 0.6); }
+.twitch-pulse-dot { width: 8px; height: 8px; background: #00ffa3; border-radius: 50%; box-shadow: 0 0 8px #00ffa3; display: inline-block; flex-shrink: 0; }
 
-/* Заголовок */
 .header { text-align: center; margin-bottom: 24px; animation: fadeInDown 0.7s ease; }
 @keyframes fadeInDown { from { opacity: 0; transform: translateY(-25px); } to { opacity: 1; transform: translateY(0); } }
 .header h1 {
@@ -73,7 +58,6 @@ body {
 }
 .header .subtitle { font-size: 0.95rem; color: var(--text-muted); font-weight: 600; }
 
-/* Форма поиска */
 .search-box {
     background: var(--bg-card); border: 1px solid var(--border-card);
     border-radius: 20px; padding: 24px; margin-bottom: 24px;
@@ -81,10 +65,7 @@ body {
     animation: fadeInUp 0.7s ease;
 }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
-.search-title {
-    font-size: 1.15rem; margin-bottom: 14px; color: var(--accent-cyan);
-    font-weight: 700; text-align: center;
-}
+.search-title { font-size: 1.15rem; margin-bottom: 14px; color: var(--accent-cyan); font-weight: 700; text-align: center; }
 .search-input-wrap { display: flex; gap: 10px; max-width: 540px; margin: 0 auto; position: relative; }
 .search-input {
     flex: 1; padding: 14px 18px; background: rgba(10, 20, 28, 0.8);
@@ -101,7 +82,6 @@ body {
 }
 .search-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-/* Сетка статистики */
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
 .stat-card {
     background: var(--bg-card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -110,20 +90,13 @@ body {
     transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
-.stat-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green)); opacity: 0.8;
-}
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green)); opacity: 0.8; }
 .stat-card:hover { transform: translateY(-4px); border-color: var(--accent-cyan); box-shadow: 0 10px 30px rgba(0, 212, 255, 0.25); }
 .stat-icon { font-size: 1.8rem; margin-bottom: 4px; }
 .stat-val { font-size: 1.8rem; font-weight: 900; color: var(--accent-cyan); line-height: 1.1; margin-bottom: 4px; }
 .stat-lbl { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; }
 
-/* Топ-3 Пьедестал */
-.section-title {
-    font-size: 1.25rem; font-weight: 900; margin: 28px 0 16px;
-    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-}
+.section-title { font-size: 1.25rem; font-weight: 900; margin: 28px 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .section-title-left { display: flex; align-items: center; gap: 10px; }
 .section-title-left::before { content: ''; width: 4px; height: 18px; background: linear-gradient(180deg, var(--accent-cyan), var(--accent-green)); border-radius: 2px; }
 
@@ -141,69 +114,33 @@ body {
 .top-player-card .fish-count { font-size: 1.6rem; font-weight: 900; line-height: 1; }
 .top-player-card .fish-count-sub { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-top: 5px; }
 
-/* 1-е место */
-.top-player-card.rank-1 {
-    order: 2; padding: 30px 16px 24px; border-color: rgba(255, 215, 0, 0.85);
-    background: linear-gradient(180deg, rgba(255, 215, 0, 0.18) 0%, rgba(20, 32, 45, 0.95) 100%);
-    box-shadow: 0 12px 36px rgba(255, 215, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
+.top-player-card.rank-1 { order: 2; padding: 30px 16px 24px; border-color: rgba(255, 215, 0, 0.85); background: linear-gradient(180deg, rgba(255, 215, 0, 0.18) 0%, rgba(20, 32, 45, 0.95) 100%); box-shadow: 0 12px 36px rgba(255, 215, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
 .top-player-card.rank-1:hover { box-shadow: 0 16px 44px rgba(255, 215, 0, 0.38); border-color: #ffd700; }
 .top-player-card.rank-1 .rank-crown { display: block; font-size: 1.4rem; line-height: 1; margin-bottom: -4px; filter: drop-shadow(0 2px 6px rgba(255, 215, 0, 0.7)); }
 .top-player-card.rank-1 .rank-medal { font-size: 2.8rem; filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.5)); }
 .top-player-card.rank-1 .player-name { color: #ffe666; font-size: 1.2rem; }
 .top-player-card.rank-1 .fish-count { color: #ffd700; font-size: 1.9rem; }
 
-/* 2-е место */
-.top-player-card.rank-2 {
-    order: 1; padding: 22px 14px 20px; border-color: rgba(220, 230, 242, 0.65);
-    background: linear-gradient(180deg, rgba(200, 220, 240, 0.14) 0%, rgba(18, 30, 42, 0.95) 100%);
-    box-shadow: 0 8px 26px rgba(180, 200, 220, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
+.top-player-card.rank-2 { order: 1; padding: 22px 14px 20px; border-color: rgba(220, 230, 242, 0.65); background: linear-gradient(180deg, rgba(200, 220, 240, 0.14) 0%, rgba(18, 30, 42, 0.95) 100%); box-shadow: 0 8px 26px rgba(180, 200, 220, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15); }
 .top-player-card.rank-2:hover { border-color: #e2e8f0; box-shadow: 0 12px 32px rgba(220, 230, 242, 0.3); }
 .top-player-card.rank-2 .rank-medal { font-size: 2.3rem; filter: drop-shadow(0 3px 8px rgba(220, 230, 242, 0.4)); }
 .top-player-card.rank-2 .player-name { color: #e2e8f0; }
 .top-player-card.rank-2 .fish-count { color: #f1f5f9; }
 
-/* 3-е место */
-.top-player-card.rank-3 {
-    order: 3; padding: 20px 14px 18px; border-color: rgba(215, 140, 80, 0.6);
-    background: linear-gradient(180deg, rgba(205, 127, 50, 0.14) 0%, rgba(18, 30, 42, 0.95) 100%);
-    box-shadow: 0 8px 24px rgba(205, 127, 50, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
+.top-player-card.rank-3 { order: 3; padding: 20px 14px 18px; border-color: rgba(215, 140, 80, 0.6); background: linear-gradient(180deg, rgba(205, 127, 50, 0.14) 0%, rgba(18, 30, 42, 0.95) 100%); box-shadow: 0 8px 24px rgba(205, 127, 50, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
 .top-player-card.rank-3:hover { border-color: #ed8936; box-shadow: 0 12px 30px rgba(205, 127, 50, 0.28); }
 .top-player-card.rank-3 .rank-medal { font-size: 2.1rem; filter: drop-shadow(0 3px 8px rgba(205, 127, 50, 0.4)); }
 .top-player-card.rank-3 .player-name { color: #f6ad55; }
 .top-player-card.rank-3 .fish-count { color: #ed8936; }
 
-/* Фильтры и поиск по рекордам */
-.filter-bar {
-    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
-    background: var(--bg-card); border: 1px solid var(--border-card);
-    border-radius: 14px; padding: 8px 12px; margin-bottom: 20px;
-}
-.filter-btn {
-    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary); padding: 8px 14px; border-radius: 10px;
-    font-family: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer;
-    transition: all 0.2s; white-space: nowrap;
-}
+.filter-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 14px; padding: 8px 12px; margin-bottom: 20px; }
+.filter-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-muted); padding: 8px 14px; border-radius: 10px; font-family: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
 .filter-btn:hover, .filter-btn.active { background: rgba(0, 212, 255, 0.18); border-color: var(--accent-cyan); color: #fff; }
-.filter-search-input {
-    flex: 1; min-width: 160px; background: rgba(10, 20, 28, 0.7);
-    border: 1px solid var(--border-card); border-radius: 8px;
-    padding: 8px 12px; color: #fff; font-family: inherit; font-size: 0.82rem; outline: none;
-}
+.filter-search-input { flex: 1; min-width: 160px; background: rgba(10, 20, 28, 0.7); border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px; color: #fff; font-family: inherit; font-size: 0.82rem; outline: none; }
 .filter-search-input:focus { border-color: var(--accent-cyan); }
 
-/* Рекорд Босса */
 .boss-box { margin-bottom: 24px; display: none; }
-.boss-card {
-    background: linear-gradient(135deg, rgba(80, 0, 0, 0.5) 0%, rgba(20, 5, 5, 0.85) 100%);
-    border: 2px solid #ff3333; border-radius: 16px; padding: 16px 22px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    box-shadow: 0 4px 25px rgba(255, 0, 0, 0.25);
-    position: relative; cursor: default;
-}
+.boss-card { background: linear-gradient(135deg, rgba(80, 0, 0, 0.5) 0%, rgba(20, 5, 5, 0.85) 100%); border: 2px solid #ff3333; border-radius: 16px; padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 4px 25px rgba(255, 0, 0, 0.25); position: relative; cursor: default; }
 .boss-left { display: flex; align-items: center; gap: 16px; }
 .boss-img-wrap { width: 68px; height: 68px; flex-shrink: 0; }
 .boss-img-wrap img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
@@ -211,7 +148,6 @@ body {
 .boss-holder { font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); margin-top: 3px; }
 .boss-size { font-size: 1.6rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255, 77, 77, 0.6); white-space: nowrap; }
 
-/* Тултип для босса (и остальных) */
 .boss-card::after, .record-card::after {
     content: attr(data-tooltip);
     position: absolute; bottom: calc(100% + 12px); left: 50%;
@@ -233,175 +169,61 @@ body {
 .boss-card:hover::after, .record-card:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 .boss-card:hover::before, .record-card:hover::before { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* Сетка карточек рыб */
-.records-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 10px; margin-bottom: 26px; padding: 8px 6px 12px; margin-top: -8px;
-}
-.record-card {
-    background: var(--bg-card); border: 1.5px solid var(--border-card); border-radius: 14px;
-    padding: 10px 14px; display: flex; align-items: center; gap: 10px;
-    cursor: default; position: relative; transition: transform 0.25s, border-color 0.25s;
-    text-decoration: none; color: inherit; transform: translateZ(0); contain: layout style;
-}
+.records-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-bottom: 26px; padding: 8px 6px 12px; margin-top: -8px; }
+.record-card { background: var(--bg-card); border: 1.5px solid var(--border-card); border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; cursor: default; position: relative; transition: transform 0.25s, border-color 0.25s; text-decoration: none; color: inherit; transform: translateZ(0); contain: layout style; }
 .record-card:hover { transform: translateY(-3px); }
 .record-card > * { position: relative; z-index: 2; }
-
-/* Свечение */
-.card-aura {
-    position: absolute; inset: -2px; border-radius: 16px; pointer-events: none;
-    opacity: 0; z-index: 1; will-change: opacity; transform: translateZ(0); transition: opacity 0.3s ease;
-}
-.record-icon {
-    width: 38px; height: 38px; image-rendering: pixelated; image-rendering: crisp-edges;
-    object-fit: contain; flex-shrink: 0; transition: transform 0.25s, filter 0.25s;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
-}
+.card-aura { position: absolute; inset: -2px; border-radius: 16px; pointer-events: none; opacity: 0; z-index: 1; will-change: opacity; transform: translateZ(0); transition: opacity 0.3s ease; }
+.record-icon { width: 38px; height: 38px; image-rendering: pixelated; image-rendering: crisp-edges; object-fit: contain; flex-shrink: 0; transition: transform 0.25s, filter 0.25s; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45)); }
 .record-card:hover .record-icon { transform: scale(1.15); filter: drop-shadow(0 3px 8px rgba(0, 212, 255, 0.4)); }
-
 .record-info { flex: 1; min-width: 0; }
-.record-fish-name {
-    font-size: 0.86rem; font-weight: 700; white-space: nowrap; overflow: hidden;
-    text-overflow: ellipsis; display: flex; align-items: center; gap: 4px;
-}
-.record-fish-name .trophy-badge {
-    font-size: 0.85rem; display: inline-block;
-    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
-    animation: trophyShine 2.5s ease-in-out infinite; transform-origin: center;
-}
+.record-fish-name { font-size: 0.86rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 4px; }
+.record-fish-name .trophy-badge { font-size: 0.85rem; display: inline-block; filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8)); animation: trophyShine 2.5s ease-in-out infinite; transform-origin: center; }
 @keyframes trophyShine { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.18) rotate(6deg); } }
-.record-holder-text {
-    font-size: 0.7rem; color: var(--text-muted); font-weight: 600; margin-top: 2px;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
+.record-holder-text { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .record-size-wrap { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; }
 .record-size-val { font-size: 1.05rem; font-weight: 900; color: var(--accent-gold); line-height: 1; }
 
-/* Редкости */
-.record-card.rarity-common {
-    color: rgba(140, 180, 220, 0.7); border-color: rgba(120, 160, 200, 0.45);
-    background: linear-gradient(135deg, rgba(70, 110, 150, 0.28) 0%, rgba(40, 70, 100, 0.15) 100%);
-}
-.record-card.rarity-common:hover {
-    border-color: rgba(170, 210, 250, 0.85);
-    background: linear-gradient(135deg, rgba(100, 150, 200, 0.4) 0%, rgba(60, 100, 140, 0.22) 100%);
-    box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3);
-}
-.record-card.rarity-rare {
-    color: rgba(0, 212, 255, 0.8); border-color: rgba(0, 212, 255, 0.55);
-    background: linear-gradient(135deg, rgba(0, 180, 255, 0.28) 0%, rgba(0, 120, 180, 0.15) 100%);
-}
-.record-card.rarity-rare:hover {
-    border-color: rgba(100, 235, 255, 1);
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.45) 0%, rgba(0, 150, 220, 0.25) 100%);
-    box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45);
-}
-.record-card.rarity-epic {
-    color: rgba(200, 180, 255, 0.85); border-color: rgba(167, 139, 250, 0.6);
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(120, 90, 200, 0.15) 100%);
-}
-.record-card.rarity-epic:hover {
-    border-color: rgba(220, 205, 255, 1);
-    background: linear-gradient(135deg, rgba(167, 139, 250, 0.48) 0%, rgba(140, 110, 220, 0.28) 100%);
-    box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5);
-}
-.record-card.rarity-legendary {
-    color: rgba(255, 230, 130, 0.9); border-color: rgba(255, 215, 0, 0.75);
-    background: linear-gradient(135deg, rgba(255, 200, 50, 0.35) 0%, rgba(200, 140, 0, 0.18) 100%);
-}
-.record-card.rarity-legendary .card-aura {
-    box-shadow: 0 0 32px rgba(255, 215, 0, 0.6); opacity: 0.4; animation: gpuAuraPulse 3s ease-in-out infinite;
-}
+.record-card.rarity-common { color: rgba(140, 180, 220, 0.7); border-color: rgba(120, 160, 200, 0.45); background: linear-gradient(135deg, rgba(70, 110, 150, 0.28) 0%, rgba(40, 70, 100, 0.15) 100%); }
+.record-card.rarity-common:hover { border-color: rgba(170, 210, 250, 0.85); background: linear-gradient(135deg, rgba(100, 150, 200, 0.4) 0%, rgba(60, 100, 140, 0.22) 100%); box-shadow: 0 8px 24px rgba(120, 180, 230, 0.3); }
+.record-card.rarity-rare { color: rgba(0, 212, 255, 0.8); border-color: rgba(0, 212, 255, 0.55); background: linear-gradient(135deg, rgba(0, 180, 255, 0.28) 0%, rgba(0, 120, 180, 0.15) 100%); }
+.record-card.rarity-rare:hover { border-color: rgba(100, 235, 255, 1); background: linear-gradient(135deg, rgba(0, 212, 255, 0.45) 0%, rgba(0, 150, 220, 0.25) 100%); box-shadow: 0 8px 28px rgba(0, 212, 255, 0.45); }
+.record-card.rarity-epic { color: rgba(200, 180, 255, 0.85); border-color: rgba(167, 139, 250, 0.6); background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(120, 90, 200, 0.15) 100%); }
+.record-card.rarity-epic:hover { border-color: rgba(220, 205, 255, 1); background: linear-gradient(135deg, rgba(167, 139, 250, 0.48) 0%, rgba(140, 110, 220, 0.28) 100%); box-shadow: 0 8px 32px rgba(167, 139, 250, 0.5); }
+.record-card.rarity-legendary { color: rgba(255, 230, 130, 0.9); border-color: rgba(255, 215, 0, 0.75); background: linear-gradient(135deg, rgba(255, 200, 50, 0.35) 0%, rgba(200, 140, 0, 0.18) 100%); }
+.record-card.rarity-legendary .card-aura { box-shadow: 0 0 32px rgba(255, 215, 0, 0.6); opacity: 0.4; animation: gpuAuraPulse 3s ease-in-out infinite; }
 @keyframes gpuAuraPulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.9; } }
-.record-card.rarity-legendary:hover {
-    border-color: rgba(255, 245, 150, 1);
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.5) 0%, rgba(220, 160, 20, 0.3) 100%);
-}
+.record-card.rarity-legendary:hover { border-color: rgba(255, 245, 150, 1); background: linear-gradient(135deg, rgba(255, 215, 0, 0.5) 0%, rgba(220, 160, 20, 0.3) 100%); }
 .record-card.rarity-legendary:hover .card-aura { opacity: 1; box-shadow: 0 0 42px rgba(255, 215, 0, 0.85); }
 
-/* Нежить */
-.record-card.undead.rarity-common {
-    color: rgba(150, 170, 120, 0.8); border-color: rgba(120, 130, 90, 0.55);
-    background: linear-gradient(135deg, rgba(70, 80, 60, 0.4) 0%, rgba(40, 50, 35, 0.2) 100%);
-}
-.record-card.undead.rarity-common:hover {
-    border-color: rgba(180, 200, 140, 0.9);
-    background: linear-gradient(135deg, rgba(100, 120, 80, 0.55) 0%, rgba(60, 75, 50, 0.3) 100%);
-    box-shadow: 0 8px 24px rgba(140, 160, 100, 0.4);
-}
-.record-card.undead.rarity-rare {
-    color: rgba(130, 180, 200, 0.85); border-color: rgba(100, 140, 160, 0.65);
-    background: linear-gradient(135deg, rgba(60, 90, 110, 0.4) 0%, rgba(40, 60, 80, 0.2) 100%);
-}
-.record-card.undead.rarity-rare:hover {
-    border-color: rgba(160, 210, 240, 0.95);
-    background: linear-gradient(135deg, rgba(90, 130, 160, 0.55) 0%, rgba(60, 90, 110, 0.3) 100%);
-    box-shadow: 0 8px 28px rgba(110, 160, 190, 0.45);
-}
-.record-card.undead.rarity-epic {
-    color: rgba(160, 140, 190, 0.85); border-color: rgba(120, 100, 140, 0.7);
-    background: linear-gradient(135deg, rgba(80, 60, 100, 0.4) 0%, rgba(50, 40, 70, 0.2) 100%);
-}
-.record-card.undead.rarity-epic:hover {
-    border-color: rgba(200, 180, 230, 0.95);
-    background: linear-gradient(135deg, rgba(120, 95, 150, 0.55) 0%, rgba(80, 65, 110, 0.3) 100%);
-    box-shadow: 0 8px 30px rgba(150, 120, 180, 0.45);
-}
-.record-card.undead.rarity-legendary {
-    color: rgba(200, 180, 120, 0.9); border-color: rgba(160, 140, 70, 0.8);
-    background: linear-gradient(135deg, rgba(110, 90, 50, 0.42) 0%, rgba(70, 55, 30, 0.22) 100%);
-}
-.record-card.undead.rarity-legendary .card-aura {
-    box-shadow: 0 0 32px rgba(160, 140, 70, 0.65); opacity: 0.4; animation: gpuAuraPulse 3s ease-in-out infinite;
-}
-.record-card.undead.rarity-legendary:hover {
-    border-color: rgba(230, 210, 120, 1);
-    background: linear-gradient(135deg, rgba(140, 120, 60, 0.6) 0%, rgba(90, 75, 40, 0.35) 100%);
-}
+.record-card.undead.rarity-common { color: rgba(150, 170, 120, 0.8); border-color: rgba(120, 130, 90, 0.55); background: linear-gradient(135deg, rgba(70, 80, 60, 0.4) 0%, rgba(40, 50, 35, 0.2) 100%); }
+.record-card.undead.rarity-common:hover { border-color: rgba(180, 200, 140, 0.9); background: linear-gradient(135deg, rgba(100, 120, 80, 0.55) 0%, rgba(60, 75, 50, 0.3) 100%); box-shadow: 0 8px 24px rgba(140, 160, 100, 0.4); }
+.record-card.undead.rarity-rare { color: rgba(130, 180, 200, 0.85); border-color: rgba(100, 140, 160, 0.65); background: linear-gradient(135deg, rgba(60, 90, 110, 0.4) 0%, rgba(40, 60, 80, 0.2) 100%); }
+.record-card.undead.rarity-rare:hover { border-color: rgba(160, 210, 240, 0.95); background: linear-gradient(135deg, rgba(90, 130, 160, 0.55) 0%, rgba(60, 90, 110, 0.3) 100%); box-shadow: 0 8px 28px rgba(110, 160, 190, 0.45); }
+.record-card.undead.rarity-epic { color: rgba(160, 140, 190, 0.85); border-color: rgba(120, 100, 140, 0.7); background: linear-gradient(135deg, rgba(80, 60, 100, 0.4) 0%, rgba(50, 40, 70, 0.2) 100%); }
+.record-card.undead.rarity-epic:hover { border-color: rgba(200, 180, 230, 0.95); background: linear-gradient(135deg, rgba(120, 95, 150, 0.55) 0%, rgba(80, 65, 110, 0.3) 100%); box-shadow: 0 8px 30px rgba(150, 120, 180, 0.45); }
+.record-card.undead.rarity-legendary { color: rgba(200, 180, 120, 0.9); border-color: rgba(160, 140, 70, 0.8); background: linear-gradient(135deg, rgba(110, 90, 50, 0.42) 0%, rgba(70, 55, 30, 0.22) 100%); }
+.record-card.undead.rarity-legendary .card-aura { box-shadow: 0 0 32px rgba(160, 140, 70, 0.65); opacity: 0.4; animation: gpuAuraPulse 3s ease-in-out infinite; }
+.record-card.undead.rarity-legendary:hover { border-color: rgba(230, 210, 120, 1); background: linear-gradient(135deg, rgba(140, 120, 60, 0.6) 0%, rgba(90, 75, 40, 0.35) 100%); }
 .record-card.undead.rarity-legendary:hover .card-aura { opacity: 1; box-shadow: 0 0 38px rgba(180, 160, 80, 0.8); }
 .record-card.undead .record-fish-name { color: #b0cb80; }
 
-/* Хэллоуин */
-.record-card.halloween.rarity-common {
-    color: rgba(255, 165, 0, 0.9); border-color: rgba(255, 140, 0, 0.6);
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.25) 0%, rgba(139, 69, 19, 0.15) 100%);
-}
-.record-card.halloween.rarity-rare {
-    color: #ff8c00; border-color: rgba(255, 165, 0, 0.8);
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.35) 0%, rgba(255, 69, 0, 0.2) 100%);
-}
-.record-card.halloween.rarity-epic {
-    color: #ba55d3; border-color: rgba(186, 85, 211, 0.8);
-    background: linear-gradient(135deg, rgba(186, 85, 211, 0.3) 0%, rgba(75, 0, 130, 0.2) 100%);
-}
-.record-card.halloween.rarity-legendary {
-    color: #ffd700; border-color: rgba(255, 140, 0, 0.9);
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.4) 0%, rgba(139, 0, 0, 0.3) 100%);
-}
-.record-card.halloween.rarity-legendary .card-aura {
-    box-shadow: 0 0 32px rgba(255, 140, 0, 0.6); opacity: 0.4; animation: gpuAuraPulse 3s ease-in-out infinite;
-}
+.record-card.halloween.rarity-common { color: rgba(255, 165, 0, 0.9); border-color: rgba(255, 140, 0, 0.6); background: linear-gradient(135deg, rgba(255, 140, 0, 0.25) 0%, rgba(139, 69, 19, 0.15) 100%); }
+.record-card.halloween.rarity-rare { color: #ff8c00; border-color: rgba(255, 165, 0, 0.8); background: linear-gradient(135deg, rgba(255, 140, 0, 0.35) 0%, rgba(255, 69, 0, 0.2) 100%); }
+.record-card.halloween.rarity-epic { color: #ba55d3; border-color: rgba(186, 85, 211, 0.8); background: linear-gradient(135deg, rgba(186, 85, 211, 0.3) 0%, rgba(75, 0, 130, 0.2) 100%); }
+.record-card.halloween.rarity-legendary { color: #ffd700; border-color: rgba(255, 140, 0, 0.9); background: linear-gradient(135deg, rgba(255, 140, 0, 0.4) 0%, rgba(139, 0, 0, 0.3) 100%); }
+.record-card.halloween.rarity-legendary .card-aura { box-shadow: 0 0 32px rgba(255, 140, 0, 0.6); opacity: 0.4; animation: gpuAuraPulse 3s ease-in-out infinite; }
 
-/* Пустые карточки */
 .record-card.empty { opacity: 0.45; border-color: rgba(255, 255, 255, 0.08); }
 .record-card.empty:hover { opacity: 0.8; border-color: rgba(255, 255, 255, 0.2); }
 .record-card.empty .record-icon { opacity: 0.45; }
 .record-card.empty .record-size-val { color: var(--text-muted); }
 
-/* Загрузка */
 .loading-box { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.95rem; }
-.spinner {
-    display: inline-block; width: 22px; height: 22px;
-    border: 2px solid rgba(0, 212, 255, 0.25); border-top-color: var(--accent-cyan);
-    border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 8px;
-}
+.spinner { display: inline-block; width: 22px; height: 22px; border: 2px solid rgba(0, 212, 255, 0.25); border-top-color: var(--accent-cyan); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 8px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Подвал */
-.footer {
-    text-align: center; margin-top: 30px; padding: 16px; font-size: 0.82rem;
-    color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
+.footer { text-align: center; margin-top: 30px; padding: 16px; font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.06); }
 .footer a { color: var(--accent-cyan); text-decoration: none; transition: color 0.2s; }
 .footer a:hover { color: var(--accent-green); }
 
@@ -421,8 +243,6 @@ body {
 </head>
 <body>
 <div class="container">
-    
-    <!-- Кнопка стрима на самом верху -->
     <div class="stream-btn-top">
         <a href="https://twitch.tv/gans_mann" target="_blank" rel="noopener noreferrer" class="twitch-btn">
             <span class="twitch-pulse-dot"></span>
@@ -487,7 +307,6 @@ body {
     </footer>
 </div>
 
-<script src="./data.js"></script>
 <script src="./fish-icons.js?v=3"></script>
 <script>
 const DATA_URL = 'data.json';
