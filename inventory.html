@@ -521,6 +521,8 @@ function updateInventoryCounts(inventory) {
 function renderInventory(playerName, inventory) {
     let totalRegular = 0, totalUndead = 0, totalHalloween = 0;
     const regularSet = new Set(), undeadSet = new Set(), halloweenSet = new Set();
+    
+    // Мы собираем пойманных рыб за все время из инвентаря
     for (const [fish, count] of Object.entries(inventory)) {
         if (count <= 0) continue;
         const isUndead = normalizeKey(fish).startsWith('нежить ');
@@ -531,14 +533,47 @@ function renderInventory(playerName, inventory) {
         else if (BOSS_FISH.some(bf => normalizeKey(bf) === normalizeKey(fish))) { /* босс */ }
         else { totalRegular += count; regularSet.add(baseNorm); }
     }
+
     const caughtHalloweenList = window._halloweenCollection ? window._halloweenCollection[playerName.toLowerCase()] || [] : [];
     const halloweenColSet = new Set(caughtHalloweenList.map(normalizeKey));
+
     const total = totalRegular + totalUndead + totalHalloween;
     const firstLetter = playerName.charAt(0).toUpperCase();
 
     let regCaught = 0, undCaught = 0, halCaught = 0;
     ALL_FISH.forEach(fish => { if (regularSet.has(normalizeKey(fish))) regCaught++; if (undeadSet.has(normalizeKey(fish))) undCaught++; });
     HALLOWEEN_FISH.forEach(fish => { if (halloweenColSet.has(normalizeKey(fish)) || halloweenSet.has(normalizeKey(fish))) halCaught++; });
+
+    // Собираем ВСЕХ пойманных рыб за историю (инвентарь + история улова + личные рекорды)
+    const allCaughtSet = new Set();
+    const cleanPlayer = normalizeKey(playerName).replace(/^@/, '');
+
+    for (const [fish, count] of Object.entries(inventory)) {
+        if (count > 0) allCaughtSet.add(normalizeKey(fish));
+    }
+    
+    if (window._lifetimeCatches) {
+        const pL = findNormalized(window._lifetimeCatches, playerName);
+        if (pL && typeof pL.value === 'object') {
+            for (const f in pL.value) {
+                if (pL.value[f] > 0) allCaughtSet.add(normalizeKey(f));
+            }
+        }
+    }
+    
+    if (window._personalRecords) {
+        for (const k in window._personalRecords) {
+            const parts = k.split('|');
+            if (parts.length === 2 && normalizeKey(parts[0]).replace(/^@/, '') === cleanPlayer) {
+                allCaughtSet.add(normalizeKey(parts[1]));
+            }
+        }
+    }
+
+    if (window._halloweenCollection) {
+        const hList = window._halloweenCollection[playerName.toLowerCase()] || [];
+        hList.forEach(f => allCaughtSet.add(normalizeKey(f)));
+    }
 
     let html = `
         <div class="player-header">
@@ -586,7 +621,7 @@ function renderInventory(playerName, inventory) {
 
     html += `<div id="cat-regular"><div class="fish-section"><h3>🐟 Обычные рыбы</h3><div class="fish-grid">`;
     ALL_FISH.forEach(fish => {
-        const isCaught = regularSet.has(normalizeKey(fish));
+        const isCaught = allCaughtSet.has(normalizeKey(fish));
         const count = findNormalized(inventory, fish)?.value || 0;
         const itemClass = isCaught ? `rarity-${getFishInfo(fish).rarity}` : 'not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}" data-name="${escapeHtml(fish).toLowerCase()}"><div class="fish-item-inner"></div><img src="${getFishIcon(fish)}" class="fish-icon" alt="${fish}"><span class="fish-name">${fish}</span><span class="fish-count">×${count}</span></div>`;
@@ -595,8 +630,8 @@ function renderInventory(playerName, inventory) {
 
     html += `<div id="cat-undead"><div class="fish-section undead-section" style="margin-top: 14px;"><h3>🧟 Нежить</h3><div class="fish-grid">`;
     ALL_FISH.forEach(fish => {
-        const isCaught = undeadSet.has(normalizeKey(fish));
         const undeadName = 'Нежить ' + fish.toLowerCase();
+        const isCaught = allCaughtSet.has(normalizeKey(undeadName));
         const count = findNormalized(inventory, undeadName)?.value || 0;
         const itemClass = isCaught ? `undead rarity-${getFishInfo(undeadName).rarity}` : 'not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${undeadName}" data-name="${escapeHtml(undeadName).toLowerCase()}"><div class="fish-item-inner"></div><img src="${getFishIcon(undeadName)}" class="fish-icon" alt="${fish}"><span class="fish-name">${fish}</span><span class="fish-count">×${count}</span></div>`;
@@ -605,7 +640,7 @@ function renderInventory(playerName, inventory) {
 
     html += `<div id="cat-halloween"><div class="fish-section halloween-section" style="margin-top: 14px;"><h3>🎃 Хэллоуин</h3><div class="fish-grid">`;
     HALLOWEEN_FISH.forEach(fish => {
-        const isCaught = halloweenSet.has(normalizeKey(fish)) || halloweenColSet.has(normalizeKey(fish));
+        const isCaught = allCaughtSet.has(normalizeKey(fish)) || halloweenColSet.has(normalizeKey(fish));
         const count = findNormalized(inventory, fish)?.value || 0;
         const itemClass = isCaught ? `halloween rarity-${getFishInfo(fish).rarity}` : 'not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}" data-name="${escapeHtml(fish).toLowerCase()}"><div class="fish-item-inner"></div><img src="${getFishIcon(fish)}" class="fish-icon" alt="${fish}"><span class="fish-name">${fish}</span><span class="fish-count">×${count}</span></div>`;
@@ -615,7 +650,7 @@ function renderInventory(playerName, inventory) {
     html += `<div id="cat-boss" style="margin-top: 14px;"><div class="fish-section boss-section"><h3>💀 Боссы</h3><div class="fish-grid">`;
     BOSS_FISH.forEach(fish => {
         const count = findNormalized(inventory, fish)?.value || 0;
-        const isCaught = count > 0 || getLifetimeCountForPlayer(playerName, fish) > 0 || getPersonalRecordForPlayer(playerName, fish) !== null;
+        const isCaught = allCaughtSet.has(normalizeKey(fish)) || count > 0 || getLifetimeCountForPlayer(playerName, fish) > 0 || getPersonalRecordForPlayer(playerName, fish) !== null;
         const itemClass = isCaught ? 'boss' : 'boss not-caught';
         html += `<div class="fish-item ${itemClass}" data-fish="${fish}" data-name="${escapeHtml(fish).toLowerCase()}">
             <div class="fish-item-inner"></div>
