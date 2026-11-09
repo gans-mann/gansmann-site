@@ -230,9 +230,27 @@ body {
 .fish-modal.boss-modal .modal-fish-name { font-size: 2.5rem; background: none; -webkit-text-fill-color: #ff2222; color: #ff2222; text-shadow: 0 0 30px red, 0 0 60px rgba(255,0,0,0.6); }
 .fish-modal.boss-modal .modal-rarity { color: #ff0000; font-size: 1.2rem; letter-spacing: 10px; }
 .fish-modal.boss-modal .modal-info-block .info-value { color: #ff5555; }
-.modal-corner { position: absolute; width: 60px; height: 60px; color: currentColor; opacity: 0.7; pointer-events: none; z-index: 6; transition: all 0.4s; }
-.fish-modal:hover .modal-corner { opacity: 1; transform: scale(1.05); }
-.modal-corner.tl { top: 12px; left: 12px; } .modal-corner.tr { top: 12px; right: 12px; transform: scaleX(-1); } .modal-corner.bl { bottom: 12px; left: 12px; transform: scaleY(-1); } .modal-corner.br { bottom: 12px; right: 12px; transform: scale(-1, -1); }
+
+/* === ИСПРАВЛЕННЫЕ ВЕНЗЕЛЯ === */
+.modal-corner { 
+    position: absolute; width: 60px; height: 60px; color: currentColor; 
+    opacity: 0.7; pointer-events: none; z-index: 6; 
+    transition: opacity 0.4s, filter 0.4s; 
+    /* Отключаем любые перевороты и масштабирование */
+    transform: none !important; 
+}
+.modal-corner.tl { top: 12px; left: 12px; }
+.modal-corner.tr { top: 12px; right: 12px; }
+.modal-corner.bl { bottom: 12px; left: 12px; }
+.modal-corner.br { bottom: 12px; right: 12px; }
+
+.fish-modal:hover .modal-corner { 
+    opacity: 1; 
+    filter: brightness(1.5) drop-shadow(0 0 10px currentColor); 
+    /* Никакого масштаба, только свечение */
+    transform: none !important; 
+}
+
 .fish-modal::before { content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.08); pointer-events: none; z-index: 0; }
 .fish-modal::after { content: '❦ ═══ ❦ ═══ ❦'; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); font-size: 0.9rem; color: currentColor; opacity: 0.7; letter-spacing: 4px; z-index: 6; white-space: nowrap; text-shadow: 0 0 10px currentColor; }
 .fish-modal.rarity-common { color: rgba(160, 200, 240, 0.9); border-color: rgba(140, 180, 220, 0.6); }
@@ -385,6 +403,20 @@ let isFirstRender = true;
 let activeCategoryInv = 'all';
 let currentInventory = null;
 
+const urlParams = new URLSearchParams(window.location.search);
+let playerName = urlParams.get('player');
+if (!playerName) { 
+    playerName = localStorage.getItem('last_player') || 'gans_mann'; 
+    window.history.replaceState({}, '', `?player=${encodeURIComponent(playerName)}`); 
+} else { 
+    localStorage.setItem('last_player', playerName); 
+}
+
+const playerCard = document.getElementById('playerCard');
+
+loadAndRender(false);
+setInterval(() => { if (!document.hidden) loadAndRender(true); }, 20000);
+
 function loadAndRender(silent) {
     fetch(DATA_URL + '?t=' + Date.now() + '&v=2')
         .then(response => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); })
@@ -418,7 +450,7 @@ function loadAndRender(silent) {
 
             if (isFirstRender) {
                 currentInventory = data[playerKey];
-                renderInventory(playerKey, currentInventory);
+                renderInventory(playerName, currentInventory);
                 isFirstRender = false;
             } else {
                 currentInventory = data[playerKey];
@@ -441,7 +473,7 @@ function loadAndRender(silent) {
                 for (const key in data) { if (key.startsWith('_')) continue; if (normalizeKey(key) === normalizeKey(playerName)) { playerKey = key; break; } }
                 if (playerKey) {
                     currentInventory = data[playerKey];
-                    renderInventory(playerKey, currentInventory);
+                    renderInventory(playerName, currentInventory);
                     isFirstRender = false; return;
                 }
             }
@@ -503,15 +535,6 @@ function updateInventoryCounts(inventory) {
     });
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-let playerName = urlParams.get('player');
-if (!playerName) { playerName = localStorage.getItem('last_player') || 'gans_mann'; window.history.replaceState({}, '', `?player=${encodeURIComponent(playerName)}`); }
-else { localStorage.setItem('last_player', playerName); }
-const playerCard = document.getElementById('playerCard');
-
-loadAndRender(false);
-setInterval(() => { if (!document.hidden) loadAndRender(true); }, 20000);
-
 function renderInventory(playerName, inventory) {
     let totalRegular = 0, totalUndead = 0, totalHalloween = 0;
     const regularSet = new Set(), undeadSet = new Set(), halloweenSet = new Set();
@@ -559,7 +582,7 @@ function renderInventory(playerName, inventory) {
             </div>
         </div>
 
-        <a href="aquarium.html?type=regular&player=${encodeURIComponent(playerName || 'gans_mann')}" class="aquarium-single-btn">
+        <a href="aquarium.html?type=regular&player=${encodeURIComponent(playerName)}" class="aquarium-single-btn">
             🐠 Перейти в аквариум
         </a>
 
