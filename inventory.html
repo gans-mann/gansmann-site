@@ -534,43 +534,15 @@ function renderInventory(playerName, inventory) {
         else { totalRegular += count; regularSet.add(baseNorm); }
     }
 
+    // 2. Берем коллекцию из _halloweenCollection. Это единственный источник правды для плашек.
     const caughtHalloweenList = window._halloweenCollection ? window._halloweenCollection[playerName.toLowerCase()] || [] : [];
     const halloweenColSet = new Set(caughtHalloweenList.map(normalizeKey));
+    
+    // Определяем, какие рыбы открыты, строго по _halloweenCollection
+    const allCaughtSet = new Set(halloweenColSet);
 
     const total = totalRegular + totalUndead + totalHalloween;
     const firstLetter = playerName.charAt(0).toUpperCase();
-
-    // 2. Собираем ВСЕХ пойманных рыб за историю (для подсветки и прогресс-баров)
-    const allCaughtSet = new Set();
-    const cleanPlayer = normalizeKey(playerName).replace(/^@/, '');
-
-    // Из текущего инвентаря
-    for (const [fish, count] of Object.entries(inventory)) {
-        if (count > 0) allCaughtSet.add(normalizeKey(fish));
-    }
-    // Из истории улова (_lifetimeCatches)
-    if (window._lifetimeCatches) {
-        const pL = findNormalized(window._lifetimeCatches, playerName);
-        if (pL && typeof pL.value === 'object') {
-            for (const f in pL.value) {
-                if (pL.value[f] > 0) allCaughtSet.add(normalizeKey(f));
-            }
-        }
-    }
-    // Из личных рекордов (_personalRecords)
-    if (window._personalRecords) {
-        for (const k in window._personalRecords) {
-            const parts = k.split('|');
-            if (parts.length === 2 && normalizeKey(parts[0]).replace(/^@/, '') === cleanPlayer) {
-                allCaughtSet.add(normalizeKey(parts[1]));
-            }
-        }
-    }
-    // Из коллекции Хэллоуина
-    if (window._halloweenCollection) {
-        const hList = window._halloweenCollection[playerName.toLowerCase()] || [];
-        hList.forEach(f => allCaughtSet.add(normalizeKey(f)));
-    }
 
     // 3. Считаем прогресс на основе allCaughtSet
     let regCaught = 0, undCaught = 0, halCaught = 0;
